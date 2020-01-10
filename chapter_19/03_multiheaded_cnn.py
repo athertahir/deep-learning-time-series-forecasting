@@ -6,7 +6,7 @@ from pandas import read_csv
 from sklearn.metrics import mean_squared_error
 from matplotlib import pyplot
 from keras.utils.vis_utils import plot_model
-from keras.layers import Dens
+from keras.layers import Dense
 import tensorflow.python.util.deprecation as deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
 from keras.layers import Flatten

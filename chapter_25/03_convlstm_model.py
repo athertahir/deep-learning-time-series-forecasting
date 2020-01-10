@@ -4,7 +4,7 @@ from numpy import std
 from numpy import dstack
 from pandas import read_csv
 from keras.models import Sequential
-from keras.layers import Dens
+from keras.layers import Dense
 import tensorflow.python.util.deprecation as deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
 from keras.layers import Flatten

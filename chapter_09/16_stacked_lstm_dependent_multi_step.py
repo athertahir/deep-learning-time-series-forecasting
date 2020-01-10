@@ -3,7 +3,7 @@ from numpy import array
 from numpy import hstack
 from keras.models import Sequential
 from keras.layers import LSTM
-from keras.layers import Dens
+from keras.layers import Dense
 import tensorflow.python.util.deprecation as deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
 
