@@ -7,7 +7,9 @@ from keras.utils import to_categorical
 from keras.utils.vis_utils import plot_model
 from keras.models import Model
 from keras.layers import Input
-from keras.layers import Dense
+from keras.layers import Dens
+import tensorflow.python.util.deprecation as deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
 from keras.layers import Flatten
 from keras.layers import Dropout
 from keras.layers.convolutional import Conv1D

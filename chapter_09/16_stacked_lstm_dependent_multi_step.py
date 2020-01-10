@@ -3,7 +3,9 @@ from numpy import array
 from numpy import hstack
 from keras.models import Sequential
 from keras.layers import LSTM
-from keras.layers import Dense
+from keras.layers import Dens
+import tensorflow.python.util.deprecation as deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
 
 # split a multivariate sequence into samples
 def split_sequences(sequences, n_steps_in, n_steps_out):

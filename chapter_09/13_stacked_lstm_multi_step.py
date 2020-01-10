@@ -2,7 +2,9 @@
 from numpy import array
 from keras.models import Sequential
 from keras.layers import LSTM
-from keras.layers import Dense
+from keras.layers import Dens
+import tensorflow.python.util.deprecation as deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
 
 # split a univariate sequence into samples
 def split_sequence(sequence, n_steps_in, n_steps_out):

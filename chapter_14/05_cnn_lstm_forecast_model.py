@@ -8,7 +8,9 @@ from pandas import concat
 from pandas import read_csv
 from sklearn.metrics import mean_squared_error
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dens
+import tensorflow.python.util.deprecation as deprecation
+deprecation._PRINT_DEPRECATION_WARNINGS = False
 from keras.layers import LSTM
 from keras.layers import TimeDistributed
 from keras.layers import Flatten
