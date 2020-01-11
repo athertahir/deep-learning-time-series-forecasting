@@ -93,7 +93,7 @@ def evaluate_model(trainX, trainy, testX, testy):
 	outputs = Dense(n_outputs, activation='softmax')(dense1)
 	model = Model(inputs=[inputs1, inputs2, inputs3], outputs=outputs)
 	# save a plot of the model
-	plot_model(model, show_shapes=True, to_file='multiheaded.png')
+	# plot_model(model, show_shapes=True, to_file='multiheaded.png')
 	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 	# fit network
 	model.fit([trainX,trainX,trainX], trainy, epochs=epochs, batch_size=batch_size, verbose=verbose)

@@ -115,7 +115,7 @@ def build_model(train, n_input):
 	# compile model
 	model.compile(loss='mse', optimizer='adam')
 	# plot the model
-	plot_model(model, show_shapes=True, to_file='multiheaded_cnn.png')
+	# plot_model(model, show_shapes=True, to_file='multiheaded_cnn.png')
 	# fit network
 	input_data = [train_x[:,:,i].reshape((train_x.shape[0],n_timesteps,1)) for i in range(n_features)]
 	model.fit(input_data, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
