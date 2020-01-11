@@ -4,6 +4,7 @@ from numpy import split
 from numpy import array
 from pandas import read_csv
 from sklearn.metrics import mean_squared_error
+%matplotlib inline
 from matplotlib import pyplot
 from statsmodels.tsa.arima_model import ARIMA
 

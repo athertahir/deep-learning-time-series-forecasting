@@ -12,6 +12,7 @@ from keras.layers import Dense
 import tensorflow.python.util.deprecation as deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
 from keras.layers import LSTM
+%matplotlib inline
 from matplotlib import pyplot
 
 # split a univariate dataset into train/test sets

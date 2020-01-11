@@ -1,5 +1,6 @@
 # monthly line plots for power usage dataset
 from pandas import read_csv
+%matplotlib inline
 from matplotlib import pyplot
 # load the new file
 dataset = read_csv('household_power_consumption.csv', header=0, infer_datetime_format=True, parse_dates=['datetime'], index_col=['datetime'])

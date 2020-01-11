@@ -1,5 +1,6 @@
 # load and plot monthly shampoo sales dataset
 from pandas import read_csv
+%matplotlib inline
 from matplotlib import pyplot
 # load
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)

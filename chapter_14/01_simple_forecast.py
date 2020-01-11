@@ -5,6 +5,7 @@ from numpy import mean
 from numpy import std
 from pandas import read_csv
 from sklearn.metrics import mean_squared_error
+%matplotlib inline
 from matplotlib import pyplot
 
 # split a univariate dataset into train/test sets

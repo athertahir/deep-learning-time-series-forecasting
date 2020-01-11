@@ -2,6 +2,7 @@
 from numpy import dstack
 from numpy import unique
 from pandas import read_csv
+%matplotlib inline
 from matplotlib import pyplot
 
 # load a single file as a numpy array

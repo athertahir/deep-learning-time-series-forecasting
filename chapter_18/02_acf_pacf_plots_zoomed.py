@@ -2,6 +2,7 @@
 from numpy import split
 from numpy import array
 from pandas import read_csv
+%matplotlib inline
 from matplotlib import pyplot
 from statsmodels.graphics.tsaplots import plot_acf
 from statsmodels.graphics.tsaplots import plot_pacf

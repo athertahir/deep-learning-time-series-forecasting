@@ -1,5 +1,6 @@
 # load and plot monthly car sales dataset
 from pandas import read_csv
+%matplotlib inline
 from matplotlib import pyplot
 # load
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)

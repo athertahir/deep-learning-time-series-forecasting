@@ -16,6 +16,7 @@ from keras.layers import TimeDistributed
 from keras.layers import Flatten
 from keras.layers.convolutional import Conv1D
 from keras.layers.convolutional import MaxPooling1D
+%matplotlib inline
 from matplotlib import pyplot
 
 # split a univariate dataset into train/test sets

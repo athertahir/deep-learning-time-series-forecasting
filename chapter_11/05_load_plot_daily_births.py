@@ -1,5 +1,6 @@
 # load and plot daily births dataset
 from pandas import read_csv
+%matplotlib inline
 from matplotlib import pyplot
 # load
 series = read_csv('daily-total-female-births.csv', header=0, index_col=0)

@@ -2,6 +2,7 @@
 from numpy import dstack
 from pandas import read_csv
 from keras.utils import to_categorical
+%matplotlib inline
 from matplotlib import pyplot
 
 # load a single file as a numpy array

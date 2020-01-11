@@ -11,6 +11,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 import tensorflow.python.util.deprecation as deprecation
 deprecation._PRINT_DEPRECATION_WARNINGS = False
+%matplotlib inline
 from matplotlib import pyplot
 
 # split a univariate dataset into train/test sets
