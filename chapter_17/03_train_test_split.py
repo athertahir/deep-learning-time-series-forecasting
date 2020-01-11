@@ -2,6 +2,8 @@
 from numpy import split
 from numpy import array
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 
 # split a univariate dataset into train/test sets
 def split_dataset(data):

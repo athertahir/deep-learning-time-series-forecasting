@@ -2,6 +2,8 @@
 from numpy import split
 from numpy import array
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 %matplotlib inline
 from matplotlib import pyplot
 from statsmodels.graphics.tsaplots import plot_acf

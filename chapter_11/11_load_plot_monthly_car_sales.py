@@ -1,5 +1,7 @@
 # load and plot monthly car sales dataset
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 %matplotlib inline
 from matplotlib import pyplot
 # load

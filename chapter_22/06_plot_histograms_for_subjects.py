@@ -2,6 +2,8 @@
 from numpy import unique
 from numpy import dstack
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 %matplotlib inline
 from matplotlib import pyplot
 

@@ -1,6 +1,8 @@
 # summarize class balance from the har dataset
 from numpy import vstack
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from pandas import DataFrame
 
 # load a single file as a numpy array

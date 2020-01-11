@@ -1,5 +1,7 @@
 # spot check ml algorithms on engineered-features from the har dataset
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier

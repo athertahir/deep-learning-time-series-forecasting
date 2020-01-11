@@ -3,6 +3,8 @@ from numpy import mean
 from numpy import std
 from numpy import dstack
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from keras.models import Sequential
 from keras.layers import Dense
 import tensorflow.python.util.deprecation as deprecation

@@ -8,6 +8,8 @@ from warnings import filterwarnings
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from sklearn.metrics import mean_squared_error
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from numpy import array
 
 # one-step Holt Winter’s Exponential Smoothing forecast

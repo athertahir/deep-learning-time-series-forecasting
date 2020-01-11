@@ -9,6 +9,8 @@ from warnings import catch_warnings
 from warnings import filterwarnings
 from sklearn.metrics import mean_squared_error
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 
 # one-step simple forecast
 def simple_forecast(history, config):

@@ -1,6 +1,8 @@
 # spot check on raw data from the har dataset
 from numpy import dstack
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier

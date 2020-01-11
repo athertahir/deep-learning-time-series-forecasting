@@ -3,6 +3,8 @@ from math import sqrt
 from numpy import split
 from numpy import array
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from sklearn.metrics import mean_squared_error
 %matplotlib inline
 from matplotlib import pyplot

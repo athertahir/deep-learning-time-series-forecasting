@@ -3,6 +3,8 @@ from numpy import mean
 from numpy import std
 from numpy import dstack
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 %matplotlib inline
 from matplotlib import pyplot
 from sklearn.preprocessing import StandardScaler

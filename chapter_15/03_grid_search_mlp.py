@@ -5,6 +5,8 @@ from numpy import mean
 from pandas import DataFrame
 from pandas import concat
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from sklearn.metrics import mean_squared_error
 from keras.models import Sequential
 from keras.layers import Dense

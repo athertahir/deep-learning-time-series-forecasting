@@ -3,6 +3,8 @@ from numpy import mean
 from numpy import std
 from numpy import dstack
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from keras.utils import to_categorical
 from keras.utils.vis_utils import plot_model
 from keras.models import Model

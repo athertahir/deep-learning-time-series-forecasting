@@ -1,5 +1,7 @@
 # histogram plots for power usage dataset
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 %matplotlib inline
 from matplotlib import pyplot
 # load the new file

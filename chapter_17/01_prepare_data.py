@@ -2,6 +2,8 @@
 from numpy import nan
 from numpy import isnan
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 
 # fill missing values with a value at the same time one day ago
 def fill_missing(values):

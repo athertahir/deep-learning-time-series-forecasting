@@ -2,6 +2,8 @@
 from math import sqrt
 from numpy import mean
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from sklearn.metrics import mean_squared_error
 
 # split a univariate dataset into train/test sets

@@ -1,6 +1,8 @@
 # load and clean-up power usage data
 from numpy import nan
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 # load all data
 dataset = read_csv('household_power_consumption.txt', sep=';', header=0, low_memory=False, infer_datetime_format=True, parse_dates={'datetime':[0,1]}, index_col=['datetime'])
 # summarize

@@ -1,6 +1,8 @@
 # plot distributions for the har dataset
 from numpy import dstack
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from keras.utils import to_categorical
 %matplotlib inline
 from matplotlib import pyplot

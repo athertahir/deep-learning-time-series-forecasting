@@ -4,6 +4,8 @@ from numpy import median
 from numpy import mean
 from numpy import std
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 from sklearn.metrics import mean_squared_error
 %matplotlib inline
 from matplotlib import pyplot

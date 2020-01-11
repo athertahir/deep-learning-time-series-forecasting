@@ -1,5 +1,7 @@
 # load one file from the har dataset
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 
 # load a single file as a numpy array
 def load_file(filepath):

@@ -8,6 +8,8 @@ from warnings import filterwarnings
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from sklearn.metrics import mean_squared_error
 from pandas import read_csv
+import warnings
+warnings.simplefilter("ignore")
 
 # one-step sarima forecast
 def sarima_forecast(history, config):
