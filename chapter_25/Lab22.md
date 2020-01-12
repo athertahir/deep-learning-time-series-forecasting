@@ -348,9 +348,9 @@ accuracy from the mean. The
 25.3.4 Complete Example
 
 Now that we have all of the pieces, we can tie them together into a
-worked example. The
+worked example. 
 
-complete code ```
+```
 from numpy import mean
  from numpy import std
  from numpy import dstack
@@ -581,9 +581,9 @@ verbose=0)
 ```
 
 We can evaluate this model as we did the straight LSTM model in the
-previous section. The
+previous section. The complete code 
 
-complete code ```
+```
 from numpy import mean
  from numpy import std
  from numpy import dstack

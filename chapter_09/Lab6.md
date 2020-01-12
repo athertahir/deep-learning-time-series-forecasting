@@ -59,7 +59,7 @@ six parts; they are:
     can easily be adapted and used as the input part of a model for other types of time series
     forecasting problems.
 
-9.2.1 Data Preparation
+##### Data Preparation
 
     Before a univariate series can be modeled, it must be prepared. The LSTM model will learn a
     function that maps a sequence of past observations as input to an output observation. As such,
@@ -152,7 +152,7 @@ three input time steps and one output time step.
     Now that we know how to prepare a univariate series for modeling, let’s look at developing
     LSTM models that can learn the mapping of inputs to outputs, starting with a Vanilla LSTM.
 
-9.2.2 Vanilla LSTM
+##### Vanilla LSTM
 
 A Vanilla LSTM is an LSTM model that has a single hidden layer of LSTM
 units, and an
@@ -280,7 +280,7 @@ x_input = array([70, 80, 90])
 
 ```
 
-9.2.3 Stacked LSTM
+##### Stacked LSTM
 
     Multiple hidden LSTM layers can be stacked one on top of another in what is referred to as
     a Stacked LSTM model. An LSTM layer requires a three-dimensional input and LSTMs by
@@ -362,7 +362,7 @@ expect would be 100.
 
 ```
 
-9.2.4 Bidirectional LSTM
+##### Bidirectional LSTM
 
     On some sequence prediction problems, it can be beneficial to allow the LSTM model to learn
     the input sequence both forward and backwards and concatenate both interpretations. This
@@ -442,7 +442,7 @@ running the example a few times.
 ```
 
 
-9.2.5 CNN-LSTM
+##### CNN-LSTM
 
 A convolutional neural network, or CNN for short, is a type of neural
 network developed for
@@ -582,7 +582,7 @@ expect would be 100.
 
 ```
 
-9.2.6 ConvLSTM
+##### ConvLSTM
 
 A type of LSTM related to the CNN-LSTM is the ConvLSTM, where the
 convolutional reading
@@ -699,7 +699,7 @@ running the example a few times.
 
 Let’s take a look at each in turn.
 
-9.3.1 Multiple Input Series
+##### Multiple Input Series
 
 A problem may have two or more parallel input time series and an output
 time series that is
@@ -1023,7 +1023,7 @@ prediction.
     For an example of LSTM models developed for a multivariate time series classification
     problem, see Chapter 25.
 
-9.3.2 Multiple Parallel Series
+##### Multiple Parallel Series
 
 An alternate time series problem is the case where there are multiple
 parallel time series and a
@@ -1293,7 +1293,7 @@ LSTM models that can be used for multi-step forecasting; they are:
     Before we look at these models, let’s first look at the preparation of data for multi-step
     forecasting.
 
-9.4.1 Data Preparation
+##### Data Preparation
 
 As with one-step forecasting, a time series used for multi-step time
 series forecasting must be
@@ -1391,7 +1391,7 @@ look at some LSTM
 
 models that can learn this mapping.
 
-9.4.2 Vector Output Model
+##### Vector Output Model
 
 Like other types of neural network models, the LSTM can output a vector
 directly that can
@@ -1515,7 +1515,7 @@ sequence.
 
 ```
 
-9.4.3 Encoder-Decoder Model
+##### Encoder-Decoder Model
 
 A model specifically developed for forecasting variable length output
 sequences is called the
@@ -1678,7 +1678,7 @@ specifically:
     Perhaps the biggest stumbling block is in the preparation of data, so this is where we will
     focus our attention.
 
-9.5.1 Multiple Input Multi-step Output
+##### Multiple Input Multi-step Output
 
 There are those multivariate time series forecasting problems where the
 output series is separate
@@ -1888,7 +1888,7 @@ x_input = array([[70, 75], [80, 85], [90, 95]])
 
     ```
 
-9.5.2 Multiple Parallel Input and Multi-step Output
+##### Multiple Parallel Input and Multi-step Output
 
 A problem with parallel time series may require the prediction of
 multiple time steps of each
@@ -2144,7 +2144,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-9.7.1 Books
+##### Books
 
     - Deep Learning, 2016.
     https://amzn.to/2MQyLVZ
@@ -2152,7 +2152,7 @@ go deeper.
     - Deep Learning with Python, 2017.
     https://amzn.to/2vMRiMe
 
-9.7.2 Papers
+##### Papers
 
     - Long Short-Term Memory, 1997.
     https://ieeexplore.ieee.org/document/6795963/.
@@ -2171,7 +2171,7 @@ go deeper.
     2015.
     https://arxiv.org/abs/1506.04214v1
 
-9.7.3 APIs
+##### APIs
 
     - Keras: The Python Deep Learning library.
     https://keras.io/
@@ -2202,7 +2202,7 @@ go deeper.
 
 - How to develop LSTM models for multi-step time series forecasting.
 
-9.8.1 Next
+##### Next
 
 This is the final lesson of this part, the next part will focus on
 systematically developing models
