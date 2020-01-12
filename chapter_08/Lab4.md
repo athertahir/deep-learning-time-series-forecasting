@@ -52,7 +52,6 @@ into four parts; they are:
 87
 
 
-
 ### Univariate CNN Models
 
 Although traditionally developed for two-dimensional image data, CNNs
@@ -105,7 +104,6 @@ can be used to model
     return array(X), array(y)
 
 ```
-
 
 
     We can demonstrate this function on our small contrived dataset above. The complete
@@ -163,7 +161,6 @@ layer that operates
     over a 1D sequence. This is followed by perhaps a second convolutional layer in some cases,
     such as very long input sequences, and then a pooling layer whose job it is to distill the output
     of the convolutional layer to the most salient elements. The convolutional and pooling layers
-
 
 
     are followed by a dense fully connected layer that interprets the features extracted by the
@@ -224,7 +221,6 @@ model is fit using the
     making the prediction.
 
 
-
 x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
  yhat = model.predict(x_input, verbose=0)
@@ -278,7 +274,6 @@ x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
 
 
-
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
@@ -327,7 +322,6 @@ time series that is
     We can reshape these three arrays of data as a single dataset where each row is a time step
     and each column is a separate time series. This is a standard way of storing parallel time series
     in a CSV file.
-
 
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
@@ -396,7 +390,6 @@ Input:
  30, 35
 
 ```
-
 
 Output:
 
@@ -468,7 +461,6 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
  return array(X), array(y)
 
 
-
     in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
     in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
     out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
@@ -525,7 +517,6 @@ the number of parallel time
     [90 95]] 185
 
 ```
-
 
 
 CNN Model
@@ -590,7 +581,6 @@ We would expect the next value in the sequence to be 100 + 105 or 205.
     seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
 
 
-
     X.append(seq_x)
     y.append(seq_y)
     return array(X), array(y)
@@ -650,7 +640,6 @@ series can be handled by
     offer more flexibility or better performance depending on the specifics of the problem that is
 
 
-
 being modeled. For example, it allows you to configure each submodel
 differently for each input
 
@@ -699,7 +688,6 @@ the shape of the
 inputs and outputs of each layer.
 
 
-
 ![](./images/116-4.png)
 
 This model requires input to be provided as a list of two elements where
@@ -733,7 +721,6 @@ x_input = array([[80, 85], [90, 95], [100, 105]])
  x2 = x_input[:, 1].reshape((1, n_steps, n_features))
 
 ```
-
 
 
 We can tie all of this together; the complete example is listed below.
@@ -790,7 +777,6 @@ visible1 = Input(shape=(n_steps, n_features))
 visible2 = Input(shape=(n_steps, n_features))
  cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
  cnn2 = MaxPooling1D(pool_size=2)(cnn2)
-
 
 
     cnn2 = Flatten()(cnn2)
@@ -907,7 +893,6 @@ in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
 range(len(in_seq1))])
 
 
-
     # convert to [rows, columns] structure
     in_seq1 = in_seq1.reshape((len(in_seq1), 1))
     in_seq2 = in_seq2.reshape((len(in_seq2), 1))
@@ -969,7 +954,6 @@ and parallel series (features) are specified for the input layer via
 theinputshapeargument.
 
 
-
 The number of parallel series is also used in the specification of the
 number of values to predict
 
@@ -1026,7 +1010,6 @@ number of values to predict
     # gather input and output parts of the pattern
     seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
     X.append(seq_x)
-
 
 
     y.append(seq_y)
@@ -1086,7 +1069,6 @@ model the problem. Each
     multi-output CNN model. It may offer more flexibility or better performance depending on the
     specifics of the problem that is being modeled. This type of model can be defined in Keras
     using the Keras functional API. First, we can define the first input model as a 1D CNN model.
-
 
 
     # define model
@@ -1181,7 +1163,6 @@ Tying all of this together, the complete example is listed below.
     # convert into input/output
 
 
-
 X, y = split_sequences(dataset, n_steps)
 
 n_features = X.shape[2]
@@ -1247,7 +1228,6 @@ differences in the way the training data is prepared. In this section,
 we will demonstrate the
 
 
-
     case of developing a multi-step forecast model using a vector model. Before we look at the
     specifics of the model, let’s first look at the preparation of data for multi-step forecasting.
 
@@ -1308,7 +1288,6 @@ Output:
     # split a univariate sequence into samples
 
 
-
     def split_sequence(sequence, n_steps_in, n_steps_out):
     X, y = list(), list()
     for i in range(len(sequence)):
@@ -1364,7 +1343,6 @@ multi-step forecast. This
     X = X.reshape((X.shape[0], X.shape[1], n_features))
 
 ```
-
 
 With the number of input and output steps specified in
 thenstepsinandnstepsout
@@ -1424,7 +1402,6 @@ variables, we can define a multi-step time-series forecasting model.
 
     # define input sequence
     raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
-
 
 
     # choose a number of time steps
@@ -1487,7 +1464,6 @@ specifically:
     focus our attention.
 
 
-
 8.5.1 Multiple Input Multi-step Output
 
 There are those multivariate time series forecasting problems where the
@@ -1546,7 +1522,6 @@ We can demonstrate this on our contrived dataset. The complete example
 is listed below.
 
 
-
     # multivariate multi-step data preparation
     from numpy import array
     from numpy import hstack
@@ -1603,7 +1578,6 @@ The output portion of the
     [20 25]
     [30 35]] [65 85]
     [[20 25]
-
 
 
 [30 35]
@@ -1678,7 +1652,6 @@ in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
 
-
     # choose a number of time steps
     n_steps_in, n_steps_out = 3, 2
     # convert into input/output
@@ -1732,7 +1705,6 @@ multiple time steps of each
 
 ```
 
-
     We may use the last three time steps from each of the three time series as input to the
 
 model, and predict the next time steps of each of the three time series
@@ -1742,13 +1714,11 @@ sample in the training dataset would be the following.
 
 Input:
 
-
  20, 25, 45
  30, 35, 65
 
 ```
 Output:
-
 
  50, 55, 105
 
@@ -1795,7 +1765,6 @@ if out_end_ix > len(sequences):
 
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
-
 
 
     X.append(seq_x)
@@ -1864,7 +1833,6 @@ data was prepared as we expected.
 forecasts.
 
 
-
 We can now develop a 1D CNN model for this dataset. We will use a
 vector-output model
 
@@ -1927,7 +1895,6 @@ n_output = y.shape[1] * y.shape[2]
 n_features = X.shape[2]
 
 
-
     # define model
     model = Sequential()
     model.add(Conv1D(filters=64, kernel_size=2, activation='relu', input_shape=(n_steps_in,
@@ -1984,7 +1951,6 @@ wish to explore.
 If you explore any of these extensions, I’d love to know.
 
 
-
 ### Further Reading
 
 This section provides more resources on the topic if you are looking to
@@ -2031,7 +1997,6 @@ go deeper.
 
     - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
-
 
 
 ### Summary

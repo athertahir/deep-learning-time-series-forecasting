@@ -35,8 +35,6 @@ This tutorial is divided into six parts; they are:
 
 
 
-
-
 4.  Case Study 2: Trend
 5.  Case Study 3: Seasonality
 6.  Case Study 4: Trend and Seasonality
@@ -102,7 +100,6 @@ for i in range(1, len(data)+1):
 
 ```
 
-
 Running the example first prints the contrived dataset, then the naive
 forecast for each offset
 
@@ -160,7 +157,6 @@ from numpy import mean
  from numpy import median
 
 def average_forecast(history, config):
-
 
 
     n, avg_type = config
@@ -232,7 +228,6 @@ for i in range(1, n+1):
  values.append(history[-ix])
 
 
-
     # mean of last n values
     if avg_type is 'mean':
     return mean(values)
@@ -292,7 +287,6 @@ specifically the n-offset into
 
 the history that is used to either persist values or determine the
 number of values to average.
-
 
 
     It is helpful to have both strategies supported by one function so that we can test a suite of
@@ -356,7 +350,6 @@ test sets and evaluating
     return sqrt(mean_squared_error(actual, predicted))
 
 
-
 ```
     We can now implement the walk-forward validation scheme. This is a standard approach to
     evaluating a time series forecasting model that respects the temporal ordering of observations.
@@ -414,7 +407,6 @@ We can also
     key = str(cfg)
 
 
-
     # show all warnings and fail on exception if debugging
     if debug:
     result = walk_forward_validation(data, n_test, cfg)
@@ -466,7 +458,6 @@ your hardware.
     ```
 
 (^1) Note, you may have to install Joblib:pip install joblib
-
 
 
     That’s it. We can also provide a non-parallel version of evaluating all model configurations
@@ -523,7 +514,6 @@ create a list
     for i in range(1, max_length+1):
     for o in offsets:
     for t in ['persist', 'mean', 'median']:
-
 
 
     cfg = [i, o, t]
@@ -587,7 +577,6 @@ univariate time series
     return data[:-n_test], data[-n_test:]
 
 
-
 def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 train, test = train_test_split(data, n_test)
@@ -640,7 +629,6 @@ cfg_list)
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
-
 
 
     return scores
@@ -700,7 +688,6 @@ were drawn from the Time Series Dataset Library on the DataMarket
 website^2. The results
 
 (^2) https://datamarket.com/data/list/?q=provider:tsdl
-
 
 
     demonstrated on each dataset provide a baseline of performance that can be used to compare
@@ -763,7 +750,6 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-b
  csv
 
 
-
 (365, 1)
 
 ```
@@ -792,7 +778,6 @@ from math import sqrt
  from warnings import filterwarnings
  from sklearn.metrics import mean_squared_error
  from pandas import read_csv
-
 
 
 def simple_forecast(history, config):
@@ -845,7 +830,6 @@ error = measure_rmse(test, predictions)
  return error
 
 def score_model(data, n_test, cfg, debug=False):
-
 
 
     result = None
@@ -901,7 +885,6 @@ n_test = 165
 max_length = len(data) - n_test
  cfg_list = simple_configs(max_length)
 
-
     scores = grid_search(data, cfg_list, n_test)
     print('done')
     # list top 3 configs
@@ -955,7 +938,6 @@ period. You can download the dataset directly from here:
 (^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
-
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 print(series.shape)
@@ -1000,7 +982,6 @@ sales dataset
 obvious seasonality.
 
 
-
 ![](./images/207-9.png)
 
 We can now grid search naive models for the dataset. The complete
@@ -1028,7 +1009,6 @@ if avg_type == 'persist':
 
 values = list()
  if offset == 1:
-
 
 
     values = history[-n:]
@@ -1084,7 +1064,6 @@ if debug:
 try:
 
 
-
     # never show warnings when grid searching, too noisy
     with catch_warnings():
     filterwarnings("ignore")
@@ -1137,7 +1116,6 @@ for cfg, error in scores[:3]:
 
 Running the example prints the configurations and the RMSE are printed
 as the models are
-
 
 
     evaluated. The top three model configurations and their error are reported at the end of the
@@ -1199,7 +1177,6 @@ summarize
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
 
-
     # plot
     pyplot.plot(series)
     pyplot.xticks([])
@@ -1235,7 +1212,6 @@ years, or 240 observations.
     obvious seasonality structure.
 
 
-
 ![](./images/212-10.png)
 
 We will trim the dataset to the last five years of data (60
@@ -1266,7 +1242,6 @@ from math import sqrt
  from numpy import mean
  from numpy import median
  from multiprocessing import cpu_count
-
 
 
 from joblib import Parallel
@@ -1319,7 +1294,6 @@ for i in range(len(test)):
 yhat = simple_forecast(history, cfg)
 
 predictions.append(yhat)
-
 
 
     history.append(test[i])
@@ -1377,7 +1351,6 @@ if **name** =='**main**':
 series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
 
 
-
     data = series.values
     # data split
     n_test = 12
@@ -1430,7 +1403,6 @@ Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
 
 1960 and 1968. You can download the dataset directly from here:
-
 
 
 - monthly-car-sales.csv^6
@@ -1490,7 +1462,6 @@ as the test set.
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
 
-
 ![](./images/217-11.png)
 
 The period of the seasonal component could be six months or 12 months.
@@ -1518,7 +1489,6 @@ from math import sqrt
  from warnings import filterwarnings
  from sklearn.metrics import mean_squared_error
  from pandas import read_csv
-
 
 
 def simple_forecast(history, config):
@@ -1573,7 +1543,6 @@ error = measure_rmse(test, predictions)
 def score_model(data, n_test, cfg, debug=False):
 
 
-
     result = None
     # convert config to a key
     key = str(cfg)
@@ -1625,7 +1594,6 @@ series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
 n_test = 12
 max_length = len(data) - n_test
  cfg_list = simple_configs(max_length, offsets=[1,12])
-
 
     scores = grid_search(data, cfg_list, n_test)
     print('done')
@@ -1680,7 +1648,6 @@ wish to explore.
     to the average and naive methods.
 
 
-
     - Another Dataset. Apply the developed framework to an additional univariate time
     series problem (e.g. from the Time Series Dataset Library).
 
@@ -1730,7 +1697,6 @@ go deeper.
 
     - Forecasting, Wikipedia.
     https://en.wikipedia.org/wiki/Forecasting
-
 
 
 ###0Summary

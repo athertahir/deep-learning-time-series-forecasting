@@ -37,8 +37,6 @@ This tutorial is divided into seven parts; they are:
 
 
 
-
-
 6.  Multi-channel CNN Model
 7.  Multi-headed CNN Model
 
@@ -142,7 +140,6 @@ models that are faster to
 
 ```
 
-
     Once we have the evaluation for a model, we can summarize the performance. The function
     below, namedsummarizescores(), will display the performance of a model as a single line for
     easy comparison with other models.
@@ -205,7 +202,6 @@ and error. Given the
     code simple, we will instead present single-runs of models in this tutorial.
 
 
-
 #### Univariate CNN Model
 
     In this section, we will develop a convolutional neural network for multi-step time series
@@ -260,7 +256,6 @@ training to predict the
 ```
     We then need to iterate over the time steps and divide the data into overlapping windows;
     each iteration moves along one time step and predicts the subsequent seven days. For example:
-
 
 
     Input, Output
@@ -324,7 +319,6 @@ problem. Below is a function
     nature of the algorithm means that the same model will learn a slightly different mapping of
 
 
-
     inputs to outputs each time it is trained. This means results may vary when the model is
     evaluated. You can try running the model multiple times and calculating an average of model
     performance. Thebuildmodel()below prepares the training data, defines the model, and fits
@@ -378,7 +372,6 @@ the weekly structure so
     input_x = data[-n_input:, 0]
 
 ```
-
 
 Next, we reshape the input into the expected three-dimensional
 structure.
@@ -439,7 +432,6 @@ from math import sqrt
  from keras.layers.convolutional import MaxPooling1D
 
 def split_dataset(data):
-
 
 
     train, test = data[1:-328], data[-328:-6]
@@ -541,7 +533,6 @@ header=0,
 index_col=['datetime'])
 
 train, test = split_dataset(dataset.values)
-
 
 
     n_input = 7
@@ -698,7 +689,6 @@ n_input = 14
 
 ```
 
-
     Finally, the model used in the previous section does not perform well on this new framing
     of the problem. The increase in the amount of data requires a larger and more sophisticated
     model that is trained for longer. With a little trial and error, one model that performs well uses
@@ -758,7 +748,6 @@ training dataset is
     train = array(split(train, len(train)/7))
 
 
-
     test = array(split(test, len(test)/7))
     return train, test
 
@@ -806,7 +795,6 @@ verbose, epochs, batch_size = 0, 70, 16
 train_x.shape[2], train_y.shape[1]
 model = Sequential()
  model.add(Conv1D(filters=32, kernel_size=3, activation='relu',
-
 
 
     input_shape=(n_timesteps,n_features)))
@@ -862,7 +850,6 @@ train, test = split_dataset(dataset.values)
 
 n_input = 14
  score, scores = evaluate_model(train, test, n_input)
-
 
 
 summarize_scores('cnn', score, scores)
@@ -944,7 +931,6 @@ layers in lists. This is
     in_layers, out_layers = list(), list()
 
 
-
     for i in range(n_features):
     inputs = Input(shape=(n_timesteps,1))
     conv1 = Conv1D(filters=32, kernel_size=3, activation='relu')(inputs)
@@ -1009,7 +995,6 @@ prepare the training
     dense1 = Dense(200, activation='relu')(merged)
 
 
-
     dense2 = Dense(100, activation='relu')(dense1)
     outputs = Dense(n_outputs)(dense2)
     model = Model(inputs=in_layers, outputs=outputs)
@@ -1053,7 +1038,6 @@ Theforecast()function with this change is listed below.
 def forecast(model, history, n_input):
 data = array(history)
  data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
-
 
 
     input_x = data[-n_input:, :]
@@ -1109,7 +1093,6 @@ s = 0
  return score, scores
 
 
-
 def summarize_scores(name, score, scores):
  s_scores = ','.join(['%.1f' % s for s in scores])
  print('%s: [%.3f] %s'% (name, score, s_scores))
@@ -1158,7 +1141,6 @@ in_layers, out_layers = list(), list()
  conv2 = Conv1D(filters=32, kernel_size=3, activation='relu')(conv1)
  pool1 = MaxPooling1D(pool_size=2)(conv2)
  flat = Flatten()(pool1)
-
 
     in_layers.append(inputs)
     out_layers.append(flat)
@@ -1212,7 +1194,6 @@ predictions = array(predictions)
  return score, scores
 
 dataset = read_csv('household_power_consumption_days.csv', header=0,
-
 
 
 infer_datetime_format=True, parse_dates=['datetime'],

@@ -34,7 +34,6 @@ This tutorial is divided into four parts, they are:
 42
 
 
-
 ### Time Series to Supervised
 
 Time series data requires preparation before it can be used to train a
@@ -340,7 +339,6 @@ the input element of our time series, we can reshape it into[7, 3, 1]by
 providing a tuple to
 
 
-
 thereshape()function specifying the desired new shape of(7, 3, 1). The
 array must have
 
@@ -455,7 +453,6 @@ We can load this dataset as a PandasSeriesusing the functionreadcsv().
 
 time steps.
 
-
 ```
 from numpy import array
 data = list()
@@ -496,7 +493,6 @@ values. Here, we just drop
 
 the first column:
 
-
 ```
 from numpy import array
 data = list()
@@ -507,17 +503,14 @@ data = list()
 data = data[:, 1]
  print(data.shape)
 
-
 ```
 
 Running the example prints the shape of the dataset after the time
 column has been removed.
 
-
 ```
 
 (5000,)
-
 
 ```
 
@@ -534,7 +527,6 @@ model needs state
     across the sub-sequences and so on. In this example, we will split the 5,000 time steps into 25
     sub-sequences of 200 time steps each. Rather than using NumPy or Python tricks, we will do
     this the old fashioned way so you can see what is going on.
-
 
 ```
 
@@ -574,7 +566,6 @@ have 25
     samples, 200 time steps per sample, and 1 feature. First, we need to convert our list of arrays
     into a 2D NumPy array with the shape[25, 200].
 
-
 ```
 
     # example of creating an array of subsequence
@@ -586,7 +577,6 @@ have 25
     for i in range(n):
     data.append([i+1, (i+1)*10])
     data = array(data)
-
 
 ```
 data = data[:, 1]
@@ -641,7 +631,6 @@ model, or even a CNN model.
 ```
 (25, 200, 1)
 ```
-
 
 ### Extensions
 

@@ -36,8 +36,6 @@ This tutorial is divided into 10 parts; they are:
 
 
 
-
-
 4.  Balance of Activity Classes
 5.  Plot Time Series Per Subject
 6.  Plot Distribution Per Subject
@@ -72,7 +70,6 @@ Learning Repository^1.
 
 (^1)
 https://archive.ics.uci.edu/ml/datasets/human+activity+recognition+using+smartphones
-
 
 
 data. Video was recorded of each subject performing the activities and
@@ -141,7 +138,6 @@ Smartphones, 2013.
 (^2) View on YouTube:https://www.youtube.com/watch?v=XOEN9W05_4A
 
 
-
     Feature engineering was applied to the window data, and a copy of the data with these
     engineered features was made available. A number of time and frequency features commonly
     used in the field of human activity recognition were extracted from each window. The result
@@ -200,7 +196,6 @@ important elements:
 
 (^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
-
 
 
 - AnInertial Signalsfolder that contains the preprocessed data.
@@ -276,7 +271,6 @@ data = load_file('HARDataset/train/Inertial
 Signals/total_acc_y_train.txt')
 
 
-
     print(data.shape)
 
 ```
@@ -331,7 +325,6 @@ windows of data, where each window has 128 observations.
     # stack group so that features are the 3rd dimension
     loaded = dstack(loaded)
     return loaded
-
 
 
 filenames =
@@ -404,7 +397,6 @@ def load_file(filepath):
 def load_group(filenames, prefix=''):
 
 
-
     loaded = list()
     for name in filenames:
     data = load_file(prefix + name)
@@ -458,7 +450,6 @@ activity. We believe that
     each of the 30 subjects performed each of the six activities. Confirming this expectation will
     both check that the data is indeed balanced, making it easier to model, and confirm that we are
     correctly loading and interpreting the dataset. We can develop a function that summarizes the
-
 
 
 breakdown of the output variables, e.g. theyvariable. The
@@ -518,7 +509,6 @@ trainy = load_file('HARDataset/train/y_train.txt')
 print('Train Dataset')
  class_breakdown(trainy)
 testy = load_file('HARDataset/test/y_test.txt')
-
 
 
     print('Test Dataset')
@@ -581,7 +571,6 @@ in the observations
     trainX, trainy = load_dataset('train', 'HARDataset/')
 
 ```
-
 
     Next, we can load thesubjecttrain.txtin thetraindirectory that provides a mapping
     of rows to the subject to which it belongs. We can load this file using theloadfile()function.
@@ -646,7 +635,6 @@ looking at.
     # plot the data for one subject
 
 
-
 def plot_subject(X, y):
  pyplot.figure()
 
@@ -697,7 +685,6 @@ def load_file(filepath):
  return dataframe.values
 
 def load_group(filenames, prefix=''):
-
 
 
     loaded = list()
@@ -752,7 +739,6 @@ for i in range(3):
  pyplot.subplot(n, 1, off+1)
  pyplot.plot(to_series(X[:, :, off]))
  pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
-
 
 
     pyplot.yticks([])
@@ -815,7 +801,6 @@ variables and the output class.
 relatively straight line) for
 
 
-
     higher numbered activities, 4, 5, and 6 (sitting, standing, and laying). This is good confirmation
     that we have correctly loaded interpreted the raw dataset. We can see that this subject has
     performed the same general sequence of activities twice, and some activities are performed more
@@ -865,7 +850,6 @@ detected movements
     def plot_subject_histograms(X, y, sub_map, offset, n=10):
     pyplot.figure()
     # get unique subjects
-
 
 
     subject_ids = unique(sub_map[:,0])
@@ -924,7 +908,6 @@ variables.
     return loaded
 
 
-
 def load_dataset(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
 
@@ -977,7 +960,6 @@ for i in range(3):
  pyplot.yticks([])
  pyplot.xticks([-1,0,1])
  pyplot.show()
-
 
 
 X, y = load_dataset('train','HARDataset/')
@@ -1062,7 +1044,6 @@ movement data for
 
 ```
 
-
     We can now create plots per activity for a given subject. Theplotactivityhistograms()
     function below implements this function for the traces data for a given subject. First, the data
     is grouped by activity, then one subplot is created for each activity and each axis of the data
@@ -1119,7 +1100,6 @@ variables.
     return dataframe.values
 
 
-
 def load_group(filenames, prefix=''):
  loaded = list()
  for name in filenames:
@@ -1172,7 +1152,6 @@ return {a:X[y[:,0]==a, :, :] for a in activities}
 def plot_activity_histograms(X, y, offset):
 
 activity_ids = unique(y[:,0])
-
 
 
     # group windows by activity
@@ -1230,7 +1209,6 @@ look multi-modal (i.e.
 
 multiple peaks).
 
-
 ![](./images/484-51.png)
 
     The second figure summarizes the body acceleration distributions per activity. We can
@@ -1251,7 +1229,6 @@ subjects in the previous section. Perhaps the total acceleration data is
 the key to discriminating
 
 the activities.
-
 
 ![](./images/485-52.png)
 
@@ -1289,7 +1266,6 @@ functionplotactivitydurationsbysubject()
     # plot activity durations by subject
     def plot_activity_durations_by_subject(X, y, sub_map):
     # get unique subjects and activities
-
 
 
     subject_ids = unique(sub_map[:,0])
@@ -1345,7 +1321,6 @@ filenames +=
  'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
-
 
 
     y = load_file(prefix + group +'/y_'+group+'.txt')
@@ -1406,7 +1381,6 @@ less time on the in motion activities (1, 2 and 3), with the
 distribution for 3 being the smallest,
 
 
-
 or where time was spent least. The spread across the activities is not
 large, suggesting little
 
@@ -1460,7 +1434,6 @@ problem. The framing of the
 
     This is a reasonable and useful framing of the problem. Some other possible ways to frame
     the provided data as a prediction problem include the following:
-
 
 
 - Predict activity given a time step of movement data.
@@ -1528,7 +1501,6 @@ determine the most suitable model for the problem; some candidate models
 to explore include:
 
 
-
 - Common linear, nonlinear, and ensemble machine learning algorithms.
 
 - Multilayer Perceptron.
@@ -1579,7 +1551,6 @@ If you explore any of these extensions, I’d love to know.
 
 This section provides more resources on the topic if you are looking to
 go deeper.
-
 
 
 22.13.1 Papers

@@ -33,8 +33,6 @@ This tutorial is divided into nine parts; they are:
 
 
 
-
-
 6.  Encoder-Decoder LSTM With Univariate Input
 7.  Encoder-Decoder LSTM With Multivariate Input
 8.  CNN-LSTM Encoder-Decoder With Univariate Input
@@ -87,7 +85,6 @@ of active energy).
     specifically the walk-forward validation method used to fit a LSTM model and make a forecast.
     Refer to Chapter 19 for the details of the development of the new walk-forward validation
     framework for evaluating deep learning models on this problem.
-
 
 
 #### LSTMs for Multi-step Forecasting
@@ -143,7 +140,6 @@ the size and nature of this input include:
 - All prior days, up to years worth of data.
 
 - The prior seven days.
-
 
 
 - The prior two weeks.
@@ -209,7 +205,6 @@ problem. Below is a function
     use as inputs and outputs and returns the data in the overlapping moving window format.
 
 
-
     # convert history into inputs and outputs
     def to_supervised(train, n_input, n_out=7):
     # flatten data
@@ -272,7 +267,6 @@ it is trained. This means
     # define model
 
 
-
     model = Sequential()
     model.add(LSTM(200, activation='relu', input_shape=(n_timesteps, n_features)))
     model.add(Dense(100, activation='relu'))
@@ -324,7 +318,6 @@ the weekly structure so
     yhat = yhat[0]
 
 ```
-
 
 Theforecast()function below implements this and takes as arguments the
 model fit on
@@ -434,7 +427,6 @@ data = array(history)
  data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 
-
     # retrieve last observations for input data
     input_x = data[-n_input:, 0]
     # reshape into [1, n_input, 1]
@@ -494,7 +486,6 @@ less than 465 kilowatts achieved by a naive model.
     running the example a few times.
 
 
-
 lstm: [399.456] 419.4, 422.1, 384.5, 395.1, 403.9, 317.7, 441.5
 
 ```
@@ -528,7 +519,6 @@ that further tuning of the input size and perhaps the number of nodes in
 the model may result
 
 in better performance.
-
 
 
 Note: Given the stochastic nature of the algorithm, your specific
@@ -565,7 +555,6 @@ model will be comprised
 
 of two sub models, the encoder to read and encode the input sequence,
 and the decoder that
-
 
 
 will read the encoded input sequence and make a one-step prediction for
@@ -628,7 +617,6 @@ the wrapped layers to be used for each time step from the decoder.
     sequence and the wrapped dense layers to interpret each time step separately, yet reusing
     the same weights to perform the interpretation. An alternative would be to flatten all of the
     structure created by the LSTM decoder and to output the vector directly. You can try this as
-
 
 
 an extension to see how it compares. The network therefore outputs a
@@ -697,7 +685,6 @@ listed below.
     # restructure into windows of weekly data
 
 
-
     train = array(split(train, len(train)/7))
     test = array(split(test, len(test)/7))
     return train, test
@@ -746,7 +733,6 @@ train_x, train_y = to_supervised(train, n_input)
 verbose, epochs, batch_size = 0, 20, 16
  n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
-
 
 
     # reshape output into [samples, timesteps, features]
@@ -802,7 +788,6 @@ index_col=['datetime'])
 train, test = split_dataset(dataset.values)
 
 n_input = 14
-
 
 
     score, scores = evaluate_model(train, test, n_input)
@@ -872,7 +857,6 @@ X.append(data[in_start:in_end, :])
 The completetosupervised()function with this change is listed below.
 
 
-
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
  X, y = list(), list()
@@ -931,7 +915,6 @@ from math import sqrt
  from numpy import split
 
 
-
 from numpy import array
  from pandas import read_csv
  from sklearn.metrics import mean_squared_error
@@ -980,7 +963,6 @@ in_end = in_start + n_input
  out_end = in_end + n_out
 
 if out_end < len(data):
-
 
 
     X.append(data[in_start:in_end, :])
@@ -1033,7 +1015,6 @@ predictions = list()
 yhat_sequence = forecast(model, history, n_input)
 
 predictions.append(yhat_sequence)
-
 
 
     history.append(test[i, :])
@@ -1110,7 +1091,6 @@ consumption. We will define
     The first convolutional layer reads across the input sequence and projects the results onto
 
 
-
 feature maps. The second performs the same operation on the feature maps
 created by the first
 
@@ -1180,7 +1160,6 @@ from math import sqrt
  from pandas import read_csv
 
 
-
 from sklearn.metrics import mean_squared_error
  from matplotlib import pyplot
  from keras.models import Sequential
@@ -1228,7 +1207,6 @@ for _ in range(len(data)):
 
 in_end = in_start + n_input
  out_end = in_end + n_out
-
 
 
     if out_end < len(data):
@@ -1280,7 +1258,6 @@ def evaluate_model(train, test, n_input):
 model = build_model(train, n_input)
 
 history = [x for x in train]
-
 
 
     predictions = list()
@@ -1364,7 +1341,6 @@ which we can interpret
     the ConvLSTM, this would be a single read: that is, the LSTM would read one time step of 14
 
 
-
 days and perform a convolution across those time steps.
 
     This is not ideal. Instead, we can split the 14 days into two subsequences with a length of
@@ -1437,7 +1413,6 @@ activation='relu',
  input_shape=(n_steps, 1, n_length, n_features)))
 
 
-
     model.add(Flatten())
     model.add(RepeatVector(n_outputs))
     model.add(LSTM(200, activation='relu', return_sequences=True))
@@ -1504,7 +1479,6 @@ from math import sqrt
  from keras.layers import Flatten
 
 
-
 from keras.layers import LSTM
  from keras.layers import RepeatVector
  from keras.layers import TimeDistributed
@@ -1552,7 +1526,6 @@ if out_end < len(data):
  x_input = x_input.reshape((len(x_input), 1))
  X.append(x_input)
  y.append(data[in_end:out_end, 0])
-
 
 
     in_start += 1
@@ -1606,7 +1579,6 @@ predictions = list()
 yhat_sequence = forecast(model, history, n_steps, n_length, n_input)
 
 predictions.append(yhat_sequence)
-
 
 
     # get real observation and add to history for predicting the next week
@@ -1683,7 +1655,6 @@ wish to explore.
 If you explore any of these extensions, I’d love to know.
 
 
-
 #### Further Reading
 
 This section provides more resources on the topic if you are looking to
@@ -1735,7 +1706,6 @@ to systematically work
 ### Part VI
 
 ### Time Series Classification
-
 
 
 ### Overview

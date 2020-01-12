@@ -35,8 +35,6 @@ Let’s get started.
 
 
 
-
-
 ### Univariate LSTM Models
 
     LSTMs can be used to model univariate time series forecasting problems. These are problems
@@ -86,7 +84,6 @@ six parts; they are:
     Thesplitsequence()function below implements this behavior and will split a given
     univariate sequence into multiple samples where each sample has a specified number of time
     steps and the output is a single time step.
-
 
 
 def split_sequence(sequence, n_steps):
@@ -204,7 +201,6 @@ additional dimension
 
 ```
 
-
     After the model is fit, we can use it to make a prediction. We can predict the next value
 
 in the sequence by providing the input:[70, 80, 90]. And expecting the
@@ -269,7 +265,6 @@ x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
 
 
-
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
@@ -325,7 +320,6 @@ We can tie this together; the complete code example is listed below.
     break
     # gather input and output parts of the pattern
     seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
-
 
 
     X.append(seq_x)
@@ -387,7 +381,6 @@ and backward is as
 
 ```
 
-
     The complete example of the Bidirectional LSTM for univariate time series forecasting is
 
 listed below.
@@ -447,7 +440,6 @@ running the example a few times.
 [[101.48093]]
 
 ```
-
 
 
 9.2.5 CNN-LSTM
@@ -574,7 +566,6 @@ model.fit(X, y, epochs=500, verbose=0)
 x_input = array([60, 70, 80, 90])
 
 
-
     x_input = x_input.reshape((1, n_seq, n_steps, n_features))
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
@@ -629,7 +620,6 @@ convolutional reading
 ```
     The complete example of a ConvLSTM for one-step univariate time series forecasting is
     listed below.
-
 
 
 from numpy import array
@@ -689,7 +679,6 @@ results may vary. Consider
 running the example a few times.
 
 
-
 [[103.68166]]
 
 ```
@@ -738,7 +727,6 @@ time series that is
 ```
 
 The complete example is listed below.
-
 
 
     # multivariate data preparation
@@ -796,7 +784,6 @@ Output:
     and the model associates this with the value in the output series at the third time step, in this
     case, 65. We can see that, in transforming the time series into input/output samples to train
     the model, that we will have to discard some values from the output time series where we do
-
 
 
 not have values in the input time series at prior time steps. In turn,
@@ -861,7 +848,6 @@ in_seq1 = in_seq1.reshape((len(in_seq1), 1))
  out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
-
 
 
 n_steps = 3
@@ -943,7 +929,6 @@ n_features)))
  model.add(Dense(1))
 
 
-
     model.compile(optimizer='adam', loss='mse')
 
 ```
@@ -1005,7 +990,6 @@ We would expect the next value in the sequence to be 100 + 105, or 205.
     # choose a number of time steps
 
 
-
     n_steps = 3
     # convert into input/output
     X, y = split_sequences(dataset, n_steps)
@@ -1062,7 +1046,6 @@ previous section:
     might be referred to as multivariate forecasting. Again, the data must be split into input/output
     samples in order to train a model. The first sample of this dataset would be:
     Input:
-
 
 10, 15, 25
 
@@ -1124,7 +1107,6 @@ in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
 range(len(in_seq1))])
 
 
-
     # convert to [rows, columns] structure
     in_seq1 = in_seq1.reshape((len(in_seq1), 1))
     in_seq2 = in_seq2.reshape((len(in_seq2), 1))
@@ -1184,7 +1166,6 @@ LSTM model that
     layer; again, this is three.
 
 
-
 model = Sequential()
  model.add(LSTM(100, activation='relu', return_sequences=True,
 input_shape=(n_steps,
@@ -1198,7 +1179,6 @@ input_shape=(n_steps,
     We can predict the next value in each of the three parallel series by providing an input of
 
 three time steps for each series.
-
 
  80, 85, 165
  90, 95, 185
@@ -1242,7 +1222,6 @@ if end_ix > len(sequences)-1:
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
  X.append(seq_x)
  y.append(seq_y)
-
 
 
     return array(X), array(y)
@@ -1306,7 +1285,6 @@ are two main types of
 LSTM models that can be used for multi-step forecasting; they are:
 
 
-
 1.  Vector Output Model
 2.  Encoder-Decoder Model
 
@@ -1363,7 +1341,6 @@ same number of steps.
 
     We can demonstrate this function on the small contrived dataset. The complete example is
     listed below.
-
 
 
 from numpy import array
@@ -1435,7 +1412,6 @@ in this case, we only have one feature so the reshape is
 straightforward.
 
 
-
     # reshape from [samples, timesteps] into [samples, timesteps, features]
     n_features = 1
     X = X.reshape((X.shape[0], X.shape[1], n_features))
@@ -1490,7 +1466,6 @@ of the presented LSTM
     X, y = list(), list()
     for i in range(len(sequence)):
     # find the end of this pattern
-
 
 
     end_ix = i + n_steps_in
@@ -1552,7 +1527,6 @@ sequences is called the
     and the decoder.
 
 
-
     The encoder is a model responsible for reading and interpreting the input sequence. The
     output of the encoder is a fixed length vector that represents the model’s interpretation of the
     sequence. The encoder is traditionally a Vanilla LSTM model, although other encoder models
@@ -1608,7 +1582,6 @@ wrapper.
     must also have this shape. This is because the model will predict a given number of time steps
 
 with a given number of features for each input sample.
-
 
 
 y = y.reshape((y.shape[0], y.shape[1], n_features))
@@ -1667,7 +1640,6 @@ x_input = array([70, 80, 90])
  print(yhat)
 
 
-
 ```
 
 Running the example forecasts and prints the next two time steps in the
@@ -1724,7 +1696,6 @@ output series is separate
     [ 90 95 185]]
 
 ```
-
 
     We may use three prior time steps of each of the two input time series to predict two time
 
@@ -1787,7 +1758,6 @@ sequences[end_ix-1:out_end_ix, -1]
  y.append(seq_y)
 
 
-
     return array(X), array(y)
 
     # define input sequence
@@ -1847,7 +1817,6 @@ The output portion of the
     encoder-decoder model could be used. In this case, we will demonstrate a vector output with a
 
 
-
 Stacked LSTM. The complete example is listed below.
 
 from numpy import array
@@ -1905,7 +1874,6 @@ x_input = array([[70, 75], [80, 85], [90, 95]])
  print(yhat)
 
 
-
 ```
 
     Running the example fits the model and predicts the next two time steps of the output
@@ -1952,7 +1920,6 @@ multiple time steps of each
 
 ```
 Thesplitsequences()function below implements this behavior.
-
 
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
@@ -2013,7 +1980,6 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
 n_steps_in, n_steps_out = 3, 2
 
 X, y = split_sequences(dataset, n_steps_in, n_steps_out)
-
 
 
 print(X.shape, y.shape)
@@ -2082,7 +2048,6 @@ def split_sequences(sequences, n_steps_in, n_steps_out):
  for i in range(len(sequences)):
 
 
-
     end_ix = i + n_steps_in
     out_end_ix = end_ix + n_steps_out
     # check if we are beyond the dataset
@@ -2149,7 +2114,6 @@ results may vary. Consider
 running the example a few times.
 
 
-
 [[[ 91.86044 97.77231 189.66768 ]
 
 [103.299355 109.18123 212.6863 ]]]
@@ -2203,7 +2167,6 @@ go deeper.
     https://arxiv.org/abs/1503.04069
 
 
-
     - Convolutional LSTM Network: A Machine Learning Approach for Precipitation Nowcasting,
     2015.
     https://arxiv.org/abs/1506.04214v1
@@ -2249,7 +2212,6 @@ for univariate time series forecasting problems.
 ### Part IV
 
 ### Univariate Forecasting
-
 
 
 ### Overview

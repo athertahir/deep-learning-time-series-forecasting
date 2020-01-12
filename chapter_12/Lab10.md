@@ -35,8 +35,6 @@ This tutorial is divided into five parts; they are:
 
 
 
-
-
 ### Develop a Grid Search Framework
 
     In this section, we will develop a framework for grid searching exponential smoothing model
@@ -96,7 +94,6 @@ whether or not to remove the bias when fitting the model.
     model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s, seasonal_periods=p)
 
 
-
     # fit model
     model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
     # make one step forecast
@@ -153,7 +150,6 @@ version of the function is listed below.
     b_params = [True, False]
     r_params = [True, False]
     # create config instances
-
 
 
     for t in t_params:
@@ -215,7 +211,6 @@ train, test = train_test_split(data, n_test)
 history = [x for x in train]
 
 
-
     for i in range(len(test)):
     # fit model and make forecast for history
     yhat = exp_smoothing_forecast(history, cfg)
@@ -270,7 +265,6 @@ def exp_smoothing_configs(seasonal=[None]):
 t_params = ['add','mul', None]
  d_params = [True, False]
  s_params = ['add','mul', None]
-
 
 
     p_params = seasonal
@@ -332,7 +326,6 @@ hyperparameters and allow
     # access model parameters
 
 
-
     print(model_fit.params)
 
 ```
@@ -392,7 +385,6 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-b
  csv
 
 
-
 def train_test_split(data, n_test):
  return data[:-n_test], data[-n_test:]
 
@@ -445,7 +437,6 @@ cfg_list)
  scores = executor(tasks)
  else:
  scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
-
 
 
     scores = [r for r in scores if r[1] != None]
@@ -515,7 +506,6 @@ running the example a few times.
     > Model[[None, False, None, None, True, True]] 7.169
 
 
-
     > Model[[None, False, None, None, True, False]] 7.212
     > Model[[None, False, None, None, False, True]] 7.117
     > Model[[None, False, None, None, False, False]] 7.126
@@ -571,7 +561,6 @@ over a three-year
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
 
-
 from warnings import catch_warnings
  from warnings import filterwarnings
  from statsmodels.tsa.holtwinters import ExponentialSmoothing
@@ -623,7 +612,6 @@ key = str(cfg)
 if debug:
  result = walk_forward_validation(data, n_test, cfg)
  else:
-
 
 
     try:
@@ -680,7 +668,6 @@ series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
  data = series.values
 
 n_test = 12
-
 
 
     cfg_list = exp_smoothing_configs()
@@ -748,7 +735,6 @@ model as follows:
 - Remove Bias: False
 
 
-
 ### Case Study 3: Seasonality
 
 Themonthly mean temperaturesdataset summarizes the monthly average air
@@ -811,7 +797,6 @@ to the last five years of
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
 
-
     return yhat[0]
 
 def measure_rmse(actual, predicted):
@@ -862,7 +847,6 @@ if result is not None:
 def grid_search(data, cfg_list, n_test, parallel=True):
  scores = None
  if parallel:
-
 
 
     executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
@@ -927,7 +911,6 @@ of the results from
 running the hyperparameter grid search are listed below.
 
 
-
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
@@ -965,7 +948,6 @@ running the hyperparameter grid search are listed below.
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
 
-
 where it was introduced.
 
 You can download the dataset directly from here:
@@ -987,7 +969,6 @@ preparing the model configurations.
 
 (^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
-
 
 
 cfg_list = exp_smoothing_configs(seasonal=[0,6,12])
@@ -1041,7 +1022,6 @@ yhat = exp_smoothing_forecast(history, cfg)
 predictions.append(yhat)
 
 history.append(test[i])
-
 
 
     error = measure_rmse(test, predictions)
@@ -1098,7 +1078,6 @@ for t in t_params:
  for d in d_params:
  for s in s_params:
  for p in p_params:
-
 
 
     for b in b_params:
@@ -1174,7 +1153,6 @@ as follows:
 - Seasonal: Additive
 
 
-
 - Seasonal Periods: 12
 
 - Box-Cox Transform: False
@@ -1222,7 +1200,6 @@ go deeper.
 - statsmodels.tsa.holtwinters.ExponentialSmoothingAPI.
 
 - statsmodels.tsa.holtwinters.HoltWintersResultsAPI.
-
 
 
 12.8.3 Articles

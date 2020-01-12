@@ -37,8 +37,6 @@ This tutorial is divided into five parts; they are:
 
 
 
-
-
 ### Develop a Grid Search Framework
 
     In this section, we will develop a framework for grid searching SARIMA model hyperparameters
@@ -100,7 +98,6 @@ updated version of the function is listed below.
     for i in range(len(test)):
 
 
-
     # fit model and make forecast for history
     yhat = sarima_forecast(history, cfg)
     # store forecast in list of predictions
@@ -158,7 +155,6 @@ walk-forward validation. It is generic and will work for any in-memory
 univariate time series
 
 
-
 provided as a list or NumPy array. We can make sure all the pieces work
 together by testing it
 
@@ -208,7 +204,6 @@ error = measure_rmse(test, predictions)
 
 def score_model(data, n_test, cfg, debug=False):
  result = None
-
 
 
     key = str(cfg)
@@ -268,7 +263,6 @@ for p in p_params:
  cfg = [(p,d,q), (P,D,Q,m), t]
 
 
-
     models.append(cfg)
     return models
 
@@ -321,7 +315,6 @@ in California, USA in
     introduced. You can
 
 download the dataset directly from here:
-
 
 
 - daily-total-female-births.csv^1
@@ -382,7 +375,6 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-b
  csv
 
 
-
     # estimate prediction error
     error = measure_rmse(test, predictions)
     return error
@@ -437,7 +429,6 @@ p_params = [0, 1, 2]
  m_params = seasonal
 
 for p in p_params:
-
 
 
     for d in d_params:
@@ -507,7 +498,6 @@ follows:
 - Order: (1, 0, 2)
 
 
-
 - Seasonal Order: (1, 0, 1, 0)
 
 - Trend Parameter:‘t’for linear trend
@@ -566,7 +556,6 @@ over a three-year
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
 
-
 def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 train, test = train_test_split(data, n_test)
@@ -619,7 +608,6 @@ cfg_list)
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
-
 
 
     return scores
@@ -683,7 +671,6 @@ running the example a few times.
 >  Model[[(2, 1, 2), (2, 0, 0, 0),'ct']] 75.406
 
 
-
     > Model[[(2, 1, 2), (1, 0, 2, 0),'ct']] 80.908
     > Model[[(2, 1, 2), (2, 0, 1, 0),'ct']] 78.734
     > Model[[(2, 1, 2), (2, 0, 2, 0),'ct']] 82.958
@@ -742,7 +729,6 @@ to the last five years of
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
 
-
 The complete example grid searching the monthly mean temperature time
 series forecasting
 
@@ -793,7 +779,6 @@ error = measure_rmse(test, predictions)
 
 def score_model(data, n_test, cfg, debug=False):
  result = None
-
 
 
     # convert config to a key
@@ -851,7 +836,6 @@ for p in p_params:
  for D in D_params:
  for Q in Q_params:
  for m in m_params:
-
 
 
     cfg = [(p,d,q), (P,D,Q,m), t]
@@ -922,7 +906,6 @@ model as follows:
 - Seasonal Order: (1, 0, 1, 12)
 
 
-
 - Trend Parameter:‘n’(no trend)
 
     As we would expect, the model has no trend component and a 12-month seasonal ARIMA
@@ -932,7 +915,6 @@ model as follows:
 
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
-
 
 where it was introduced.
 
@@ -983,7 +965,6 @@ or 12 observations as the
 
 (^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
-
 
 
 def measure_rmse(actual, predicted):
@@ -1038,7 +1019,6 @@ executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
  tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
  scores = executor(tasks)
-
 
 
     else:
@@ -1101,7 +1081,6 @@ Note: Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 
-
 running the example a few times.
 
     > Model[[(2, 1, 2), (2, 0, 2, 12),'ct']] 10710.462
@@ -1148,7 +1127,6 @@ If you explore any of these extensions, I’d love to know.
 
 This section provides more resources on the topic if you are looking to
 go deeper.
-
 
 
 13.8.1 Books

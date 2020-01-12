@@ -32,8 +32,6 @@ This tutorial is divided into five parts; they are:
 
 
 
-
-
     Note: The data visualizations in this tutorial are intended to be quick-and-dirty to rapidly
     learn about the dataset, rather than used as the basis for presentation. As such they are more
     utilitarian and less aesthetic.
@@ -96,7 +94,6 @@ remainder = (
 https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption
 
 
-
 - householdpowerconsumption.zip^2
 
     Download the dataset and unzip it into your current working directory. You will now have
@@ -152,7 +149,6 @@ we can see 2-3 days worth of missing data around28/4/2007.
 (^2)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
  zip
-
 
 
 Putting all of this together, we can now load the data and summarize the
@@ -218,7 +214,6 @@ header=0, low_memory=False,
  infer_datetime_format=True, parse_dates={'datetime':[0,1]},
 index_col=['datetime'])
 print(dataset.shape)
-
 
 
 print(dataset.head())
@@ -288,7 +283,6 @@ for example around row 190,499:
  2007-04-28 00:24:00,,,,,,,,
  2007-04-28 00:25:00,,,,,,,,
  ...
-
 
 
 ```
@@ -370,7 +364,6 @@ result = dataset[str(year)]
 pyplot.plot(result['Global_active_power'])
 
 
-
     # add a title to the subplot
     pyplot.title(str(year), y=0, loc='left')
     # turn off ticks to remove clutter
@@ -398,7 +391,6 @@ gross patterns across
     and weekly patterns. The complete example is listed below.
 
     # monthly line plots for power usage dataset
-
 
 
     from pandas import read_csv
@@ -472,7 +464,6 @@ pyplot.plot(result['Global_active_power'])
 pyplot.title(day, y=0, loc='left', size=6)
 
 
-
     # turn off ticks to remove clutter
     pyplot.yticks([])
     pyplot.xticks([])
@@ -512,7 +503,6 @@ creating a histogram for each variable in the time series. The complete
 example is listed below.
 
 
-
     # histogram plots for power usage dataset
     from pandas import read_csv
     from matplotlib import pyplot
@@ -546,7 +536,6 @@ as the sub-metered power
 
 ![](./images/351-22.png)
 
-
     The distribution of active power appears to be bi-modal, meaning it looks like it has two
 
 mean groups of observations. We can investigate this further by looking
@@ -575,7 +564,6 @@ result = dataset[str(year)]
 result['Global_active_power'].hist(bins=100)
 
 ax.set_xlim(0, 5)
-
 
 
     # add a title to the subplot
@@ -676,7 +664,6 @@ left to guess at
     consumption.
 
 
-
 Four examples include:
 
 - Forecast hourly consumption for the next day.
@@ -741,7 +728,6 @@ they are:
 4.  Deep Learning Methods.
 
 
-
 16.6.4 Naive Methods
 
     Naive methods would include methods that make very simple, but often very effective assump-
@@ -796,7 +782,6 @@ features, discarding
     harnessed and add value to predictive models.
 
 
-
 Deep Learning Methods
 
     Generally, neural networks have not proven very effective at autoregression type problems.
@@ -845,7 +830,6 @@ go deeper.
 
     - AC power, Wikipedia.
     https://en.wikipedia.org/wiki/AC_power#Active,_reactive,_and_apparent_power
-
 
 
 #### Summary

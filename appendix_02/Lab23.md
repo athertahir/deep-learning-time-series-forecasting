@@ -35,7 +35,6 @@ To locally develop and run Python code, it is recommended to use a Python virtua
 
 `source .venv/bin/activate`
 
-
 In the terminal with the virtual environment activated, run the following command in the start folder to install the dependencies. Some installation steps may take a few minutes to complete.
 
 `pip install --upgrade pip`
@@ -51,7 +50,6 @@ In the terminal with the virtual environment activated, run the following comman
 `pip install statsmodels`
 
 `pip install sklearn`
-
 
 The script below will print the version number of the key SciPy libraries you require for
 machine learning development, specifically: SciPy, NumPy, Matplotlib, Pandas, Statsmodels,
@@ -94,7 +92,6 @@ statsmodels: 0.9.0
 sklearn: 0.20.3
 ```
 
-
 In this step, we will install Python libraries used for deep learning, specifically: Theano,
 TensorFlow, and Keras. **Note:** I recommend using Keras for deep learning and Keras only
 requires one of Theano or TensorFlow to be installed. You do not need both. There may be
@@ -108,7 +105,6 @@ problems installing TensorFlow on some Windows machines.
 
 3. Install Keras by typing:
 `pip install keras` 
-
 
 Confirm your deep learning environment is installed and working correctly. Create a script that prints the version numbers of each library, as we did before for the SciPy
 environment.
@@ -129,7 +125,6 @@ print('keras: %s' % keras.__version__)
 ##### Run Notebook
 Click notebook `deep_versions.ipynb` in jupterLab UI and run jupyter notebook.
 
-
 You should see output like the following:
 
 ```
@@ -142,5 +137,4 @@ keras: 2.2.4
 Congratulations, you now have a working Python development environment for machine learning
 and deep learning. You can now learn and practice machine learning and deep learning on your
 workstation.
-
 

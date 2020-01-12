@@ -34,8 +34,6 @@ This tutorial is divided into five parts; they are:
 
 
 
-
-
 ### Time Series Problem
 
 In this tutorial we will focus on one dataset and use it as the context
@@ -104,7 +102,6 @@ Running the example first prints the shape of the dataset.
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv
 
 
-
     The dataset is monthly and has 12 years, or 144 observations. In our testing, we will use the
     last year, or 12 observations, as the test set. A line plot is created. The dataset has an obvious
     trend and seasonal component. The period of the seasonal component is 12 months.
@@ -127,7 +124,6 @@ defined our problem and
 
 expectations of model skill, we can look at defining the grid search
 test harness.
-
 
 
 ### Develop a Grid Search Framework
@@ -182,7 +178,6 @@ three years, or 36 time
     of the column, shifted forward or backward in time in order to create the samples with the
     input and output elements we require. When a series is shifted down,NaNvalues are introduced
     because we don’t have values beyond the start of the series.
-
 
 
     (t)
@@ -240,7 +235,6 @@ for each observation
 
     in the test dataset one at a time. After each forecast is made for a time step in the test
     dataset, the true observation for the forecast is added to the test dataset and made available to
-
 
 
     the model. Simpler models can be refit with the observation prior to making the subsequent
@@ -306,7 +300,6 @@ allowing the model to make
     # fit model
 
 
-
     model = model_fit(train, cfg)
     # seed history with training dataset
     history = [x for x in train]
@@ -368,7 +361,6 @@ function to drive the search. We
     and the number of observations to use as the test set and perform the search. Once mean scores
 
 
-
     are calculated for each config, the list of configurations is sorted in ascending order so that the
     best scores are listed first. The complete function is listed below.
     # grid search configs
@@ -423,7 +415,6 @@ value at the negative relative offset.
     return data[:-n_test], data[-n_test:]
 
 
-
 def measure_rmse(actual, predicted):
  return sqrt(mean_squared_error(actual, predicted))
 def model_fit(train, config):
@@ -472,7 +463,6 @@ scores.sort(key=lambda tup: tup[1])
 series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
  data = series.values
-
 
 
     # data split
@@ -532,7 +522,6 @@ persistence model.
 - nepochs: The number of training epochs (e.g. 1000).
 
 
-
 - nbatch: The number of samples to include in each mini-batch (e.g. 32).
 
 - ndiff: The difference order (e.g. 0 or 12).
@@ -589,7 +578,6 @@ We can now define and fit the model with the provided configuration.
 
 ```
 The complete implementation of themodelfit()function is listed below.
-
 
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
@@ -658,7 +646,6 @@ x_input = array(history[-n_input:]).reshape((1, n_input))
 Finally, a prediction can be made.
 
 
-
     # make forecast
     yhat = model.predict(x_input, verbose=0)
 
@@ -721,7 +708,6 @@ values of the hyperparameters to grid search.
     return data[:-n_test], data[-n_test:]
 
 
-
 def series_to_supervised(data, n_in, n_out=1):
  df = DataFrame(data)
  cols = list()
@@ -766,7 +752,6 @@ correction = 0.0
  history = difference(history, n_diff)
 
 x_input = array(history[-n_input:]).reshape((1, n_input))
-
 
 
     # make forecast
@@ -822,7 +807,6 @@ n_input = [12]
 configs = list()
 
 
-
     for i in n_input:
     for j in n_nodes:
     for k in n_epochs:
@@ -873,7 +857,6 @@ A truncated example output of the grid search is listed below.
 
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
-
 
 
     Total configs: 8
@@ -930,7 +913,6 @@ details on modeling a
     input_shape=(n_input, n_features)))
     model.add(MaxPooling1D(pool_size=2))
     model.add(Flatten())
-
 
 
 model.add(Dense(1))
@@ -993,7 +975,6 @@ The complete implementation of themodelpredict()function is listed
 below.
 
 def model_predict(model, history, config):
-
 
 
     # unpack config
@@ -1060,7 +1041,6 @@ from math import sqrt
  from keras.layers import Flatten
 
 
-
 from keras.layers.convolutional import Conv1D
  from keras.layers.convolutional import MaxPooling1D
 
@@ -1112,7 +1092,6 @@ verbose=0)
  return model
 
 
-
 def model_predict(model, history, config):
 n_input, _, _, _, _, n_diff = config
 correction = 0.0
@@ -1160,7 +1139,6 @@ cfg_list]
 
 scores.sort(key=lambda tup: tup[1])
  return scores
-
 
 
 def model_configs():
@@ -1221,7 +1199,6 @@ configuration as:
 - ndiff: 12
 
 
-
 A truncated example output of the grid search is listed below.
 
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
@@ -1277,7 +1254,6 @@ they are:
     model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 
 ```
-
 
     It may be interesting to explore tuning additional configurations such as the use of a
 
@@ -1335,7 +1311,6 @@ correction = 0.0
  if n_diff > 0:
  correction = history[-n_diff]
  history = difference(history, n_diff)
-
 
 
     # reshape sample into [samples, timesteps, features]
@@ -1399,7 +1374,6 @@ as such, you
     df = DataFrame(data)
 
 
-
     cols = list()
     # input sequence (t-n, ... t-1)
     for i in range(n_in, 0, -1):
@@ -1448,7 +1422,6 @@ correction = 0.0
  history = difference(history, n_diff)
 
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
-
 
 
     # forecast

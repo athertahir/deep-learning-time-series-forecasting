@@ -16,7 +16,6 @@ through this project you will know:
 
 Let's get started.
 
-
 The process is quite simple because most of the work has already been done for us. Below is an
 overview of the process.
 
@@ -33,7 +32,6 @@ so no advanced skills are needed.
 
 **Note:** The specific versions may differ as the software and libraries are updated frequently
 
-
 You need an account on Amazon Web Services1.
 
 1. You can create account by the Amazon Web Services portal and click Sign in to the
@@ -46,10 +44,8 @@ charge. The process is a lot quicker if you are already an Amazon customer and h
 credit card on file.
     ![](./images/32.JPG)
 
-
 Once you have an account you can log into the Amazon Web Services console. You will see
 a range of different services that you can access.
-
 
 Now that you have an AWS account, you want to launch an EC2 virtual server instance on
 which you can run Keras. Launching an instance is as easy as selecting the image to load and
@@ -62,7 +58,6 @@ and is maintained by Amazon. Let's launch it as an instance.
     
     ![](./images/41.JPG)
 
-
 - Click on EC2 for launching a new virtual server.
 
 - Select US West Orgeon from the drop-down in the top right hand corner. This is
@@ -74,7 +69,6 @@ important otherwise you will not be able to find the image we plan to use.
 of a server that you can select and instantiate on a new virtual server.
 
     ![](./images/42.JPG)
-
 
 - Enter Deep Learning AMI in the Search community AMIs search box and press enter.C.3. Launch Your Server Instance 533
     ![](./images/51.JPG)
@@ -98,7 +92,6 @@ and choose your key pair from the list. Then check I acknowledge.... If you do n
 pair, select the option Create a new key pair and enter a Key pair name such as keras-keypair.
 Click the Download Key Pair button.
     ![](./images/53.JPG)
-
 
 - Open a Terminal and change directory to where you downloaded your key pair.
 
@@ -133,7 +126,6 @@ to your server using SSH, for example:
 You are now logged into your server.
     ![](./images/71.JPG)
 
-
 The instance will ask what Python environment you wish to use. I recommend using:
  **TensorFlow(+Keras2) with Python3 (CUDA 9.0 and Intel MKL-DNN)**
 
@@ -156,12 +148,10 @@ command as follows:
 scp -i keras-aws-keypair.pem -r src ec2-user@54.186.97.77:~/
 ```
 
-
 This will copy the entire src/ directory to your home directory on your AWS instance. You
 can easily adapt this example to get your larger datasets from your workstation onto your AWS
 instance. Note that Amazon may impose charges for moving very large amounts of data in and
 out of your AWS instance. Refer to Amazon documentation for relevant charges.
-
 
 #### Run Models on AWS
 You can run your scripts on your AWS instance as per normal:

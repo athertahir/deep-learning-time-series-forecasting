@@ -37,8 +37,6 @@ This tutorial is divided into four parts; they are:
 
 
 
-
-
 #### Activity Recognition Using Smartphones Dataset
 
     Human Activity Recognition, or HAR for short, is the problem of predicting what a person is
@@ -86,7 +84,6 @@ evaluation for deep learning models.
 
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
-
 
 
 24.3.1 Load Data
@@ -154,7 +151,6 @@ output data for
     filepath = prefix + group + '/Inertial Signals/'
     # load all 9 files as a single array
     filenames = list()
-
 
 
     # total acceleration
@@ -230,7 +226,6 @@ series data, each window has 128 time steps, and a time step has nine
 variables or features. The
 
 
-
     output for the model will be a six-element vector containing the probability of a given window
     belonging to each of the six activity types. These input and output dimensions are required
 
@@ -298,7 +293,6 @@ before the weights of the
     input_shape=(n_timesteps,n_features)))
 
 
-
     model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
     model.add(Dropout(0.5))
     model.add(MaxPooling1D(pool_size=2))
@@ -361,7 +355,6 @@ functionsummarizeresults()below summarizes the results of a run.
     the model is evaluated 10 times before the performance of the model is reported.
 
 
-
 def run_experiment(repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
@@ -410,7 +403,6 @@ def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
-
 
 
     # total acceleration
@@ -464,7 +456,6 @@ def summarize_results(scores):
  print(scores)
  m, s = mean(scores), std(scores)
  print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
-
 
 
     def run_experiment(repeats=10):
@@ -540,7 +531,6 @@ hyperparameter tuning.
     problem. We will look at three main areas:
 
 
-
 1.  Data Preparation
 2.  Number of Filters
 3.  Size of Kernel
@@ -597,7 +587,6 @@ window.
     # stack group so that features are the 3rd dimension
 
 
-
     loaded = dstack(loaded)
     return loaded
 
@@ -649,7 +638,6 @@ pyplot.hist(longX[:, i], bins=100)
 pyplot.yticks([])
  pyplot.xticks([-1,0,1])
  pyplot.show()
-
 
 
     # load data
@@ -711,7 +699,6 @@ transform. It is first fit on the
     s = StandardScaler()
     # fit on training data
     s.fit(longX)
-
 
 
     # apply to training and test data
@@ -777,7 +764,6 @@ scores = list()
  scores.append(score)
 
 
-
     all_scores.append(scores)
     # summarize results
     summarize_results(all_scores, params)
@@ -836,7 +822,6 @@ The complete code ```
     return loaded
 
 
-
 def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
 
@@ -891,7 +876,6 @@ longX = s.transform(longX)
 flatTrainX = flatTrainX.reshape((trainX.shape))
 
 
-
     flatTestX = flatTestX.reshape((testX.shape))
     return flatTrainX, flatTestX
 
@@ -944,7 +928,6 @@ scores = list()
 summarize_results(all_scores, params)
 
 n_params = [False, True]
-
 
 
 run_experiment(n_params)
@@ -1022,7 +1005,6 @@ is quite different from
 the distribution of results without standardization. This is likely a
 real effect.
 
-
 ![](./images/526-57.png)
 
     Now that we have an experimental framework, we can explore varying other hyperparameters
@@ -1045,7 +1027,6 @@ The complete code example is listed below.
     from numpy import dstack
     from pandas import read_csv
     from matplotlib import pyplot
-
 
 
 from keras.models import Sequential
@@ -1100,7 +1081,6 @@ trainy = trainy - 1
 trainy = to_categorical(trainy)
  testy = to_categorical(testy)
  return trainX, trainy, testX, testy
-
 
 
 def evaluate_model(trainX, trainy, testX, testy, n_filters):
@@ -1158,7 +1138,6 @@ n_params = [8, 16, 32, 64, 128, 256]
 ```
 
 
-
     Running the example repeats the experiment for each of the specified number of filters. At
     the end of the run, a summary of the results with each number of filters is presented. We can
     see perhaps a trend of increasing average performance with the increase in the number of filter
@@ -1214,7 +1193,6 @@ to tune. The kernel
     from keras.models import Sequential
 
 
-
 from keras.layers import Dense
  from keras.layers import Flatten
  from keras.layers import Dropout
@@ -1266,7 +1244,6 @@ trainy = trainy - 1
 trainy = to_categorical(trainy)
  testy = to_categorical(testy)
  return trainX, trainy, testX, testy
-
 
 
 def evaluate_model(trainX, trainy, testX, testy, n_kernel):
@@ -1326,7 +1303,6 @@ Running the example tests each kernel size in turn. The results are
 summarized at the end
 
 
-
 of the run. We can see a general increase in model performance with the
 increase in kernel
 
@@ -1365,7 +1341,6 @@ balance between good performance and low variance.
 
 more important elements. It might be interesting to explore combinations
 of some of the above
-
 
 
     findings to see if performance can be lifted even further. It may also be interesting to increase
@@ -1425,7 +1400,6 @@ three-headed 1D CNN
     verbose=verbose)
     # evaluate model
     _, accuracy = model.evaluate([testX,testX,testX], testy, batch_size=batch_size, verbose=0)
-
 
 
     return accuracy
@@ -1511,7 +1485,6 @@ trainy = to_categorical(trainy)
  testy = to_categorical(testy)
 
 
-
     return trainX, trainy, testX, testy
 
 def evaluate_model(trainX, trainy, testX, testy):
@@ -1562,7 +1535,6 @@ scores = list()
  score = evaluate_model(trainX, trainy, testX, testy)
  score = score * 100.0
  print('>#%d: %.3f' % (r+1, score))
-
 
 
     scores.append(score)
@@ -1626,7 +1598,6 @@ wish to explore.
 
     - Date Preparation. Explore other data preparation schemes such as data normalization
     and perhaps normalization after standardization.
-
 
 
     - Network Architecture. Explore other network architectures, such as deeper CNN

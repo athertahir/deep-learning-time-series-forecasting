@@ -37,8 +37,6 @@ This tutorial is divided into three parts; they are:
 
 
 
-
-
 #### Activity Recognition Using Smartphones Dataset
 
     Human Activity Recognition, or HAR for short, is the problem of predicting what a person is
@@ -87,7 +85,6 @@ following files:
 
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
-
 
 
     # load a single file as a numpy array
@@ -146,7 +143,6 @@ We can call this function to load all of the required data; for example:
     machine learning algorithms, specifically:
 
 
-
 Nonlinear Algorithms:
 
 - k-Nearest Neighbors
@@ -202,7 +198,6 @@ This step is divided into
     that will capture the performance (or error) of a model given the balance observations across
     the six activities (or classes). Theevaluatemodel()function below implements this behavior,
     evaluating a given model and returning the classification accuracy as a percentage.
-
 
 
     # evaluate a single model
@@ -263,7 +258,6 @@ results by the classification
 
 ```
 
-
 23.3.5 Complete Example
 
 We know that we have all of the pieces in place. The complete example of
@@ -321,7 +315,6 @@ evaluating a suite of
     return models
 
     # evaluate a single model
-
 
 
 def evaluate_model(trainX, trainy, testX, testy, model):
@@ -382,7 +375,6 @@ results may vary. Consider
 running the example a few times.
 
 Defined 8 models
-
 
 
     >knn: 90.329
@@ -446,7 +438,6 @@ make this clearer,
 
     there are 128 time steps and nine features, where the number of samples is the number of rows
     in any given raw signal data file. Theloadgroup()function below implements this behavior.
-
 
 
 Thedstack()NumPy function allows us to stack each of the loaded 3D
@@ -516,7 +507,6 @@ this with the NumPy
     print(testX.shape, testy.shape)
 
 
-
     # flatten X
     trainX = trainX.reshape((trainX.shape[0], trainX.shape[1] * trainX.shape[2]))
     testX = testX.reshape((testX.shape[0], testX.shape[1] * testX.shape[2]))
@@ -572,7 +562,6 @@ filenames +=
 X = load_group(filenames, filepath)
 
 
-
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
@@ -619,7 +608,6 @@ print('>%s: %.3f' % (name, results[name]))
 def summarize_results(results, maximize=True):
 
 mean_scores = [(k,v) for k,v in results.items()]
-
 
 
     mean_scores = sorted(mean_scores, key=lambda x: x[1])
@@ -695,7 +683,6 @@ Name=gbm, Score=87.615
  Name=knn, Score=61.893
 
 
-
     ```
 
     As noted in the previous section, these results provide a lower-bound on accuracy for any
@@ -746,7 +733,6 @@ go deeper.
 
     - sklearn.svmAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.svm
-
 
 
     - sklearn.naivebayesAPI.

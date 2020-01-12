@@ -32,8 +32,6 @@ This tutorial is divided into five parts; they are:
 
 
 
-
-
 #### Problem Description
 
     TheHousehold Power Consumptiondataset is a multivariate time series dataset that describes
@@ -86,7 +84,6 @@ of active energy).
     the case, we can use the Pearson’s correlation coefficient to summarize the correlation between
     the variables. The Pearson’s correlation coefficient is a number between -1 and 1 that describes
     a negative or positive correlation respectively. A value of zero indicates no correlation.
-
 
 
     We can calculate the correlation for time series observations with observations with previous
@@ -145,7 +142,6 @@ AutoCorrelation Function, or the
     series = to_series(train)
 
 ```
-
 
     We can then create a single figure that contains both an ACF and a PACF plot. The number
     of lag time steps can be specified. We will fix this to be one year of daily observations, or 365
@@ -206,7 +202,6 @@ PACF plots.
     pyplot.figure()
 
 
-
     lags = 365
     # acf
     axis = pyplot.subplot(2, 1, 1)
@@ -236,7 +231,6 @@ familiar autoregression
 ```
 
 
-
     Re-running the code example with this change results is a zoomed-in version of the plots
 
 with much less clutter. We can clearly see a familiar autoregression
@@ -260,7 +254,6 @@ with seven lag observations used as input.
 
 ![](./images/378-27.png)
 
-
 #### Develop an Autoregressive Model
 
 We can develop an autoregression model for univariate series of daily
@@ -269,7 +262,6 @@ power consumption. For
     more information on autoregressive models see Chapter 5. The Statsmodels library provides
     multiple ways of developing an AR model, such as using the AR, ARMA, ARIMA, and SARIMAX
     classes. For more information on developing SARIMAX models with the Statsmodels library,
-
 
 
     see Chapter 13. We will use the ARIMA implementation as it allows for easy expandability into
@@ -329,7 +321,6 @@ isARIMA(7,0,0).
     example is listed below.
 
 
-
 from math import sqrt
  from numpy import split
  from numpy import array
@@ -377,7 +368,6 @@ yhat_sequence = model_func(history)
 predictions.append(yhat_sequence)
 
 history.append(test[i, :])
-
 
 
     predictions = array(predictions)
@@ -442,7 +432,6 @@ kilowatts. This model has
     arima: [381.636] 393.8, 398.9, 357.0, 377.2, 393.9, 306.1, 432.2
 
 
-
     ```
 
     A line plot of the forecast is also created, showing the RMSE in kilowatts for each of the
@@ -465,7 +454,6 @@ wish to explore.
     - Explore Seasonal AR. Explore whether the performance of the AR model can be
     improved by including seasonal autoregression elements. This may require the use of a
     SARIMA model.
-
 
 
     - Explore ETS. Explore whether better results may be achieved by using an ETS model

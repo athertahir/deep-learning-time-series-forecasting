@@ -37,8 +37,6 @@ This tutorial is divided into four parts; they are:
 
 
 
-
-
 #### Activity Recognition Using Smartphones Dataset
 
     Human Activity Recognition, or HAR for short, is the problem of predicting what a person is
@@ -85,7 +83,6 @@ evaluation for deep learning models.
 
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
-
 
 
 25.3.1 Load Data
@@ -153,7 +150,6 @@ output data for
     filepath = prefix + group + '/Inertial Signals/'
     # load all 9 files as a single array
     filenames = list()
-
 
 
     # total acceleration
@@ -229,7 +225,6 @@ series data, each window has 128 time steps, and a time step has nine
 variables or features. The
 
 
-
     output for the model will be a six-element vector containing the probability of a given window
     belonging to each of the six activity types. The input and output dimensions are required when
     fitting the model, and we can extract them from the provided training dataset.
@@ -291,7 +286,6 @@ before the weights of
 ```
 
 
-
     There is nothing special about the network structure or chosen hyperparameters, they are
     just a starting point for this problem.
 
@@ -351,7 +345,6 @@ accuracy from the mean. The
 
 ```
 
-
 25.3.4 Complete Example
 
 Now that we have all of the pieces, we can tie them together into a
@@ -404,7 +397,6 @@ y = load_file(prefix + group +'/y_'+group+'.txt')
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
-
 
     testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
     # zero-offset class values
@@ -463,7 +455,6 @@ trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 
 This is a good result, considering that the original paper published a
 result of 89%, trained on
-
 
 
 the dataset with heavy domain-specific feature engineering, not the raw
@@ -534,7 +525,6 @@ blocks, extract
     own features before a final mapping to an activity is made.
 
 
-
 model = Sequential()
  model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
 activation='relu'),
@@ -599,7 +589,6 @@ from numpy import mean
  from numpy import dstack
 
 
-
 from pandas import read_csv
  from keras.models import Sequential
  from keras.layers import Dense
@@ -651,7 +640,6 @@ testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
 trainy = trainy - 1
  testy = testy - 1
-
 
 
     trainy = to_categorical(trainy)
@@ -708,7 +696,6 @@ summarize_results(scores)
 run_experiment()
 
 ```
-
 
 
     Running the example summarizes the model performance for each of the 10 runs before
@@ -777,7 +764,6 @@ steps into.
 - Channels: 9, for the nine input variables.
 
 
-
 We can now prepare the data for theConvLSTM2Dmodel.
 
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
@@ -837,7 +823,6 @@ function, in this case
     return loaded
 
 
-
 def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
 
@@ -893,7 +878,6 @@ model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
 _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
-
 
 
     return accuracy
@@ -965,7 +949,6 @@ running the example a few times.
 Accuracy: 90.801% (+/-0.886)
 
 ```
-
 
 
 #### Extensions

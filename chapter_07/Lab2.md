@@ -43,7 +43,6 @@ intended to give the flavor
 53
 
 
-
     Note: Traditionally, a lot of research has been invested into using MLPs for time series
     forecasting with modest results. Perhaps the most promising area in the application of deep
     learning methods to time series forecasting are in the use of CNNs, LSTMs and hybrid models.
@@ -99,7 +98,6 @@ beyond this tutorial.
     if end_ix > len(sequence)-1:
 
 
-
     break
     # gather input and output parts of the pattern
     seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
@@ -150,7 +148,6 @@ Now that we know how to prepare a univariate series for modeling, let’s
 look at developing
 
 an MLP model that can learn the mapping of inputs to outputs.
-
 
 
 7.2.2 MLP Model
@@ -205,7 +202,6 @@ layer used to make a
     # split a univariate sequence into samples
     def split_sequence(sequence, n_steps):
     X, y = list(), list()
-
 
 
     for i in range(len(sequence)):
@@ -267,7 +263,6 @@ multivariate time series data;
 they are:
 
 
-
 1.  Multiple Input Series.
 2.  Multiple Parallel Series.
 
@@ -321,7 +316,6 @@ The complete example is listed below.
 ```
     Running the example prints the dataset with one row per time step and one column for each
     of the two input and one output parallel time series.
-
 
 [[ 10 15 25]
 
@@ -402,7 +396,6 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
  return array(X), array(y)
 
 
-
     ```
 
     We can test this function on our dataset using three time steps for each input time series as
@@ -457,7 +450,6 @@ the number of parallel time
     series or the number of variables, in this case 2 for the two parallel series. We can then see that
     the input and output for each sample is printed, showing the three time steps for each of the
     two input series and the associated output for each sample.
-
 
 
 (7, 3, 2) (7,)
@@ -533,7 +525,6 @@ the temporal structure of
     X = X.reshape((X.shape[0], n_input))
 
 ```
-
 
     We can now define an MLP model for the multivariate input where the vector length is used
     for the input dimension argument.
@@ -650,7 +641,6 @@ withnstepsfeatures.
 
 ```
 
-
 We can define the second input submodel in the same way.
 visible2 = Input(shape=(n_steps,))
  dense2 = Dense(100, activation='relu')(visible2)
@@ -678,7 +668,6 @@ inputs and outputs of each layer.
 
 ![](./images/81-2.png)
 
-
     This model requires input to be provided as a list of two elements, where each element in
 
 the list contains data for one of the submodels. In order to achieve
@@ -688,7 +677,6 @@ input data into two separate arrays of input data: that is from one
 array with the shape[7, 3,
 
 2]to two 2D arrays with the shape[7, 3].
-
 
 X1 = X[:, :, 0]
  X2 = X[:, :, 1]
@@ -731,7 +719,6 @@ range(len(in_seq1))])
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
  in_seq2 = in_seq2.reshape((len(in_seq2), 1))
  out_seq = out_seq.reshape((len(out_seq), 1))
-
 
     dataset = hstack((in_seq1, in_seq2, out_seq))
     # choose a number of time steps
@@ -790,7 +777,6 @@ previous section:
     [ 70 75 145]
     [ 80 85 165]
     [ 90 95 185]]
-
 
 
 ```
@@ -904,7 +890,6 @@ printed showing the input
     ```
 
 
-
 Vector-Output MLP Model
 
 We are now ready to fit an MLP model on this data. As with the previous
@@ -960,7 +945,6 @@ case of multivariate
     We can tie all of this together and demonstrate an MLP for multivariate output time series
     forecasting below.
 
-
 from numpy import array
  from numpy import hstack
  from keras.models import Sequential
@@ -1002,7 +986,6 @@ x_input = array([[70,75,145], [80,85,165], [90,95,185]])
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
-
 
 
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
@@ -1049,7 +1032,6 @@ where each output submodel will forecast a single time step.
     output layers of the model and the input and output shapes of each layer.
 
 ![](./images/88-3.png)
-
 
     When training the model, it will require three separate output arrays per sample. We can
     achieve this by converting the output training data that has the shape[7, 3]to three arrays
@@ -1110,7 +1092,6 @@ Tying all of this together, the complete example is listed below.
     n_input = X.shape[1] * X.shape[2]
 
 
-
     X = X.reshape((X.shape[0], n_input))
     # separate output
     y1 = y[:, 0].reshape((y.shape[0], 1))
@@ -1168,7 +1149,6 @@ split into samples with input and output components. Both the input and
 output components
 
 
-
 will be comprised of multiple time steps and may or may not have the
 same number of steps.
 
@@ -1222,7 +1202,6 @@ same number of steps.
     out_end_ix = end_ix + n_steps_out
     # check if we are beyond the sequence
     if out_end_ix > len(sequence):
-
 
 
     break
@@ -1330,7 +1309,6 @@ x_input = array([70, 80, 90])
  yhat = model.predict(x_input, verbose=0)
 
 
-
     print(yhat)
 
 ```
@@ -1390,7 +1368,6 @@ output series is separate
     steps of the output time series.
     Input:
 
-
 10, 15
 
 20, 25
@@ -1440,7 +1417,6 @@ sequences[end_ix-1:out_end_ix, -1]
  return array(X), array(y)
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
  in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
-
 
 
     out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
@@ -1501,7 +1477,6 @@ The output portion of the
     from numpy import array
     from numpy import hstack
     from keras.models import Sequential
-
 
 
 from keras.layers import Dense
@@ -1608,7 +1583,6 @@ Thesplitsequences()function below implements this behavior.
     y.append(seq_y)
 
 
-
     return array(X), array(y)
 
 ```
@@ -1663,7 +1637,6 @@ data was prepared as we expected.
 (5, 3, 3) (5, 2, 3)
 
 [[10 15 25]
-
 
 
 [20 25 45]
@@ -1740,7 +1713,6 @@ end_ix = i + n_steps_in
 if out_end_ix > len(sequences):
  break
 
-
     seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix:out_end_ix, :]
     X.append(seq_x)
     y.append(seq_y)
@@ -1795,7 +1767,6 @@ running the example a few times.
 [[ 91.28376 96.567 188.37575 100.54482 107.9219 208.108 ]]
 
 
-
     ```
 
 ### Extensions
@@ -1846,7 +1817,6 @@ APIs
 
     - Keras Core Layers API.
     https://keras.io/layers/core/
-
 
 
 ### Summary

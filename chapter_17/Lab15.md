@@ -31,8 +31,6 @@ This tutorial is divided into four parts; they are:
 
 
 
-
-
 #### Problem Description
 
     TheHousehold Power Consumptiondataset is a multivariate time series dataset that describes
@@ -91,7 +89,6 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_cons
  zip
 
 
-
     # mark all missing values
     dataset.replace('?', nan, inplace=True)
     # make dataset numeric
@@ -144,7 +141,6 @@ We can apply this function directly to the data within theDataFrame.
     # fill missing values with a value at the same time one day ago
     def fill_missing(values):
     one_day = 60 * 24
-
 
 
     for row in range(values.shape[0]):
@@ -203,7 +199,6 @@ This framing of the dataset also suggests that it would be useful to
 downsample the per-minute
 
 
-
     observations of power consumption to daily totals. This is not required, but makes sense, given
     that we are interested in total power per day. We can achieve this easily using theresample()
     function on the PandasDataFrame. Calling this function with the argument‘D’allows the
@@ -260,7 +255,6 @@ days).
     def evaluate_forecasts(actual, predicted):
     scores = list()
     # calculate an RMSE score for each day
-
 
 
     for i in range(actual.shape[1]):
@@ -327,7 +321,6 @@ weeks for training a predictive model.
     NumPysplit()function.
 
 
-
     # split a univariate dataset into train/test sets
     def split_dataset(data):
     # split into standard weeks
@@ -381,7 +374,6 @@ The complete code example is listed below.
     2083.4539999999984 2197.006000000004
 
 ```
-
 
 
 17.4.4 Walk-Forward Validation
@@ -441,7 +433,6 @@ We now have all of the elements to begin evaluating predictive models on
 the dataset.
 
 
-
 #### Develop Naive Forecast Models
 
     It is important to test naive forecast models on any new prediction problem. The results from
@@ -493,7 +484,6 @@ the entire prior week
     return last_week[:, 0]
 
 ```
-
 
 17.5.3 Weekly One-Year-Ago Persistent Forecast
 
@@ -552,7 +542,6 @@ developed in the previous
     is listed below.
 
 
-
 from math import sqrt
  from numpy import split
  from numpy import array
@@ -600,7 +589,6 @@ predictions.append(yhat_sequence)
 
 history.append(test[i, :])
  predictions = array(predictions)
-
 
 
     # evaluate predictions days for each week
@@ -662,7 +650,6 @@ overall RMSE scores for
 
 each model and in the daily scores for each forecast day. One exception
 is the forecast error for
-
 
 
     the first day (Sunday) where it appears that the daily persistence model performs better than
