@@ -35,9 +35,9 @@ This tutorial is divided into three parts; they are:
 2.  Modeling Feature Engineered Data
 3.  Modeling Raw Data
 
-477
 
-23.2. Activity Recognition Using Smartphones Dataset 478
+
+
 
 #### Activity Recognition Using Smartphones Dataset
 
@@ -88,7 +88,7 @@ following files:
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
-23.3. Modeling Feature Engineered Data 479
+
 
     # load a single file as a numpy array
     def load_file(filepath):
@@ -145,7 +145,7 @@ We can call this function to load all of the required data; for example:
     configurations perform on this problem. We will evaluate a diverse set of nonlinear and ensemble
     machine learning algorithms, specifically:
 
-23.3. Modeling Feature Engineered Data 480
+
 
 Nonlinear Algorithms:
 
@@ -203,7 +203,7 @@ This step is divided into
     the six activities (or classes). Theevaluatemodel()function below implements this behavior,
     evaluating a given model and returning the classification accuracy as a percentage.
 
-23.3. Modeling Feature Engineered Data 481
+
 
     # evaluate a single model
     def evaluate_model(trainX, trainy, testX, testy, model):
@@ -262,7 +262,7 @@ results by the classification
     print('Name=%s, Score=%.3f'% (name, score))
 
 ```
-23.3. Modeling Feature Engineered Data 482
+
 
 23.3.5 Complete Example
 
@@ -322,7 +322,7 @@ evaluating a suite of
 
     # evaluate a single model
 
-23.3. Modeling Feature Engineered Data 483
+
 
 def evaluate_model(trainX, trainy, testX, testy, model):
 model.fit(trainX, trainy)
@@ -383,7 +383,7 @@ running the example a few times.
 
 Defined 8 models
 
-23.4. Modeling Raw Data 484
+
 
     >knn: 90.329
     >cart: 86.020
@@ -447,7 +447,7 @@ make this clearer,
     there are 128 time steps and nine features, where the number of samples is the number of rows
     in any given raw signal data file. Theloadgroup()function below implements this behavior.
 
-23.4. Modeling Raw Data 485
+
 
 Thedstack()NumPy function allows us to stack each of the loaded 3D
 arrays into a single 3D
@@ -515,7 +515,7 @@ this with the NumPy
     testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
     print(testX.shape, testy.shape)
 
-23.4. Modeling Raw Data 486
+
 
     # flatten X
     trainX = trainX.reshape((trainX.shape[0], trainX.shape[1] * trainX.shape[2]))
@@ -571,7 +571,7 @@ filenames +=
 
 X = load_group(filenames, filepath)
 
-23.4. Modeling Raw Data 487
+
 
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
@@ -620,7 +620,7 @@ def summarize_results(results, maximize=True):
 
 mean_scores = [(k,v) for k,v in results.items()]
 
-23.4. Modeling Raw Data 488
+
 
     mean_scores = sorted(mean_scores, key=lambda x: x[1])
     # reverse for descending order (e.g. for accuracy)
@@ -694,7 +694,7 @@ Name=gbm, Score=87.615
  Name=cart, Score=72.141
  Name=knn, Score=61.893
 
-23.5. Extensions 489
+
 
     ```
 
@@ -747,7 +747,7 @@ go deeper.
     - sklearn.svmAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.svm
 
-23.7. Summary 490
+
 
     - sklearn.naivebayesAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.naive_bayes

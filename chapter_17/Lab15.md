@@ -29,9 +29,9 @@ This tutorial is divided into four parts; they are:
 3.  Model Evaluation
 4.  Develop Naive Forecast Models
 
-342
 
-17.2. Problem Description 343
+
+
 
 #### Problem Description
 
@@ -90,7 +90,7 @@ of active energy).
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
  zip
 
-17.3. Load and Prepare Dataset 344
+
 
     # mark all missing values
     dataset.replace('?', nan, inplace=True)
@@ -145,7 +145,7 @@ We can apply this function directly to the data within theDataFrame.
     def fill_missing(values):
     one_day = 60 * 24
 
-17.4. Model Evaluation 345
+
 
     for row in range(values.shape[0]):
     for col in range(values.shape[1]):
@@ -202,7 +202,7 @@ time series forecasting
 This framing of the dataset also suggests that it would be useful to
 downsample the per-minute
 
-17.4. Model Evaluation 346
+
 
     observations of power consumption to daily totals. This is not required, but makes sense, given
     that we are interested in total power per day. We can achieve this easily using theresample()
@@ -261,7 +261,7 @@ days).
     scores = list()
     # calculate an RMSE score for each day
 
-17.4. Model Evaluation 347
+
 
     for i in range(actual.shape[1]):
     # calculate mse
@@ -326,7 +326,7 @@ weeks for training a predictive model.
     knowledge of the dataset. The split datasets are then organized into weekly data using the
     NumPysplit()function.
 
-17.4. Model Evaluation 348
+
 
     # split a univariate dataset into train/test sets
     def split_dataset(data):
@@ -382,7 +382,7 @@ The complete code example is listed below.
 
 ```
 
-17.4. Model Evaluation 349
+
 
 17.4.4 Walk-Forward Validation
 
@@ -440,7 +440,7 @@ beneficial to the models
 We now have all of the elements to begin evaluating predictive models on
 the dataset.
 
-17.5. Develop Naive Forecast Models 350
+
 
 #### Develop Naive Forecast Models
 
@@ -493,7 +493,7 @@ the entire prior week
     return last_week[:, 0]
 
 ```
-17.5. Develop Naive Forecast Models 351
+
 
 17.5.3 Weekly One-Year-Ago Persistent Forecast
 
@@ -551,7 +551,7 @@ developed in the previous
     Tying all of this together, the complete example evaluating the three naive forecast strategies
     is listed below.
 
-17.5. Develop Naive Forecast Models 352
+
 
 from math import sqrt
  from numpy import split
@@ -601,7 +601,7 @@ predictions.append(yhat_sequence)
 history.append(test[i, :])
  predictions = array(predictions)
 
-17.5. Develop Naive Forecast Models 353
+
 
     # evaluate predictions days for each week
     score, scores = evaluate_forecasts(test[:, :, 0], predictions)
@@ -663,7 +663,7 @@ overall RMSE scores for
 each model and in the daily scores for each forecast day. One exception
 is the forecast error for
 
-17.6. Extensions 354
+
 
     the first day (Sunday) where it appears that the daily persistence model performs better than
     the two weekly strategies. We can use the week-oya strategy with an overall RMSE of 465.294

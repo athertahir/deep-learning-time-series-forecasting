@@ -35,9 +35,9 @@ This tutorial is divided into four parts; they are:
 3.  Tuned CNN Model
 4.  Multi-headed CNN Model
 
-491
 
-24.2. Activity Recognition Using Smartphones Dataset 492
+
+
 
 #### Activity Recognition Using Smartphones Dataset
 
@@ -87,7 +87,7 @@ evaluation for deep learning models.
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
-24.3. CNN for Activity Recognition 493
+
 
 24.3.1 Load Data
 
@@ -155,7 +155,7 @@ output data for
     # load all 9 files as a single array
     filenames = list()
 
-24.3. CNN for Activity Recognition 494
+
 
     # total acceleration
     filenames += ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
@@ -229,7 +229,7 @@ timesteps, features].
 series data, each window has 128 time steps, and a time step has nine
 variables or features. The
 
-24.3. CNN for Activity Recognition 495
+
 
     output for the model will be a six-element vector containing the probability of a given window
     belonging to each of the six activity types. These input and output dimensions are required
@@ -297,7 +297,7 @@ before the weights of the
     model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
     input_shape=(n_timesteps,n_features)))
 
-24.3. CNN for Activity Recognition 496
+
 
     model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
     model.add(Dropout(0.5))
@@ -360,7 +360,7 @@ functionsummarizeresults()below summarizes the results of a run.
     into a main function for the experiment, calledrunexperiment(), listed below. By default,
     the model is evaluated 10 times before the performance of the model is reported.
 
-24.3. CNN for Activity Recognition 497
+
 
 def run_experiment(repeats=10):
 trainX, trainy, testX, testy = load_dataset()
@@ -411,7 +411,7 @@ def load_dataset_group(group, prefix=''):
 
 filenames = list()
 
-24.3. CNN for Activity Recognition 498
+
 
     # total acceleration
     filenames += ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
@@ -465,7 +465,7 @@ def summarize_results(scores):
  m, s = mean(scores), std(scores)
  print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
-24.4. Tuned CNN Model 499
+
 
     def run_experiment(repeats=10):
     # load data
@@ -539,7 +539,7 @@ hyperparameter tuning.
     In this section, we will tune the model in an effort to further improve performance on the
     problem. We will look at three main areas:
 
-24.4. Tuned CNN Model 500
+
 
 1.  Data Preparation
 2.  Number of Filters
@@ -596,7 +596,7 @@ window.
     loaded.append(data)
     # stack group so that features are the 3rd dimension
 
-24.4. Tuned CNN Model 501
+
 
     loaded = dstack(loaded)
     return loaded
@@ -650,7 +650,7 @@ pyplot.yticks([])
  pyplot.xticks([-1,0,1])
  pyplot.show()
 
-24.4. Tuned CNN Model 502
+
 
     # load data
     trainX, trainy, testX, testy = load_dataset()
@@ -712,7 +712,7 @@ transform. It is first fit on the
     # fit on training data
     s.fit(longX)
 
-24.4. Tuned CNN Model 504
+
 
     # apply to training and test data
     longX = s.transform(longX)
@@ -776,7 +776,7 @@ scores = list()
  print('>p=%d #%d: %.3f'% (p, r+1, score))
  scores.append(score)
 
-24.4. Tuned CNN Model 505
+
 
     all_scores.append(scores)
     # summarize results
@@ -835,7 +835,7 @@ The complete code ```
     loaded = dstack(loaded)
     return loaded
 
-24.4. Tuned CNN Model 506
+
 
 def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
@@ -890,7 +890,7 @@ longX = s.transform(longX)
  flatTestX = s.transform(flatTestX)
 flatTrainX = flatTrainX.reshape((trainX.shape))
 
-24.4. Tuned CNN Model 507
+
 
     flatTestX = flatTestX.reshape((testX.shape))
     return flatTrainX, flatTestX
@@ -945,7 +945,7 @@ summarize_results(all_scores, params)
 
 n_params = [False, True]
 
-24.4. Tuned CNN Model 508
+
 
 run_experiment(n_params)
 
@@ -1046,7 +1046,7 @@ The complete code example is listed below.
     from pandas import read_csv
     from matplotlib import pyplot
 
-24.4. Tuned CNN Model 510
+
 
 from keras.models import Sequential
  from keras.layers import Dense
@@ -1101,7 +1101,7 @@ trainy = to_categorical(trainy)
  testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
-24.4. Tuned CNN Model 511
+
 
 def evaluate_model(trainX, trainy, testX, testy, n_filters):
  verbose, epochs, batch_size = 0, 10, 32
@@ -1157,7 +1157,7 @@ n_params = [8, 16, 32, 64, 128, 256]
 
 ```
 
-24.4. Tuned CNN Model 512
+
 
     Running the example repeats the experiment for each of the specified number of filters. At
     the end of the run, a summary of the results with each number of filters is presented. We can
@@ -1213,7 +1213,7 @@ to tune. The kernel
     from matplotlib import pyplot
     from keras.models import Sequential
 
-24.4. Tuned CNN Model 514
+
 
 from keras.layers import Dense
  from keras.layers import Flatten
@@ -1267,7 +1267,7 @@ trainy = to_categorical(trainy)
  testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
-24.4. Tuned CNN Model 515
+
 
 def evaluate_model(trainX, trainy, testX, testy, n_kernel):
  verbose, epochs, batch_size = 0, 15, 32
@@ -1325,7 +1325,7 @@ n_params = [2, 3, 5, 7, 11]
 Running the example tests each kernel size in turn. The results are
 summarized at the end
 
-24.4. Tuned CNN Model 516
+
 
 of the run. We can see a general increase in model performance with the
 increase in kernel
@@ -1366,7 +1366,7 @@ balance between good performance and low variance.
 more important elements. It might be interesting to explore combinations
 of some of the above
 
-24.5. Multi-headed CNN Model 517
+
 
     findings to see if performance can be lifted even further. It may also be interesting to increase
     the number of repeats from 10 to 30 or more to see if it results in more stable findings.
@@ -1426,7 +1426,7 @@ three-headed 1D CNN
     # evaluate model
     _, accuracy = model.evaluate([testX,testX,testX], testy, batch_size=batch_size, verbose=0)
 
-24.5. Multi-headed CNN Model 518
+
 
     return accuracy
 
@@ -1510,7 +1510,7 @@ trainy = trainy - 1
 trainy = to_categorical(trainy)
  testy = to_categorical(testy)
 
-24.5. Multi-headed CNN Model 520
+
 
     return trainX, trainy, testX, testy
 
@@ -1563,7 +1563,7 @@ scores = list()
  score = score * 100.0
  print('>#%d: %.3f' % (r+1, score))
 
-24.6. Extensions 521
+
 
     scores.append(score)
     # summarize results
@@ -1627,7 +1627,7 @@ wish to explore.
     - Date Preparation. Explore other data preparation schemes such as data normalization
     and perhaps normalization after standardization.
 
-24.7. Further Reading 522
+
 
     - Network Architecture. Explore other network architectures, such as deeper CNN
     architectures and deeper fully-connected layers for interpreting the CNN input features.

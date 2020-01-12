@@ -35,9 +35,9 @@ This tutorial is divided into five parts; they are:
 4.  Convolutional Neural Network Model
 5.  Recurrent Neural Network Models
 
-249
 
-14.2. Time Series Problem 250
+
+
 
 ### Time Series Problem
 
@@ -100,7 +100,7 @@ ground. This section is divided into the following parts:
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
-14.3. Model Evaluation Test Harness 251
+
 
 4.  Repeat Evaluation
 5.  Summarize Performance
@@ -154,7 +154,7 @@ Thetraintestsplit()
 
 ```
 
-14.3. Model Evaluation Test Harness 252
+
 
     We can see that on the second row, the value 1 is provided as input as an observation at the
     prior time step, and 2 is the next value in the series that can be predicted, or learned by the
@@ -212,7 +212,7 @@ for each observation
 
 ```
 
-14.3. Model Evaluation Test Harness 253
+
 
 Each time step of the test dataset is enumerated. A prediction is made
 using the fit model.
@@ -276,7 +276,7 @@ allowing the model to make
 
 ```
 
-14.3. Model Evaluation Test Harness 254
+
 
 14.3.4 Repeat Evaluation
 
@@ -337,7 +337,7 @@ specifically the mean and the
     prior observations relative to the time to be forecasted. We do not need to fit a model so the
     modelfit()function will be implemented to simply returnNone.
 
-14.3. Model Evaluation Test Harness 255
+
 def model_fit(train, config):
  return None
 
@@ -389,7 +389,7 @@ def model_fit(train, config):
 
 def model_predict(model, history, config):
 
-14.3. Model Evaluation Test Harness 256
+
 
     values = list()
     for offset in config:
@@ -442,7 +442,7 @@ summarize_scores('persistence', scores)
 Running the example prints the RMSE of the model evaluated using
 walk-forward validation
 
-14.4. Multilayer Perceptron Model 257
+
 
     on the final 12 months of data. The model is evaluated 30 times, although, because the model
     has no stochastic element, the score is the same each time.
@@ -503,7 +503,7 @@ MLP for short. This is a
     some number of nodes, then a single output layer. We will use the rectified linear activation
     function on the hidden layer as it performs well. We will use a linear activation function (the
 
-14.4. Multilayer Perceptron Model 258
+
 
     default) on the output layer because we are predicting a continuous value. The loss function for
     the network will be the mean squared error loss, or MSE, and we will use the efficient Adam
@@ -564,7 +564,7 @@ are updated.
     one or more samples of inputs when making a prediction, so providing a single sample requires
     the array to have the shape[1, ninput], whereninputis the number of time steps that the
 
-14.4. Multilayer Perceptron Model 259
+
 
     model expects as input. Similarly, thepredict()function returns an array of predictions, one
     for each sample provided as input. In the case of one prediction, there will be an array with one
@@ -608,7 +608,7 @@ the model, the
 Note that when the training data is framed as a supervised learning
 problem, there are only
 
-72 samples that can be used to train the model. Using a batch size of 72
+
 or more means that the
 
     model is being trained using batch gradient descent instead of mini-batch gradient descent. This
@@ -626,7 +626,7 @@ or more means that the
     from sklearn.metrics import mean_squared_error
     from keras.models import Sequential
 
-14.4. Multilayer Perceptron Model 260
+
 
 from keras.layers import Dense
  from matplotlib import pyplot
@@ -672,7 +672,7 @@ yhat = model.predict(x_input, verbose=0)
 def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 
-14.4. Multilayer Perceptron Model 261
+
 
     # split dataset
     train, test = train_test_split(data, n_test)
@@ -734,7 +734,7 @@ reported of about 1,526
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-14.4. Multilayer Perceptron Model 262
+
 
 ...
 
@@ -781,7 +781,7 @@ prediction is the average
 
 of 10-to-30 models.
 
-14.5. Convolutional Neural Network Model 263
+
 
 ![](./images/280-12.png)
 
@@ -811,7 +811,7 @@ within each snapshot as the network reads along the input sequence.
 A max pooling layer is used after convolutional layers to distill the
 weighted input features
 
-14.5. Convolutional Neural Network Model 264
+
 
     into those that are most salient, reducing the input size by 1/4. The pooled inputs are flattened
     to one long vector before being interpreted and used to make a one-step prediction.
@@ -871,7 +871,7 @@ are updated.
 
 ```
 
-14.5. Convolutional Neural Network Model 265
+
 
     Making a prediction with the fit CNN model is very much like making a prediction with
     the fit MLP model in the previous section. The one difference is in the requirement that we
@@ -932,7 +932,7 @@ Tying all of this together, the complete example is listed below.
     from keras.layers.convolutional import MaxPooling1D
     from matplotlib import pyplot
 
-14.5. Convolutional Neural Network Model 266
+
 
 def train_test_split(data, n_test):
  return data[:-n_test], data[-n_test:]
@@ -979,7 +979,7 @@ x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 yhat = model.predict(x_input, verbose=0)
  return yhat[0]
 
-14.5. Convolutional Neural Network Model 267
+
 
 def walk_forward_validation(data, n_test, cfg):
  predictions = list()
@@ -1036,7 +1036,7 @@ operated on the raw data
 
 directly without scaling or the data being made stationary.
 
-14.5. Convolutional Neural Network Model 268
+
 
     The standard deviation of the score is large, at about 57 sales, but is^13 the size of the
     standard deviation observed with the MLP model in the previous section. We have some
@@ -1099,7 +1099,7 @@ univariate time series
     - CNN-LSTM: A CNN network that learns input features and an LSTM that interprets
     them.
 
-14.6. Recurrent Neural Network Models 270
+
 
     - ConvLSTM: A combination of CNNs and LSTMs where the LSTM units read input
     data using the convolutional process of a CNN.
@@ -1157,7 +1157,7 @@ with a provided
     return [data[i] - data[i - interval] for i in range(interval, len(data))]
 
 ```
-14.6. Recurrent Neural Network Models 271
+
 
     We can make the difference order a hyperparameter to the model and only perform the
 
@@ -1224,7 +1224,7 @@ correction = 0.0
  history = difference(history, n_diff)
  x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
-14.6. Recurrent Neural Network Models 272
+
 
     # forecast
     yhat = model.predict(x_input, verbose=0)
@@ -1280,7 +1280,7 @@ for i in range(n_in, 0, -1):
 
 for i in range(0, n_out):
 
-14.6. Recurrent Neural Network Models 273
+
 
     cols.append(df.shift(-i))
     # put it all together
@@ -1327,7 +1327,7 @@ def walk_forward_validation(data, n_test, cfg):
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
-14.6. Recurrent Neural Network Models 274
+
 
     # seed history with training dataset
     history = [x for x in train]
@@ -1387,7 +1387,7 @@ a bad fit for autoregressive-type sequence prediction problems.
 
 ...
 
-14.6. Recurrent Neural Network Models 275
+
 
 > 2266.130
 
@@ -1422,7 +1422,7 @@ interpreted by an LSTM
     model. This combination of a CNN model used to read multiple subsequences over time by an
     LSTM is called a CNN-LSTM model. The model requires that each input sequence, e.g. 36
 
-14.6. Recurrent Neural Network Models 276
+
 
 months, is divided into multiple subsequences, each read by the CNN
 model, e.g. 3 subsequence
@@ -1501,7 +1501,7 @@ dataset.
 - nbatch: The number of samples within an epoch after which the weights
 are updated.
 
-14.6. Recurrent Neural Network Models 277
+
 
     # fit a model
     def model_fit(train, config):
@@ -1560,7 +1560,7 @@ The updatedmodelpredict()function is listed below.
 
 - nseq: 3 (i.e. 3 years)
 
-14.6. Recurrent Neural Network Models 278
+
 
 - nsteps: 12 (i.e. 1 year of months)
 
@@ -1615,7 +1615,7 @@ for i in range(0, n_out):
 
 agg = concat(cols, axis=1)
 
-14.6. Recurrent Neural Network Models 279
+
 
     agg.dropna(inplace=True)
     return agg.values
@@ -1664,7 +1664,7 @@ for i in range(len(test)):
 
 yhat = model_predict(model, history, cfg)
 
-14.6. Recurrent Neural Network Models 280
+
 
     # store forecast in list of predictions
     predictions.append(yhat)
@@ -1732,7 +1732,7 @@ cnn-lstm: 1626.735 RMSE (+/- 279.850)
 
 ```
 
-14.6. Recurrent Neural Network Models 281
+
 
     A box and whisker plot is also created summarizing the distribution of RMSE scores. The
     plot shows one single outlier of very poor performance just below 3,000 sales.
@@ -1760,7 +1760,7 @@ step at a time, the
     # reshape input samples
     train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps, 1))
 
-14.6. Recurrent Neural Network Models 282
+
 
 ```
 The shape is five-dimensional, with the dimensions: [samples,
@@ -1825,7 +1825,7 @@ verbose=0)
 
 ```
 
-14.6. Recurrent Neural Network Models 283
+
 
 A prediction is made with the fit model in the same way as the CNN-LSTM,
 although with
@@ -1886,7 +1886,7 @@ from math import sqrt
  from numpy import std
  from pandas import DataFrame
 
-14.6. Recurrent Neural Network Models 284
+
 
 from pandas import concat
  from pandas import read_csv
@@ -1940,7 +1940,7 @@ activation='relu',
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
 
-14.6. Recurrent Neural Network Models 285
+
 
     return model
 
@@ -1990,7 +1990,7 @@ series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
 n_test = 12
 config = [3, 12, 256, 3, 200, 200, 100]
 
-14.6. Recurrent Neural Network Models 286
+
 scores = repeat_evaluate(data, config, n_test)
 
 summarize_scores('convlstm', scores)
@@ -2059,7 +2059,7 @@ wish to explore.
     - Reduce Variance of Final Model. Explore one or more strategies to reduce the
     variance for one of the neural network models.
 
-14.8. Further Reading 288
+
 
     - Update During Walk-Forward. Explore whether re-fitting or updating a neural
     network model as part of walk-forward validation can further improve model performance.
@@ -2110,7 +2110,7 @@ go deeper.
     - How to develop and evaluate LSTMs, CNN-LSTMs, and ConvLSTM neural network
     models for time series forecasting.
 
-14.9. Summary 289
+
 
 14.9.1 Next
 

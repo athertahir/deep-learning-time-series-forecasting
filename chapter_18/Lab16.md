@@ -30,9 +30,9 @@ This tutorial is divided into five parts; they are:
 4.  Autocorrelation Analysis
 5.  Develop an Autoregressive Model
 
-356
 
-18.2. Problem Description 357
+
+
 
 #### Problem Description
 
@@ -87,7 +87,7 @@ of active energy).
     the variables. The Pearson’s correlation coefficient is a number between -1 and 1 that describes
     a negative or positive correlation respectively. A value of zero indicates no correlation.
 
-18.5. Autocorrelation Analysis 358
+
 
     We can calculate the correlation for time series observations with observations with previous
     time steps, called lags. Because the correlation of the time series observations is calculated with
@@ -145,7 +145,7 @@ AutoCorrelation Function, or the
     series = to_series(train)
 
 ```
-18.5. Autocorrelation Analysis 359
+
 
     We can then create a single figure that contains both an ACF and a PACF plot. The number
     of lag time steps can be specified. We will fix this to be one year of daily observations, or 365
@@ -205,7 +205,7 @@ PACF plots.
     # plots
     pyplot.figure()
 
-18.5. Autocorrelation Analysis 360
+
 
     lags = 365
     # acf
@@ -235,7 +235,7 @@ familiar autoregression
 
 ```
 
-18.6. Develop an Autoregressive Model 361
+
 
     Re-running the code example with this change results is a zoomed-in version of the plots
 
@@ -270,7 +270,7 @@ power consumption. For
     multiple ways of developing an AR model, such as using the AR, ARMA, ARIMA, and SARIMAX
     classes. For more information on developing SARIMAX models with the Statsmodels library,
 
-18.6. Develop an Autoregressive Model 362
+
 
     see Chapter 13. We will use the ARIMA implementation as it allows for easy expandability into
     differencing and moving average. First, the history data comprised of weeks of prior observations
@@ -328,7 +328,7 @@ isARIMA(7,0,0).
     This function can be used directly in the test harness described previously. The complete
     example is listed below.
 
-18.6. Develop an Autoregressive Model 363
+
 
 from math import sqrt
  from numpy import split
@@ -378,7 +378,7 @@ predictions.append(yhat_sequence)
 
 history.append(test[i, :])
 
-18.6. Develop an Autoregressive Model 364
+
 
     predictions = array(predictions)
     # evaluate predictions days for each week
@@ -441,7 +441,7 @@ kilowatts. This model has
 
     arima: [381.636] 393.8, 398.9, 357.0, 377.2, 393.9, 306.1, 432.2
 
-18.7. Extensions 365
+
 
     ```
 
@@ -466,7 +466,7 @@ wish to explore.
     improved by including seasonal autoregression elements. This may require the use of a
     SARIMA model.
 
-18.8. Further Reading 366
+
 
     - Explore ETS. Explore whether better results may be achieved by using an ETS model
     instead of an ARIMA model.

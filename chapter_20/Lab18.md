@@ -31,9 +31,9 @@ This tutorial is divided into nine parts; they are:
 4.  LSTMs for Multi-step Forecasting
 5.  Univariate Input and Vector Output
 
-394
 
-20.2. Problem Description 395
+
+
 
 6.  Encoder-Decoder LSTM With Univariate Input
 7.  Encoder-Decoder LSTM With Multivariate Input
@@ -88,7 +88,7 @@ of active energy).
     Refer to Chapter 19 for the details of the development of the new walk-forward validation
     framework for evaluating deep learning models on this problem.
 
-20.5. LSTMs for Multi-step Forecasting 396
+
 
 #### LSTMs for Multi-step Forecasting
 
@@ -144,7 +144,7 @@ the size and nature of this input include:
 
 - The prior seven days.
 
-20.6. Univariate Input and Vector Output 397
+
 
 - The prior two weeks.
 
@@ -208,7 +208,7 @@ problem. Below is a function
     namedtosupervised()that takes a list of weeks (history) and the number of time steps to
     use as inputs and outputs and returns the data in the overlapping moving window format.
 
-20.6. Univariate Input and Vector Output 398
+
 
     # convert history into inputs and outputs
     def to_supervised(train, n_input, n_out=7):
@@ -271,7 +271,7 @@ it is trained. This means
     n_timesteps, n_features, n_outputs = train_x.shape[1], train_x.shape[2], train_y.shape[1]
     # define model
 
-20.6. Univariate Input and Vector Output 399
+
 
     model = Sequential()
     model.add(LSTM(200, activation='relu', input_shape=(n_timesteps, n_features)))
@@ -324,7 +324,7 @@ the weekly structure so
     yhat = yhat[0]
 
 ```
-20.6. Univariate Input and Vector Output 400
+
 
 Theforecast()function below implements this and takes as arguments the
 model fit on
@@ -433,7 +433,7 @@ def forecast(model, history, n_input):
 data = array(history)
  data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-20.6. Univariate Input and Vector Output 402
+
 
     # retrieve last observations for input data
     input_x = data[-n_input:, 0]
@@ -493,7 +493,7 @@ less than 465 kilowatts achieved by a naive model.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-20.6. Univariate Input and Vector Output 403
+
 
 lstm: [399.456] 419.4, 422.1, 384.5, 395.1, 403.9, 317.7, 441.5
 
@@ -529,7 +529,7 @@ the model may result
 
 in better performance.
 
-20.7. Encoder-Decoder LSTM With Univariate Input 404
+
 
 Note: Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
@@ -566,7 +566,7 @@ model will be comprised
 of two sub models, the encoder to read and encode the input sequence,
 and the decoder that
 
-20.7. Encoder-Decoder LSTM With Univariate Input 405
+
 
 will read the encoded input sequence and make a one-step prediction for
 each element in the
@@ -629,7 +629,7 @@ the wrapped layers to be used for each time step from the decoder.
     the same weights to perform the interpretation. An alternative would be to flatten all of the
     structure created by the LSTM decoder and to output the vector directly. You can try this as
 
-20.7. Encoder-Decoder LSTM With Univariate Input 406
+
 
 an extension to see how it compares. The network therefore outputs a
 three-dimensional vector
@@ -696,7 +696,7 @@ listed below.
     train, test = data[1:-328], data[-328:-6]
     # restructure into windows of weekly data
 
-20.7. Encoder-Decoder LSTM With Univariate Input 407
+
 
     train = array(split(train, len(train)/7))
     test = array(split(test, len(test)/7))
@@ -747,7 +747,7 @@ verbose, epochs, batch_size = 0, 20, 16
  n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
 
-20.7. Encoder-Decoder LSTM With Univariate Input 408
+
 
     # reshape output into [samples, timesteps, features]
     train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
@@ -803,7 +803,7 @@ train, test = split_dataset(dataset.values)
 
 n_input = 14
 
-20.7. Encoder-Decoder LSTM With Univariate Input 409
+
 
     score, scores = evaluate_model(train, test, n_input)
     # summarize scores
@@ -871,7 +871,7 @@ X.append(data[in_start:in_end, :])
 ```
 The completetosupervised()function with this change is listed below.
 
-20.8. Encoder-Decoder LSTM With Multivariate Input 411
+
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
@@ -930,7 +930,7 @@ data. The complete example is listed below.
 from math import sqrt
  from numpy import split
 
-20.8. Encoder-Decoder LSTM With Multivariate Input 412
+
 
 from numpy import array
  from pandas import read_csv
@@ -981,7 +981,7 @@ in_end = in_start + n_input
 
 if out_end < len(data):
 
-20.8. Encoder-Decoder LSTM With Multivariate Input 413
+
 
     X.append(data[in_start:in_end, :])
     y.append(data[in_end:out_end, 0])
@@ -1034,7 +1034,7 @@ yhat_sequence = forecast(model, history, n_input)
 
 predictions.append(yhat_sequence)
 
-20.8. Encoder-Decoder LSTM With Multivariate Input 414
+
 
     history.append(test[i, :])
     # evaluate predictions days for each week
@@ -1109,7 +1109,7 @@ consumption. We will define
     layers followed by a max pooling layer, the results of which are then flattened.
     The first convolutional layer reads across the input sequence and projects the results onto
 
-20.9. CNN-LSTM Encoder-Decoder With Univariate Input 416
+
 
 feature maps. The second performs the same operation on the feature maps
 created by the first
@@ -1179,7 +1179,7 @@ from math import sqrt
  from numpy import array
  from pandas import read_csv
 
-20.9. CNN-LSTM Encoder-Decoder With Univariate Input 417
+
 
 from sklearn.metrics import mean_squared_error
  from matplotlib import pyplot
@@ -1229,7 +1229,7 @@ for _ in range(len(data)):
 in_end = in_start + n_input
  out_end = in_end + n_out
 
-20.9. CNN-LSTM Encoder-Decoder With Univariate Input 418
+
 
     if out_end < len(data):
     x_input = data[in_start:in_end, 0]
@@ -1281,7 +1281,7 @@ model = build_model(train, n_input)
 
 history = [x for x in train]
 
-20.9. CNN-LSTM Encoder-Decoder With Univariate Input 419
+
 
     predictions = list()
     for i in range(len(test)):
@@ -1363,7 +1363,7 @@ which we can interpret
     as one row with 14 columns, if we assume that we are using two weeks of data as input. For
     the ConvLSTM, this would be a single read: that is, the LSTM would read one time step of 14
 
-20.10. ConvLSTM Encoder-Decoder With Univariate Input 421
+
 
 days and perform a convolution across those time steps.
 
@@ -1436,7 +1436,7 @@ model = Sequential()
 activation='relu',
  input_shape=(n_steps, 1, n_length, n_features)))
 
-20.10. ConvLSTM Encoder-Decoder With Univariate Input 422
+
 
     model.add(Flatten())
     model.add(RepeatVector(n_outputs))
@@ -1503,7 +1503,7 @@ from math import sqrt
  from keras.layers import Dense
  from keras.layers import Flatten
 
-20.10. ConvLSTM Encoder-Decoder With Univariate Input 423
+
 
 from keras.layers import LSTM
  from keras.layers import RepeatVector
@@ -1553,7 +1553,7 @@ if out_end < len(data):
  X.append(x_input)
  y.append(data[in_end:out_end, 0])
 
-20.10. ConvLSTM Encoder-Decoder With Univariate Input 424
+
 
     in_start += 1
     return array(X), array(y)
@@ -1607,7 +1607,7 @@ yhat_sequence = forecast(model, history, n_steps, n_length, n_input)
 
 predictions.append(yhat_sequence)
 
-20.10. ConvLSTM Encoder-Decoder With Univariate Input 425
+
 
     # get real observation and add to history for predicting the next week
     history.append(test[i, :])
@@ -1682,7 +1682,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-20.12. Further Reading 427
+
 
 #### Further Reading
 
@@ -1736,7 +1736,7 @@ to systematically work
 
 ### Time Series Classification
 
-428
+
 
 ### Overview
 

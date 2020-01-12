@@ -33,9 +33,9 @@ This tutorial is divided into six parts; they are:
 2.  Develop a Grid Search Framework
 3.  Case Study 1: No Trend or Seasonality
 
-172
 
-11.2. Simple Forecasting Strategies 173
+
+
 
 4.  Case Study 2: Trend
 5.  Case Study 3: Seasonality
@@ -101,7 +101,7 @@ for i in range(1, len(data)+1):
  print(naive_forecast(data, i))
 
 ```
-11.3. Develop a Grid Search Framework 174
+
 
 Running the example first prints the contrived dataset, then the naive
 forecast for each offset
@@ -161,7 +161,7 @@ from numpy import mean
 
 def average_forecast(history, config):
 
-11.3. Develop a Grid Search Framework 175
+
 
     n, avg_type = config
     # mean of last n values
@@ -231,7 +231,7 @@ for i in range(1, n+1):
  ix = i * offset
  values.append(history[-ix])
 
-11.3. Develop a Grid Search Framework 176
+
 
     # mean of last n values
     if avg_type is 'mean':
@@ -293,7 +293,7 @@ specifically the n-offset into
 the history that is used to either persist values or determine the
 number of values to average.
 
-11.3. Develop a Grid Search Framework 177
+
 
     It is helpful to have both strategies supported by one function so that we can test a suite of
     configurations for both strategies at once as part of a broader grid search of simple models. The
@@ -355,7 +355,7 @@ test sets and evaluating
     def measure_rmse(actual, predicted):
     return sqrt(mean_squared_error(actual, predicted))
 
-11.3. Develop a Grid Search Framework 178
+
 
 ```
     We can now implement the walk-forward validation scheme. This is a standard approach to
@@ -413,7 +413,7 @@ We can also
     # convert config to a key
     key = str(cfg)
 
-11.3. Develop a Grid Search Framework 179
+
 
     # show all warnings and fail on exception if debugging
     if debug:
@@ -467,7 +467,7 @@ your hardware.
 
 (^1) Note, you may have to install Joblib:pip install joblib
 
-11.3. Develop a Grid Search Framework 180
+
 
     That’s it. We can also provide a non-parallel version of evaluating all model configurations
     in case we want to debug something.
@@ -524,7 +524,7 @@ create a list
     for o in offsets:
     for t in ['persist', 'mean', 'median']:
 
-11.3. Develop a Grid Search Framework 181
+
 
     cfg = [i, o, t]
     configs.append(cfg)
@@ -586,7 +586,7 @@ univariate time series
     def train_test_split(data, n_test):
     return data[:-n_test], data[-n_test:]
 
-11.3. Develop a Grid Search Framework 182
+
 
 def walk_forward_validation(data, n_test, cfg):
  predictions = list()
@@ -641,7 +641,7 @@ scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
 
-11.3. Develop a Grid Search Framework 183
+
 
     return scores
 
@@ -701,7 +701,7 @@ website^2. The results
 
 (^2) https://datamarket.com/data/list/?q=provider:tsdl
 
-11.4. Case Study 1: No Trend or Seasonality 184
+
 
     demonstrated on each dataset provide a baseline of performance that can be used to compare
     more sophisticated methods, such as SARIMA, ETS, and even machine learning methods.
@@ -762,7 +762,7 @@ test set.
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
  csv
 
-11.4. Case Study 1: No Trend or Seasonality 185
+
 
 (365, 1)
 
@@ -793,7 +793,7 @@ from math import sqrt
  from sklearn.metrics import mean_squared_error
  from pandas import read_csv
 
-11.4. Case Study 1: No Trend or Seasonality 186
+
 
 def simple_forecast(history, config):
  n, offset, avg_type = config
@@ -846,7 +846,7 @@ error = measure_rmse(test, predictions)
 
 def score_model(data, n_test, cfg, debug=False):
 
-11.4. Case Study 1: No Trend or Seasonality 187
+
 
     result = None
     # convert config to a key
@@ -900,7 +900,7 @@ index_col=0)
 n_test = 165
 max_length = len(data) - n_test
  cfg_list = simple_configs(max_length)
-11.5. Case Study 2: Trend 188
+
 
     scores = grid_search(data, cfg_list, n_test)
     print('done')
@@ -955,7 +955,7 @@ period. You can download the dataset directly from here:
 (^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
-11.5. Case Study 2: Trend 189
+
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 print(series.shape)
@@ -999,7 +999,7 @@ sales dataset
 
 obvious seasonality.
 
-11.5. Case Study 2: Trend 190
+
 
 ![](./images/207-9.png)
 
@@ -1029,7 +1029,7 @@ if avg_type == 'persist':
 values = list()
  if offset == 1:
 
-11.5. Case Study 2: Trend 191
+
 
     values = history[-n:]
     else:
@@ -1083,7 +1083,7 @@ if debug:
 
 try:
 
-11.5. Case Study 2: Trend 192
+
 
     # never show warnings when grid searching, too noisy
     with catch_warnings():
@@ -1138,7 +1138,7 @@ for cfg, error in scores[:3]:
 Running the example prints the configurations and the RMSE are printed
 as the models are
 
-11.6. Case Study 3: Seasonality 193
+
 
     evaluated. The top three model configurations and their error are reported at the end of the
     run.
@@ -1198,7 +1198,7 @@ summarize
 (^5)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
-11.6. Case Study 3: Seasonality 194
+
 
     # plot
     pyplot.plot(series)
@@ -1234,7 +1234,7 @@ years, or 240 observations.
     A line plot of the series is also created. We can see that there is no obvious trend and an
     obvious seasonality structure.
 
-11.6. Case Study 3: Seasonality 195
+
 
 ![](./images/212-10.png)
 
@@ -1267,7 +1267,7 @@ from math import sqrt
  from numpy import median
  from multiprocessing import cpu_count
 
-11.6. Case Study 3: Seasonality 196
+
 
 from joblib import Parallel
  from joblib import delayed
@@ -1320,7 +1320,7 @@ yhat = simple_forecast(history, cfg)
 
 predictions.append(yhat)
 
-11.6. Case Study 3: Seasonality 197
+
 
     history.append(test[i])
     # estimate prediction error
@@ -1376,7 +1376,7 @@ def simple_configs(max_length, offsets=[1]):
 if **name** =='**main**':
 series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
 
-11.7. Case Study 4: Trend and Seasonality 198
+
 
     data = series.values
     # data split
@@ -1431,7 +1431,7 @@ Canada between
 
 1960 and 1968. You can download the dataset directly from here:
 
-11.7. Case Study 4: Trend and Seasonality 199
+
 
 - monthly-car-sales.csv^6
 
@@ -1489,7 +1489,7 @@ as the test set.
 (^6)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
-11.7. Case Study 4: Trend and Seasonality 200
+
 
 ![](./images/217-11.png)
 
@@ -1519,7 +1519,7 @@ from math import sqrt
  from sklearn.metrics import mean_squared_error
  from pandas import read_csv
 
-11.7. Case Study 4: Trend and Seasonality 201
+
 
 def simple_forecast(history, config):
  n, offset, avg_type = config
@@ -1572,7 +1572,7 @@ error = measure_rmse(test, predictions)
 
 def score_model(data, n_test, cfg, debug=False):
 
-11.7. Case Study 4: Trend and Seasonality 202
+
 
     result = None
     # convert config to a key
@@ -1625,7 +1625,7 @@ series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
 n_test = 12
 max_length = len(data) - n_test
  cfg_list = simple_configs(max_length, offsets=[1,12])
-11.8. Extensions 203
+
 
     scores = grid_search(data, cfg_list, n_test)
     print('done')
@@ -1679,7 +1679,7 @@ wish to explore.
     - Drift Method. Implement the drift method for simple forecasts and compare the results
     to the average and naive methods.
 
-11.9. Further Reading 204
+
 
     - Another Dataset. Apply the developed framework to an additional univariate time
     series problem (e.g. from the Time Series Dataset Library).
@@ -1731,7 +1731,7 @@ go deeper.
     - Forecasting, Wikipedia.
     https://en.wikipedia.org/wiki/Forecasting
 
-11.10. Summary 205
+
 
 ###0Summary
 

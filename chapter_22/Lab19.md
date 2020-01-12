@@ -34,9 +34,9 @@ This tutorial is divided into 10 parts; they are:
 2.  Download the Dataset
 3.  Load the Dataset
 
-443
 
-22.2. Activity Recognition Using Smartphones Dataset 444
+
+
 
 4.  Balance of Activity Classes
 5.  Plot Time Series Per Subject
@@ -73,7 +73,7 @@ Learning Repository^1.
 (^1)
 https://archive.ics.uci.edu/ml/datasets/human+activity+recognition+using+smartphones
 
-22.2. Activity Recognition Using Smartphones Dataset 445
+
 
 data. Video was recorded of each subject performing the activities and
 the movement data was
@@ -140,7 +140,7 @@ Smartphones, 2013.
 
 (^2) View on YouTube:https://www.youtube.com/watch?v=XOEN9W05_4A
 
-22.3. Download the Dataset 446
+
 
     Feature engineering was applied to the window data, and a copy of the data with these
     engineered features was made available. A number of time and frequency features commonly
@@ -201,7 +201,7 @@ important elements:
 (^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
-22.4. Load the Dataset 447
+
 
 - AnInertial Signalsfolder that contains the preprocessed data.
 
@@ -275,7 +275,7 @@ def load_file(filepath):
 data = load_file('HARDataset/train/Inertial
 Signals/total_acc_y_train.txt')
 
-22.4. Load the Dataset 448
+
 
     print(data.shape)
 
@@ -332,7 +332,7 @@ windows of data, where each window has 128 observations.
     loaded = dstack(loaded)
     return loaded
 
-22.4. Load the Dataset 449
+
 
 filenames =
 ['total_acc_x_train.txt','total_acc_y_train.txt','total_acc_z_train.txt']
@@ -403,7 +403,7 @@ def load_file(filepath):
 
 def load_group(filenames, prefix=''):
 
-22.5. Balance of Activity Classes 450
+
 
     loaded = list()
     for name in filenames:
@@ -459,7 +459,7 @@ activity. We believe that
     both check that the data is indeed balanced, making it easier to model, and confirm that we are
     correctly loading and interpreting the dataset. We can develop a function that summarizes the
 
-22.5. Balance of Activity Classes 451
+
 
 breakdown of the output variables, e.g. theyvariable. The
 functionclassbreakdown()below
@@ -519,7 +519,7 @@ print('Train Dataset')
  class_breakdown(trainy)
 testy = load_file('HARDataset/test/y_test.txt')
 
-22.6. Plot Time Series Per Subject 452
+
 
     print('Test Dataset')
     class_breakdown(testy)
@@ -581,7 +581,7 @@ in the observations
     trainX, trainy = load_dataset('train', 'HARDataset/')
 
 ```
-22.6. Plot Time Series Per Subject 453
+
 
     Next, we can load thesubjecttrain.txtin thetraindirectory that provides a mapping
     of rows to the subject to which it belongs. We can load this file using theloadfile()function.
@@ -645,7 +645,7 @@ looking at.
 
     # plot the data for one subject
 
-22.6. Plot Time Series Per Subject 454
+
 
 def plot_subject(X, y):
  pyplot.figure()
@@ -698,7 +698,7 @@ def load_file(filepath):
 
 def load_group(filenames, prefix=''):
 
-22.6. Plot Time Series Per Subject 455
+
 
     loaded = list()
     for name in filenames:
@@ -753,7 +753,7 @@ for i in range(3):
  pyplot.plot(to_series(X[:, :, off]))
  pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
 
-22.6. Plot Time Series Per Subject 456
+
 
     pyplot.yticks([])
     pyplot.xticks([])
@@ -814,7 +814,7 @@ variables and the output class.
 3: the walking activities. We can also see much less activity (i.e. a
 relatively straight line) for
 
-22.6. Plot Time Series Per Subject 457
+
 
     higher numbered activities, 4, 5, and 6 (sitting, standing, and laying). This is good confirmation
     that we have correctly loaded interpreted the raw dataset. We can see that this subject has
@@ -866,7 +866,7 @@ detected movements
     pyplot.figure()
     # get unique subjects
 
-22.7. Plot Distribution Per Subject 459
+
 
     subject_ids = unique(sub_map[:,0])
     # enumerate subjects
@@ -923,7 +923,7 @@ variables.
     loaded = dstack(loaded)
     return loaded
 
-22.7. Plot Distribution Per Subject 460
+
 
 def load_dataset(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
@@ -978,7 +978,7 @@ for i in range(3):
  pyplot.xticks([-1,0,1])
  pyplot.show()
 
-22.7. Plot Distribution Per Subject 461
+
 
 X, y = load_dataset('train','HARDataset/')
 
@@ -1061,7 +1061,7 @@ movement data for
     return {a:X[y[:,0]==a, :, :] for a in activities}
 
 ```
-22.8. Plot Distribution Per Activity 464
+
 
     We can now create plots per activity for a given subject. Theplotactivityhistograms()
     function below implements this function for the traces data for a given subject. First, the data
@@ -1118,7 +1118,7 @@ variables.
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
     return dataframe.values
 
-22.8. Plot Distribution Per Activity 465
+
 
 def load_group(filenames, prefix=''):
  loaded = list()
@@ -1173,7 +1173,7 @@ def plot_activity_histograms(X, y, offset):
 
 activity_ids = unique(y[:,0])
 
-22.8. Plot Distribution Per Activity 466
+
 
     # group windows by activity
     grouped = data_by_activity(X, y, activity_ids)
@@ -1290,7 +1290,7 @@ functionplotactivitydurationsbysubject()
     def plot_activity_durations_by_subject(X, y, sub_map):
     # get unique subjects and activities
 
-22.9. Plot Distribution of Activity Duration 470
+
 
     subject_ids = unique(sub_map[:,0])
     activity_ids = unique(y[:,0])
@@ -1346,7 +1346,7 @@ filenames +=
 
 X = load_group(filenames, filepath)
 
-22.9. Plot Distribution of Activity Duration 471
+
 
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
@@ -1405,7 +1405,7 @@ activities (4, 5 and 6) and
 less time on the in motion activities (1, 2 and 3), with the
 distribution for 3 being the smallest,
 
-22.9. Plot Distribution of Activity Duration 472
+
 
 or where time was spent least. The spread across the activities is not
 large, suggesting little
@@ -1461,7 +1461,7 @@ problem. The framing of the
     This is a reasonable and useful framing of the problem. Some other possible ways to frame
     the provided data as a prediction problem include the following:
 
-22.10. Approach to Modeling 474
+
 
 - Predict activity given a time step of movement data.
 
@@ -1527,7 +1527,7 @@ explored in order to
 determine the most suitable model for the problem; some candidate models
 to explore include:
 
-22.11. Model Evaluation 475
+
 
 - Common linear, nonlinear, and ensemble machine learning algorithms.
 
@@ -1580,7 +1580,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-22.14. Summary 476
+
 
 22.13.1 Papers
 

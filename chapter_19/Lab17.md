@@ -35,9 +35,9 @@ This tutorial is divided into seven parts; they are:
 4.  CNNs for Multi-step Forecasting
 5.  Univariate CNN Model
 
-367
 
-19.2. Problem Description 368
+
+
 
 6.  Multi-channel CNN Model
 7.  Multi-headed CNN Model
@@ -141,7 +141,7 @@ models that are faster to
     return score, scores
 
 ```
-19.5. CNNs for Multi-step Forecasting 370
+
 
     Once we have the evaluation for a model, we can summarize the performance. The function
     below, namedsummarizescores(), will display the performance of a model as a single line for
@@ -204,7 +204,7 @@ and error. Given the
     and report the mean performance on a test dataset. In the interest of brevity and keeping the
     code simple, we will instead present single-runs of models in this tutorial.
 
-19.6. Univariate CNN Model 371
+
 
 #### Univariate CNN Model
 
@@ -261,7 +261,7 @@ training to predict the
     We then need to iterate over the time steps and divide the data into overlapping windows;
     each iteration moves along one time step and predicts the subsequent seven days. For example:
 
-19.6. Univariate CNN Model 372
+
 
     Input, Output
     [d01, d02, d03, d04, d05, d06, d07], [d08, d09, d10, d11, d12, d13, d14]
@@ -323,7 +323,7 @@ problem. Below is a function
     and fit the model for 20 epochs with a batch size of 4. The small batch size and the stochastic
     nature of the algorithm means that the same model will learn a slightly different mapping of
 
-19.6. Univariate CNN Model 373
+
 
     inputs to outputs each time it is trained. This means results may vary when the model is
     evaluated. You can try running the model multiple times and calculating an average of model
@@ -378,7 +378,7 @@ the weekly structure so
     input_x = data[-n_input:, 0]
 
 ```
-19.6. Univariate CNN Model 374
+
 
 Next, we reshape the input into the expected three-dimensional
 structure.
@@ -440,7 +440,7 @@ from math import sqrt
 
 def split_dataset(data):
 
-19.6. Univariate CNN Model 375
+
 
     train, test = data[1:-328], data[-328:-6]
     # restructure into windows of weekly data
@@ -542,7 +542,7 @@ index_col=['datetime'])
 
 train, test = split_dataset(dataset.values)
 
-19.6. Univariate CNN Model 377
+
 
     n_input = 7
     score, scores = evaluate_model(train, test, n_input)
@@ -697,7 +697,7 @@ performance.
 n_input = 14
 
 ```
-19.7. Multi-channel CNN Model 381
+
 
     Finally, the model used in the previous section does not perform well on this new framing
     of the problem. The increase in the amount of data requires a larger and more sophisticated
@@ -757,7 +757,7 @@ training dataset is
     # restructure into windows of weekly data
     train = array(split(train, len(train)/7))
 
-19.7. Multi-channel CNN Model 382
+
 
     test = array(split(test, len(test)/7))
     return train, test
@@ -807,7 +807,7 @@ train_x.shape[2], train_y.shape[1]
 model = Sequential()
  model.add(Conv1D(filters=32, kernel_size=3, activation='relu',
 
-19.7. Multi-channel CNN Model 383
+
 
     input_shape=(n_timesteps,n_features)))
     model.add(Conv1D(filters=32, kernel_size=3, activation='relu'))
@@ -863,7 +863,7 @@ train, test = split_dataset(dataset.values)
 n_input = 14
  score, scores = evaluate_model(train, test, n_input)
 
-19.7. Multi-channel CNN Model 384
+
 
 summarize_scores('cnn', score, scores)
 days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
@@ -943,7 +943,7 @@ layers in lists. This is
     # create a channel for each variable
     in_layers, out_layers = list(), list()
 
-19.8. Multi-headed CNN Model 386
+
 
     for i in range(n_features):
     inputs = Input(shape=(n_timesteps,1))
@@ -1008,7 +1008,7 @@ prepare the training
     # interpretation
     dense1 = Dense(200, activation='relu')(merged)
 
-19.8. Multi-headed CNN Model 387
+
 
     dense2 = Dense(100, activation='relu')(dense1)
     outputs = Dense(n_outputs)(dense2)
@@ -1054,7 +1054,7 @@ def forecast(model, history, n_input):
 data = array(history)
  data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-19.8. Multi-headed CNN Model 388
+
 
     input_x = data[-n_input:, :]
     # reshape into n input arrays
@@ -1108,7 +1108,7 @@ s = 0
  score = sqrt(s / (actual.shape[0] * actual.shape[1]))
  return score, scores
 
-19.8. Multi-headed CNN Model 389
+
 
 def summarize_scores(name, score, scores):
  s_scores = ','.join(['%.1f' % s for s in scores])
@@ -1158,7 +1158,7 @@ in_layers, out_layers = list(), list()
  conv2 = Conv1D(filters=32, kernel_size=3, activation='relu')(conv1)
  pool1 = MaxPooling1D(pool_size=2)(conv2)
  flat = Flatten()(pool1)
-19.8. Multi-headed CNN Model 390
+
 
     in_layers.append(inputs)
     out_layers.append(flat)
@@ -1213,7 +1213,7 @@ predictions = array(predictions)
 
 dataset = read_csv('household_power_consumption_days.csv', header=0,
 
-19.8. Multi-headed CNN Model 391
+
 
 infer_datetime_format=True, parse_dates=['datetime'],
 index_col=['datetime'])

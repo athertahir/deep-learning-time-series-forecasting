@@ -32,9 +32,9 @@ This tutorial is divided into five parts; they are:
 4.  Convolutional Neural Network Model
 5.  Long Short-Term Memory Network Model
 
-290
 
-15.2. Time Series Problem 291
+
+
 
 ### Time Series Problem
 
@@ -103,7 +103,7 @@ Running the example first prints the shape of the dataset.
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv
 
-15.2. Time Series Problem 292
+
 
     The dataset is monthly and has 12 years, or 144 observations. In our testing, we will use the
     last year, or 12 observations, as the test set. A line plot is created. The dataset has an obvious
@@ -128,7 +128,7 @@ defined our problem and
 expectations of model skill, we can look at defining the grid search
 test harness.
 
-15.3. Develop a Grid Search Framework 293
+
 
 ### Develop a Grid Search Framework
 
@@ -183,7 +183,7 @@ three years, or 36 time
     input and output elements we require. When a series is shifted down,NaNvalues are introduced
     because we don’t have values beyond the start of the series.
 
-15.3. Develop a Grid Search Framework 294
+
 
     (t)
     1
@@ -241,7 +241,7 @@ for each observation
     in the test dataset one at a time. After each forecast is made for a time step in the test
     dataset, the true observation for the forecast is added to the test dataset and made available to
 
-15.3. Develop a Grid Search Framework 295
+
 
     the model. Simpler models can be refit with the observation prior to making the subsequent
     prediction. More complex models, such as neural networks, are not refit given the much greater
@@ -305,7 +305,7 @@ allowing the model to make
     train, test = train_test_split(data, n_test)
     # fit model
 
-15.3. Develop a Grid Search Framework 296
+
 
     model = model_fit(train, cfg)
     # seed history with training dataset
@@ -367,7 +367,7 @@ function to drive the search. We
     can define agridsearch()function that takes the dataset, a list of configurations to search,
     and the number of observations to use as the test set and perform the search. Once mean scores
 
-15.3. Develop a Grid Search Framework 297
+
 
     are calculated for each config, the list of configurations is sorted in ascending order so that the
     best scores are listed first. The complete function is listed below.
@@ -422,7 +422,7 @@ value at the negative relative offset.
     def train_test_split(data, n_test):
     return data[:-n_test], data[-n_test:]
 
-15.3. Develop a Grid Search Framework 298
+
 
 def measure_rmse(actual, predicted):
  return sqrt(mean_squared_error(actual, predicted))
@@ -473,7 +473,7 @@ series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
  data = series.values
 
-15.4. Multilayer Perceptron Model 299
+
 
     # data split
     n_test = 12
@@ -531,7 +531,7 @@ persistence model.
 
 - nepochs: The number of training epochs (e.g. 1000).
 
-15.4. Multilayer Perceptron Model 300
+
 
 - nbatch: The number of samples to include in each mini-batch (e.g. 32).
 
@@ -590,7 +590,7 @@ We can now define and fit the model with the provided configuration.
 ```
 The complete implementation of themodelfit()function is listed below.
 
-15.4. Multilayer Perceptron Model 301
+
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -657,7 +657,7 @@ x_input = array(history[-n_input:]).reshape((1, n_input))
 
 Finally, a prediction can be made.
 
-15.4. Multilayer Perceptron Model 302
+
 
     # make forecast
     yhat = model.predict(x_input, verbose=0)
@@ -720,7 +720,7 @@ values of the hyperparameters to grid search.
     def train_test_split(data, n_test):
     return data[:-n_test], data[-n_test:]
 
-15.4. Multilayer Perceptron Model 303
+
 
 def series_to_supervised(data, n_in, n_out=1):
  df = DataFrame(data)
@@ -767,7 +767,7 @@ correction = 0.0
 
 x_input = array(history[-n_input:]).reshape((1, n_input))
 
-15.4. Multilayer Perceptron Model 304
+
 
     # make forecast
     yhat = model.predict(x_input, verbose=0)
@@ -821,7 +821,7 @@ n_input = [12]
  n_diff = [0, 12]
 configs = list()
 
-15.4. Multilayer Perceptron Model 305
+
 
     for i in n_input:
     for j in n_nodes:
@@ -874,7 +874,7 @@ A truncated example output of the grid search is listed below.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-15.5. Convolutional Neural Network Model 306
+
 
     Total configs: 8
     > 20.707
@@ -931,7 +931,7 @@ details on modeling a
     model.add(MaxPooling1D(pool_size=2))
     model.add(Flatten())
 
-15.5. Convolutional Neural Network Model 307
+
 
 model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
@@ -994,7 +994,7 @@ below.
 
 def model_predict(model, history, config):
 
-15.5. Convolutional Neural Network Model 308
+
 
     # unpack config
     n_input, _, _, _, _, n_diff = config
@@ -1059,7 +1059,7 @@ from math import sqrt
  from keras.layers import Dense
  from keras.layers import Flatten
 
-15.5. Convolutional Neural Network Model 309
+
 
 from keras.layers.convolutional import Conv1D
  from keras.layers.convolutional import MaxPooling1D
@@ -1111,7 +1111,7 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
  return model
 
-15.5. Convolutional Neural Network Model 310
+
 
 def model_predict(model, history, config):
 n_input, _, _, _, _, n_diff = config
@@ -1161,7 +1161,7 @@ cfg_list]
 scores.sort(key=lambda tup: tup[1])
  return scores
 
-15.5. Convolutional Neural Network Model 311
+
 
 def model_configs():
 
@@ -1220,7 +1220,7 @@ configuration as:
 
 - ndiff: 12
 
-15.6. Long Short-Term Memory Network Model 312
+
 
 A truncated example output of the grid search is listed below.
 
@@ -1277,7 +1277,7 @@ they are:
     model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 
 ```
-15.6. Long Short-Term Memory Network Model 313
+
 
     It may be interesting to explore tuning additional configurations such as the use of a
 
@@ -1336,7 +1336,7 @@ correction = 0.0
  correction = history[-n_diff]
  history = difference(history, n_diff)
 
-15.6. Long Short-Term Memory Network Model 314
+
 
     # reshape sample into [samples, timesteps, features]
     x_input = array(history[-n_input:]).reshape((1, n_input, 1))
@@ -1398,7 +1398,7 @@ as such, you
     def series_to_supervised(data, n_in, n_out=1):
     df = DataFrame(data)
 
-15.6. Long Short-Term Memory Network Model 315
+
 
     cols = list()
     # input sequence (t-n, ... t-1)
@@ -1449,7 +1449,7 @@ correction = 0.0
 
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
-15.6. Long Short-Term Memory Network Model 316
+
 
     # forecast
     yhat = model.predict(x_input, verbose=0)

@@ -33,9 +33,9 @@ Let’s get started.
 3.  Multi-step LSTM Models
 4.  Multivariate Multi-step LSTM Models
 
-123
 
-9.2. Univariate LSTM Models 124
+
+
 
 ### Univariate LSTM Models
 
@@ -87,7 +87,7 @@ six parts; they are:
     univariate sequence into multiple samples where each sample has a specified number of time
     steps and the output is a single time step.
 
-9.2. Univariate LSTM Models 125
+
 
 def split_sequence(sequence, n_steps):
  X, y = list(), list()
@@ -143,8 +143,6 @@ three input time steps and one output time step.
 [10 20 30] 40
  [20 30 40] 50
  [30 40 50] 60
-
-9.2. Univariate LSTM Models 126
 
 [40 50 60] 70
 
@@ -205,7 +203,7 @@ additional dimension
     model.fit(X, y, epochs=200, verbose=0)
 
 ```
-9.2. Univariate LSTM Models 127
+
 
     After the model is fit, we can use it to make a prediction. We can predict the next value
 
@@ -270,7 +268,7 @@ model.fit(X, y, epochs=200, verbose=0)
 x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
 
-9.2. Univariate LSTM Models 128
+
 
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
@@ -328,7 +326,7 @@ We can tie this together; the complete code example is listed below.
     # gather input and output parts of the pattern
     seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
 
-9.2. Univariate LSTM Models 129
+
 
     X.append(seq_x)
     y.append(seq_y)
@@ -388,7 +386,7 @@ and backward is as
     model.compile(optimizer='adam', loss='mse')
 
 ```
-9.2. Univariate LSTM Models 130
+
 
     The complete example of the Bidirectional LSTM for univariate time series forecasting is
 
@@ -450,7 +448,7 @@ running the example a few times.
 
 ```
 
-9.2. Univariate LSTM Models 131
+
 
 9.2.5 CNN-LSTM
 
@@ -575,7 +573,7 @@ model.fit(X, y, epochs=500, verbose=0)
 
 x_input = array([60, 70, 80, 90])
 
-9.2. Univariate LSTM Models 133
+
 
     x_input = x_input.reshape((1, n_seq, n_steps, n_features))
     yhat = model.predict(x_input, verbose=0)
@@ -632,7 +630,7 @@ convolutional reading
     The complete example of a ConvLSTM for one-step univariate time series forecasting is
     listed below.
 
-9.2. Univariate LSTM Models 134
+
 
 from numpy import array
  from keras.models import Sequential
@@ -690,7 +688,7 @@ results may vary. Consider
 
 running the example a few times.
 
-9.3. Multivariate LSTM Models 135
+
 
 [[103.68166]]
 
@@ -741,7 +739,7 @@ time series that is
 
 The complete example is listed below.
 
-9.3. Multivariate LSTM Models 136
+
 
     # multivariate data preparation
     from numpy import array
@@ -799,7 +797,7 @@ Output:
     case, 65. We can see that, in transforming the time series into input/output samples to train
     the model, that we will have to discard some values from the output time series where we do
 
-9.3. Multivariate LSTM Models 137
+
 
 not have values in the input time series at prior time steps. In turn,
 the choice of the size of
@@ -864,7 +862,7 @@ in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
-9.3. Multivariate LSTM Models 138
+
 
 n_steps = 3
 
@@ -944,7 +942,7 @@ model = Sequential()
 n_features)))
  model.add(Dense(1))
 
-9.3. Multivariate LSTM Models 139
+
 
     model.compile(optimizer='adam', loss='mse')
 
@@ -1006,7 +1004,7 @@ We would expect the next value in the sequence to be 100 + 105, or 205.
     dataset = hstack((in_seq1, in_seq2, out_seq))
     # choose a number of time steps
 
-9.3. Multivariate LSTM Models 140
+
 
     n_steps = 3
     # convert into input/output
@@ -1065,7 +1063,6 @@ previous section:
     samples in order to train a model. The first sample of this dataset would be:
     Input:
 
-9.3. Multivariate LSTM Models 141
 
 10, 15, 25
 
@@ -1126,7 +1123,7 @@ in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
  out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
-9.3. Multivariate LSTM Models 142
+
 
     # convert to [rows, columns] structure
     in_seq1 = in_seq1.reshape((len(in_seq1), 1))
@@ -1186,7 +1183,7 @@ LSTM model that
     also used in the specification of the number of values to predict by the model in the output
     layer; again, this is three.
 
-9.3. Multivariate LSTM Models 143
+
 
 model = Sequential()
  model.add(LSTM(100, activation='relu', return_sequences=True,
@@ -1202,7 +1199,7 @@ input_shape=(n_steps,
 
 three time steps for each series.
 
-70, 75, 145
+
  80, 85, 165
  90, 95, 185
 
@@ -1246,7 +1243,7 @@ seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
  X.append(seq_x)
  y.append(seq_y)
 
-9.4. Multi-step LSTM Models 144
+
 
     return array(X), array(y)
 
@@ -1308,7 +1305,7 @@ are two main types of
 
 LSTM models that can be used for multi-step forecasting; they are:
 
-9.4. Multi-step LSTM Models 145
+
 
 1.  Vector Output Model
 2.  Encoder-Decoder Model
@@ -1367,7 +1364,7 @@ same number of steps.
     We can demonstrate this function on the small contrived dataset. The complete example is
     listed below.
 
-9.4. Multi-step LSTM Models 146
+
 
 from numpy import array
 
@@ -1437,7 +1434,7 @@ timesteps, features], and
 in this case, we only have one feature so the reshape is
 straightforward.
 
-9.4. Multi-step LSTM Models 147
+
 
     # reshape from [samples, timesteps] into [samples, timesteps, features]
     n_features = 1
@@ -1494,7 +1491,7 @@ of the presented LSTM
     for i in range(len(sequence)):
     # find the end of this pattern
 
-9.4. Multi-step LSTM Models 148
+
 
     end_ix = i + n_steps_in
     out_end_ix = end_ix + n_steps_out
@@ -1554,7 +1551,7 @@ sequences is called the
     series forecasting. As its name suggests, the model is comprised of two sub-models: the encoder
     and the decoder.
 
-9.4. Multi-step LSTM Models 149
+
 
     The encoder is a model responsible for reading and interpreting the input sequence. The
     output of the encoder is a fixed length vector that represents the model’s interpretation of the
@@ -1612,7 +1609,7 @@ wrapper.
 
 with a given number of features for each input sample.
 
-9.4. Multi-step LSTM Models 150
+
 
 y = y.reshape((y.shape[0], y.shape[1], n_features))
 
@@ -1669,7 +1666,7 @@ x_input = array([70, 80, 90])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-9.5. Multivariate Multi-step LSTM Models 151
+
 
 ```
 
@@ -1727,7 +1724,7 @@ output series is separate
     [ 90 95 185]]
 
 ```
-9.5. Multivariate Multi-step LSTM Models 152
+
 
     We may use three prior time steps of each of the two input time series to predict two time
 
@@ -1789,7 +1786,7 @@ sequences[end_ix-1:out_end_ix, -1]
  X.append(seq_x)
  y.append(seq_y)
 
-9.5. Multivariate Multi-step LSTM Models 153
+
 
     return array(X), array(y)
 
@@ -1849,7 +1846,7 @@ The output portion of the
     We can now develop an LSTM model for multi-step predictions. A vector output or an
     encoder-decoder model could be used. In this case, we will demonstrate a vector output with a
 
-9.5. Multivariate Multi-step LSTM Models 154
+
 
 Stacked LSTM. The complete example is listed below.
 
@@ -1907,7 +1904,7 @@ x_input = array([[70, 75], [80, 85], [90, 95]])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-9.5. Multivariate Multi-step LSTM Models 155
+
 
 ```
 
@@ -1956,7 +1953,7 @@ multiple time steps of each
 ```
 Thesplitsequences()function below implements this behavior.
 
-9.5. Multivariate Multi-step LSTM Models 156
+
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
  X, y = list(), list()
@@ -2017,7 +2014,7 @@ n_steps_in, n_steps_out = 3, 2
 
 X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 
-9.5. Multivariate Multi-step LSTM Models 157
+
 
 print(X.shape, y.shape)
 
@@ -2084,7 +2081,7 @@ def split_sequences(sequences, n_steps_in, n_steps_out):
  X, y = list(), list()
  for i in range(len(sequences)):
 
-9.5. Multivariate Multi-step LSTM Models 158
+
 
     end_ix = i + n_steps_in
     out_end_ix = end_ix + n_steps_out
@@ -2151,7 +2148,7 @@ results may vary. Consider
 
 running the example a few times.
 
-9.6. Extensions 159
+
 
 [[[ 91.86044 97.77231 189.66768 ]
 
@@ -2205,7 +2202,7 @@ go deeper.
     - LSTM: A Search Space Odyssey, 2017.
     https://arxiv.org/abs/1503.04069
 
-9.8. Summary 160
+
 
     - Convolutional LSTM Network: A Machine Learning Approach for Precipitation Nowcasting,
     2015.
@@ -2253,7 +2250,7 @@ for univariate time series forecasting problems.
 
 ### Univariate Forecasting
 
-161
+
 
 ### Overview
 

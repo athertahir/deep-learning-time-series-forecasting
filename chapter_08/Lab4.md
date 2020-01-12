@@ -51,7 +51,7 @@ into four parts; they are:
 
 87
 
-8.2. Univariate CNN Models 88
+
 
 ### Univariate CNN Models
 
@@ -106,7 +106,7 @@ can be used to model
 
 ```
 
-8.2. Univariate CNN Models 89
+
 
     We can demonstrate this function on our small contrived dataset above. The complete
     example is listed below.
@@ -164,7 +164,7 @@ layer that operates
     such as very long input sequences, and then a pooling layer whose job it is to distill the output
     of the convolutional layer to the most salient elements. The convolutional and pooling layers
 
-8.2. Univariate CNN Models 90
+
 
     are followed by a dense fully connected layer that interprets the features extracted by the
     convolutional part of the model. A flatten layer is used between the convolutional layers and
@@ -223,7 +223,7 @@ model is fit using the
     [samples, timesteps, features], therefore, we must reshape the single input sample before
     making the prediction.
 
-8.2. Univariate CNN Models 91
+
 
 x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
@@ -277,7 +277,7 @@ model.fit(X, y, epochs=1000, verbose=0)
 x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
 
-8.3. Multivariate CNN Models 92
+
 
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
@@ -328,7 +328,7 @@ time series that is
     and each column is a separate time series. This is a standard way of storing parallel time series
     in a CSV file.
 
-8.3. Multivariate CNN Models 93
+
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
  in_seq2 = in_seq2.reshape((len(in_seq2), 1))
@@ -396,7 +396,7 @@ Input:
  30, 35
 
 ```
-8.3. Multivariate CNN Models 94
+
 
 Output:
 
@@ -467,7 +467,7 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
  y.append(seq_y)
  return array(X), array(y)
 
-8.3. Multivariate CNN Models 95
+
 
     in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
     in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
@@ -526,7 +526,7 @@ the number of parallel time
 
 ```
 
-8.3. Multivariate CNN Models 96
+
 
 CNN Model
 
@@ -589,7 +589,7 @@ We would expect the next value in the sequence to be 100 + 105 or 205.
     # gather input and output parts of the pattern
     seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
 
-8.3. Multivariate CNN Models 97
+
 
     X.append(seq_x)
     y.append(seq_y)
@@ -649,7 +649,7 @@ series can be handled by
     is made for the output sequence. We can refer to this as a multi-headed CNN model. It may
     offer more flexibility or better performance depending on the specifics of the problem that is
 
-8.3. Multivariate CNN Models 98
+
 
 being modeled. For example, it allows you to configure each submodel
 differently for each input
@@ -698,7 +698,7 @@ the shape of the
 
 inputs and outputs of each layer.
 
-8.3. Multivariate CNN Models 99
+
 
 ![](./images/116-4.png)
 
@@ -734,7 +734,7 @@ x_input = array([[80, 85], [90, 95], [100, 105]])
 
 ```
 
-8.3. Multivariate CNN Models 100
+
 
 We can tie all of this together; the complete example is listed below.
 
@@ -791,7 +791,7 @@ visible2 = Input(shape=(n_steps, n_features))
  cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
  cnn2 = MaxPooling1D(pool_size=2)(cnn2)
 
-8.3. Multivariate CNN Models 101
+
 
     cnn2 = Flatten()(cnn2)
     # merge input models
@@ -848,8 +848,6 @@ previous section:
     samples in order to train a model. The first sample of this dataset would be:
     Input:
 
-8.3. Multivariate CNN Models 102
-
 10, 15, 25
 
 20, 25, 45
@@ -858,7 +856,6 @@ previous section:
 
 ```
 Output:
-
 40, 45, 85
 
 ```
@@ -909,7 +906,7 @@ in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
  out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
-8.3. Multivariate CNN Models 103
+
 
     # convert to [rows, columns] structure
     in_seq1 = in_seq1.reshape((len(in_seq1), 1))
@@ -971,7 +968,7 @@ number of time steps
 and parallel series (features) are specified for the input layer via
 theinputshapeargument.
 
-8.3. Multivariate CNN Models 104
+
 
 The number of parallel series is also used in the specification of the
 number of values to predict
@@ -1030,7 +1027,7 @@ number of values to predict
     seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
     X.append(seq_x)
 
-8.3. Multivariate CNN Models 105
+
 
     y.append(seq_y)
     return array(X), array(y)
@@ -1090,7 +1087,7 @@ model the problem. Each
     specifics of the problem that is being modeled. This type of model can be defined in Keras
     using the Keras functional API. First, we can define the first input model as a 1D CNN model.
 
-8.3. Multivariate CNN Models 106
+
 
     # define model
     visible = Input(shape=(n_steps, n_features))
@@ -1183,7 +1180,7 @@ Tying all of this together, the complete example is listed below.
     n_steps = 3
     # convert into input/output
 
-8.4. Multi-step CNN Models 108
+
 
 X, y = split_sequences(dataset, n_steps)
 
@@ -1249,7 +1246,7 @@ subtle and important
 differences in the way the training data is prepared. In this section,
 we will demonstrate the
 
-8.4. Multi-step CNN Models 109
+
 
     case of developing a multi-step forecast model using a vector model. Before we look at the
     specifics of the model, let’s first look at the preparation of data for multi-step forecasting.
@@ -1310,7 +1307,7 @@ Output:
 
     # split a univariate sequence into samples
 
-8.4. Multi-step CNN Models 110
+
 
     def split_sequence(sequence, n_steps_in, n_steps_out):
     X, y = list(), list()
@@ -1367,7 +1364,7 @@ multi-step forecast. This
     X = X.reshape((X.shape[0], X.shape[1], n_features))
 
 ```
-8.4. Multi-step CNN Models 111
+
 
 With the number of input and output steps specified in
 thenstepsinandnstepsout
@@ -1428,7 +1425,7 @@ variables, we can define a multi-step time-series forecasting model.
     # define input sequence
     raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-8.5. Multivariate Multi-step CNN Models 112
+
 
     # choose a number of time steps
     n_steps_in, n_steps_out = 3, 2
@@ -1489,7 +1486,7 @@ specifically:
     Perhaps the biggest stumbling block is in the preparation of data, so this is where we will
     focus our attention.
 
-8.5. Multivariate Multi-step CNN Models 113
+
 
 8.5.1 Multiple Input Multi-step Output
 
@@ -1548,7 +1545,7 @@ Thesplitsequences()function below implements this behavior.
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
 
-8.5. Multivariate Multi-step CNN Models 114
+
 
     # multivariate multi-step data preparation
     from numpy import array
@@ -1607,7 +1604,7 @@ The output portion of the
     [30 35]] [65 85]
     [[20 25]
 
-8.5. Multivariate Multi-step CNN Models 115
+
 
 [30 35]
 
@@ -1680,7 +1677,7 @@ in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
-8.5. Multivariate Multi-step CNN Models 116
+
 
     # choose a number of time steps
     n_steps_in, n_steps_out = 3, 2
@@ -1734,7 +1731,7 @@ multiple time steps of each
     [ 90 95 185]]
 
 ```
-8.5. Multivariate Multi-step CNN Models 117
+
 
     We may use the last three time steps from each of the three time series as input to the
 
@@ -1745,14 +1742,14 @@ sample in the training dataset would be the following.
 
 Input:
 
-10, 15, 25
+
  20, 25, 45
  30, 35, 65
 
 ```
 Output:
 
-40, 45, 85
+
  50, 55, 105
 
 ```
@@ -1799,7 +1796,7 @@ if out_end_ix > len(sequences):
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
 
-8.5. Multivariate Multi-step CNN Models 118
+
 
     X.append(seq_x)
     y.append(seq_y)
@@ -1866,7 +1863,7 @@ data was prepared as we expected.
 
 forecasts.
 
-8.5. Multivariate Multi-step CNN Models 119
+
 
 We can now develop a 1D CNN model for this dataset. We will use a
 vector-output model
@@ -1929,7 +1926,7 @@ n_output = y.shape[1] * y.shape[2]
 
 n_features = X.shape[2]
 
-8.6. Extensions 120
+
 
     # define model
     model = Sequential()
@@ -1986,7 +1983,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-8.7. Further Reading 121
+
 
 ### Further Reading
 
@@ -2035,7 +2032,7 @@ go deeper.
     - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-8.8. Summary 122
+
 
 ### Summary
 

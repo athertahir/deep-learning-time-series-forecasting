@@ -33,9 +33,9 @@ This tutorial is divided into five parts; they are:
 4.  Case Study 3: Seasonality
 5.  Case Study 4: Trend and Seasonality
 
-206
 
-12.2. Develop a Grid Search Framework 207
+
+
 
 ### Develop a Grid Search Framework
 
@@ -95,7 +95,7 @@ whether or not to remove the bias when fitting the model.
     history = array(history)
     model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s, seasonal_periods=p)
 
-12.2. Develop a Grid Search Framework 208
+
 
     # fit model
     model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
@@ -154,7 +154,7 @@ version of the function is listed below.
     r_params = [True, False]
     # create config instances
 
-12.2. Develop a Grid Search Framework 209
+
 
     for t in t_params:
     for d in d_params:
@@ -214,7 +214,7 @@ train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-12.2. Develop a Grid Search Framework 210
+
 
     for i in range(len(test)):
     # fit model and make forecast for history
@@ -271,7 +271,7 @@ t_params = ['add','mul', None]
  d_params = [True, False]
  s_params = ['add','mul', None]
 
-12.2. Develop a Grid Search Framework 211
+
 
     p_params = seasonal
     b_params = [True, False]
@@ -331,7 +331,7 @@ hyperparameters and allow
     paramsattribute on the model fit; for example:
     # access model parameters
 
-12.3. Case Study 1: No Trend or Seasonality 212
+
 
     print(model_fit.params)
 
@@ -391,7 +391,7 @@ download the dataset directly from here:
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
  csv
 
-12.3. Case Study 1: No Trend or Seasonality 213
+
 
 def train_test_split(data, n_test):
  return data[:-n_test], data[-n_test:]
@@ -446,7 +446,7 @@ cfg_list)
  else:
  scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
-12.3. Case Study 1: No Trend or Seasonality 214
+
 
     scores = [r for r in scores if r[1] != None]
     # sort configs by error, asc
@@ -514,7 +514,7 @@ running the example a few times.
     > Model[['mul', False, None, None, True, False]] 6.985
     > Model[[None, False, None, None, True, True]] 7.169
 
-12.4. Case Study 2: Trend 215
+
 
     > Model[[None, False, None, None, True, False]] 7.212
     > Model[[None, False, None, None, False, True]] 7.117
@@ -570,7 +570,7 @@ over a three-year
 (^2)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
-12.4. Case Study 2: Trend 216
+
 
 from warnings import catch_warnings
  from warnings import filterwarnings
@@ -624,7 +624,7 @@ if debug:
  result = walk_forward_validation(data, n_test, cfg)
  else:
 
-12.4. Case Study 2: Trend 217
+
 
     try:
     # never show warnings when grid searching, too noisy
@@ -681,7 +681,7 @@ series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 n_test = 12
 
-12.4. Case Study 2: Trend 218
+
 
     cfg_list = exp_smoothing_configs()
     # grid search
@@ -747,7 +747,7 @@ model as follows:
 
 - Remove Bias: False
 
-12.5. Case Study 3: Seasonality 219
+
 
 ### Case Study 3: Seasonality
 
@@ -810,7 +810,7 @@ to the last five years of
 (^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
-12.5. Case Study 3: Seasonality 220
+
 
     return yhat[0]
 
@@ -863,7 +863,7 @@ def grid_search(data, cfg_list, n_test, parallel=True):
  scores = None
  if parallel:
 
-12.5. Case Study 3: Seasonality 221
+
 
     executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
     tasks = (delayed(score_model)(data, n_test, cfg) for cfg in cfg_list)
@@ -926,7 +926,7 @@ of the results from
 
 running the hyperparameter grid search are listed below.
 
-12.6. Case Study 4: Trend and Seasonality 222
+
 
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
@@ -965,7 +965,7 @@ running the hyperparameter grid search are listed below.
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
 
-1960 and 1968. For more information on this dataset, see Chapter 11
+
 where it was introduced.
 
 You can download the dataset directly from here:
@@ -988,7 +988,7 @@ preparing the model configurations.
 (^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
-12.6. Case Study 4: Trend and Seasonality 223
+
 
 cfg_list = exp_smoothing_configs(seasonal=[0,6,12])
 
@@ -1042,7 +1042,7 @@ predictions.append(yhat)
 
 history.append(test[i])
 
-12.6. Case Study 4: Trend and Seasonality 224
+
 
     error = measure_rmse(test, predictions)
     return error
@@ -1099,7 +1099,7 @@ for t in t_params:
  for s in s_params:
  for p in p_params:
 
-12.6. Case Study 4: Trend and Seasonality 225
+
 
     for b in b_params:
     for r in r_params:
@@ -1173,7 +1173,7 @@ as follows:
 
 - Seasonal: Additive
 
-12.7. Extensions 226
+
 
 - Seasonal Periods: 12
 
@@ -1223,7 +1223,7 @@ go deeper.
 
 - statsmodels.tsa.holtwinters.HoltWintersResultsAPI.
 
-12.9. Summary 227
+
 
 12.8.3 Articles
 

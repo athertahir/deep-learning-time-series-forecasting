@@ -33,7 +33,7 @@ This tutorial is divided into four parts, they are:
 
 42
 
-6.2. Time Series to Supervised 43
+
 
 ### Time Series to Supervised
 
@@ -339,7 +339,7 @@ steps per sample for
 the input element of our time series, we can reshape it into[7, 3, 1]by
 providing a tuple to
 
-6.3. 3D Data Preparation Basics 47
+
 
 thereshape()function specifying the desired new shape of(7, 3, 1). The
 array must have

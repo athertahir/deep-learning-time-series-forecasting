@@ -30,9 +30,9 @@ This tutorial is divided into five parts; they are:
 4.  Time Series Data Distributions
 5.  Ideas on Modeling
 
-322
 
-16.2. Household Power Consumption Dataset 323
+
+
 
     Note: The data visualizations in this tutorial are intended to be quick-and-dirty to rapidly
     learn about the dataset, rather than used as the basis for presentation. As such they are more
@@ -95,7 +95,7 @@ remainder = (
 (^1)
 https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption
 
-16.3. Load Dataset 324
+
 
 - householdpowerconsumption.zip^2
 
@@ -153,7 +153,7 @@ we can see 2-3 days worth of missing data around28/4/2007.
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
  zip
 
-16.3. Load Dataset 325
+
 
 Putting all of this together, we can now load the data and summarize the
 loaded shape and
@@ -219,7 +219,7 @@ header=0, low_memory=False,
 index_col=['datetime'])
 print(dataset.shape)
 
-16.3. Load Dataset 326
+
 
 print(dataset.head())
 
@@ -289,7 +289,7 @@ for example around row 190,499:
  2007-04-28 00:25:00,,,,,,,,
  ...
 
-16.4. Patterns in Observations Over Time 327
+
 
 ```
     Now that we have a cleaned-up version of the dataset, we can investigate it further using
@@ -369,7 +369,7 @@ result = dataset[str(year)]
 
 pyplot.plot(result['Global_active_power'])
 
-16.4. Patterns in Observations Over Time 329
+
 
     # add a title to the subplot
     pyplot.title(str(year), y=0, loc='left')
@@ -399,7 +399,7 @@ gross patterns across
 
     # monthly line plots for power usage dataset
 
-16.4. Patterns in Observations Over Time 330
+
 
     from pandas import read_csv
     from matplotlib import pyplot
@@ -471,7 +471,7 @@ pyplot.plot(result['Global_active_power'])
 
 pyplot.title(day, y=0, loc='left', size=6)
 
-16.5. Time Series Data Distributions 332
+
 
     # turn off ticks to remove clutter
     pyplot.yticks([])
@@ -511,7 +511,7 @@ histograms. We can start-off by
 creating a histogram for each variable in the time series. The complete
 example is listed below.
 
-16.5. Time Series Data Distributions 333
+
 
     # histogram plots for power usage dataset
     from pandas import read_csv
@@ -576,7 +576,7 @@ result['Global_active_power'].hist(bins=100)
 
 ax.set_xlim(0, 5)
 
-16.5. Time Series Data Distributions 335
+
 
     # add a title to the subplot
     pyplot.title(str(year), y=0, loc='right')
@@ -675,7 +675,7 @@ left to guess at
     Perhaps the most useful framing of the dataset is to forecast an interval of future active power
     consumption.
 
-16.6. Ideas on Modeling 338
+
 
 Four examples include:
 
@@ -740,7 +740,7 @@ they are:
 3.  Machine Learning Methods.
 4.  Deep Learning Methods.
 
-16.6. Ideas on Modeling 339
+
 
 16.6.4 Naive Methods
 
@@ -795,7 +795,7 @@ features, discarding
     large numbers of variables and may aid in teasing out whether the additional variables can be
     harnessed and add value to predictive models.
 
-16.7. Extensions 340
+
 
 Deep Learning Methods
 
@@ -846,7 +846,7 @@ go deeper.
     - AC power, Wikipedia.
     https://en.wikipedia.org/wiki/AC_power#Active,_reactive,_and_apparent_power
 
-16.9. Summary 341
+
 
 #### Summary
 

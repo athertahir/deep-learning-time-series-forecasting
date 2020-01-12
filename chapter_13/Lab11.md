@@ -35,9 +35,9 @@ This tutorial is divided into five parts; they are:
 4.  Case Study 3: Seasonality
 5.  Case Study 4: Trend and Seasonality
 
-228
 
-13.2. Develop a Grid Search Framework 229
+
+
 
 ### Develop a Grid Search Framework
 
@@ -99,7 +99,7 @@ updated version of the function is listed below.
     # step over each time step in the test set
     for i in range(len(test)):
 
-13.2. Develop a Grid Search Framework 230
+
 
     # fit model and make forecast for history
     yhat = sarima_forecast(history, cfg)
@@ -157,7 +157,7 @@ via one-step
 walk-forward validation. It is generic and will work for any in-memory
 univariate time series
 
-13.2. Develop a Grid Search Framework 231
+
 
 provided as a list or NumPy array. We can make sure all the pieces work
 together by testing it
@@ -209,7 +209,7 @@ error = measure_rmse(test, predictions)
 def score_model(data, n_test, cfg, debug=False):
  result = None
 
-13.2. Develop a Grid Search Framework 232
+
 
     key = str(cfg)
     # show all warnings and fail on exception if debugging
@@ -267,7 +267,7 @@ for p in p_params:
  for m in m_params:
  cfg = [(p,d,q), (P,D,Q,m), t]
 
-13.3. Case Study 1: No Trend or Seasonality 233
+
 
     models.append(cfg)
     return models
@@ -322,7 +322,7 @@ in California, USA in
 
 download the dataset directly from here:
 
-13.3. Case Study 1: No Trend or Seasonality 234
+
 
 - daily-total-female-births.csv^1
 
@@ -381,7 +381,7 @@ history.append(test[i])
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
  csv
 
-13.3. Case Study 1: No Trend or Seasonality 235
+
 
     # estimate prediction error
     error = measure_rmse(test, predictions)
@@ -438,7 +438,7 @@ p_params = [0, 1, 2]
 
 for p in p_params:
 
-13.3. Case Study 1: No Trend or Seasonality 236
+
 
     for d in d_params:
     for q in q_params:
@@ -506,7 +506,7 @@ follows:
 
 - Order: (1, 0, 2)
 
-13.4. Case Study 2: Trend 237
+
 
 - Seasonal Order: (1, 0, 1, 0)
 
@@ -565,7 +565,7 @@ over a three-year
 (^2)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
-13.4. Case Study 2: Trend 238
+
 
 def walk_forward_validation(data, n_test, cfg):
  predictions = list()
@@ -620,7 +620,7 @@ scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
 
-13.4. Case Study 2: Trend 239
+
 
     return scores
 
@@ -682,7 +682,7 @@ running the example a few times.
 > Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 68.891
 >  Model[[(2, 1, 2), (2, 0, 0, 0),'ct']] 75.406
 
-13.5. Case Study 3: Seasonality 240
+
 
     > Model[[(2, 1, 2), (1, 0, 2, 0),'ct']] 80.908
     > Model[[(2, 1, 2), (2, 0, 1, 0),'ct']] 78.734
@@ -741,7 +741,7 @@ to the last five years of
 (^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
-13.5. Case Study 3: Seasonality 241
+
 
 The complete example grid searching the monthly mean temperature time
 series forecasting
@@ -794,7 +794,7 @@ error = measure_rmse(test, predictions)
 def score_model(data, n_test, cfg, debug=False):
  result = None
 
-13.5. Case Study 3: Seasonality 242
+
 
     # convert config to a key
     key = str(cfg)
@@ -852,7 +852,7 @@ for p in p_params:
  for Q in Q_params:
  for m in m_params:
 
-13.5. Case Study 3: Seasonality 243
+
 
     cfg = [(p,d,q), (P,D,Q,m), t]
     models.append(cfg)
@@ -921,7 +921,7 @@ model as follows:
 
 - Seasonal Order: (1, 0, 1, 12)
 
-13.6. Case Study 4: Trend and Seasonality 244
+
 
 - Trend Parameter:‘n’(no trend)
 
@@ -933,7 +933,7 @@ model as follows:
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
 
-1960 and 1968. For more information on this dataset, see Chapter 11
+
 where it was introduced.
 
 You can download the dataset directly from here:
@@ -984,7 +984,7 @@ or 12 observations as the
 (^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
-13.6. Case Study 4: Trend and Seasonality 245
+
 
 def measure_rmse(actual, predicted):
  return sqrt(mean_squared_error(actual, predicted))
@@ -1039,7 +1039,7 @@ executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
 cfg_list)
  scores = executor(tasks)
 
-13.6. Case Study 4: Trend and Seasonality 246
+
 
     else:
     scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
@@ -1100,7 +1100,7 @@ hyperparameter grid search are listed below.
 Note: Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
-13.7. Extensions 247
+
 
 running the example a few times.
 
@@ -1149,7 +1149,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-13.9. Summary 248
+
 
 13.8.1 Books
 

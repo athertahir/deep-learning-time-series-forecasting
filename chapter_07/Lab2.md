@@ -42,7 +42,7 @@ intended to give the flavor
 
 53
 
-7.2. Univariate MLP Models 54
+
 
     Note: Traditionally, a lot of research has been invested into using MLPs for time series
     forecasting with modest results. Perhaps the most promising area in the application of deep
@@ -98,7 +98,7 @@ beyond this tutorial.
     # check if we are beyond the sequence
     if end_ix > len(sequence)-1:
 
-7.2. Univariate MLP Models 55
+
 
     break
     # gather input and output parts of the pattern
@@ -151,7 +151,7 @@ look at developing
 
 an MLP model that can learn the mapping of inputs to outputs.
 
-7.2. Univariate MLP Models 56
+
 
 7.2.2 MLP Model
 
@@ -206,7 +206,7 @@ layer used to make a
     def split_sequence(sequence, n_steps):
     X, y = list(), list()
 
-7.3. Multivariate MLP Models 57
+
 
     for i in range(len(sequence)):
     # find the end of this pattern
@@ -266,7 +266,7 @@ multivariate time series data;
 
 they are:
 
-7.3. Multivariate MLP Models 58
+
 
 1.  Multiple Input Series.
 2.  Multiple Parallel Series.
@@ -401,7 +401,7 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
  y.append(seq_y)
  return array(X), array(y)
 
-7.3. Multivariate MLP Models 60
+
 
     ```
 
@@ -458,7 +458,7 @@ the number of parallel time
     the input and output for each sample is printed, showing the three time steps for each of the
     two input series and the associated output for each sample.
 
-7.3. Multivariate MLP Models 61
+
 
 (7, 3, 2) (7,)
 
@@ -533,7 +533,7 @@ the temporal structure of
     X = X.reshape((X.shape[0], n_input))
 
 ```
-7.3. Multivariate MLP Models 62
+
 
     We can now define an MLP model for the multivariate input where the vector length is used
     for the input dimension argument.
@@ -649,7 +649,7 @@ withnstepsfeatures.
     dense1 = Dense(100, activation='relu')(visible1)
 
 ```
-7.3. Multivariate MLP Models 64
+
 
 We can define the second input submodel in the same way.
 visible2 = Input(shape=(n_steps,))
@@ -689,7 +689,7 @@ array with the shape[7, 3,
 
 2]to two 2D arrays with the shape[7, 3].
 
-7.3. Multivariate MLP Models 65
+
 X1 = X[:, :, 0]
  X2 = X[:, :, 1]
 
@@ -731,7 +731,7 @@ range(len(in_seq1))])
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
  in_seq2 = in_seq2.reshape((len(in_seq2), 1))
  out_seq = out_seq.reshape((len(out_seq), 1))
-7.3. Multivariate MLP Models 66
+
 
     dataset = hstack((in_seq1, in_seq2, out_seq))
     # choose a number of time steps
@@ -791,7 +791,7 @@ previous section:
     [ 80 85 165]
     [ 90 95 185]]
 
-7.3. Multivariate MLP Models 67
+
 
 ```
 We may want to predict the value for each of the three time series for
@@ -845,8 +845,6 @@ def split_sequences(sequences, n_steps):
 end_ix = i + n_steps
 if end_ix > len(sequences)-1:
  break
-7.3. Multivariate MLP Models 68
-
     seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
     X.append(seq_x)
     y.append(seq_y)
@@ -905,7 +903,7 @@ printed showing the input
 
     ```
 
-7.3. Multivariate MLP Models 69
+
 
 Vector-Output MLP Model
 
@@ -962,7 +960,7 @@ case of multivariate
     We can tie all of this together and demonstrate an MLP for multivariate output time series
     forecasting below.
 
-7.3. Multivariate MLP Models 70
+
 from numpy import array
  from numpy import hstack
  from keras.models import Sequential
@@ -1005,7 +1003,7 @@ x_input = array([[70,75,145], [80,85,165], [90,95,185]])
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-7.3. Multivariate MLP Models 71
+
 
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
@@ -1111,7 +1109,7 @@ Tying all of this together, the complete example is listed below.
     # flatten input
     n_input = X.shape[1] * X.shape[2]
 
-7.4. Multi-step MLP Models 73
+
 
     X = X.reshape((X.shape[0], n_input))
     # separate output
@@ -1169,7 +1167,7 @@ series forecasting must be
 split into samples with input and output components. Both the input and
 output components
 
-7.4. Multi-step MLP Models 74
+
 
 will be comprised of multiple time steps and may or may not have the
 same number of steps.
@@ -1225,7 +1223,7 @@ same number of steps.
     # check if we are beyond the sequence
     if out_end_ix > len(sequence):
 
-7.4. Multi-step MLP Models 75
+
 
     break
     # gather input and output parts of the pattern
@@ -1331,7 +1329,7 @@ x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps_in))
  yhat = model.predict(x_input, verbose=0)
 
-7.5. Multivariate Multi-step MLP Models 77
+
 
     print(yhat)
 
@@ -1443,7 +1441,7 @@ sequences[end_ix-1:out_end_ix, -1]
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
  in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
 
-7.5. Multivariate Multi-step MLP Models 79
+
 
     out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
     # convert to [rows, columns] structure
@@ -1504,7 +1502,7 @@ The output portion of the
     from numpy import hstack
     from keras.models import Sequential
 
-7.5. Multivariate Multi-step MLP Models 80
+
 
 from keras.layers import Dense
 def split_sequences(sequences, n_steps_in, n_steps_out):
@@ -1609,7 +1607,7 @@ Thesplitsequences()function below implements this behavior.
     X.append(seq_x)
     y.append(seq_y)
 
-7.5. Multivariate Multi-step MLP Models 82
+
 
     return array(X), array(y)
 
@@ -1666,7 +1664,7 @@ data was prepared as we expected.
 
 [[10 15 25]
 
-7.5. Multivariate Multi-step MLP Models 83
+
 
 [20 25 45]
 
@@ -1741,7 +1739,7 @@ end_ix = i + n_steps_in
  out_end_ix = end_ix + n_steps_out
 if out_end_ix > len(sequences):
  break
-7.5. Multivariate Multi-step MLP Models 84
+
 
     seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix:out_end_ix, :]
     X.append(seq_x)
@@ -1796,7 +1794,7 @@ running the example a few times.
 
 [[ 91.28376 96.567 188.37575 100.54482 107.9219 208.108 ]]
 
-7.6. Extensions 85
+
 
     ```
 
@@ -1821,7 +1819,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-7.7.1 Books
+Books
 
     - Neural Smithing: Supervised Learning in Feedforward Artificial Neural Networks, 1999.
     https://amzn.to/2vORBWO.
@@ -1832,7 +1830,7 @@ go deeper.
     - Deep Learning with Python, 2017.
     https://amzn.to/2vMRiMe
 
-7.7.2 APIs
+APIs
 
     - Keras: The Python Deep Learning library.
     https://keras.io/
@@ -1849,7 +1847,7 @@ go deeper.
     - Keras Core Layers API.
     https://keras.io/layers/core/
 
-7.8. Summary 86
+
 
 ### Summary
 

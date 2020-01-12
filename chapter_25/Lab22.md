@@ -35,9 +35,9 @@ This tutorial is divided into four parts; they are:
 3.  CNN-LSTM Model
 4.  ConvLSTM Model
 
-523
 
-25.2. Activity Recognition Using Smartphones Dataset 524
+
+
 
 #### Activity Recognition Using Smartphones Dataset
 
@@ -86,7 +86,7 @@ evaluation for deep learning models.
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
-25.3. LSTM Model 525
+
 
 25.3.1 Load Data
 
@@ -154,7 +154,7 @@ output data for
     # load all 9 files as a single array
     filenames = list()
 
-25.3. LSTM Model 526
+
 
     # total acceleration
     filenames += ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
@@ -228,7 +228,7 @@ timesteps, features].
 series data, each window has 128 time steps, and a time step has nine
 variables or features. The
 
-25.3. LSTM Model 527
+
 
     output for the model will be a six-element vector containing the probability of a given window
     belonging to each of the six activity types. The input and output dimensions are required when
@@ -290,7 +290,7 @@ before the weights of
 
 ```
 
-25.3. LSTM Model 528
+
 
     There is nothing special about the network structure or chosen hyperparameters, they are
     just a starting point for this problem.
@@ -350,7 +350,7 @@ accuracy from the mean. The
     summarize_results(scores)
 
 ```
-25.3. LSTM Model 529
+
 
 25.3.4 Complete Example
 
@@ -404,7 +404,7 @@ y = load_file(prefix + group +'/y_'+group+'.txt')
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
-25.3. LSTM Model 530
+
 
     testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
     # zero-offset class values
@@ -464,7 +464,7 @@ trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 This is a good result, considering that the original paper published a
 result of 89%, trained on
 
-25.4. CNN-LSTM Model 531
+
 
 the dataset with heavy domain-specific feature engineering, not the raw
 dataset.
@@ -533,7 +533,7 @@ blocks, extract
     extracted features are then flattened and provided to the LSTM model to read, extracting its
     own features before a final mapping to an activity is made.
 
-25.4. CNN-LSTM Model 532
+
 
 model = Sequential()
  model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
@@ -598,7 +598,7 @@ from numpy import mean
  from numpy import std
  from numpy import dstack
 
-25.4. CNN-LSTM Model 533
+
 
 from pandas import read_csv
  from keras.models import Sequential
@@ -652,7 +652,7 @@ testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 trainy = trainy - 1
  testy = testy - 1
 
-25.4. CNN-LSTM Model 534
+
 
     trainy = to_categorical(trainy)
     testy = to_categorical(testy)
@@ -709,7 +709,7 @@ run_experiment()
 
 ```
 
-25.5. ConvLSTM Model 535
+
 
     Running the example summarizes the model performance for each of the 10 runs before
     a final summary of the model’s performance on the test set is reported. We can see that the
@@ -776,7 +776,7 @@ steps into.
 
 - Channels: 9, for the nine input variables.
 
-25.5. ConvLSTM Model 536
+
 
 We can now prepare the data for theConvLSTM2Dmodel.
 
@@ -836,7 +836,7 @@ function, in this case
     loaded = dstack(loaded)
     return loaded
 
-25.5. ConvLSTM Model 537
+
 
 def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
@@ -894,7 +894,7 @@ verbose=verbose)
 _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
 
-25.5. ConvLSTM Model 538
+
 
     return accuracy
 
@@ -966,7 +966,7 @@ Accuracy: 90.801% (+/-0.886)
 
 ```
 
-25.6. Extensions 539
+
 
 #### Extensions
 
