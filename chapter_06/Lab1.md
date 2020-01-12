@@ -24,7 +24,7 @@ supervised learning format.
 
 Let’s get started.
 
-### 6.1 Overview
+### Overview
 
 This tutorial is divided into four parts, they are:
 
@@ -36,7 +36,7 @@ This tutorial is divided into four parts, they are:
 
 6.2. Time Series to Supervised 43
 
-### 6.2 Time Series to Supervised
+### Time Series to Supervised
 
 Time series data requires preparation before it can be used to train a
 supervised learning model,
@@ -216,7 +216,7 @@ the two-dimensional
 
 structure described so far.
 
-### 6.3 3D Data Preparation Basics
+###D Data Preparation Basics
 
 Preparing time series data for CNNs and LSTMs requires one additional
 step beyond transforming
@@ -415,7 +415,7 @@ X = X.reshape((X.shape[0], X.shape[1], 1))
 
 ```
 
-### 6.4 Data Preparation Example
+### Data Preparation Example
 
 Consider that you are in the current situation:
 
@@ -640,7 +640,7 @@ CNN model.
 ```
 
 
-### 6.5 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -656,7 +656,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-### 6.6 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -670,7 +670,7 @@ go deeper.
     - Keras Convolutional Layers API in Keras.
     https://keras.io/layers/convolutional/
 
-### 6.7 Summary
+### Summary
 
     In this tutorial, you discovered exactly how to transform a time series data set into a three-
     dimensional structure ready for fitting a CNN or LSTM model.

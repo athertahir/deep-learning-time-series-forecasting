@@ -26,7 +26,7 @@ modeling, and evaluation.
 
 Let’s get started.
 
-#### 22.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into 10 parts; they are:
 
@@ -45,7 +45,7 @@ This tutorial is divided into 10 parts; they are:
 8.  Plot Distribution of Activity Duration
 9.  Approach to Modeling
 
-#### 22.2 Activity Recognition Using Smartphones Dataset
+#### Activity Recognition Using Smartphones Dataset
 
 A standard human activity recognition dataset is theActivity Recognition
 Using Smartphones
@@ -168,7 +168,7 @@ was a 561 element vector of features. The dataset was split into train
     Now that we are familiar with the prediction problem, we will look at loading and exploring
     this dataset.
 
-#### 22.3 Download the Dataset
+#### Download the Dataset
 
 The data is provided as a single zip file that is about 58 megabytes in
 size. A direct for
@@ -247,7 +247,7 @@ figure out how to
 
 load it into memory.
 
-#### 22.4 Load the Dataset
+#### Load the Dataset
 
 In this section, we will develop some code to load the dataset into
 memory. First, we need to
@@ -450,7 +450,7 @@ def load_group(filenames, prefix=''):
     (2947, 128, 9) (2947, 1)
 
 ```
-#### 22.5 Balance of Activity Classes
+#### Balance of Activity Classes
 
 A good first check of the data is to investigate the balance of each
 activity. We believe that
@@ -565,7 +565,7 @@ train and test set and
 
 ```
 
-#### 22.6 Plot Time Series Per Subject
+#### Plot Time Series Per Subject
 
 We are working with time series data, therefore an import check is to
 create a line plot of the
@@ -844,7 +844,7 @@ what activities may have been performed or their order.
 
 ![](./images/-.png)
 
-#### 22.7 Plot Distribution Per Subject
+#### Plot Distribution Per Subject
 
     As the problem is framed, we are interested in using the movement data from some subjects
     to predict activities from the movement of other subjects. This suggests that there must be
@@ -1044,7 +1044,7 @@ each axis across each
 
 ![](./images/-.png)
 
-#### 22.8 Plot Distribution Per Activity
+#### Plot Distribution Per Activity
 
 We are interested in discriminating between activities based on activity
 data. The simplest
@@ -1279,7 +1279,7 @@ in-motion activities.
     All of these plots were created for the first subject, and we would expect to see similar
     distributions and relationships for the movement data across activities for other subjects.
 
-#### 22.9 Plot Distribution of Activity Duration
+#### Plot Distribution of Activity Duration
 
     A final area to consider is how long a subject spends on each activity. This is closely related to
     the balance of classes. If the activities (classes) are generally balanced within a dataset, then
@@ -1453,7 +1453,7 @@ of the whole dataset.
     Now that we have explored the dataset, we can suggest some ideas for how it may be
     modeled.
 
-#### 22.10Approach to Modeling
+####0Approach to Modeling
 
     In this section, we summarize some approaches to modeling the activity recognition dataset.
 
@@ -1551,7 +1551,7 @@ to explore include:
 
 - Hybrids of CNNs and LSTMs such as the CNN-LSTM and the ConvLSTM.
 
-#### 22.11Model Evaluation
+####1Model Evaluation
 
 The evaluation of the model in the original paper involved using a
 train/test split of the data by
@@ -1571,7 +1571,7 @@ summarized, which may offer
     predict than others, such as those for stationary activities versus those activities that involve
     motion.
 
-#### 22.12Extensions
+####2Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1587,7 +1587,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 22.13Further Reading
+####3Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1624,7 +1624,7 @@ go deeper.
     - Activity Recognition Experiment Using Smartphone Sensors, YouTube.
     https://www.youtube.com/watch?v=XOEN9W05_4A
 
-#### 22.14 Summary
+####4 Summary
 
 In this tutorial, you discovered the Activity Recognition Using
 Smartphones Dataset for time

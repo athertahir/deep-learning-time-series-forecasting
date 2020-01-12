@@ -25,7 +25,7 @@ the direct need to scale
 
 Let’s get started.
 
-### 14.1 Tutorial Overview
+### Tutorial Overview
 
 This tutorial is divided into five parts; they are:
 
@@ -39,7 +39,7 @@ This tutorial is divided into five parts; they are:
 
 14.2. Time Series Problem 250
 
-### 14.2 Time Series Problem
+### Time Series Problem
 
     In this tutorial we will focus on one dataset and use it as the context to demonstrate the
     development of a range of deep learning models for univariate time series forecasting. We will
@@ -83,7 +83,7 @@ measure of a good
     on the last 12 months should be adopted over a SARIMA model. Now that we have defined our
     problem and expectations of model skill, we can look at defining the test harness.
 
-### 14.3 Model Evaluation Test Harness
+### Model Evaluation Test Harness
 
     In this section, we will develop a test harness for developing and evaluating different types of
     neural network models for univariate time series forecasting. This test harness is a modified
@@ -447,15 +447,15 @@ walk-forward validation
     on the final 12 months of data. The model is evaluated 30 times, although, because the model
     has no stochastic element, the score is the same each time.
 
-##### > 1841.156
+> 1841.156
 
-##### > 1841.156
+> 1841.156
 
-##### > 1841.156
+> 1841.156
 
-##### > 1841.156
+> 1841.156
 
-##### > 1841.156
+> 1841.156
 
     persistence: 1841.156 RMSE (+/- 0.000)
 
@@ -467,7 +467,7 @@ walk-forward validation
     e.g. the plot is not interesting in this case as all skill scores have the same value. Now that we
     have a robust test harness, we can use it to evaluate a suite of neural network models.
 
-### 14.4 Multilayer Perceptron Model
+### Multilayer Perceptron Model
 
 The first network that we will evaluate is a Multilayer Perceptron, or
 MLP for short. This is a
@@ -736,17 +736,17 @@ reported of about 1,526
 
 14.4. Multilayer Perceptron Model 262
 
-##### ...
+...
 
-##### > 1458.993
+> 1458.993
 
-##### > 1643.383
+> 1643.383
 
-##### > 1457.925
+> 1457.925
 
-##### > 1558.934
+> 1558.934
 
-##### > 1708.278
+> 1708.278
 
 mlp: 1526.688 RMSE (+/- 134.789)
 
@@ -786,7 +786,7 @@ of 10-to-30 models.
 ![](./images/-.png)
 Forecasting Car Sales.
 
-### 14.5 Convolutional Neural Network Model
+### Convolutional Neural Network Model
 
     Convolutional Neural Networks, or CNNs, are a type of neural network developed for two-
     dimensional image data, although they can be used for one-dimensional data such as sequences of
@@ -1046,17 +1046,17 @@ directly without scaling or the data being made stationary.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### ...
+...
 
-##### > 1489.795
+> 1489.795
 
-##### > 1652.620
+> 1652.620
 
-##### > 1537.349
+> 1537.349
 
-##### > 1443.777
+> 1443.777
 
-##### > 1567.179
+> 1567.179
 
     cnn: 1524.067 RMSE (+/- 57.148)
 
@@ -1075,7 +1075,7 @@ outliers) is still limited at an RMSE of 1,650 sales.
     ![](./images/-.png)
     Sales.
 
-### 14.6 Recurrent Neural Network Models
+### Recurrent Neural Network Models
 
     Recurrent neural networks, or RNNs, are those types of neural networks that use an output of
     the network from a prior step as an input in attempt to automatically learn across sequence data.
@@ -1387,19 +1387,19 @@ a bad fit for autoregressive-type sequence prediction problems.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### ...
+...
 
 14.6. Recurrent Neural Network Models 275
 
-##### > 2266.130
+> 2266.130
 
-##### > 2105.043
+> 2105.043
 
-##### > 2128.549
+> 2128.549
 
-##### > 1952.002
+> 1952.002
 
-##### > 2188.287
+> 2188.287
 
     lstm: 2109.779 RMSE (+/- 81.373)
 
@@ -1721,17 +1721,17 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
-##### > 1289.794
+> 1289.794
 
-##### > 1685.976
+> 1685.976
 
-##### > 1498.123
+> 1498.123
 
-##### > 1618.627
+> 1618.627
 
-##### > 1448.361
+> 1448.361
 
 cnn-lstm: 1626.735 RMSE (+/- 279.850)
 
@@ -2022,17 +2022,17 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
-##### > 1653.084
+> 1653.084
 
-##### > 1650.430
+> 1650.430
 
-##### > 1291.353
+> 1291.353
 
-##### > 1558.616
+> 1558.616
 
-##### > 1653.231
+> 1653.231
 
 convlstm: 1660.840 RMSE (+/- 248.826)
 
@@ -2046,7 +2046,7 @@ RMSE scores.
 ![](./images/-.png)
 Sales.
 
-### 14.7 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -2077,7 +2077,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-### 14.8 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -2104,7 +2104,7 @@ go deeper.
     - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
-### 14.9 Summary
+### Summary
 
     In this tutorial, you discovered how to develop a suite of deep learning models for univariate
     time series forecasting. Specifically, you learned:

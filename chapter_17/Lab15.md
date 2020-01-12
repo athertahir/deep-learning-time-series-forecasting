@@ -20,7 +20,7 @@
 
 Let’s get started.
 
-#### 17.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into four parts; they are:
 
@@ -33,7 +33,7 @@ This tutorial is divided into four parts; they are:
 
 17.2. Problem Description 343
 
-#### 17.2 Problem Description
+#### Problem Description
 
     TheHousehold Power Consumptiondataset is a multivariate time series dataset that describes
     the electricity consumption for a single household over four years. The data was collected
@@ -66,7 +66,7 @@ of active energy).
     variables from the total active energy. This dataset was introduced and analyzed in Chapter 16.
     Refer to that chapter for more details if needed.
 
-#### 17.3 Load and Prepare Dataset
+#### Load and Prepare Dataset
 
     The dataset can be downloaded as a single 20 megabyte zip file. A direct download link is
     provided blow:
@@ -172,7 +172,7 @@ We can apply this function directly to the data within theDataFrame.
     Running the example creates the new filehouseholdpowerconsumption.csvthat we can
     use as the starting point for our modeling project.
 
-#### 17.4 Model Evaluation
+#### Model Evaluation
 
     In this section, we will consider how we can develop and evaluate predictive models for the
     household power dataset. This section is divided into four parts; they are:
@@ -442,7 +442,7 @@ the dataset.
 
 17.5. Develop Naive Forecast Models 350
 
-#### 17.5 Develop Naive Forecast Models
+#### Develop Naive Forecast Models
 
     It is important to test naive forecast models on any new prediction problem. The results from
     naive models provide a quantitative idea of how difficult the forecast problem is and provide a
@@ -686,7 +686,7 @@ is the forecast error for
 ![](./images/-.png)
 Power Forecasting.
 
-#### 17.6 Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -704,7 +704,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 17.7 Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -726,7 +726,7 @@ go deeper.
     http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_
     error.html
 
-#### 17.8 Summary
+#### Summary
 
     In this tutorial, you discovered how to develop a test harness for the household power consumption
     dataset and evaluate three naive forecast strategies that provide a baseline for more sophisticated

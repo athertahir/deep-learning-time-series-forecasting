@@ -26,7 +26,7 @@ in the field. Recently, deep
 
 Let’s get started.
 
-#### 24.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into four parts; they are:
 
@@ -39,7 +39,7 @@ This tutorial is divided into four parts; they are:
 
 24.2. Activity Recognition Using Smartphones Dataset 492
 
-#### 24.2 Activity Recognition Using Smartphones Dataset
+#### Activity Recognition Using Smartphones Dataset
 
     Human Activity Recognition, or HAR for short, is the problem of predicting what a person is
     doing based on a trace of their movement using sensors. A standard human activity recognition
@@ -52,7 +52,7 @@ This tutorial is divided into four parts; they are:
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
 
-#### 24.3 CNN for Activity Recognition
+#### CNN for Activity Recognition
 
     In this section, we will develop a one-dimensional convolutional neural network model (1D
     CNN) for the human activity recognition dataset. Convolutional neural network models were
@@ -499,31 +499,31 @@ dataset.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### >#1: 91.347
+>#1: 91.347
 
-##### >#2: 91.551
+>#2: 91.551
 
-##### >#3: 90.804
+>#3: 90.804
 
-##### >#4: 90.058
+>#4: 90.058
 
-##### >#5: 89.752
+>#5: 89.752
 
-##### >#6: 90.940
+>#6: 90.940
 
-##### >#7: 91.347
+>#7: 91.347
 
-##### >#8: 87.547
+>#8: 87.547
 
-##### >#9: 92.637
+>#9: 92.637
 
-##### >#10: 91.890
+>#10: 91.890
 
-##### [91.34713267729894, 91.55072955548015, 90.80420766881574, 90.05768578215134,
+[91.34713267729894, 91.55072955548015, 90.80420766881574, 90.05768578215134,
 
-##### 89.75229046487954, 90.93993892093654, 91.34713267729894, 87.54665761791652,
+89.75229046487954, 90.93993892093654, 91.34713267729894, 87.54665761791652,
 
-##### 92.63657957244655, 91.89005768578215]
+92.63657957244655, 91.89005768578215]
 
     Accuracy: 90.787% (+/-1.341)
 
@@ -534,7 +534,7 @@ dataset.
 whether we can further lift the skill of the model with some
 hyperparameter tuning.
 
-#### 24.4 Tuned CNN Model
+#### Tuned CNN Model
 
     In this section, we will tune the model in an effort to further improve performance on the
     problem. We will look at three main areas:
@@ -1174,7 +1174,7 @@ n_params = [8, 16, 32, 64, 128, 256]
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### ...
+...
 
     Param=8: 89.148% (+/-0.790)
     Param=16: 90.383% (+/-0.613)
@@ -1350,7 +1350,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
 Param=2: 90.176% (+/-0.724)
  Param=3: 90.275% (+/-1.277)
@@ -1381,7 +1381,7 @@ of some of the above
     findings to see if performance can be lifted even further. It may also be interesting to increase
     the number of repeats from 10 to 30 or more to see if it results in more stable findings.
 
-#### 24.5 Multi-headed CNN Model
+#### Multi-headed CNN Model
 
 Another popular approach with 1D CNNs is to have a multi-headed model,
 where each head of
@@ -1600,36 +1600,36 @@ scores = list()
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### >#1: 91.788
+>#1: 91.788
 
-##### >#2: 92.942
+>#2: 92.942
 
-##### >#3: 91.551
+>#3: 91.551
 
-##### >#4: 91.415
+>#4: 91.415
 
-##### >#5: 90.974
+>#5: 90.974
 
-##### >#6: 91.992
+>#6: 91.992
 
-##### >#7: 92.162
+>#7: 92.162
 
-##### >#8: 89.888
+>#8: 89.888
 
-##### >#9: 92.671
+>#9: 92.671
 
-##### >#10: 91.415
+>#10: 91.415
 
-##### [91.78825924669155, 92.94197488971835, 91.55072955548015, 91.41499830335935,
+[91.78825924669155, 92.94197488971835, 91.55072955548015, 91.41499830335935,
 
-##### 90.97387173396675, 91.99185612487275, 92.16152019002375, 89.88802171700034,
+90.97387173396675, 91.99185612487275, 92.16152019002375, 89.88802171700034,
 
-##### 92.67051238547675, 91.41499830335935]
+92.67051238547675, 91.41499830335935]
 
     Accuracy: 91.680% (+/-0.823)
 
 ```
-#### 24.6 Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1651,7 +1651,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 24.7 Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1674,7 +1674,7 @@ go deeper.
     - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-#### 24.8 Summary
+#### Summary
 
     In this tutorial, you discovered how to develop one-dimensional convolutional neural networks
     for time series classification on the problem of human activity recognition. Specifically, you

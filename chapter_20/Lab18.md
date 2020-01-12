@@ -21,7 +21,7 @@
 
 Let’s get started.
 
-#### 20.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into nine parts; they are:
 
@@ -40,7 +40,7 @@ This tutorial is divided into nine parts; they are:
 8.  CNN-LSTM Encoder-Decoder With Univariate Input
 9.  ConvLSTM Encoder-Decoder With Univariate Input
 
-#### 20.2 Problem Description
+#### Problem Description
 
     TheHousehold Power Consumptiondataset is a multivariate time series dataset that describes
     the electricity consumption for a single household over four years. The data was collected
@@ -73,13 +73,13 @@ of active energy).
     variables from the total active energy. This dataset was introduced and analyzed in Chapter 16.
     Refer to that chapter for more details if needed.
 
-#### 20.3 Load and Prepare Dataset
+#### Load and Prepare Dataset
 
     We will use the same framework to load and prepare the data as was used for the naive models.
     In the interest of brevity, refer to Chapter 17 for the details on how to load and prepare the
     dataset for modeling.
 
-#### 20.4 Model Evaluation
+#### Model Evaluation
 
     We will use the same framework to evaluate models as was used for the naive models. In
     the interest of brevity, refer to Chapter 17 for the details on how to develop a framework for
@@ -90,7 +90,7 @@ of active energy).
 
 20.5. LSTMs for Multi-step Forecasting 396
 
-#### 20.5 LSTMs for Multi-step Forecasting
+#### LSTMs for Multi-step Forecasting
 
     Recurrent neural networks, or RNNs, are specifically designed to work, learn, and predict
     sequence data and can be used for multi-step time series forecasting. For more details on the
@@ -128,7 +128,7 @@ input data.
     a good idea to explore a suite of methods in order to discover what works best on your specific
     dataset.
 
-#### 20.6 Univariate Input and Vector Output
+#### Univariate Input and Vector Output
 
     We will start off by developing a simple or vanilla LSTM model that reads in a sequence of days
     of total daily power consumption and predicts a vector output of the next standard week of daily
@@ -382,8 +382,6 @@ mse = mean_squared_error(actual[:, i], predicted[:, i])
 rmse = sqrt(mse)
 scores.append(rmse)
 
-20.6. Univariate Input and Vector Output 401
-
     # calculate overall RMSE
     s = 0
     for row in range(actual.shape[0]):
@@ -563,7 +561,7 @@ Output and 14-day
 
 Inputs.
 
-#### 20.7 Encoder-Decoder LSTM With Univariate Input
+#### Encoder-Decoder LSTM With Univariate Input
 
 In this section, we can update the vanilla LSTM to use an
 encoder-decoder model. This means
@@ -847,7 +845,7 @@ LSTM with 14-day
 
 Inputs.
 
-#### 20.8 Encoder-Decoder LSTM With Multivariate Input
+#### Encoder-Decoder LSTM With Multivariate Input
 
 In this section, we will update the Encoder-Decoder LSTM developed in
 the previous section to
@@ -1103,7 +1101,7 @@ A line plot of the per-day RMSE is also created.
     ![](./images/-.png)
     Inputs.
 
-#### 20.9 CNN-LSTM Encoder-Decoder With Univariate In-
+#### CNN-LSTM Encoder-Decoder With Univariate In-
 
 #### put
 
@@ -1363,7 +1361,7 @@ A line plot of the per-day RMSE is also created.
 
 14-day Inputs.
 
-#### 20.10 ConvLSTM Encoder-Decoder With Univariate In-
+####0 ConvLSTM Encoder-Decoder With Univariate In-
 
 #### put
 
@@ -1692,7 +1690,7 @@ A line plot of the per-day RMSE is also created.
 
 14-day Inputs.
 
-#### 20.11Extensions
+####1Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1714,7 +1712,7 @@ If you explore any of these extensions, I’d love to know.
 
 20.12. Further Reading 427
 
-#### 20.12Further Reading
+####2Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1740,7 +1738,7 @@ go deeper.
     - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
-#### 20.13Summary
+####3Summary
 
     In this tutorial, you discovered how to develop long short-term memory recurrent neural networks
     for multi-step time series forecasting of household power consumption. Specifically, you learned:

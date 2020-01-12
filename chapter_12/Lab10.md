@@ -23,7 +23,7 @@
 
 Let’s get started.
 
-### 12.1 Tutorial Overview
+### Tutorial Overview
 
 This tutorial is divided into five parts; they are:
 
@@ -37,7 +37,7 @@ This tutorial is divided into five parts; they are:
 
 12.2. Develop a Grid Search Framework 207
 
-### 12.2 Develop a Grid Search Framework
+### Develop a Grid Search Framework
 
     In this section, we will develop a framework for grid searching exponential smoothing model
     hyperparameters for a given univariate time series forecasting problem. For more information
@@ -342,7 +342,7 @@ hyperparameters and allow
     demonstration purposes; I am not suggesting that an ETS model is the best approach for each
     dataset, and perhaps an SARIMA or something else would be more appropriate in some cases.
 
-### 12.3 Case Study 1: No Trend or Seasonality
+### Case Study 1: No Trend or Seasonality
 
 Thedaily female birthsdataset summarizes the daily total female births
 in California, USA in
@@ -509,7 +509,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
     > Model[['mul', False, None, None, True, False]] 6.985
     > Model[[None, False, None, None, True, True]] 7.169
@@ -547,7 +547,7 @@ running the example a few times.
     than one that didn’t. We would not know that this is the case unless we threw out assumptions
     and grid searched models.
 
-### 12.4 Case Study 2: Trend
+### Case Study 2: Trend
 
 Themonthly shampoo salesdataset summarizes the monthly sales of shampoo
 over a three-year
@@ -709,7 +709,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
 > Model[['mul', True, None, None, False, False]] 102.152
 >  Model[['mul', False, None, None, False, True]] 86.406
@@ -749,7 +749,7 @@ model as follows:
 
 12.5. Case Study 3: Seasonality 219
 
-### 12.5 Case Study 3: Seasonality
+### Case Study 3: Seasonality
 
 Themonthly mean temperaturesdataset summarizes the monthly average air
 temperatures in
@@ -960,7 +960,7 @@ running the hyperparameter grid search are listed below.
 
 - Remove Bias: False
 
-### 12.6 Case Study 4: Trend and Seasonality
+### Case Study 4: Trend and Seasonality
 
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
@@ -1140,7 +1140,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
 > Model[['mul', True,'add', 6, False, False]] 3745.142
 >  Model[['mul', True,'add', 12, True, True]] 2203.354
@@ -1184,7 +1184,7 @@ as follows:
     This is a little surprising as I would have guessed that a six-month seasonal model would be
     the preferred approach.
 
-### 12.7 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1201,7 +1201,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-### 12.8 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1230,7 +1230,7 @@ go deeper.
     - Exponential smoothing, Wikipedia.
     https://en.wikipedia.org/wiki/Exponential_smoothing
 
-### 12.9 Summary
+### Summary
 
     In this tutorial, you discovered how to develop a framework for grid searching all of the
     exponential smoothing model hyperparameters for univariate time series forecasting. Specifically,

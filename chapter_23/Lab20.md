@@ -27,7 +27,7 @@ in the field.
 
 Let’s get started.
 
-#### 23.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into three parts; they are:
 
@@ -39,7 +39,7 @@ This tutorial is divided into three parts; they are:
 
 23.2. Activity Recognition Using Smartphones Dataset 478
 
-#### 23.2 Activity Recognition Using Smartphones Dataset
+#### Activity Recognition Using Smartphones Dataset
 
     Human Activity Recognition, or HAR for short, is the problem of predicting what a person is
     doing based on a trace of their movement using sensors. A standard human activity recognition
@@ -52,7 +52,7 @@ This tutorial is divided into three parts; they are:
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
 
-#### 23.3 Modeling Feature Engineered Data
+#### Modeling Feature Engineered Data
 
     In this section, we will develop code to load the feature-engineered version of the dataset and
     evaluate a suite of nonlinear machine learning algorithms, including SVM used in the original
@@ -414,7 +414,7 @@ Defined 8 models
     on that data directly may provide an expected lower bound on the performance of any more
     advanced methods. We will explore this in the next section.
 
-#### 23.4 Modeling Raw Data
+#### Modeling Raw Data
 
 We can use the same framework for evaluating machine learning models on
 the raw data. The
@@ -707,7 +707,7 @@ summary, the bounds for
     such methods extend on this dataset from about 87% accuracy with GBM on the raw data to
     about 94% with Extra Trees and SVM on the highly processed dataset, [87% to 94%].
 
-#### 23.5 Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -726,7 +726,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 23.6 Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -755,7 +755,7 @@ go deeper.
     - sklearn.ensembleAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble
 
-#### 23.7 Summary
+#### Summary
 
 In this tutorial, you discovered how to evaluate a diverse suite of
 machine learning algorithms

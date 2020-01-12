@@ -20,7 +20,7 @@
 
 Let’s get started.
 
-#### 16.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into five parts; they are:
 
@@ -38,7 +38,7 @@ This tutorial is divided into five parts; they are:
     learn about the dataset, rather than used as the basis for presentation. As such they are more
     utilitarian and less aesthetic.
 
-#### 16.2 Household Power Consumption Dataset
+#### Household Power Consumption Dataset
 
     The Household Power Consumption dataset is a multivariate time series dataset that describes
     the electricity consumption for a single household over four years. The data was collected
@@ -86,7 +86,7 @@ remainder = (
     methods for multi-step forecasting, specifically for forecasting active power. Further, it is not
     clear whether the other features in the dataset may benefit a model in forecasting active power.
 
-#### 16.3 Load Dataset
+#### Load Dataset
 
     The dataset is described and has been made freely available on the UCI Machine Learning
     repository^1. The dataset can be downloaded as a single 20 megabyte zip file. A direct download
@@ -296,7 +296,7 @@ for example around row 190,499:
 
 visualizations.
 
-#### 16.4 Patterns in Observations Over Time
+#### Patterns in Observations Over Time
 
 The data is a multivariate time series and the best way to understand a
 time series is to create
@@ -502,7 +502,7 @@ expected.
 
 ![](./images/-.png)
 
-#### 16.5 Time Series Data Distributions
+#### Time Series Data Distributions
 
 Another important area to consider is the distribution of the variables.
 For example, it may be
@@ -664,7 +664,7 @@ down in the warmer northern
 ![](./images/-.png)
 Year.
 
-#### 16.6 Ideas on Modeling
+#### Ideas on Modeling
 
     Now that we know how to load and explore the dataset, we can pose some ideas on how to
     model the dataset. In this section, we will take a closer look at three main areas when working
@@ -821,7 +821,7 @@ Deep Learning Methods
     possible that these methods may be able to harness the large volume of minute-based data and
     multiple input variables.
 
-#### 16.7 Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -837,7 +837,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 16.8 Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -861,7 +861,7 @@ go deeper.
 
 16.9. Summary 341
 
-#### 16.9 Summary
+#### Summary
 
     In this tutorial, you discovered a household power consumption dataset for multi-step time series
     forecasting and how to better understand the raw data using exploratory analysis. Specifically,

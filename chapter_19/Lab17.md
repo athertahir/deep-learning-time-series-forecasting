@@ -25,7 +25,7 @@ univariate data.
 
 Let’s get started.
 
-#### 19.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into seven parts; they are:
 
@@ -42,7 +42,7 @@ This tutorial is divided into seven parts; they are:
 6.  Multi-channel CNN Model
 7.  Multi-headed CNN Model
 
-#### 19.2 Problem Description
+#### Problem Description
 
     TheHousehold Power Consumptiondataset is a multivariate time series dataset that describes
     the electricity consumption for a single household over four years. The data was collected
@@ -75,13 +75,13 @@ of active energy).
     variables from the total active energy. This dataset was introduced and analyzed in Chapter 16.
     Refer to that chapter for more details if needed.
 
-#### 19.3 Load and Prepare Dataset
+#### Load and Prepare Dataset
 
     We will use the same framework to load and prepare the data as was used for the naive models.
     In the interest of brevity, refer to Chapter 17 for the details on how to load and prepare the
     dataset for modeling.
 
-#### 19.4 Model Evaluation
+#### Model Evaluation
 
     We will use the same framework to evaluate models as was used for the naive models. In
     the interest of brevity, refer to Chapter 17 for the details on how to develop a framework for
@@ -159,7 +159,7 @@ models that are faster to
 We now have all of the elements to begin evaluating predictive models on
 the dataset.
 
-#### 19.5 CNNs for Multi-step Forecasting
+#### CNNs for Multi-step Forecasting
 
     Convolutional Neural Network models, or CNNs for short, can be used for multi-step time series
     forecasting. For more details on the use of CNNs for multi-step forecasting, see Chapter 8.
@@ -210,7 +210,7 @@ and error. Given the
 
 19.6. Univariate CNN Model 371
 
-#### 19.6 Univariate CNN Model
+#### Univariate CNN Model
 
     In this section, we will develop a convolutional neural network for multi-step time series
     forecasting using only the univariate sequence of daily power consumption. Specifically, the
@@ -627,7 +627,7 @@ model) that reads the training data in different ways.
 ![](./images/-.png)
 Inputs.
 
-#### 19.7 Multi-channel CNN Model
+#### Multi-channel CNN Model
 
     In this section, we will update the CNN developed in the previous section to use each of the
     eight time series variables to predict the next standard week of daily total power consumption.
@@ -930,7 +930,7 @@ further gains can be made.
 ![](./images/-.png)
 14-day Inputs.
 
-#### 19.8 Multi-headed CNN Model
+#### Multi-headed CNN Model
 
 We can further extend the CNN model to have a separate sub-CNN model or
 head for each input
@@ -1285,7 +1285,7 @@ each submodel.
 ![](./images/-.png)
 Inputs.
 
-#### 19.9 Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1311,7 +1311,7 @@ If you explore any of these extensions, I’d love to know.
 
 19.10. Further Reading 393
 
-#### 19.10Further Reading
+####0Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1334,7 +1334,7 @@ go deeper.
     - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-#### 19.11Summary
+####1Summary
 
     In this tutorial, you discovered how to develop 1D convolutional neural networks for multi-step
     time series forecasting. Specifically, you learned:

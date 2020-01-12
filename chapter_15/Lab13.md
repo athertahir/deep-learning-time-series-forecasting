@@ -22,7 +22,7 @@ hyperparameters.
 
 Let’s get started.
 
-### 15.1 Tutorial Overview
+### Tutorial Overview
 
 This tutorial is divided into five parts; they are:
 
@@ -36,7 +36,7 @@ This tutorial is divided into five parts; they are:
 
 15.2. Time Series Problem 291
 
-### 15.2 Time Series Problem
+### Time Series Problem
 
 In this tutorial we will focus on one dataset and use it as the context
 to demonstrate the
@@ -130,7 +130,7 @@ test harness.
 
 15.3. Develop a Grid Search Framework 293
 
-### 15.3 Develop a Grid Search Framework
+### Develop a Grid Search Framework
 
     In this section, we will develop a grid search test harness that can be used to evaluate a range of
     hyperparameters for different neural network models, such as MLPs, CNNs, and LSTMs. This
@@ -497,11 +497,11 @@ index_col=0)
 (relative offset -12) resulted in the best performance for the
 persistence model.
 
-##### > 110.274
+> 110.274
 
-##### > 110.274
+> 110.274
 
-##### > 110.274
+> 110.274
 
     > Model[36] 110.274
     done
@@ -517,7 +517,7 @@ persistence model.
     Now that we have a robust test harness for grid searching model hyperparameters, we can
     use it to evaluate a suite of neural network models.
 
-### 15.4 Multilayer Perceptron Model
+### Multilayer Perceptron Model
 
     In this section we will grid search hyperparameters for an MLPs for univariate time series
     forecasting. For more details on modeling a univariate time series with an MLP, see Chapter 7.
@@ -895,7 +895,7 @@ A truncated example output of the grid search is listed below.
 
     ```
 
-### 15.5 Convolutional Neural Network Model
+### Convolutional Neural Network Model
 
 We can now adapt the framework to grid search CNN models. For more
 details on modeling a
@@ -1244,7 +1244,7 @@ A truncated example output of the grid search is listed below.
 
     ```
 
-### 15.6 Long Short-Term Memory Network Model
+### Long Short-Term Memory Network Model
 
 We can now adopt the framework for grid searching the hyperparameters of
 an LSTM model.
@@ -1569,7 +1569,7 @@ Total configs: 2
 
 15.7. Extensions 318
 
-##### > 21.322
+> 21.322
 
     > Model[[12, 100, 50, 150, 12]] 21.260
     done
@@ -1579,7 +1579,7 @@ Total configs: 2
 
     ```
 
-### 15.7 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1602,7 +1602,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 15.8 Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1624,7 +1624,7 @@ go deeper.
 
 15.9. Summary 319
 
-#### 15.9 Summary
+#### Summary
 
     In this tutorial, you discovered how to develop a framework to grid search hyperparameters for
     deep learning models. Specifically, you learned:

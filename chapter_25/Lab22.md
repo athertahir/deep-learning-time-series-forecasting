@@ -26,7 +26,7 @@ expertise in the field. Recently,
 
 Let’s get started.
 
-#### 25.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into four parts; they are:
 
@@ -39,7 +39,7 @@ This tutorial is divided into four parts; they are:
 
 25.2. Activity Recognition Using Smartphones Dataset 524
 
-#### 25.2 Activity Recognition Using Smartphones Dataset
+#### Activity Recognition Using Smartphones Dataset
 
     Human Activity Recognition, or HAR for short, is the problem of predicting what a person is
     doing based on a trace of their movement using sensors. A standard human activity recognition
@@ -52,7 +52,7 @@ This tutorial is divided into four parts; they are:
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
 
-#### 25.3 LSTM Model
+#### LSTM Model
 
     In this section, we will develop a Long Short-Term Memory network model (LSTM) for the
     human activity recognition dataset. LSTM network models are a type of recurrent neural
@@ -472,31 +472,31 @@ dataset.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### >#1: 90.058
+>#1: 90.058
 
-##### >#2: 85.918
+>#2: 85.918
 
-##### >#3: 90.974
+>#3: 90.974
 
-##### >#4: 89.515
+>#4: 89.515
 
-##### >#5: 90.159
+>#5: 90.159
 
-##### >#6: 91.110
+>#6: 91.110
 
-##### >#7: 89.718
+>#7: 89.718
 
-##### >#8: 90.295
+>#8: 90.295
 
-##### >#9: 89.447
+>#9: 89.447
 
-##### >#10: 90.024
+>#10: 90.024
 
-##### [90.05768578215134, 85.91788259246692, 90.97387173396675, 89.51476077366813,
+[90.05768578215134, 85.91788259246692, 90.97387173396675, 89.51476077366813,
 
-##### 90.15948422124194, 91.10960298608755, 89.71835765184933, 90.29521547336275,
+90.15948422124194, 91.10960298608755, 89.71835765184933, 90.29521547336275,
 
-##### 89.44689514760775, 90.02375296912113]
+89.44689514760775, 90.02375296912113]
 
     Accuracy: 89.722% (+/-1.371)
 
@@ -505,7 +505,7 @@ dataset.
     Now that we have seen how to develop an LSTM model for time series classification, let’s
     look at how we can develop a more sophisticated CNN-LSTM model.
 
-#### 25.4 CNN-LSTM Model
+#### CNN-LSTM Model
 
 The CNN-LSTM architecture involves using Convolutional Neural Network
 (CNN) layers for
@@ -718,37 +718,37 @@ run_experiment()
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### >#1: 91.517
+>#1: 91.517
 
-##### >#2: 91.042
+>#2: 91.042
 
-##### >#3: 90.804
+>#3: 90.804
 
-##### >#4: 92.263
+>#4: 92.263
 
-##### >#5: 89.684
+>#5: 89.684
 
-##### >#6: 88.666
+>#6: 88.666
 
-##### >#7: 91.381
+>#7: 91.381
 
-##### >#8: 90.804
+>#8: 90.804
 
-##### >#9: 89.379
+>#9: 89.379
 
-##### >#10: 91.347
+>#10: 91.347
 
-##### [91.51679674244994, 91.04173736002714, 90.80420766881574, 92.26331862911435,
+[91.51679674244994, 91.04173736002714, 90.80420766881574, 92.26331862911435,
 
-##### 89.68442483881914, 88.66644044791313, 91.38106549032915, 90.80420766881574,
+89.68442483881914, 88.66644044791313, 91.38106549032915, 90.80420766881574,
 
-##### 89.37902952154734, 91.34713267729894]
+89.37902952154734, 91.34713267729894]
 
     Accuracy: 90.689% (+/-1.051)
 
 ```
 
-#### 25.5 ConvLSTM Model
+#### ConvLSTM Model
 
 A further extension of the CNN-LSTM idea is to perform the convolutions
 of the CNN (e.g.
@@ -936,31 +936,31 @@ results may vary. Consider
 
 running the example a few times.
 
-##### >#1: 90.092
+>#1: 90.092
 
-##### >#2: 91.619
+>#2: 91.619
 
-##### >#3: 92.128
+>#3: 92.128
 
-##### >#4: 90.533
+>#4: 90.533
 
-##### >#5: 89.243
+>#5: 89.243
 
-##### >#6: 90.940
+>#6: 90.940
 
-##### >#7: 92.026
+>#7: 92.026
 
-##### >#8: 91.008
+>#8: 91.008
 
-##### >#9: 90.499
+>#9: 90.499
 
-##### >#10: 89.922
+>#10: 89.922
 
-##### [90.09161859518154, 91.61859518154056, 92.12758737699356, 90.53274516457415,
+[90.09161859518154, 91.61859518154056, 92.12758737699356, 90.53274516457415,
 
-##### 89.24329826942655, 90.93993892093654, 92.02578893790296, 91.00780454699695,
+89.24329826942655, 90.93993892093654, 92.02578893790296, 91.00780454699695,
 
-##### 90.49881235154395, 89.92195453003053]
+90.49881235154395, 89.92195453003053]
 
 Accuracy: 90.801% (+/-0.886)
 
@@ -968,7 +968,7 @@ Accuracy: 90.801% (+/-0.886)
 
 25.6. Extensions 539
 
-#### 25.6 Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -984,7 +984,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 25.7 Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1010,7 +1010,7 @@ go deeper.
     - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
-#### 25.8 Summary
+#### Summary
 
     In this tutorial, you discovered three recurrent neural network architectures for modeling an
     activity recognition time series classification problem. Specifically, you learned:

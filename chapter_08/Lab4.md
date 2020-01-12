@@ -28,7 +28,7 @@ completing this tutorial, you will know:
 
 Let’s get started.
 
-### 8.1 Tutorial Overview
+### Tutorial Overview
 
 In this tutorial, we will explore how to develop CNN models for time
 series forecasting. The
@@ -53,7 +53,7 @@ into four parts; they are:
 
 8.2. Univariate CNN Models 88
 
-### 8.2 Univariate CNN Models
+### Univariate CNN Models
 
 Although traditionally developed for two-dimensional image data, CNNs
 can be used to model
@@ -290,7 +290,7 @@ x_input = array([70, 80, 90])
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[101.67965]]
+[[101.67965]]
 
 ```
 
@@ -298,7 +298,7 @@ x_input = array([70, 80, 90])
     see Chapter 14. For an example of grid searching CNN hyperparameters on a univariate time
     series forecasting problem, see Chapter 15.
 
-### 8.3 Multivariate CNN Models
+### Multivariate CNN Models
 
     Multivariate time series data means data where there is more than one observation for each
     time step. There are two main models that we may require with multivariate time series data;
@@ -636,7 +636,7 @@ prediction.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[206.0161]]
+[[206.0161]]
 
 ```
 
@@ -818,7 +818,7 @@ prediction.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[205.871]]
+[[205.871]]
 
     ```
 
@@ -851,11 +851,11 @@ previous section:
 
 8.3. Multivariate CNN Models 102
 
-##### 10, 15, 25
+10, 15, 25
 
-##### 20, 25, 45
+20, 25, 45
 
-##### 30, 35, 65
+30, 35, 65
 
 ```
 Output:
@@ -1077,7 +1077,7 @@ prediction.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[100.11272 105.32213 205.53436]]
+[[100.11272 105.32213 205.53436]]
 
 ```
 
@@ -1239,7 +1239,7 @@ forecasting problem,
 
 see Chapter 19.
 
-### 8.4 Multi-step CNN Models
+### Multi-step CNN Models
 
 In practice, there is little difference to the 1D CNN model in
 predicting a vector output that
@@ -1465,14 +1465,14 @@ sequence.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[102.86651 115.08979]]
+[[102.86651 115.08979]]
 
 ```
 
     For an example of CNN models developed for a multi-step time series forecasting problem,
     see Chapter 19.
 
-### 8.5 Multivariate Multi-step CNN Models
+### Multivariate Multi-step CNN Models
 
     In the previous sections, we have looked at univariate, multivariate, and multi-step time series
     forecasting. It is possible to mix and match the different types of 1D CNN models presented so
@@ -1613,33 +1613,33 @@ The output portion of the
 
 8.5. Multivariate Multi-step CNN Models 115
 
-##### [30 35]
+[30 35]
 
-##### [40 45]] [ 85 105]
+[40 45]] [ 85 105]
 
-##### [[30 35]
+[[30 35]
 
-##### [40 45]
+[40 45]
 
-##### [50 55]] [105 125]
+[50 55]] [105 125]
 
-##### [[40 45]
+[[40 45]
 
-##### [50 55]
+[50 55]
 
-##### [60 65]] [125 145]
+[60 65]] [125 145]
 
-##### [[50 55]
+[[50 55]
 
-##### [60 65]
+[60 65]
 
-##### [70 75]] [145 165]
+[70 75]] [145 165]
 
-##### [[60 65]
+[[60 65]
 
-##### [70 75]
+[70 75]
 
-##### [80 85]] [165 185]
+[80 85]] [165 185]
 
 ```
 
@@ -1717,7 +1717,7 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[185.57011 207.77893]]
+[[185.57011 207.77893]]
 
     ```
 
@@ -1974,7 +1974,7 @@ values.
     For an example of CNN models developed for a multivariate multi-step time series forecasting
     problem, see Chapter 19.
 
-### 8.6 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1992,7 +1992,7 @@ If you explore any of these extensions, I’d love to know.
 
 8.7. Further Reading 121
 
-### 8.7 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -2041,7 +2041,7 @@ go deeper.
 
 8.8. Summary 122
 
-### 8.8 Summary
+### Summary
 
 In this tutorial, you discovered how to develop a suite of CNN models
 for a range of standard

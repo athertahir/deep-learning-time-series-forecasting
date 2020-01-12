@@ -25,7 +25,7 @@ data for births.
 
 Let’s get started.
 
-### 13.1 Tutorial Overview
+### Tutorial Overview
 
 This tutorial is divided into five parts; they are:
 
@@ -39,7 +39,7 @@ This tutorial is divided into five parts; they are:
 
 13.2. Develop a Grid Search Framework 229
 
-### 13.2 Develop a Grid Search Framework
+### Develop a Grid Search Framework
 
     In this section, we will develop a framework for grid searching SARIMA model hyperparameters
     for a given univariate time series forecasting problem. For more information on SARIMA for
@@ -312,7 +312,7 @@ for p in p_params:
     for demonstration purposes; I am not suggesting that a SARIMA model is the best approach
     for each dataset; perhaps an ETS or something else would be more appropriate in some cases.
 
-### 13.3 Case Study 1: No Trend or Seasonality
+### Case Study 1: No Trend or Seasonality
 
 Thedaily female birthsdataset summarizes the daily total female births
 in California, USA in
@@ -478,7 +478,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
 > Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 6.905
 >  Model[[(2, 1, 2), (2, 0, 0, 0),'ct']] 7.031
@@ -516,7 +516,7 @@ follows:
     I would not have guessed at this configuration and would have likely stuck with an ARIMA
     model.
 
-### 13.4 Case Study 2: Trend
+### Case Study 2: Trend
 
 Themonthly shampoo salesdataset summarizes the monthly sales of shampoo
 over a three-year
@@ -677,7 +677,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
 > Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 68.891
 >  Model[[(2, 1, 2), (2, 0, 0, 0),'ct']] 75.406
@@ -706,7 +706,7 @@ running the example a few times.
 
 - Trend Parameter:‘t’(linear trend)
 
-### 13.5 Case Study 3: Seasonality
+### Case Study 3: Seasonality
 
 Themonthly mean temperaturesdataset summarizes the monthly average air
 temperatures in
@@ -891,7 +891,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### ...
+...
 
 > Model[[(2, 1, 2), (2, 1, 0, 12),'t']] 4.599
 >  Model[[(2, 1, 2), (1, 1, 0, 12),'ct']] 2.477
@@ -928,7 +928,7 @@ model as follows:
     As we would expect, the model has no trend component and a 12-month seasonal ARIMA
     component.
 
-### 13.6 Case Study 4: Trend and Seasonality
+### Case Study 4: Trend and Seasonality
 
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
@@ -1127,7 +1127,7 @@ running the example a few times.
 
 - Trend Parameter:‘t’(linear trend)
 
-### 13.7 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1144,7 +1144,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-### 13.8 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1181,7 +1181,7 @@ go deeper.
     - Autoregressive integrated moving average, Wikipedia.
     https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
 
-### 13.9 Summary
+### Summary
 
 In this tutorial, you discovered how to develop a framework for grid
 searching all of the SARIMA

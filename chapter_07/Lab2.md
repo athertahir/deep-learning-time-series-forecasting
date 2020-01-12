@@ -23,7 +23,7 @@ you will know:
 
 Let’s get started.
 
-### 7.1 Tutorial Overview
+### Tutorial Overview
 
 In this tutorial, we will explore how to develop a suite of MLP models
 for time series forecasting.
@@ -53,7 +53,7 @@ series forecasting
 
 beyond this tutorial.
 
-### 7.2 Univariate MLP Models
+### Univariate MLP Models
 
     Multilayer Perceptrons, or MLPs for short, can be used to model univariate time series forecasting
     problems. Univariate time series are a dataset comprised of a single series of observations with
@@ -244,7 +244,7 @@ results may vary. Consider
 
 running the example a few times.
 
-##### [[100.0109]]
+[[100.0109]]
 
 ```
 
@@ -256,7 +256,7 @@ a univariate time
 
 series forecasting problem, see Chapter 15.
 
-### 7.3 Multivariate MLP Models
+### Multivariate MLP Models
 
 Multivariate time series data means data where there is more than one
 observation for each
@@ -322,25 +322,24 @@ The complete example is listed below.
     Running the example prints the dataset with one row per time step and one column for each
     of the two input and one output parallel time series.
 
-7.3. Multivariate MLP Models 59
 
-##### [[ 10 15 25]
+[[ 10 15 25]
 
-##### [ 20 25 45]
+[ 20 25 45]
 
-##### [ 30 35 65]
+[ 30 35 65]
 
-##### [ 40 45 85]
+[ 40 45 85]
 
-##### [ 50 55 105]
+[ 50 55 105]
 
-##### [ 60 65 125]
+[ 60 65 125]
 
-##### [ 70 75 145]
+[ 70 75 145]
 
-##### [ 80 85 165]
+[ 80 85 165]
 
-##### [ 90 95 185]]
+[ 90 95 185]]
 
 ```
 As with the univariate time series, we must structure these data into
@@ -461,49 +460,49 @@ the number of parallel time
 
 7.3. Multivariate MLP Models 61
 
-##### (7, 3, 2) (7,)
+(7, 3, 2) (7,)
 
-##### [[10 15]
+[[10 15]
 
-##### [20 25]
+[20 25]
 
-##### [30 35]] 65
+[30 35]] 65
 
-##### [[20 25]
+[[20 25]
 
-##### [30 35]
+[30 35]
 
-##### [40 45]] 85
+[40 45]] 85
 
-##### [[30 35]
+[[30 35]
 
-##### [40 45]
+[40 45]
 
-##### [50 55]] 105
+[50 55]] 105
 
-##### [[40 45]
+[[40 45]
 
-##### [50 55]
+[50 55]
 
-##### [60 65]] 125
+[60 65]] 125
 
-##### [[50 55]
+[[50 55]
 
-##### [60 65]
+[60 65]
 
-##### [70 75]] 145
+[70 75]] 145
 
-##### [[60 65]
+[[60 65]
 
-##### [70 75]
+[70 75]
 
-##### [80 85]] 165
+[80 85]] 165
 
-##### [[70 75]
+[[70 75]
 
-##### [80 85]
+[80 85]
 
-##### [90 95]] 185
+[90 95]] 185
 
     ```
 
@@ -631,7 +630,7 @@ prediction.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[205.04436]]
+[[205.04436]]
 
 ```
 
@@ -773,7 +772,7 @@ prediction.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[206.05022]]
+[[206.05022]]
 
     ```
 
@@ -1158,7 +1157,7 @@ prediction.
 
 ```
 
-### 7.4 Multi-step MLP Models
+### Multi-step MLP Models
 
     In practice, there is little difference to the MLP model in predicting a vector output that
     represents different output variables (as in the previous example) or a vector output that
@@ -1292,7 +1291,7 @@ multi-step forecast. This
 
 We would expect the predicted output to be:
 
-##### [100, 110]
+[100, 110]
 
 ```
     As expected by the model, the shape of the single sample of input data when making the
@@ -1348,11 +1347,11 @@ sequence.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[102.572365 113.88405 ]]
+[[102.572365 113.88405 ]]
 
 ```
 
-#### 7.5 Multivariate Multi-step MLP Models
+#### Multivariate Multi-step MLP Models
 
     In the previous sections, we have looked at univariate, multivariate, and multi-step time series
     forecasting. It is possible to mix and match the different types of MLP models presented so
@@ -1398,13 +1397,12 @@ output series is separate
     steps of the output time series.
     Input:
 
-7.5. Multivariate Multi-step MLP Models 78
 
-##### 10, 15
+10, 15
 
-##### 20, 25
+20, 25
 
-##### 30, 35
+30, 35
 
 ```
 
@@ -1562,7 +1560,7 @@ running the example a few times.
 
 7.5. Multivariate Multi-step MLP Models 81
 
-##### [[186.53822 208.41725]]
+[[186.53822 208.41725]]
 
     ```
 
@@ -1676,43 +1674,43 @@ data was prepared as we expected.
 
 7.5. Multivariate Multi-step MLP Models 83
 
-##### [20 25 45]
+[20 25 45]
 
-##### [30 35 65]] [[ 40 45 85]
+[30 35 65]] [[ 40 45 85]
 
-##### [ 50 55 105]]
+[ 50 55 105]]
 
-##### [[20 25 45]
+[[20 25 45]
 
-##### [30 35 65]
+[30 35 65]
 
-##### [40 45 85]] [[ 50 55 105]
+[40 45 85]] [[ 50 55 105]
 
-##### [ 60 65 125]]
+[ 60 65 125]]
 
-##### [[ 30 35 65]
+[[ 30 35 65]
 
-##### [ 40 45 85]
+[ 40 45 85]
 
-##### [ 50 55 105]] [[ 60 65 125]
+[ 50 55 105]] [[ 60 65 125]
 
-##### [ 70 75 145]]
+[ 70 75 145]]
 
-##### [[ 40 45 85]
+[[ 40 45 85]
 
-##### [ 50 55 105]
+[ 50 55 105]
 
-##### [ 60 65 125]] [[ 70 75 145]
+[ 60 65 125]] [[ 70 75 145]
 
-##### [ 80 85 165]]
+[ 80 85 165]]
 
-##### [[ 50 55 105]
+[[ 50 55 105]
 
-##### [ 60 65 125]
+[ 60 65 125]
 
-##### [ 70 75 145]] [[ 80 85 165]
+[ 70 75 145]] [[ 80 85 165]
 
-##### [ 90 95 185]]
+[ 90 95 185]]
 
 ```
 
@@ -1802,13 +1800,13 @@ results may vary. Consider
 
 running the example a few times.
 
-##### [[ 91.28376 96.567 188.37575 100.54482 107.9219 208.108 ]]
+[[ 91.28376 96.567 188.37575 100.54482 107.9219 208.108 ]]
 
 7.6. Extensions 85
 
     ```
 
-### 7.6 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1824,7 +1822,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-### 7.7 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1859,7 +1857,7 @@ go deeper.
 
 7.8. Summary 86
 
-### 7.8 Summary
+### Summary
 
 In this tutorial, you discovered how to develop a suite of Multilayer
 Perceptron, or MLP, models

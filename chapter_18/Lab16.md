@@ -20,7 +20,7 @@ one-week forecasts.
 
 Let’s get started.
 
-#### 18.1 Tutorial Overview
+#### Tutorial Overview
 
 This tutorial is divided into five parts; they are:
 
@@ -34,7 +34,7 @@ This tutorial is divided into five parts; they are:
 
 18.2. Problem Description 357
 
-#### 18.2 Problem Description
+#### Problem Description
 
     TheHousehold Power Consumptiondataset is a multivariate time series dataset that describes
     the electricity consumption for a single household over four years. The data was collected
@@ -67,19 +67,19 @@ of active energy).
     variables from the total active energy. This dataset was introduced and analyzed in Chapter 16.
     Refer to that chapter for more details if needed.
 
-#### 18.3 Load and Prepare Dataset
+#### Load and Prepare Dataset
 
     We will use the same framework to load and prepare the data as was used for the naive models.
     In the interest of brevity, refer to Chapter 17 for the details on how to load and prepare the
     dataset for modeling.
 
-#### 18.4 Model Evaluation
+#### Model Evaluation
 
     We will use the same framework to evaluate models as was used for the naive models. In
     the interest of brevity, refer to Chapter 17 for the details on how to develop a framework for
     evaluating forecasts for this dataset.
 
-#### 18.5 Autocorrelation Analysis
+#### Autocorrelation Analysis
 
     Statistical correlation summarizes the strength of the relationship between two variables. We
     can assume the distribution of each variable fits a Gaussian (bell curve) distribution. If this is
@@ -262,7 +262,7 @@ with seven lag observations used as input.
 ![](./images/-.png)
 power consumption.
 
-#### 18.6 Develop an Autoregressive Model
+#### Develop an Autoregressive Model
 
 We can develop an autoregression model for univariate series of daily
 power consumption. For
@@ -456,7 +456,7 @@ kilowatts. This model has
 ![](./images/-.png)
 times.
 
-#### 18.7 Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -479,7 +479,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-#### 18.8 Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -500,7 +500,7 @@ go deeper.
     http://www.statsmodels.org/dev/generated/statsmodels.tsa.arima_model.ARIMAResults.
     html
 
-#### 18.9 Summary
+#### Summary
 
     In this tutorial, you discovered how to develop and evaluate an autoregression model for
     multi-step forecasting household power consumption. Specifically, you learned:

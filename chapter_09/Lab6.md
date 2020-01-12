@@ -20,7 +20,7 @@ type of time series
 
 Let’s get started.
 
-### 9.1 Tutorial Overview
+### Tutorial Overview
 
     In this tutorial, we will explore how to develop a suite of different types of LSTM models for
     time series forecasting. The models are demonstrated on small contrived time series problems
@@ -37,7 +37,7 @@ Let’s get started.
 
 9.2. Univariate LSTM Models 124
 
-### 9.2 Univariate LSTM Models
+### Univariate LSTM Models
 
     LSTMs can be used to model univariate time series forecasting problems. These are problems
     comprised of a single series of observations and a model is required to learn from the series of
@@ -146,11 +146,11 @@ three input time steps and one output time step.
 
 9.2. Univariate LSTM Models 126
 
-##### [40 50 60] 70
+[40 50 60] 70
 
-##### [50 60 70] 80
+[50 60 70] 80
 
-##### [60 70 80] 90
+[60 70 80] 90
 
     ```
 
@@ -286,7 +286,7 @@ x_input = array([70, 80, 90])
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[102.09213]]
+[[102.09213]]
 
 ```
 
@@ -369,7 +369,7 @@ expect would be 100.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[102.47341]]
+[[102.47341]]
 
 ```
 
@@ -591,7 +591,7 @@ expect would be 100.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[101.69263]]
+[[101.69263]]
 
 ```
 
@@ -694,7 +694,7 @@ running the example a few times.
 
 9.3. Multivariate LSTM Models 135
 
-##### [[103.68166]]
+[[103.68166]]
 
 ```
 
@@ -703,7 +703,7 @@ running the example a few times.
     series forecasting problem, see Chapter 15. Now that we have looked at LSTM models for
     univariate data, let’s turn our attention to multivariate data.
 
-### 9.3 Multivariate LSTM Models
+### Multivariate LSTM Models
 
     Multivariate time series data means data where there is more than one observation for each
     time step. There are two main models that we may require with multivariate time series data;
@@ -1036,7 +1036,7 @@ prediction.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[208.13531]]
+[[208.13531]]
 
     ```
 
@@ -1069,11 +1069,11 @@ previous section:
 
 9.3. Multivariate LSTM Models 141
 
-##### 10, 15, 25
+10, 15, 25
 
-##### 20, 25, 45
+20, 25, 45
 
-##### 30, 35, 65
+30, 35, 65
 
 ```
 Output:
@@ -1291,14 +1291,14 @@ prediction.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[101.76599 108.730484 206.63577 ]]
+[[101.76599 108.730484 206.63577 ]]
 
     ```
 
     For an example of LSTM models developed for a multivariate time series forecasting problem,
     see Chapter 20.
 
-### 9.4 Multi-step LSTM Models
+### Multi-step LSTM Models
 
 A time series forecasting problem that requires a prediction of multiple
 time steps into the
@@ -1541,7 +1541,7 @@ sequence.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[100.98096 113.28924]]
+[[100.98096 113.28924]]
 
 ```
 
@@ -1681,16 +1681,16 @@ sequence.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[[101.9736
+[[[101.9736
 
-##### [116.213615]]]
+[116.213615]]]
 
     ```
 
     For an example of LSTM models developed for a multi-step time series forecasting problem,
     see Chapter 20.
 
-### 9.5 Multivariate Multi-step LSTM Models
+### Multivariate Multi-step LSTM Models
 
     In the previous sections, we have looked at univariate, multivariate, and multi-step time series
     forecasting. It is possible to mix and match the different types of LSTM models presented so
@@ -1921,7 +1921,7 @@ x_input = array([[70, 75], [80, 85], [90, 95]])
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### [[188.70619 210.16513]]
+[[188.70619 210.16513]]
 
     ```
 
@@ -2155,16 +2155,16 @@ running the example a few times.
 
 9.6. Extensions 159
 
-##### [[[ 91.86044 97.77231 189.66768 ]
+[[[ 91.86044 97.77231 189.66768 ]
 
-##### [103.299355 109.18123 212.6863 ]]]
+[103.299355 109.18123 212.6863 ]]]
 
     ```
 
     For an example of LSTM models developed for a multivariate multi-step time series forecasting
     problem, see Chapter 20.
 
-### 9.6 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -2180,7 +2180,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-### 9.7 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -2233,7 +2233,7 @@ go deeper.
     - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
-### 9.8 Summary
+### Summary
 
     In this tutorial, you discovered how to develop a suite of LSTM models for a range of standard
     time series forecasting problems. Specifically, you learned:

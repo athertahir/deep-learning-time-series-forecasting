@@ -25,7 +25,7 @@ data for births.
 
 Let’s get started.
 
-### 11.1 Tutorial Overview
+### Tutorial Overview
 
 This tutorial is divided into six parts; they are:
 
@@ -41,7 +41,7 @@ This tutorial is divided into six parts; they are:
 5.  Case Study 3: Seasonality
 6.  Case Study 4: Trend and Seasonality
 
-### 11.2 Simple Forecasting Strategies
+### Simple Forecasting Strategies
 
 It is important and useful to test simple forecast strategies prior to
 testing more complex models.
@@ -66,7 +66,7 @@ themes to simple forecast strategies; they are:
 
 For more information on simple forecasting strategies, see Chapter 5.
 
-### 11.3 Develop a Grid Search Framework
+### Develop a Grid Search Framework
 
 In this section, we will develop a framework for grid searching the two
 simple forecast strategies
@@ -706,7 +706,7 @@ website^2. The results
     demonstrated on each dataset provide a baseline of performance that can be used to compare
     more sophisticated methods, such as SARIMA, ETS, and even machine learning methods.
 
-### 11.4 Case Study 1: No Trend or Seasonality
+### Case Study 1: No Trend or Seasonality
 
 Thedaily female birthsdataset summarizes the daily total female births
 in California, USA in
@@ -764,7 +764,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-b
 
 11.4. Case Study 1: No Trend or Seasonality 185
 
-##### (365, 1)
+(365, 1)
 
 ```
 
@@ -939,7 +939,7 @@ max_length = len(data) - n_test
     This is surprising given the lack of trend or seasonality, I would have expected either a
     persistence of -1 or an average of the entire historical dataset to result in the best performance.
 
-### 11.5 Case Study 2: Trend
+### Case Study 2: Trend
 
 Themonthly shampoo salesdataset summarizes the monthly sales of shampoo
 over a three-year
@@ -1169,7 +1169,7 @@ persisting the previous
 value (-1) would be the best approach, not persisting the second last
 value.
 
-#### 11.6 Case Study 3: Seasonality
+#### Case Study 3: Seasonality
 
 Themonthly mean temperaturesdataset summarizes the monthly average air
 temperatures in
@@ -1424,7 +1424,7 @@ series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
     This finding is not too surprising. Given the seasonal structure of the data, we would expect
     a function of the last few observations at prior points in the yearly cycle to be effective.
 
-### 11.7 Case Study 4: Trend and Seasonality
+### Case Study 4: Trend and Seasonality
 
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
@@ -1667,7 +1667,7 @@ max_length = len(data) - n_test
     same point in prior cycles, although the use of the median instead of the mean may not have
     been immediately obvious and the results were much better than the mean.
 
-### 11.8 Extensions
+### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1686,7 +1686,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-### 11.9 Further Reading
+### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1733,7 +1733,7 @@ go deeper.
 
 11.10. Summary 205
 
-### 11.10Summary
+###0Summary
 
     In this tutorial, you discovered how to develop a framework from scratch for grid searching
     simple naive and averaging strategies for time series forecasting with univariate data. Specifically,
