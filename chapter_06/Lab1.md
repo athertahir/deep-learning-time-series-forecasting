@@ -588,7 +588,6 @@ data = array(samples)
 
 Running this piece, you should see that we have 25 rows and 200 columns.
 Interpreted in a
-
 machine learning context, this dataset has 25 samples and 200 features
 per sample.
 
@@ -599,7 +598,6 @@ per sample.
 
 Next, we can use thereshape()function to add one additional dimension
 for our single
-
 feature and use the existing columns as time steps instead.
 
 ```

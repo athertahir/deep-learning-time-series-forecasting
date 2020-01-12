@@ -70,7 +70,8 @@ of a server that you can select and instantiate on a new virtual server.
 
     ![](./images/42.JPG)
 
-- Enter Deep Learning AMI in the Search community AMIs search box and press enter.C.3. Launch Your Server Instance 533
+- Enter Deep Learning AMI in the Search community AMIs search box and press enter.
+
     ![](./images/51.JPG)
 
 - Click Select to choose the AMI in the search result.
