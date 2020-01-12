@@ -592,9 +592,6 @@ values of:
     # define input sequence
     in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
     in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
-
-7.3. Multivariate MLP Models 63
-
     out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
     # convert to [rows, columns] structure
     in_seq1 = in_seq1.reshape((len(in_seq1), 1))
@@ -1556,18 +1553,17 @@ results may vary. Consider
 
 running the example a few times.
 
-7.5. Multivariate Multi-step MLP Models 81
-
+```
 [[186.53822 208.41725]]
 
     ```
-
-7.5.2 Multiple Parallel Input and Multi-step Output
 
 A problem with parallel time series may require the prediction of
 multiple time steps of each
 
     time series. For example, consider our multivariate time series from a prior section:
+
+```
     [[ 10 15 25]
     [ 20 25 45]
     [ 30 35 65]

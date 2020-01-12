@@ -2,25 +2,24 @@
 
 Time series data must be transformed before it can be used to fit a
 supervised learning model.
-
-    In this form, the data can be used immediately to fit a supervised machine learning algorithm
-    and even a Multilayer Perceptron neural network. One further transformation is required in
-    order to ready the data for fitting a Convolutional Neural Network (CNN) or Long Short-Term
-    Memory (LSTM) Neural Network. Specifically, the two-dimensional structure of the supervised
-    learning data must be transformed to a three-dimensional structure. This is perhaps the largest
-    sticking point for practitioners looking to implement deep learning methods for time series
-    forecasting. In this tutorial, you will discover exactly how to transform a time series data set
-    into a three-dimensional structure ready for fitting a CNN or LSTM model. After completing
-    this tutorial, you will know:
+In this form, the data can be used immediately to fit a supervised machine learning algorithm
+and even a Multilayer Perceptron neural network. One further transformation is required in
+order to ready the data for fitting a Convolutional Neural Network (CNN) or Long Short-Term
+Memory (LSTM) Neural Network. Specifically, the two-dimensional structure of the supervised
+learning data must be transformed to a three-dimensional structure. This is perhaps the largest
+sticking point for practitioners looking to implement deep learning methods for time series
+forecasting. In this tutorial, you will discover exactly how to transform a time series data set
+into a three-dimensional structure ready for fitting a CNN or LSTM model. After completing
+this tutorial, you will know:
 
 - How to transform a time series dataset into a two-dimensional
 supervised learning format.
 
-    - How to transform a two-dimensional time series dataset into a three-dimensional structure
-    suitable for CNNs and LSTMs.
+- How to transform a two-dimensional time series dataset into a three-dimensional structure
+suitable for CNNs and LSTMs.
 
-    - How to step through a worked example of splitting a very long time series into subsequences
-    ready for training a CNN or LSTM model.
+- How to step through a worked example of splitting a very long time series into subsequences
+ready for training a CNN or LSTM model.
 
 Let’s get started.
 

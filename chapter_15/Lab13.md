@@ -1503,8 +1503,6 @@ n_input = [12]
 configs = list()
  for i in n_input:
 
-15.6. Long Short-Term Memory Network Model 317
-
     for j in n_nodes:
     for k in n_epochs:
     for l in n_batch:
@@ -1558,6 +1556,7 @@ results may vary. Consider
 
 running the example a few times.
 
+```
 Total configs: 2
 
 > 20.488
@@ -1566,9 +1565,6 @@ Total configs: 2
 >  ...
 >  22.300
 >  20.311
-
-15.7. Extensions 318
-
 > 21.322
 
     > Model[[12, 100, 50, 150, 12]] 21.260
@@ -1577,7 +1573,7 @@ Total configs: 2
     [12, 100, 50, 1, 12] 21.243775750634093
     [12, 100, 50, 150, 12] 21.259553398553606
 
-    ```
+```
 
 ### Extensions
 
@@ -1622,8 +1618,6 @@ go deeper.
     - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
-15.9. Summary 319
-
 #### Summary
 
     In this tutorial, you discovered how to develop a framework to grid search hyperparameters for
@@ -1645,38 +1639,4 @@ systematically work through
 
 a real-world multivariate multi-step time series problem to forecast
 household energy usage.
-
-### Part V
-
-### Multi-step Forecasting
-
-320
-
-### Overview
-
-This part focuses on the real-world problem of multi-step forecasting
-for household electricity
-
-    consumption and how to develop naive methods, classical autoregression models, Convolutional
-    and Long Short-Term Memory neural network models for the problem. The tutorials in this
-    part do not seek to demonstrate the best way to solve the problem, instead the dataset provides
-    a context on which each of the specific methods can be demonstrated. As such, the performance
-    of each method on the dataset are not compared directly. After reading the chapters in this
-    part, you will know:
-
-    - How to load, summarize and visualize a multivariate time series dataset describing
-    household electricity consumption over many years (Chapter 16).
-
-    - How to develop naive forecasting models for forecasting household electricity usage, the
-    results of which can be used as a baseline to determine whether a more sophisticated
-    model has skill (Chapter 17).
-
-    - How to diagnose the autocorrelation and develop autoregressive models for forecasting
-    household electricity usage (Chapter 18).
-
-    - How to develop a suite of convolutional neural network models for forecasting household
-    electricity usage (Chapter 19).
-
-    - How to develop a suite of Long Short-Term Memory neural network models for forecasting
-    household electricity usage (Chapter 20).
 

@@ -179,22 +179,19 @@ units, and an
 
 with a univariate series, so the number of features is one, for one
 variable. The number of
-
-    time steps as input is the number we chose when preparing our dataset as an argument to the
-    splitsequence()function.
-    The shape of the input for each sample is specified in theinputshapeargument on the
-    definition of first hidden layer. We almost always have multiple samples, therefore, the model
-
+time steps as input is the number we chose when preparing our dataset as an argument to the
+splitsequence() function.
+The shape of the input for each sample is specified in theinputshapeargument on the
+definition of first hidden layer. We almost always have multiple samples, therefore, the model
 will expect the input component of training data to have the dimensions
 or shape:[samples,
-
 timesteps, features]. Oursplitsequence()function in the previous section
 outputs theX
-
 with the shape[samples, timesteps], so we easily reshape it to have an
 additional dimension
-
     for the one feature.
+
+```
     # reshape from [samples, timesteps] into [samples, timesteps, features]
     n_features = 1
     X = X.reshape((X.shape[0], X.shape[1], n_features))
@@ -516,19 +513,20 @@ single input time step to the LSTM layer.
 ```
     Next, we can define the LSTM part of the model that interprets the CNN model’s read of
     the input sequence and makes a prediction.
-    # define the output model
 
-9.2. Univariate LSTM Models 132
+```
+    # define the output model
 
 model.add(LSTM(50, activation='relu'))
  model.add(Dense(1))
 
 ```
+
 We can tie all of this together; the complete example of a CNN-LSTM
 model for univariate
-
 time series forecasting is listed below.
 
+```
 from numpy import array
  from keras.models import Sequential
  from keras.layers import LSTM
