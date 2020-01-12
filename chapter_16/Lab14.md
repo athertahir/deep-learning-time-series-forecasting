@@ -1,9 +1,4 @@
-
-### Chapter 16
-
-### How to Load and Explore Household
-
-### Energy Usage Data
+### How to Load and Explore Household Energy Usage Data
 
     Given the rise of smart electricity meters and the wide adoption of electricity generation
     technology like solar panels, there is a wealth of electricity usage data available. This data
@@ -13,13 +8,13 @@
     understand the raw data using exploratory analysis. This dataset will provided the basis for the
     remaining tutorials in this part of the book. After completing this tutorial, you will know:
 
-     The household power consumption dataset that describes electricity usage for a single
+    - The household power consumption dataset that describes electricity usage for a single
     house over four years.
 
-     How to explore and understand the dataset using a suite of line plots for the series data
+    - How to explore and understand the dataset using a suite of line plots for the series data
     and histogram for the data distributions.
 
-     How to use the new understanding of the problem to consider different framings of the
+    - How to use the new understanding of the problem to consider different framings of the
     prediction problem, ways the data may be prepared, and modeling methods that may be
     used.
 
@@ -52,23 +47,23 @@ This tutorial is divided into five parts; they are:
 
 (besides the date and time); they are:
 
-ˆ globalactivepower: The total active power consumed by the household
+- globalactivepower: The total active power consumed by the household
 (kilowatts).
 
-ˆ globalreactivepower: The total reactive power consumed by the
+- globalreactivepower: The total reactive power consumed by the
 household (kilowatts).
 
-ˆ voltage: Average voltage (volts).
+- voltage: Average voltage (volts).
 
-ˆ globalintensity: Average current intensity (amps).
+- globalintensity: Average current intensity (amps).
 
-ˆ submetering 1 : Active energy for kitchen (watt-hours of active
+- submetering 1 : Active energy for kitchen (watt-hours of active
 energy).
 
-ˆ submetering 2 : Active energy for laundry (watt-hours of active
+- submetering 2 : Active energy for laundry (watt-hours of active
 energy).
 
-ˆ submetering 3 : Active energy for climate control systems (watt-hours
+- submetering 3 : Active energy for climate control systems (watt-hours
 of active energy).
 
     Active and reactive energy refer to the technical details of alternative current. In general
@@ -102,7 +97,7 @@ https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+cons
 
 16.3. Load Dataset 324
 
-ˆ householdpowerconsumption.zip\^2
+- householdpowerconsumption.zip\^2
 
     Download the dataset and unzip it into your current working directory. You will now have
     the filehouseholdpowerconsumption.txtthat is about 127 megabytes in size and contains
@@ -139,21 +134,21 @@ missing values.
     data. We can use thereadcsv()function to load the data. It is easy to load the data with this
     function, but a little tricky to load it correctly. Specifically, we need to do a few custom things:
 
-ˆ Specify the separate between columns as a semicolon (sep=‘;’)
+- Specify the separate between columns as a semicolon (sep=‘;’)
 
-ˆ Specify that line 0 has the names for the columns (header=0)
+- Specify that line 0 has the names for the columns (header=0)
 
-     Specify that we have lots of RAM to avoid a warning that we are loading the data as an
+    - Specify that we have lots of RAM to avoid a warning that we are loading the data as an
     array of objects instead of an array of numbers, because of the‘?’ values for missing
     data (lowmemory=False).
 
-     Specify that it is okay for Pandas to try to infer the date-time format when parsing dates,
+    - Specify that it is okay for Pandas to try to infer the date-time format when parsing dates,
     which is way faster (inferdatetimeformat=True)
 
-     Specify that we would like to parse the date and time columns together as a new column
+    - Specify that we would like to parse the date and time columns together as a new column
     called ’datetime’ (parsedates=‘datetime’:[0,1])
 
-     Specify that we would like our newdatetimecolumn to be the index for theDataFrame
+    - Specify that we would like our newdatetimecolumn to be the index for theDataFrame
     (indexcol=[’datetime’]).
 
 (\^2)
@@ -827,13 +822,13 @@ left to guess at
 
 Four examples include:
 
-ˆ Forecast hourly consumption for the next day.
+- Forecast hourly consumption for the next day.
 
-ˆ Forecast daily consumption for the next week.
+- Forecast daily consumption for the next week.
 
-ˆ Forecast daily consumption for the next month.
+- Forecast daily consumption for the next month.
 
-ˆ Forecast monthly consumption for the next year.
+- Forecast monthly consumption for the next year.
 
     Generally, these types of forecasting problems are referred to as multi-step forecasting.
     Models that make use of all of the variables might be referred to as a multivariate multi-step
@@ -851,29 +846,29 @@ specific data preparation
     methods and their benefit really depend on the chosen framing of the problem and the modeling
     methods. Nevertheless, below is a list of general data preparation methods that may be useful:
 
-ˆ Daily differencing may be useful to adjust for the daily cycle in the
+- Daily differencing may be useful to adjust for the daily cycle in the
 data.
 
-ˆ Annual differencing may be useful to adjust for any yearly cycle in
+- Annual differencing may be useful to adjust for any yearly cycle in
 the data.
 
-ˆ Normalization may aid in reducing the variables with differing units
+- Normalization may aid in reducing the variables with differing units
 to the same scale.
 
     There are many simple human factors that may be helpful in engineering features from the
     data, that in turn may make specific days easier to forecast. Some examples include:
 
-ˆ Indicating the time of day, to account for the likelihood of people
+- Indicating the time of day, to account for the likelihood of people
 being home or not.
 
-ˆ Indicating whether a day is a weekday or weekend.
+- Indicating whether a day is a weekday or weekend.
 
-ˆ Indicating whether a day is a North American public holiday or not.
+- Indicating whether a day is a North American public holiday or not.
 
     These factors may be significantly less important for forecasting monthly data, and perhaps
     to a degree for weekly data. More general features may include:
 
-     Indicating the season, which may lead to the type or amount environmental control systems
+    - Indicating the season, which may lead to the type or amount environmental control systems
     being used.
 
 16.6.3 Modeling Methods
@@ -895,11 +890,11 @@ they are:
     Naive methods would include methods that make very simple, but often very effective assump-
     tions. Some examples include:
 
-ˆ Tomorrow will be the same as today.
+- Tomorrow will be the same as today.
 
-ˆ Tomorrow will be the same as this day last year.
+- Tomorrow will be the same as this day last year.
 
-ˆ Tomorrow will be an average of the last few days.
+- Tomorrow will be an average of the last few days.
 
 Classical Linear Methods
 
@@ -908,9 +903,9 @@ univariate time series forecasting.
 
 Two important examples include:
 
-ˆ SARIMA.
+- SARIMA.
 
-ˆ ETS (triple exponential smoothing).
+- ETS (triple exponential smoothing).
 
     They would require that the additional variables be discarded and the parameters of the
     model be configured or tuned to the specific framing of the dataset. Concerns related to adjusting
@@ -927,15 +922,15 @@ features, discarding
     the temporal relationship in the data. A suite of nonlinear and ensemble methods could be
     explored, including:
 
-ˆ k-Nearest Neighbors.
+- k-Nearest Neighbors.
 
-ˆ Support Vector Machines.
+- Support Vector Machines.
 
-ˆ Decision Trees.
+- Decision Trees.
 
-ˆ Random Forest.
+- Random Forest.
 
-ˆ Gradient Boosting Machines.
+- Gradient Boosting Machines.
 
     Careful attention is required to ensure that the fitting and evaluation of these models
     preserved the temporal structure in the data. This is important so that the method is not
@@ -961,13 +956,13 @@ Deep Learning Methods
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     List Intuitions. Outline the method that you believe may be most effective in making
+    - List Intuitions. Outline the method that you believe may be most effective in making
     forecasts with on this dataset.
 
-     Apply Taxonomy. Use the taxonomy in Chapter 2 to describe the dataset presented in
+    - Apply Taxonomy. Use the taxonomy in Chapter 2 to describe the dataset presented in
     this chapter.
 
-     Additional Analysis. Use summary statistics and/or plots to explore one more aspect
+    - Additional Analysis. Use summary statistics and/or plots to explore one more aspect
     of the dataset that may provide insight into modeling this problem.
 
 If you explore any of these extensions, I’d love to know.
@@ -979,19 +974,19 @@ go deeper.
 
 16.8.1 APIs
 
-     pandas.readcsvAPI.
+    - pandas.readcsvAPI.
     https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
 
-     matplotlib.pyplotAPI.
+    - matplotlib.pyplotAPI.
     https://matplotlib.org/api/pyplot_api.html
 
 16.8.2 Articles
 
-     Household Power Consumption Dataset, UCI Machine Learning Repository.
+    - Household Power Consumption Dataset, UCI Machine Learning Repository.
     https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+
     consumption
 
-     AC power, Wikipedia.
+    - AC power, Wikipedia.
     https://en.wikipedia.org/wiki/AC_power#Active,_reactive,_and_apparent_power
 
 16.9. Summary 341
@@ -1003,13 +998,13 @@ go deeper.
 
 you learned:
 
-     The household power consumption dataset that describes electricity usage for a single
+    - The household power consumption dataset that describes electricity usage for a single
     house over four years.
 
-     How to explore and understand the dataset using a suite of line plots for the series data
+    - How to explore and understand the dataset using a suite of line plots for the series data
     and histogram for the data distributions.
 
-     How to use the new understanding of the problem to consider different framings of the
+    - How to use the new understanding of the problem to consider different framings of the
     prediction problem, ways the data may be prepared, and modeling methods that may be
     used.
 

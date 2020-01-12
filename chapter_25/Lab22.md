@@ -1,9 +1,4 @@
-
-### Chapter 25
-
-### How to Develop LSTMs for Human
-
-### Activity Recognition
+### How to Develop LSTMs for Human Activity Recognition
 
     Human activity recognition is the problem of classifying sequences of accelerometer data
     recorded by specialized harnesses or smartphones into known well-defined movements. Classical
@@ -20,13 +15,13 @@ expertise in the field. Recently,
     three recurrent neural network architectures for modeling an activity recognition time series
     classification problem. After completing this tutorial, you will know:
 
-     How to develop a Long Short-Term Memory Recurrent Neural Network for human activity
+    - How to develop a Long Short-Term Memory Recurrent Neural Network for human activity
     recognition.
 
-     How to develop a one-dimensional Convolutional Neural Network LSTM, or CNN-LSTM,
+    - How to develop a one-dimensional Convolutional Neural Network LSTM, or CNN-LSTM,
     model.
 
-     How to develop a one-dimensional Convolutional LSTM, or ConvLSTM, model for the
+    - How to develop a one-dimensional Convolutional LSTM, or ConvLSTM, model for the
     same problem.
 
 Let’s get started.
@@ -52,7 +47,7 @@ This tutorial is divided into four parts; they are:
     information on this dataset, see Chapter 22. The data is provided as a single zip file that is
     about 58 megabytes in size. A direct for downloading the dataset is provided below:
 
-ˆ HARSmartphones.zip\^1
+- HARSmartphones.zip\^1
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
@@ -968,16 +963,16 @@ of the CNN (e.g.
     columns represents the number of time steps in the subsequence, in this case 32. For this chosen
     framing of the problem, the input for theConvLSTM2Dwould therefore be:
 
-ˆ Samples:n, for the number of windows in the dataset.
+- Samples:n, for the number of windows in the dataset.
 
-ˆ Time: 4, for the four subsequences that we split a window of 128 time
+- Time: 4, for the four subsequences that we split a window of 128 time
 steps into.
 
-ˆ Rows: 1, for the one-dimensional shape of each subsequence.
+- Rows: 1, for the one-dimensional shape of each subsequence.
 
-ˆ Columns: 32, for the 32 time steps in an input subsequence.
+- Columns: 32, for the 32 time steps in an input subsequence.
 
-ˆ Channels: 9, for the nine input variables.
+- Channels: 9, for the nine input variables.
 
 25.5. ConvLSTM Model 536
 
@@ -1260,13 +1255,13 @@ activity recognition.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Data Preparation. Consider exploring whether simple data scaling schemes can further
+    - Data Preparation. Consider exploring whether simple data scaling schemes can further
     lift model performance, such as normalization, standardization, and power transforms.
 
-     LSTM Variations. There are variations of the LSTM architecture that may achieve
+    - LSTM Variations. There are variations of the LSTM architecture that may achieve
     better performance on this problem, such as stacked LSTMs and Bidirectional LSTMs.
 
-     Hyperparameter Tuning. Consider exploring tuning of model hyperparameters such
+    - Hyperparameter Tuning. Consider exploring tuning of model hyperparameters such
     as the number of units, training epochs, batch size, and more.
 
 If you explore any of these extensions, I’d love to know.
@@ -1276,25 +1271,25 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     Getting started with the Keras Sequential model.
+    - Getting started with the Keras Sequential model.
     https://keras.io/getting-started/sequential-model-guide/
 
-     Getting started with the Keras functional API.
+    - Getting started with the Keras functional API.
     https://keras.io/getting-started/functional-api-guide/
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Convolutional Layers API.
+    - Keras Convolutional Layers API.
     https://keras.io/layers/convolutional/
 
-     Keras Pooling Layers API.
+    - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-     Keras Recurrent Layers API.
+    - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
 #### 25.8 Summary
@@ -1302,11 +1297,11 @@ go deeper.
     In this tutorial, you discovered three recurrent neural network architectures for modeling an
     activity recognition time series classification problem. Specifically, you learned:
 
-     How to develop a Long Short-Term Memory Recurrent Neural Network for human activity
+    - How to develop a Long Short-Term Memory Recurrent Neural Network for human activity
     recognition.
 
-     How to develop a one-dimensional Convolutional Neural Network LSTM, or CNN-LSTM,
+    - How to develop a one-dimensional Convolutional Neural Network LSTM, or CNN-LSTM,
     model.
 
-     How to develop a one-dimensional Convolutional LSTM, or ConvLSTM, model for the
+    - How to develop a one-dimensional Convolutional LSTM, or ConvLSTM, model for the
     same problem.

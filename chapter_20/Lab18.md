@@ -1,8 +1,4 @@
-### Chapter 20
-
-### How to Develop LSTMs for Multi-step
-
-### Energy Usage Forecasting
+### How to Develop LSTMs for Multi-step Energy Usage Forecasting
 
     Given the rise of smart electricity meters and the wide adoption of electricity generation
     technology like solar panels, there is a wealth of electricity usage data available. This data
@@ -14,13 +10,13 @@
     how to develop long short-term memory recurrent neural networks for multi-step time series
     forecasting of household power consumption. After completing this tutorial, you will know:
 
-     How to develop and evaluate Univariate and multivariate Encoder-Decoder LSTMs for
+    - How to develop and evaluate Univariate and multivariate Encoder-Decoder LSTMs for
     multi-step time series forecasting.
 
-     How to develop and evaluate an CNN-LSTM Encoder-Decoder model for multi-step time
+    - How to develop and evaluate an CNN-LSTM Encoder-Decoder model for multi-step time
     series forecasting.
 
-     How to develop and evaluate a ConvLSTM Encoder-Decoder model for multi-step time
+    - How to develop and evaluate a ConvLSTM Encoder-Decoder model for multi-step time
     series forecasting.
 
 Let’s get started.
@@ -53,23 +49,23 @@ This tutorial is divided into nine parts; they are:
 
 (besides the date and time); they are:
 
-ˆ globalactivepower: The total active power consumed by the household
+- globalactivepower: The total active power consumed by the household
 (kilowatts).
 
-ˆ globalreactivepower: The total reactive power consumed by the
+- globalreactivepower: The total reactive power consumed by the
 household (kilowatts).
 
-ˆ voltage: Average voltage (volts).
+- voltage: Average voltage (volts).
 
-ˆ globalintensity: Average current intensity (amps).
+- globalintensity: Average current intensity (amps).
 
-ˆ submetering 1 : Active energy for kitchen (watt-hours of active
+- submetering 1 : Active energy for kitchen (watt-hours of active
 energy).
 
-ˆ submetering 2 : Active energy for laundry (watt-hours of active
+- submetering 2 : Active energy for laundry (watt-hours of active
 energy).
 
-ˆ submetering 3 : Active energy for climate control systems (watt-hours
+- submetering 3 : Active energy for climate control systems (watt-hours
 of active energy).
 
     Active and reactive energy refer to the technical details of alternative current. A fourth
@@ -102,19 +98,19 @@ of active energy).
     of LSTM architectures for multi-step time series forecasting. Specifically, we will look at how to
     develop the following models:
 
-     Vanilla LSTMmodel with vector output for multi-step forecasting with univariate input
+    - Vanilla LSTMmodel with vector output for multi-step forecasting with univariate input
     data.
 
-ˆ Encoder-Decoder LSTMmodel for multi-step forecasting with univariate
+- Encoder-Decoder LSTMmodel for multi-step forecasting with univariate
 input data.
 
-ˆ Encoder-Decoder LSTMmodel for multi-step forecasting with multivariate
+- Encoder-Decoder LSTMmodel for multi-step forecasting with multivariate
 input data.
 
-     CNN-LSTM Encoder-Decodermodel for multi-step forecasting with univariate input
+    - CNN-LSTM Encoder-Decodermodel for multi-step forecasting with univariate input
     data.
 
-     ConvLSTM Encoder-Decodermodel for multi-step forecasting with univariate input
+    - ConvLSTM Encoder-Decodermodel for multi-step forecasting with univariate input
     data.
 
     The models will be developed and demonstrated on the household power prediction problem.
@@ -144,29 +140,29 @@ features. Some ideas on
 
 the size and nature of this input include:
 
-ˆ All prior days, up to years worth of data.
+- All prior days, up to years worth of data.
 
-ˆ The prior seven days.
+- The prior seven days.
 
 20.6. Univariate Input and Vector Output 397
 
-ˆ The prior two weeks.
+- The prior two weeks.
 
-ˆ The prior one month.
+- The prior one month.
 
-ˆ The prior one year.
+- The prior one year.
 
-ˆ The prior week and the week to be predicted from one year ago.
+- The prior week and the week to be predicted from one year ago.
 
     There is no right answer; instead, each approach and more can be tested and the performance
     of the model can be used to choose the nature of the input that results in the best model
     performance. These choices define a few things:
 
-ˆ How the training data must be prepared in order to fit the model.
+- How the training data must be prepared in order to fit the model.
 
-ˆ How the test data must be prepared in order to evaluate the model.
+- How the test data must be prepared in order to evaluate the model.
 
-ˆ How to use the model to make predictions with a final model in the
+- How to use the model to make predictions with a final model in the
 future.
 
     A good starting point would be to use the prior seven days. An LSTM model expects data
@@ -1964,16 +1960,16 @@ of the problem, the
 
 input for theConvLSTM2Dwould therefore be:[n, 2, 1, 7, 1]. Or:
 
-ˆ Samples:n, for the number of examples in the training dataset.
+- Samples:n, for the number of examples in the training dataset.
 
-ˆ Time: 2, for the two subsequences that we split a window of 14 days
+- Time: 2, for the two subsequences that we split a window of 14 days
 into.
 
-ˆ Rows: 1, for the one-dimensional shape of each subsequence.
+- Rows: 1, for the one-dimensional shape of each subsequence.
 
-ˆ Columns: 7, for the seven days in each subsequence.
+- Columns: 7, for the seven days in each subsequence.
 
-ˆ Channels: 1, for the single feature that we are working with as input.
+- Channels: 1, for the single feature that we are working with as input.
 
     You can explore other configurations, such as providing 21 days of input split into three
 
@@ -2451,16 +2447,16 @@ A line plot of the per-day RMSE is also created.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Size of Input. Explore more or fewer number of days used as input for the model, such
+    - Size of Input. Explore more or fewer number of days used as input for the model, such
     as three days, 21 days, 30 days, and more.
 
-     Model Tuning. Tune the structure and hyperparameters for a model and further lift
+    - Model Tuning. Tune the structure and hyperparameters for a model and further lift
     model performance on average.
 
-     Data Scaling. Explore whether data scaling, such as standardization and normalization,
+    - Data Scaling. Explore whether data scaling, such as standardization and normalization,
     can be used to improve the performance of any of the LSTM models.
 
-     Learning Diagnostics. Use diagnostics such as learning curves for the train and valida-
+    - Learning Diagnostics. Use diagnostics such as learning curves for the train and valida-
     tion loss and mean squared error to help tune the structure and hyperparameters of a
     LSTM model.
 
@@ -2473,25 +2469,25 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     Getting started with the Keras Sequential model.
+    - Getting started with the Keras Sequential model.
     https://keras.io/getting-started/sequential-model-guide/
 
-     Getting started with the Keras functional API.
+    - Getting started with the Keras functional API.
     https://keras.io/getting-started/functional-api-guide/
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Convolutional Layers API.
+    - Keras Convolutional Layers API.
     https://keras.io/layers/convolutional/
 
-     Keras Pooling Layers API.
+    - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-     Keras Recurrent Layers API.
+    - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
 #### 20.13Summary
@@ -2499,13 +2495,13 @@ go deeper.
     In this tutorial, you discovered how to develop long short-term memory recurrent neural networks
     for multi-step time series forecasting of household power consumption. Specifically, you learned:
 
-     How to develop and evaluate Univariate and multivariate Encoder-Decoder LSTMs for
+    - How to develop and evaluate Univariate and multivariate Encoder-Decoder LSTMs for
     multi-step time series forecasting.
 
-     How to develop and evaluate an CNN-LSTM Encoder-Decoder model for multi-step time
+    - How to develop and evaluate an CNN-LSTM Encoder-Decoder model for multi-step time
     series forecasting.
 
-     How to develop and evaluate a ConvLSTM Encoder-Decoder model for multi-step time
+    - How to develop and evaluate a ConvLSTM Encoder-Decoder model for multi-step time
     series forecasting.
 
 20.13.1 Next
@@ -2534,18 +2530,18 @@ of activity recognition
     of each method on the dataset are not compared directly. After reading the chapters in this
     part, you will know:
 
-     A review of recent research highlighting deep learning models and their general configura-
+    - A review of recent research highlighting deep learning models and their general configura-
     tion that are state-of-the-art for human activity recognition (Chapter 21).
 
-     How to load, summarize and plot a standard human activity recognition dataset comprised
+    - How to load, summarize and plot a standard human activity recognition dataset comprised
     of accelerometer data recorded from a smartphone (Chapter 22).
 
-     How to develop nonlinear and ensemble machine learning models from accelerometer data
+    - How to develop nonlinear and ensemble machine learning models from accelerometer data
     with domain-specific engineered features (Chapter 23).
 
-     How to develop and evaluate a suite of Convolutional Neural Network models for human
+    - How to develop and evaluate a suite of Convolutional Neural Network models for human
     activity recognition from accelerometer data (Chapter 24).
 
-     How to develop and evaluate a suite of Long Short-Term Memory Neural Network models
+    - How to develop and evaluate a suite of Long Short-Term Memory Neural Network models
     for human activity recognition from accelerometer data (Chapter 25).
 

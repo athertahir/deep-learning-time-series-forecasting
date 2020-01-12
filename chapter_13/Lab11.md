@@ -1,9 +1,4 @@
-
-### Chapter 13
-
-### How to Develop SARIMA Models for
-
-### Univariate Forecasting
+### How to Develop SARIMA Models for Univariate Forecasting
 
 The Seasonal Autoregressive Integrated Moving Average, or SARIMA, model
 is an approach
@@ -19,13 +14,13 @@ is an approach
     SARIMA model hyperparameters for univariate time series forecasting. After completing this
     tutorial, you will know:
 
-     How to develop a framework for grid searching SARIMA models from scratch using
+    - How to develop a framework for grid searching SARIMA models from scratch using
     walk-forward validation.
 
-ˆ How to grid search SARIMA model hyperparameters for daily time series
+- How to grid search SARIMA model hyperparameters for daily time series
 data for births.
 
-     How to grid search SARIMA model hyperparameters for monthly time series data for
+    - How to grid search SARIMA model hyperparameters for monthly time series data for
     shampoo sales, car sales, and temperature.
 
 Let’s get started.
@@ -52,12 +47,12 @@ This tutorial is divided into five parts; they are:
     the Statsmodels library. This model has hyperparameters that control the nature of the model
     performed for the series, trend and seasonality, specifically:
 
-ˆ order: A tuplep,d, andqparameters for the modeling of the trend.
+- order: A tuplep,d, andqparameters for the modeling of the trend.
 
-ˆ seasonalorder: A tuple of P,D,Q, andmparameters for the modeling the
+- seasonalorder: A tuple of P,D,Q, andmparameters for the modeling the
 seasonality
 
-     trend: A parameter for controlling a model of the deterministic trend as one of‘n’,‘c’,
+    - trend: A parameter for controlling a model of the deterministic trend as one of‘n’,‘c’,
     ‘t’, and‘ct’for no trend, constant, linear, and constant with linear trend, respectively.
 
     If you know enough about your problem to specify one or more of these parameters, then
@@ -409,7 +404,7 @@ download the dataset directly from here:
 
 13.3. Case Study 1: No Trend or Seasonality 234
 
-ˆ daily-total-female-births.csv\^1
+- daily-total-female-births.csv\^1
 
 Save the file with the filenamedaily-total-female-births.csvin your
 current working
@@ -694,13 +689,13 @@ is skillful on this
 problem. We can unpack the configuration of the best performing model as
 follows:
 
-ˆ Order: (1, 0, 2)
+- Order: (1, 0, 2)
 
 13.4. Case Study 2: Trend 237
 
-ˆ Seasonal Order: (1, 0, 1, 0)
+- Seasonal Order: (1, 0, 1, 0)
 
-ˆ Trend Parameter:‘t’for linear trend
+- Trend Parameter:‘t’for linear trend
 
     It is surprising that a configuration with some seasonal elements resulted in the lowest error.
     I would not have guessed at this configuration and would have likely stuck with an ARIMA
@@ -714,7 +709,7 @@ over a three-year
     period. For more information on this dataset, see Chapter 11 where it was introduced. You can
     download the dataset directly from here:
 
-ˆ monthly-shampoo-sales.csv\^2
+- monthly-shampoo-sales.csv\^2
 
     Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
     rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
@@ -975,11 +970,11 @@ running the example a few times.
     is skillful on this problem. We can unpack the configuration of the best performing model as
     follows:
 
-ˆ Trend Order: (0, 1, 2)
+- Trend Order: (0, 1, 2)
 
-ˆ Seasonal Order: (2, 0, 2, 0)
+- Seasonal Order: (2, 0, 2, 0)
 
-ˆ Trend Parameter:‘t’(linear trend)
+- Trend Parameter:‘t’(linear trend)
 
 ### 13.5 Case Study 3: Seasonality
 
@@ -990,7 +985,7 @@ temperatures in
     this dataset, see Chapter 11 where it was introduced. You can download the dataset directly
     from here:
 
-ˆ monthly-mean-temp.csv\^3
+- monthly-mean-temp.csv\^3
 
 Save the file with the filenamemonthly-mean-temp.csvin your current
 working directory.
@@ -1290,13 +1285,13 @@ model is not skillful on
 this problem. We can unpack the configuration of the best performing
 model as follows:
 
-ˆ Trend Order: (0, 0, 0)
+- Trend Order: (0, 0, 0)
 
-ˆ Seasonal Order: (1, 0, 1, 12)
+- Seasonal Order: (1, 0, 1, 12)
 
 13.6. Case Study 4: Trend and Seasonality 244
 
-ˆ Trend Parameter:‘n’(no trend)
+- Trend Parameter:‘n’(no trend)
 
     As we would expect, the model has no trend component and a 12-month seasonal ARIMA
     component.
@@ -1311,7 +1306,7 @@ where it was introduced.
 
 You can download the dataset directly from here:
 
-ˆ monthly-car-sales.csv\^4
+- monthly-car-sales.csv\^4
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -1577,25 +1572,25 @@ running the example a few times.
     an RMSE of 1,841.15 sales on this problem, suggesting that the best performing SARIMA model
     is skillful. We can unpack the configuration of the best performing model as follows:
 
-ˆ Trend Order: (0, 0, 0)
+- Trend Order: (0, 0, 0)
 
-ˆ Seasonal Order: (1, 1, 0, 12)
+- Seasonal Order: (1, 1, 0, 12)
 
-ˆ Trend Parameter:‘t’(linear trend)
+- Trend Parameter:‘t’(linear trend)
 
 ### 13.7 Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Data Transforms. Update the framework to support configurable data transforms such
+    - Data Transforms. Update the framework to support configurable data transforms such
     as normalization and standardization.
 
-     Plot Forecast. Update the framework to re-fit a model with the best configuration and
+    - Plot Forecast. Update the framework to re-fit a model with the best configuration and
     forecast the entire test dataset, then plot the forecast compared to the actual observations
     in the test set.
 
-     Tune Amount of History. Update the framework to tune the amount of historical data
+    - Tune Amount of History. Update the framework to tune the amount of historical data
     used to fit the model (e.g. in the case of the 10 years of max temperature data).
 
 If you explore any of these extensions, I’d love to know.
@@ -1609,32 +1604,32 @@ go deeper.
 
 13.8.1 Books
 
-     Chapter 8 ARIMA models,Forecasting: principles and practice, 2013.
+    - Chapter 8 ARIMA models,Forecasting: principles and practice, 2013.
     https://amzn.to/2xlJsfV
 
-     Chapter 7, Non-stationary Models,Introductory Time Series with R, 2009.
+    - Chapter 7, Non-stationary Models,Introductory Time Series with R, 2009.
     https://amzn.to/2smB9LR
 
 13.8.2 APIs
 
-     Statsmodels Time Series Analysis by State Space Methods.
+    - Statsmodels Time Series Analysis by State Space Methods.
     http://www.statsmodels.org/dev/statespace.html
 
-     statsmodels.tsa.statespace.sarimax.SARIMAXAPI.
+    - statsmodels.tsa.statespace.sarimax.SARIMAXAPI.
     http://www.statsmodels.org/dev/generated/statsmodels.tsa.statespace.sarimax.
     SARIMAX.html
 
-     statsmodels.tsa.statespace.sarimax.SARIMAXResultsAPI.
+    - statsmodels.tsa.statespace.sarimax.SARIMAXResultsAPI.
     http://www.statsmodels.org/dev/generated/statsmodels.tsa.statespace.sarimax.
     SARIMAXResults.html
 
-     Statsmodels SARIMAX Notebook.
+    - Statsmodels SARIMAX Notebook.
     http://www.statsmodels.org/dev/examples/notebooks/generated/statespace_sarimax_
     stata.html
 
 13.8.3 Articles
 
-     Autoregressive integrated moving average, Wikipedia.
+    - Autoregressive integrated moving average, Wikipedia.
     https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
 
 ### 13.9 Summary
@@ -1645,13 +1640,13 @@ searching all of the SARIMA
 model hyperparameters for univariate time series forecasting.
 Specifically, you learned:
 
-     How to develop a framework for grid searching SARIMA models from scratch using
+    - How to develop a framework for grid searching SARIMA models from scratch using
     walk-forward validation.
 
-ˆ How to grid search SARIMA model hyperparameters for daily time series
+- How to grid search SARIMA model hyperparameters for daily time series
 data for births.
 
-     How to grid search SARIMA model hyperparameters for monthly time series data for
+    - How to grid search SARIMA model hyperparameters for monthly time series data for
     shampoo sales, car sales and temperature.
 
 13.9.1 Next

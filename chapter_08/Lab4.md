@@ -1,9 +1,4 @@
-
-### Chapter 8
-
-### How to Develop CNNs for Time Series
-
-### Forecasting
+### How to Develop CNNs for Time Series Forecasting
 
 Convolutional Neural Network models, or CNNs for short, can be applied
 to time series
@@ -25,11 +20,11 @@ forecasting problem. After
 
 completing this tutorial, you will know:
 
-ˆ How to develop CNN models for univariate time series forecasting.
+- How to develop CNN models for univariate time series forecasting.
 
-ˆ How to develop CNN models for multivariate time series forecasting.
+- How to develop CNN models for multivariate time series forecasting.
 
-ˆ How to develop CNN models for multi-step time series forecasting.
+- How to develop CNN models for multi-step time series forecasting.
 
 Let’s get started.
 
@@ -2391,13 +2386,13 @@ values.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Problem Differences. Explain the main changes to the CNN required when modeling
+    - Problem Differences. Explain the main changes to the CNN required when modeling
     each of univariate, multivariate and multi-step time series forecasting problems.
 
-     Experiment. Select one example and modify it to work with your own small contrived
+    - Experiment. Select one example and modify it to work with your own small contrived
     dataset.
 
-     Develop Framework. Use the examples in this chapter as the basis for a framework for
+    - Develop Framework. Use the examples in this chapter as the basis for a framework for
     automatically developing an CNN model for a given time series forecasting problem.
 
 If you explore any of these extensions, I’d love to know.
@@ -2411,44 +2406,44 @@ go deeper.
 
 8.7.1 Books
 
-     Deep Learning, 2016.
+    - Deep Learning, 2016.
     https://amzn.to/2MQyLVZ
 
-     Deep Learning with Python, 2017.
+    - Deep Learning with Python, 2017.
     https://amzn.to/2vMRiMe
 
 8.7.2 Papers
 
-     Backpropagation Applied to Handwritten Zip Code Recognition, 1989.
+    - Backpropagation Applied to Handwritten Zip Code Recognition, 1989.
     https://ieeexplore.ieee.org/document/6795724/
 
-     Gradient-based Learning Applied to Document Recognition, 1998.
+    - Gradient-based Learning Applied to Document Recognition, 1998.
     https://ieeexplore.ieee.org/document/726791/
 
-     Very Deep Convolutional Networks for Large-Scale Image Recognition, 2014.
+    - Very Deep Convolutional Networks for Large-Scale Image Recognition, 2014.
     https://arxiv.org/abs/1409.1556
 
 8.7.3 APIs
 
-     Keras: The Python Deep Learning library.
+    - Keras: The Python Deep Learning library.
     https://keras.io/
 
-     Getting started with the Keras Sequential model.
+    - Getting started with the Keras Sequential model.
     https://keras.io/getting-started/sequential-model-guide/
 
-     Getting started with the Keras functional API.
+    - Getting started with the Keras functional API.
     https://keras.io/getting-started/functional-api-guide/
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Convolutional Layers API.
+    - Keras Convolutional Layers API.
     https://keras.io/layers/convolutional/
 
-     Keras Pooling Layers API.
+    - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
 8.8. Summary 122
@@ -2460,11 +2455,11 @@ for a range of standard
 
 time series forecasting problems. Specifically, you learned:
 
-ˆ How to develop CNN models for univariate time series forecasting.
+- How to develop CNN models for univariate time series forecasting.
 
-ˆ How to develop CNN models for multivariate time series forecasting.
+- How to develop CNN models for multivariate time series forecasting.
 
-ˆ How to develop CNN models for multi-step time series forecasting.
+- How to develop CNN models for multi-step time series forecasting.
 
 8.8.1 Next
 

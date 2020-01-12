@@ -1,9 +1,4 @@
-
-### Chapter 18
-
-### How to Develop ARIMA Models for
-
-### Multi-step Energy Usage Forecasting
+### How to Develop ARIMA Models for Multi-step Energy Usage Forecasting
 
     Given the rise of smart electricity meters and the wide adoption of electricity generation
     technology like solar panels, there is a wealth of electricity usage data available. This data
@@ -14,13 +9,13 @@
     autoregression model for multi-step forecasting household power consumption. After completing
     this tutorial, you will know:
 
-     How to create and analyze autocorrelation and partial autocorrelation plots for univariate
+    - How to create and analyze autocorrelation and partial autocorrelation plots for univariate
     time series data.
 
-ˆ How to use the findings from autocorrelation plots to configure an
+- How to use the findings from autocorrelation plots to configure an
 autoregression model.
 
-ˆ How to develop and evaluate an autocorrelation model used to make
+- How to develop and evaluate an autocorrelation model used to make
 one-week forecasts.
 
 Let’s get started.
@@ -48,23 +43,23 @@ This tutorial is divided into five parts; they are:
 
 (besides the date and time); they are:
 
-ˆ globalactivepower: The total active power consumed by the household
+- globalactivepower: The total active power consumed by the household
 (kilowatts).
 
-ˆ globalreactivepower: The total reactive power consumed by the
+- globalreactivepower: The total reactive power consumed by the
 household (kilowatts).
 
-ˆ voltage: Average voltage (volts).
+- voltage: Average voltage (volts).
 
-ˆ globalintensity: Average current intensity (amps).
+- globalintensity: Average current intensity (amps).
 
-ˆ submetering 1 : Active energy for kitchen (watt-hours of active
+- submetering 1 : Active energy for kitchen (watt-hours of active
 energy).
 
-ˆ submetering 2 : Active energy for laundry (watt-hours of active
+- submetering 2 : Active energy for laundry (watt-hours of active
 energy).
 
-ˆ submetering 3 : Active energy for climate control systems (watt-hours
+- submetering 3 : Active energy for climate control systems (watt-hours
 of active energy).
 
     Active and reactive energy refer to the technical details of alternative current. A fourth
@@ -257,10 +252,10 @@ pattern across the two plots.
 
 This pattern is comprised of two elements:
 
-     ACF: A large number of significant lag observations that slowly degrade as the lag
+    - ACF: A large number of significant lag observations that slowly degrade as the lag
     increases.
 
-ˆ PACF: A few significant lag observations that abruptly drop as the lag
+- PACF: A few significant lag observations that abruptly drop as the lag
 increases.
 
     The ACF plot indicates that there is a strong autocorrelation component, whereas the PACF
@@ -534,19 +529,19 @@ times.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Tune ARIMA. The parameters of the ARIMA model were not tuned. Explore or search
+    - Tune ARIMA. The parameters of the ARIMA model were not tuned. Explore or search
     a suite of ARIMA parameters (q, d, p) to see if performance can be further improved.
 
-     Explore Seasonal AR. Explore whether the performance of the AR model can be
+    - Explore Seasonal AR. Explore whether the performance of the AR model can be
     improved by including seasonal autoregression elements. This may require the use of a
     SARIMA model.
 
 18.8. Further Reading 366
 
-     Explore ETS. Explore whether better results may be achieved by using an ETS model
+    - Explore ETS. Explore whether better results may be achieved by using an ETS model
     instead of an ARIMA model.
 
-     Explore Data Preparation. The model was fit on the raw data directly. Explore
+    - Explore Data Preparation. The model was fit on the raw data directly. Explore
     whether standardization or normalization or even power transforms can further improve
     the skill of the AR model.
 
@@ -557,19 +552,19 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     statsmodels.graphics.tsaplots.plotacfAPI.
+    - statsmodels.graphics.tsaplots.plotacfAPI.
     http://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_
     acf.html
 
-     statsmodels.graphics.tsaplots.plotpacfAPI.
+    - statsmodels.graphics.tsaplots.plotpacfAPI.
     http://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_
     pacf.html
 
-     statsmodels.tsa.arimamodel.ARIMAAPI.
+    - statsmodels.tsa.arimamodel.ARIMAAPI.
     http://www.statsmodels.org/dev/generated/statsmodels.tsa.arima_model.ARIMA.
     html
 
-     statsmodels.tsa.arimamodel.ARIMAResultsAPI.
+    - statsmodels.tsa.arimamodel.ARIMAResultsAPI.
     http://www.statsmodels.org/dev/generated/statsmodels.tsa.arima_model.ARIMAResults.
     html
 
@@ -578,13 +573,13 @@ go deeper.
     In this tutorial, you discovered how to develop and evaluate an autoregression model for
     multi-step forecasting household power consumption. Specifically, you learned:
 
-     How to create and analyze autocorrelation and partial autocorrelation plots for univariate
+    - How to create and analyze autocorrelation and partial autocorrelation plots for univariate
     time series data.
 
-ˆ How to use the findings from autocorrelation plots to configure an
+- How to use the findings from autocorrelation plots to configure an
 autoregression model.
 
-ˆ How to develop and evaluate an autocorrelation model used to make
+- How to develop and evaluate an autocorrelation model used to make
 one-week forecasts.
 
 18.9.1 Next

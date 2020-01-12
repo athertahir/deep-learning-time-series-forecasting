@@ -1,9 +1,4 @@
-
-### Chapter 15
-
-### How to Grid Search Deep Learning
-
-### Models for Univariate Forecasting
+### How to Grid Search Deep Learning Models for Univariate Forecasting
 
     Grid searching is generally not an operation that we can perform with deep learning methods.
 
@@ -16,13 +11,13 @@ data and large models,
     develop a framework to grid search hyperparameters for deep learning models. After completing
     this tutorial, you will know:
 
-ˆ How to develop a generic grid searching framework for tuning model
+- How to develop a generic grid searching framework for tuning model
 hyperparameters.
 
-     How to grid search hyperparameters for a Multilayer Perceptron model on the airline
+    - How to grid search hyperparameters for a Multilayer Perceptron model on the airline
     passengers univariate time series forecasting problem.
 
-     How to adapt the framework to grid search hyperparameters for convolutional and long
+    - How to adapt the framework to grid search hyperparameters for convolutional and long
     short-term memory neural networks.
 
 Let’s get started.
@@ -60,7 +55,7 @@ in thousands on for
 
 an airline from 1949 to 1960. Download the dataset directly from here:
 
-ˆ monthly-airline-passengers.csv\^1
+- monthly-airline-passengers.csv\^1
 
 Save the file with the filenamemonthly-airline-passengers.csvin your
 current working
@@ -638,18 +633,18 @@ persistence model.
     There are many aspects of the MLP that we may wish to tune. We will define a very simple
     model with one hidden layer and define five hyperparameters to tune. They are:
 
-ˆ ninput: The number of prior inputs to use as input for the model (e.g.
+- ninput: The number of prior inputs to use as input for the model (e.g.
 12 months).
 
-ˆ nnodes: The number of nodes to use in the hidden layer (e.g. 50).
+- nnodes: The number of nodes to use in the hidden layer (e.g. 50).
 
-ˆ nepochs: The number of training epochs (e.g. 1000).
+- nepochs: The number of training epochs (e.g. 1000).
 
 15.4. Multilayer Perceptron Model 300
 
-ˆ nbatch: The number of samples to include in each mini-batch (e.g. 32).
+- nbatch: The number of samples to include in each mini-batch (e.g. 32).
 
-ˆ ndiff: The difference order (e.g. 0 or 12).
+- ndiff: The difference order (e.g. 0 or 12).
 
     Modern neural networks can handle raw data with little pre-processing, such as scaling and
     differencing. Nevertheless, when it comes to time series data, sometimes differencing the series
@@ -1143,15 +1138,15 @@ configs = list()
 
 12], which we know can be interpreted as:
 
-ˆ ninput: 12
+- ninput: 12
 
-ˆ nnodes: 100
+- nnodes: 100
 
-ˆ nepochs: 100
+- nepochs: 100
 
-ˆ nbatch: 1
+- nbatch: 1
 
-ˆ ndiff: 12
+- ndiff: 12
 
 A truncated example output of the grid search is listed below.
 
@@ -1190,19 +1185,19 @@ details on modeling a
     replaced by the number of filter maps and kernel size in the convolutional layers. The chosen
     set of hyperparameters to grid search in the CNN model are as follows:
 
-ˆ ninput: The number of prior inputs to use as input for the model (e.g.
+- ninput: The number of prior inputs to use as input for the model (e.g.
 12 months).
 
-ˆ nfilters: The number of filter maps in the convolutional layer (e.g.
+- nfilters: The number of filter maps in the convolutional layer (e.g.
 32).
 
-ˆ nkernel: The kernel size in the convolutional layer (e.g. 3).
+- nkernel: The kernel size in the convolutional layer (e.g. 3).
 
-ˆ nepochs: The number of training epochs (e.g. 1000).
+- nepochs: The number of training epochs (e.g. 1000).
 
-ˆ nbatch: The number of samples to include in each mini-batch (e.g. 32).
+- nbatch: The number of samples to include in each mini-batch (e.g. 32).
 
-ˆ ndiff: The difference order (e.g. 0 or 12).
+- ndiff: The difference order (e.g. 0 or 12).
 
     Some additional hyperparameters that you may wish to investigate are the use of two
     convolutional layers before a pooling layer, the repetition of the convolutional and pooling layer
@@ -1695,17 +1690,17 @@ We can unpack this
 
 configuration as:
 
-ˆ ninput: 12
+- ninput: 12
 
-ˆ nfilters: 64
+- nfilters: 64
 
-ˆ nkernel: 5
+- nkernel: 5
 
-ˆ nepochs: 100
+- nepochs: 100
 
-ˆ nbatch: 1
+- nbatch: 1
 
-ˆ ndiff: 12
+- ndiff: 12
 
 15.6. Long Short-Term Memory Network Model 312
 
@@ -1742,16 +1737,16 @@ an LSTM model.
 The hyperparameters for the LSTM model will be the same five as the MLP;
 they are:
 
-ˆ ninput: The number of prior inputs to use as input for the model (e.g.
+- ninput: The number of prior inputs to use as input for the model (e.g.
 12 months).
 
-ˆ nnodes: The number of nodes to use in the hidden layer (e.g. 50).
+- nnodes: The number of nodes to use in the hidden layer (e.g. 50).
 
-ˆ nepochs: The number of training epochs (e.g. 1000).
+- nepochs: The number of training epochs (e.g. 1000).
 
-ˆ nbatch: The number of samples to include in each mini-batch (e.g. 32).
+- nbatch: The number of samples to include in each mini-batch (e.g. 32).
 
-ˆ ndiff: The difference order (e.g. 0 or 12).
+- ndiff: The difference order (e.g. 0 or 12).
 
     We will define a simple LSTM model with a single hidden LSTM layer and the number of
     nodes specifying the number of units in this layer.
@@ -2210,15 +2205,15 @@ having a CNN model
 
 as input. We can unpack this configuration as:
 
-ˆ ninput: 12
+- ninput: 12
 
-ˆ nnodes: 100
+- nnodes: 100
 
-ˆ nepochs: 50
+- nepochs: 50
 
-ˆ nbatch: 1
+- nbatch: 1
 
-ˆ ndiff: 12
+- ndiff: 12
 
 A truncated example output of the grid search is listed below.
 
@@ -2254,20 +2249,20 @@ Total configs: 2
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     More Configurations. Explore a large suite of configurations for one of the models and
+    - More Configurations. Explore a large suite of configurations for one of the models and
     see if you can find a configuration that results in better performance.
 
-     Data Scaling. Update the grid search framework to also support the scaling (normal-
+    - Data Scaling. Update the grid search framework to also support the scaling (normal-
     ization and/or standardization) of data both before fitting the model and inverting the
     transform for predictions.
 
-     Network Architecture. Explore the grid searching larger architectural changes for a
+    - Network Architecture. Explore the grid searching larger architectural changes for a
     given model, such as the addition of more hidden layers.
 
-     New Dataset. Explore the grid search of a given model in a new univariate time series
+    - New Dataset. Explore the grid search of a given model in a new univariate time series
     dataset.
 
-     Multivariate. Update the grid search framework to support small multivariate time
+    - Multivariate. Update the grid search framework to support small multivariate time
     series datasets, e.g. datasets with multiple input variables.
 
 If you explore any of these extensions, I’d love to know.
@@ -2277,19 +2272,19 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Convolutional Layers API.
+    - Keras Convolutional Layers API.
     https://keras.io/layers/convolutional/
 
-     Keras Pooling Layers API.
+    - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-     Keras Recurrent Layers API.
+    - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
 15.9. Summary 319
@@ -2299,13 +2294,13 @@ go deeper.
     In this tutorial, you discovered how to develop a framework to grid search hyperparameters for
     deep learning models. Specifically, you learned:
 
-ˆ How to develop a generic grid searching framework for tuning model
+- How to develop a generic grid searching framework for tuning model
 hyperparameters.
 
-     How to grid search hyperparameters for a Multilayer Perceptron model on the airline
+    - How to grid search hyperparameters for a Multilayer Perceptron model on the airline
     passengers univariate time series forecasting problem.
 
-     How to adapt the framework to grid search hyperparameters for convolutional and long
+    - How to adapt the framework to grid search hyperparameters for convolutional and long
     short-term memory neural networks.
 
 15.9.1 Next
@@ -2334,19 +2329,19 @@ for household electricity
     of each method on the dataset are not compared directly. After reading the chapters in this
     part, you will know:
 
-     How to load, summarize and visualize a multivariate time series dataset describing
+    - How to load, summarize and visualize a multivariate time series dataset describing
     household electricity consumption over many years (Chapter 16).
 
-     How to develop naive forecasting models for forecasting household electricity usage, the
+    - How to develop naive forecasting models for forecasting household electricity usage, the
     results of which can be used as a baseline to determine whether a more sophisticated
     model has skill (Chapter 17).
 
-     How to diagnose the autocorrelation and develop autoregressive models for forecasting
+    - How to diagnose the autocorrelation and develop autoregressive models for forecasting
     household electricity usage (Chapter 18).
 
-     How to develop a suite of convolutional neural network models for forecasting household
+    - How to develop a suite of convolutional neural network models for forecasting household
     electricity usage (Chapter 19).
 
-     How to develop a suite of Long Short-Term Memory neural network models for forecasting
+    - How to develop a suite of Long Short-Term Memory neural network models for forecasting
     household electricity usage (Chapter 20).
 

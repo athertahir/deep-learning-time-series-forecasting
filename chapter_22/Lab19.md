@@ -1,31 +1,27 @@
 
-### Chapter 22
+### How to Load and Explore Human Activity Data
 
-### How to Load and Explore Human
+Human activity recognition is the problem of classifying sequences of accelerometer data recorded
+by specialized harnesses or smartphones into known well-defined movements. It is a challenging
+problem given the large number of observations produced each second, the temporal nature of
+the observations, and the lack of a clear way to relate accelerometer data to known movements.
+Classical approaches to the problem involve hand crafting features from the time series data
+based on fixed-sized windows and training machine learning models, such as ensembles of
+decision trees. The difficulty is that this feature engineering requires deep expertise in the
+field. Recently, deep learning methods such as recurrent neural networks and one-dimensional
+convolutional neural networks, or CNNs, have been shown to provide state-of-the-art results on
+challenging activity recognition tasks with little or no data feature engineering.
+In this tutorial, you will discover theActivity Recognition Using Smartphonesdataset for
+time series classification and how to load and explore the dataset in order to make it ready for
+predictive modeling. This dataset will provided the basis for the remaining tutorials in this part
+of the book. After completing this tutorial, you will know:
 
-### Activity Data
+- How to download and load the dataset into memory.
 
-    Human activity recognition is the problem of classifying sequences of accelerometer data recorded
-    by specialized harnesses or smartphones into known well-defined movements. It is a challenging
-    problem given the large number of observations produced each second, the temporal nature of
-    the observations, and the lack of a clear way to relate accelerometer data to known movements.
-    Classical approaches to the problem involve hand crafting features from the time series data
-    based on fixed-sized windows and training machine learning models, such as ensembles of
-    decision trees. The difficulty is that this feature engineering requires deep expertise in the
-    field. Recently, deep learning methods such as recurrent neural networks and one-dimensional
-    convolutional neural networks, or CNNs, have been shown to provide state-of-the-art results on
-    challenging activity recognition tasks with little or no data feature engineering.
-    In this tutorial, you will discover theActivity Recognition Using Smartphonesdataset for
-    time series classification and how to load and explore the dataset in order to make it ready for
-    predictive modeling. This dataset will provided the basis for the remaining tutorials in this part
-    of the book. After completing this tutorial, you will know:
-
-ˆ How to download and load the dataset into memory.
-
-     How to use line plots, histograms, and box plots to better understand the structure of the
+    - How to use line plots, histograms, and box plots to better understand the structure of the
     motion data.
 
-ˆ How to model the problem, including framing, data preparation,
+- How to model the problem, including framing, data preparation,
 modeling, and evaluation.
 
 Let’s get started.
@@ -126,12 +122,12 @@ Smartphones, 2013.
 
 available. The pre-processing steps included:
 
-ˆ Pre-processing accelerometer and gyroscope using noise filters.
+- Pre-processing accelerometer and gyroscope using noise filters.
 
-ˆ Splitting data into fixed windows of 2.56 seconds (128 data points)
+- Splitting data into fixed windows of 2.56 seconds (128 data points)
 with 50% overlap.
 
-ˆ Splitting of accelerometer data into gravitational (total) and body
+- Splitting of accelerometer data into gravitational (total) and body
 motion components.
 
     These signals were preprocessed for noise reduction with a median filter and a 3rd
@@ -179,19 +175,19 @@ size. A direct for
 
 downloading the dataset is provided below:
 
-ˆ HARSmartphones.zip\^3
+- HARSmartphones.zip\^3
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset. Inspecting the decompressed contents, you will notice a few
     things:
 
-     There aretrainandtestfolders containing the split portions of the data for modeling
+    - There aretrainandtestfolders containing the split portions of the data for modeling
     (e.g. 70%/30%).
 
-     There is aREADME.txtfile that contains a detailed technical description of the dataset
+    - There is aREADME.txtfile that contains a detailed technical description of the dataset
     and the contents of the unzipped files.
 
-     There is afeatures.txt file that contains a technical description of the engineered
+    - There is afeatures.txt file that contains a technical description of the engineered
     features.
 
 The contents of thetrainandtestfolders are similar (e.g. folders and
@@ -207,28 +203,28 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR\_Smartphones.zip
 
 22.4. Load the Dataset 447
 
-ˆ AnInertial Signalsfolder that contains the preprocessed data.
+- AnInertial Signalsfolder that contains the preprocessed data.
 
-ˆ TheXtrain.txtfile that contains the engineered features intended for
+- TheXtrain.txtfile that contains the engineered features intended for
 fitting a model.
 
-ˆ Theytrain.txtthat contains the class labels for each observation
+- Theytrain.txtthat contains the class labels for each observation
 (1-6).
 
-     Thesubjecttrain.txtfile that contains a mapping of each line in the data files with
+    - Thesubjecttrain.txtfile that contains a mapping of each line in the data files with
     their subject identifier (1-30).
 
     The number of lines in each file match, indicating that one row is one record in each data
 
 file. TheInertial Signalsdirectory contains 9 files.
 
-     Gravitational acceleration data files forx,yandzaxes:totalaccxtrain.txt,
+    - Gravitational acceleration data files forx,yandzaxes:totalaccxtrain.txt,
     totalaccytrain.txt,totalaccztrain.txt.
 
-     Body acceleration data files forx,yandzaxes:bodyaccxtrain.txt,
+    - Body acceleration data files forx,yandzaxes:bodyaccxtrain.txt,
     bodyaccytrain.txt,bodyaccztrain.txt.
 
-     Body gyroscope data files forx,yandzaxes:bodygyroxtrain.txt,
+    - Body gyroscope data files forx,yandzaxes:bodygyroxtrain.txt,
     bodygyroytrain.txt,bodygyroztrain.txt.
 
 The structure is mirrored in thetestdirectory. We will focus our
@@ -1920,26 +1916,26 @@ problem. The framing of the
     their movement data, based on the movement data and activities of known subjects. We can
     summarize this as:
 
-ˆ Predict activity given a window of movement data.
+- Predict activity given a window of movement data.
 
     This is a reasonable and useful framing of the problem. Some other possible ways to frame
     the provided data as a prediction problem include the following:
 
 22.10. Approach to Modeling 474
 
-ˆ Predict activity given a time step of movement data.
+- Predict activity given a time step of movement data.
 
-ˆ Predict activity given multiple windows of movement data.
+- Predict activity given multiple windows of movement data.
 
-ˆ Predict the activity sequence given multiple windows of movement data.
+- Predict the activity sequence given multiple windows of movement data.
 
-ˆ Predict activity given a sequence of movement data for a pre-segmented
+- Predict activity given a sequence of movement data for a pre-segmented
 activity.
 
-ˆ Predict activity cessation or transition given a time step of movement
+- Predict activity cessation or transition given a time step of movement
 data.
 
-ˆ Predict a stationary or non-stationary activity given a window of
+- Predict a stationary or non-stationary activity given a window of
 movement data.
 
     Some of these framings may be too challenging or too easy. Nevertheless, these framings
@@ -1951,23 +1947,23 @@ movement data.
     already appears to have been scaled to the range[-1,1]. Some additional data transforms that
     could be performed prior to modeling include:
 
-ˆ Normalization across subjects.
+- Normalization across subjects.
 
-ˆ Standardization per subject.
+- Standardization per subject.
 
-ˆ Standardization across subjects.
+- Standardization across subjects.
 
-ˆ Axis feature selection.
+- Axis feature selection.
 
-ˆ Data type feature selection.
+- Data type feature selection.
 
-ˆ Signal outlier detection and removal.
+- Signal outlier detection and removal.
 
-ˆ Removing windows of over-represented activities.
+- Removing windows of over-represented activities.
 
-ˆ Oversampling windows of under-represented activities.
+- Oversampling windows of under-represented activities.
 
-ˆ Downsampling signal data to\^14 ,\^12 , 1, 2 or other fractions of a
+- Downsampling signal data to\^14 ,\^12 , 1, 2 or other fractions of a
 section.
 
 22.10.3 Predictive Modeling
@@ -1993,15 +1989,15 @@ to explore include:
 
 22.11. Model Evaluation 475
 
-ˆ Common linear, nonlinear, and ensemble machine learning algorithms.
+- Common linear, nonlinear, and ensemble machine learning algorithms.
 
-ˆ Multilayer Perceptron.
+- Multilayer Perceptron.
 
-ˆ Convolutional neural networks, specifically 1D CNNs.
+- Convolutional neural networks, specifically 1D CNNs.
 
-ˆ Recurrent neural networks, specifically LSTMs.
+- Recurrent neural networks, specifically LSTMs.
 
-ˆ Hybrids of CNNs and LSTMs such as the CNN-LSTM and the ConvLSTM.
+- Hybrids of CNNs and LSTMs such as the CNN-LSTM and the ConvLSTM.
 
 #### 22.11Model Evaluation
 
@@ -2028,13 +2024,13 @@ summarized, which may offer
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     List Intuitions. Outline the method that you believe may be most effective in making
+    - List Intuitions. Outline the method that you believe may be most effective in making
     forecasts with on this dataset.
 
-     Apply Taxonomy. Use the taxonomy in Chapter 2 to describe the dataset presented in
+    - Apply Taxonomy. Use the taxonomy in Chapter 2 to describe the dataset presented in
     this chapter.
 
-     Additional Analysis. Use summary statistics and/or plots to explore one more aspect
+    - Additional Analysis. Use summary statistics and/or plots to explore one more aspect
     of the dataset that may provide insight into modeling this problem.
 
 If you explore any of these extensions, I’d love to know.
@@ -2048,32 +2044,32 @@ go deeper.
 
 22.13.1 Papers
 
-     Deep Learning for Sensor-based Activity Recognition: A Survey, 2017.
+    - Deep Learning for Sensor-based Activity Recognition: A Survey, 2017.
     https://arxiv.org/abs/1707.03502
 
-     A Public Domain Dataset for Human Activity Recognition Using Smartphones, 2013.
+    - A Public Domain Dataset for Human Activity Recognition Using Smartphones, 2013.
     https://upcommons.upc.edu/handle/2117/20897
 
-     Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support
+    - Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support
     Vector Machine, 2012.
     https://link.springer.com/chapter/10.1007/978-3-642-35395-6_30
 
 22.13.2 API
 
-     pandas.readcsvAPI.
+    - pandas.readcsvAPI.
     http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
 
-     numpy.dstackAPI.
+    - numpy.dstackAPI.
     https://www.numpy.org/devdocs/reference/generated/numpy.dstack.html
 
 22.13.3 Articles
 
-ˆ Human Activity Recognition Dataset, UCI Machine Learning Repository.
+- Human Activity Recognition Dataset, UCI Machine Learning Repository.
 
-     Activity recognition, Wikipedia.
+    - Activity recognition, Wikipedia.
     https://en.wikipedia.org/wiki/Activity_recognition
 
-     Activity Recognition Experiment Using Smartphone Sensors, YouTube.
+    - Activity Recognition Experiment Using Smartphone Sensors, YouTube.
     https://www.youtube.com/watch?v=XOEN9W05_4A
 
 #### 22.14 Summary
@@ -2086,12 +2082,12 @@ to make it ready for
 
 predictive modeling. Specifically, you learned:
 
-ˆ How to download and load the dataset into memory.
+- How to download and load the dataset into memory.
 
-     How to use line plots, histograms, and box plots to better understand the structure of the
+    - How to use line plots, histograms, and box plots to better understand the structure of the
     motion data.
 
-ˆ How to model the problem including framing, data preparation,
+- How to model the problem including framing, data preparation,
 modeling, and evaluation.
 
 22.14.1 Next

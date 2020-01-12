@@ -1,9 +1,4 @@
-
-### Chapter 7
-
-### How to Develop MLPs for Time Series
-
-### Forecasting
+### How to Develop MLPs for Time Series Forecasting
 
 Multilayer Perceptrons, or MLPs for short, can be applied to time series
 forecasting. A challenge
@@ -20,11 +15,11 @@ data. Specifically, lag
 
 you will know:
 
-ˆ How to develop MLP models for univariate time series forecasting.
+- How to develop MLP models for univariate time series forecasting.
 
-ˆ How to develop MLP models for multivariate time series forecasting.
+- How to develop MLP models for multivariate time series forecasting.
 
-ˆ How to develop MLP models for multi-step time series forecasting.
+- How to develop MLP models for multi-step time series forecasting.
 
 Let’s get started.
 
@@ -2383,13 +2378,13 @@ running the example a few times.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Problem Differences. Explain the main changes to the MLP required when modeling
+    - Problem Differences. Explain the main changes to the MLP required when modeling
     each of univariate, multivariate and multi-step time series forecasting problems.
 
-     Experiment. Select one example and modify it to work with your own small contrived
+    - Experiment. Select one example and modify it to work with your own small contrived
     dataset.
 
-     Develop Framework. Use the examples in this chapter as the basis for a framework for
+    - Develop Framework. Use the examples in this chapter as the basis for a framework for
     automatically developing an MLP model for a given time series forecasting problem.
 
 If you explore any of these extensions, I’d love to know.
@@ -2401,30 +2396,30 @@ go deeper.
 
 7.7.1 Books
 
-     Neural Smithing: Supervised Learning in Feedforward Artificial Neural Networks, 1999.
+    - Neural Smithing: Supervised Learning in Feedforward Artificial Neural Networks, 1999.
     https://amzn.to/2vORBWO.
 
-     Deep Learning, 2016.
+    - Deep Learning, 2016.
     https://amzn.to/2MQyLVZ
 
-     Deep Learning with Python, 2017.
+    - Deep Learning with Python, 2017.
     https://amzn.to/2vMRiMe
 
 7.7.2 APIs
 
-     Keras: The Python Deep Learning library.
+    - Keras: The Python Deep Learning library.
     https://keras.io/
 
-     Getting started with the Keras Sequential model.
+    - Getting started with the Keras Sequential model.
     https://keras.io/getting-started/sequential-model-guide/
 
-     Getting started with the Keras functional API.
+    - Getting started with the Keras functional API.
     https://keras.io/getting-started/functional-api-guide/
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
 7.8. Summary 86
@@ -2437,11 +2432,11 @@ Perceptron, or MLP, models
 for a range of standard time series forecasting problems. Specifically,
 you learned:
 
-ˆ How to develop MLP models for univariate time series forecasting.
+- How to develop MLP models for univariate time series forecasting.
 
-ˆ How to develop MLP models for multivariate time series forecasting.
+- How to develop MLP models for multivariate time series forecasting.
 
-ˆ How to develop MLP models for multi-step time series forecasting.
+- How to develop MLP models for multi-step time series forecasting.
 
 7.8.1 Next
 

@@ -1,9 +1,5 @@
 
-### Chapter 14
-
-### How to Develop MLPs, CNNs and
-
-### LSTMs for Univariate Forecasting
+### How to Develop MLPs, CNNs and LSTMs for Univariate Forecasting
 
     Deep learning neural networks are capable of automatically learning and extracting features
     from raw data. This feature of neural networks can be used for time series forecasting problems,
@@ -18,13 +14,13 @@ the direct need to scale
     In this tutorial, you will discover how to develop a suite of deep learning models for univariate
     time series forecasting. After completing this tutorial, you will know:
 
-     How to develop a robust test harness using walk-forward validation for evaluating the
+    - How to develop a robust test harness using walk-forward validation for evaluating the
     performance of neural network models.
 
-     How to develop and evaluate simple Multilayer Perceptron and convolutional neural
+    - How to develop and evaluate simple Multilayer Perceptron and convolutional neural
     networks for time series forecasting.
 
-     How to develop and evaluate LSTMs, CNN-LSTMs, and ConvLSTM neural network
+    - How to develop and evaluate LSTMs, CNN-LSTMs, and ConvLSTM neural network
     models for time series forecasting.
 
 Let’s get started.
@@ -53,7 +49,7 @@ This tutorial is divided into five parts; they are:
 
 was introduced. You can download the dataset directly from here:
 
-ˆ monthly-car-sales.csv\^1
+- monthly-car-sales.csv\^1
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -637,14 +633,14 @@ is listed below.
 The function expects the config to be a list with the following
 configuration hyperparameters:
 
-ˆ ninput: The number of lag observations to use as input to the model.
+- ninput: The number of lag observations to use as input to the model.
 
-ˆ nnodes: The number of nodes to use in the hidden layer.
+- nnodes: The number of nodes to use in the hidden layer.
 
-ˆ nepochs: The number of times to expose the model to the whole training
+- nepochs: The number of times to expose the model to the whole training
 dataset.
 
-ˆ nbatch: The number of samples within an epoch after which the weights
+- nbatch: The number of samples within an epoch after which the weights
 are updated.
 
     # fit a model
@@ -707,13 +703,13 @@ MLP model.
     may not be optimal for the problem and improvements could be made via grid searching. For
     details on how, see Chapter 15.
 
-ˆ ninput: 24 (e.g. 24 months)
+- ninput: 24 (e.g. 24 months)
 
-ˆ nnodes: 500
+- nnodes: 500
 
-ˆ nepochs: 100
+- nepochs: 100
 
-ˆ nbatch: 100
+- nbatch: 100
 
     This configuration can be defined as a list:
     # define config
@@ -1015,17 +1011,17 @@ is listed below.
 
 The model takes the following five configuration parameters as a list:
 
-ˆ ninput: The number of lag observations to use as input to the model.
+- ninput: The number of lag observations to use as input to the model.
 
-ˆ nfilters: The number of parallel filters.
+- nfilters: The number of parallel filters.
 
-ˆ nkernel: The number of time steps considered in each read of the input
+- nkernel: The number of time steps considered in each read of the input
 sequence.
 
-ˆ nepochs: The number of times to expose the model to the whole training
+- nepochs: The number of times to expose the model to the whole training
 dataset.
 
-ˆ nbatch: The number of samples within an epoch after which the weights
+- nbatch: The number of samples within an epoch after which the weights
 are updated.
 
     # fit a model
@@ -1080,15 +1076,15 @@ CNN model.
     model may not be optimal for the problem and improvements could be made via grid searching.
     For details on how, see Chapter 15.
 
-ˆ ninput: 36 (e.g. 3 years or 3×12)
+- ninput: 36 (e.g. 3 years or 3×12)
 
-ˆ nfilters: 256
+- nfilters: 256
 
-ˆ nkernel: 3
+- nkernel: 3
 
-ˆ nepochs: 100
+- nepochs: 100
 
-ˆ nbatch: 100 (e.g. batch gradient descent)
+- nbatch: 100 (e.g. batch gradient descent)
 
 This can be specified as a list as follows:
 
@@ -1396,14 +1392,14 @@ univariate time series
     forecasting, see Chapter 9. In this section, we will explore three variations on the LSTM model
     for univariate time series forecasting; they are:
 
-ˆ Vanilla LSTM: The LSTM network as-is.
+- Vanilla LSTM: The LSTM network as-is.
 
-     CNN-LSTM: A CNN network that learns input features and an LSTM that interprets
+    - CNN-LSTM: A CNN network that learns input features and an LSTM that interprets
     them.
 
 14.6. Recurrent Neural Network Models 270
 
-     ConvLSTM: A combination of CNNs and LSTMs where the LSTM units read input
+    - ConvLSTM: A combination of CNNs and LSTMs where the LSTM units read input
     data using the convolutional process of a CNN.
 
 14.6.1 LSTM
@@ -1473,17 +1469,17 @@ for fitting an LSTM
 model is provided below. The model expects a list of five model
 hyperparameters; they are:
 
-ˆ ninput: The number of lag observations to use as input to the model.
+- ninput: The number of lag observations to use as input to the model.
 
-ˆ nnodes: The number of LSTM units to use in the hidden layer.
+- nnodes: The number of LSTM units to use in the hidden layer.
 
-ˆ nepochs: The number of times to expose the model to the whole training
+- nepochs: The number of times to expose the model to the whole training
 dataset.
 
-ˆ nbatch: The number of samples within an epoch after which the weights
+- nbatch: The number of samples within an epoch after which the weights
 are updated.
 
-ˆ ndiff: The difference order or 0 if not used.
+- ndiff: The difference order or 0 if not used.
 
 fit a model
 ===========
@@ -1578,15 +1574,15 @@ via grid searching.
 
 For details on how, see Chapter 15.
 
-ˆ ninput: 36 (i.e. 3 years or 3×12)
+- ninput: 36 (i.e. 3 years or 3×12)
 
-ˆ nnodes: 50
+- nnodes: 50
 
-ˆ nepochs: 100
+- nepochs: 100
 
-ˆ nbatch: 100 (i.e. batch gradient descent)
+- nbatch: 100 (i.e. batch gradient descent)
 
-ˆ ndiff: 12 (i.e. seasonal difference)
+- ndiff: 12 (i.e. seasonal difference)
 
 This can be specified as a list:
 
@@ -1912,21 +1908,21 @@ of seven
 
 hyperparameters; they are:
 
-ˆ nseq: The number of subsequences within a sample.
+- nseq: The number of subsequences within a sample.
 
-ˆ nsteps: The number of time steps within each subsequence.
+- nsteps: The number of time steps within each subsequence.
 
-ˆ nfilters: The number of parallel filters.
+- nfilters: The number of parallel filters.
 
-ˆ nkernel: The number of time steps considered in each read of the input
+- nkernel: The number of time steps considered in each read of the input
 sequence.
 
-ˆ nnodes: The number of LSTM units to use in the hidden layer.
+- nnodes: The number of LSTM units to use in the hidden layer.
 
-ˆ nepochs: The number of times to expose the model to the whole training
+- nepochs: The number of times to expose the model to the whole training
 dataset.
 
-ˆ nbatch: The number of samples within an epoch after which the weights
+- nbatch: The number of samples within an epoch after which the weights
 are updated.
 
 14.6. Recurrent Neural Network Models 277
@@ -1989,21 +1985,21 @@ The updatedmodelpredict()function is listed below.
     model may not be optimal for the problem and improvements could be made via grid searching.
     For details on how, see Chapter 15.
 
-ˆ nseq: 3 (i.e. 3 years)
+- nseq: 3 (i.e. 3 years)
 
 14.6. Recurrent Neural Network Models 278
 
-ˆ nsteps: 12 (i.e. 1 year of months)
+- nsteps: 12 (i.e. 1 year of months)
 
-ˆ nfilters: 64
+- nfilters: 64
 
-ˆ nkernel: 3
+- nkernel: 3
 
-ˆ nnodes: 100
+- nnodes: 100
 
-ˆ nepochs: 200
+- nepochs: 200
 
-ˆ nbatch: 100 (i.e. batch gradient descent)
+- nbatch: 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
 
@@ -2338,21 +2334,21 @@ a list of seven
 
 hyperparameters, the same as the CNN-LSTM; they are:
 
-ˆ nseq: The number of subsequences within a sample.
+- nseq: The number of subsequences within a sample.
 
-ˆ nsteps: The number of time steps within each subsequence.
+- nsteps: The number of time steps within each subsequence.
 
-ˆ nfilters: The number of parallel filters.
+- nfilters: The number of parallel filters.
 
-ˆ nkernel: The number of time steps considered in each read of the input
+- nkernel: The number of time steps considered in each read of the input
 sequence.
 
-ˆ nnodes: The number of LSTM units to use in the hidden layer.
+- nnodes: The number of LSTM units to use in the hidden layer.
 
-ˆ nepochs: The number of times to expose the model to the whole training
+- nepochs: The number of times to expose the model to the whole training
 dataset.
 
-ˆ nbatch: The number of samples within an epoch after which the weights
+- nbatch: The number of samples within an epoch after which the weights
 are updated.
 
 Themodelfit()function that implements all of this is listed below.
@@ -2451,19 +2447,19 @@ via grid searching.
 
 For details on how, see Chapter 15.
 
-ˆ nseq: 3 (i.e. 3 years)
+- nseq: 3 (i.e. 3 years)
 
-ˆ nsteps: 12 (i.e. 1 year of months)
+- nsteps: 12 (i.e. 1 year of months)
 
-ˆ nfilters: 256
+- nfilters: 256
 
-ˆ nkernel: 3
+- nkernel: 3
 
-ˆ nnodes: 200
+- nnodes: 200
 
-ˆ nepochs: 200
+- nepochs: 200
 
-ˆ nbatch: 100 (i.e. batch gradient descent)
+- nbatch: 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
 
@@ -2769,28 +2765,28 @@ Sales.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Data Preparation. Explore whether data preparation, such as normalization, standard-
+    - Data Preparation. Explore whether data preparation, such as normalization, standard-
     ization, and/or differencing can list the performance of any of the models.
 
-     Grid Search Hyperparameters. Implement a grid search of the hyperparameters for
+    - Grid Search Hyperparameters. Implement a grid search of the hyperparameters for
     one model to see if you can further lift performance.
 
-     Learning Curve Diagnostics. Create a single fit of one model and review the learning
+    - Learning Curve Diagnostics. Create a single fit of one model and review the learning
     curves on train and validation splits of the dataset, then use the diagnostics of the learning
     curves to further tune the model hyperparameters in order to improve model performance.
 
-     History Size. Explore different amounts of historical data (lag inputs) for one model to
+    - History Size. Explore different amounts of historical data (lag inputs) for one model to
     see if you can further improve model performance
 
-     Reduce Variance of Final Model. Explore one or more strategies to reduce the
+    - Reduce Variance of Final Model. Explore one or more strategies to reduce the
     variance for one of the neural network models.
 
 14.8. Further Reading 288
 
-     Update During Walk-Forward. Explore whether re-fitting or updating a neural
+    - Update During Walk-Forward. Explore whether re-fitting or updating a neural
     network model as part of walk-forward validation can further improve model performance.
 
-     More Parameterization. Explore adding further model parameterization for one model,
+    - More Parameterization. Explore adding further model parameterization for one model,
     such as the use of additional layers.
 
 If you explore any of these extensions, I’d love to know.
@@ -2800,26 +2796,26 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     pandas.DataFrame.shiftAPI.
+    - pandas.DataFrame.shiftAPI.
     http://pandas-docs.github.io/pandas-docs-travis/generated/pandas.DataFrame.
     shift.html
 
-     matplotlib.pyplot.boxplotAPI.
+    - matplotlib.pyplot.boxplotAPI.
     https://matplotlib.org/api/_as_gen/matplotlib.pyplot.boxplot.html
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Convolutional Layers API.
+    - Keras Convolutional Layers API.
     https://keras.io/layers/convolutional/
 
-     Keras Pooling Layers API.
+    - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-     Keras Recurrent Layers API.
+    - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
 ### 14.9 Summary
@@ -2827,13 +2823,13 @@ go deeper.
     In this tutorial, you discovered how to develop a suite of deep learning models for univariate
     time series forecasting. Specifically, you learned:
 
-     How to develop a robust test harness using walk-forward validation for evaluating the
+    - How to develop a robust test harness using walk-forward validation for evaluating the
     performance of neural network models.
 
-     How to develop and evaluate simple Multilayer Perceptron and convolutional neural
+    - How to develop and evaluate simple Multilayer Perceptron and convolutional neural
     networks for time series forecasting.
 
-     How to develop and evaluate LSTMs, CNN-LSTMs, and ConvLSTM neural network
+    - How to develop and evaluate LSTMs, CNN-LSTMs, and ConvLSTM neural network
     models for time series forecasting.
 
 14.9. Summary 289

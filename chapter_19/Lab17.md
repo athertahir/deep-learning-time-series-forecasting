@@ -1,9 +1,4 @@
-
-### Chapter 19
-
-### How to Develop CNNs for Multi-step
-
-### Energy Usage Forecasting
+### How to Develop CNNs for Multi-step Energy Usage Forecasting
 
     Given the rise of smart electricity meters and the wide adoption of electricity generation
     technology like solar panels, there is a wealth of electricity usage data available. This data
@@ -19,13 +14,13 @@ multi-step time series
 
 forecasting. After completing this tutorial, you will know:
 
-ˆ How to develop a CNN for multi-step time series forecasting model for
+- How to develop a CNN for multi-step time series forecasting model for
 univariate data.
 
-     How to develop a multi-channel multi-step time series forecasting model for multivariate
+    - How to develop a multi-channel multi-step time series forecasting model for multivariate
     data.
 
-     How to develop a multi-headed multi-step time series forecasting model for multivariate
+    - How to develop a multi-headed multi-step time series forecasting model for multivariate
     data.
 
 Let’s get started.
@@ -56,23 +51,23 @@ This tutorial is divided into seven parts; they are:
 
 (besides the date and time); they are:
 
-ˆ globalactivepower: The total active power consumed by the household
+- globalactivepower: The total active power consumed by the household
 (kilowatts).
 
-ˆ globalreactivepower: The total reactive power consumed by the
+- globalreactivepower: The total reactive power consumed by the
 household (kilowatts).
 
-ˆ voltage: Average voltage (volts).
+- voltage: Average voltage (volts).
 
-ˆ globalintensity: Average current intensity (amps).
+- globalintensity: Average current intensity (amps).
 
-ˆ submetering 1 : Active energy for kitchen (watt-hours of active
+- submetering 1 : Active energy for kitchen (watt-hours of active
 energy).
 
-ˆ submetering 2 : Active energy for laundry (watt-hours of active
+- submetering 2 : Active energy for laundry (watt-hours of active
 energy).
 
-ˆ submetering 3 : Active energy for climate control systems (watt-hours
+- submetering 3 : Active energy for climate control systems (watt-hours
 of active energy).
 
     Active and reactive energy refer to the technical details of alternative current. A fourth
@@ -180,23 +175,23 @@ the dataset.
     output sequence is a function of more than one input sequence. This can be achieved using two
     different model configurations.
 
-     Multiple Input Channels. This is where each input sequence is read as a separate
+    - Multiple Input Channels. This is where each input sequence is read as a separate
     channel, like the different channels of an image (e.g. red, green and blue).
 
-     Multiple Input Heads. This is where each input sequence is read by a different CNN
+    - Multiple Input Heads. This is where each input sequence is read by a different CNN
     submodel and the internal representations are combined before being interpreted and used
     to make a prediction.
 
     In this tutorial, we will explore how to develop three different types of CNN models for
     multi-step time series forecasting; they are:
 
-ˆ A CNN for multi-step time series forecasting with univariate input
+- A CNN for multi-step time series forecasting with univariate input
 data.
 
-ˆ A CNN for multi-step time series forecasting with multivariate input
+- A CNN for multi-step time series forecasting with multivariate input
 data via channels.
 
-ˆ A CNN for multi-step time series forecasting with multivariate input
+- A CNN for multi-step time series forecasting with multivariate input
 data via submodels.
 
 The models will be developed and demonstrated on the household power
@@ -227,27 +222,27 @@ and error. Given the
     input defines the one-dimensional (1D) subsequence of data that the CNN will read and learn
     to extract features. Some ideas on the size and nature of this input include:
 
-ˆ All prior days, up to years worth of data.
+- All prior days, up to years worth of data.
 
-ˆ The prior seven days.
+- The prior seven days.
 
-ˆ The prior two weeks.
+- The prior two weeks.
 
-ˆ The prior one month.
+- The prior one month.
 
-ˆ The prior one year.
+- The prior one year.
 
-ˆ The prior week and the week to be predicted from one year ago.
+- The prior week and the week to be predicted from one year ago.
 
     There is no right answer; instead, each approach and more can be tested and the performance
     of the model can be used to choose the nature of the input that results in the best model
     performance. These choices define a few things about the implementation, such as:
 
-ˆ How the training data must be prepared in order to fit the model.
+- How the training data must be prepared in order to fit the model.
 
-ˆ How the test data must be prepared in order to evaluate the model.
+- How the test data must be prepared in order to evaluate the model.
 
-ˆ How to use the model to make predictions with a final model in the
+- How to use the model to make predictions with a final model in the
 future.
 
     A good starting point would be to use the prior seven days. A 1D CNN model expects data
@@ -1773,20 +1768,20 @@ Inputs.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Size of Input. Explore more or fewer numbers of days used as input for the model, such
+    - Size of Input. Explore more or fewer numbers of days used as input for the model, such
     as three days, 21 days, 30 days and more.
 
-     Model Tuning. Tune the structure and hyperparameters for a model and further lift
+    - Model Tuning. Tune the structure and hyperparameters for a model and further lift
     model performance on average.
 
-     Data Scaling. Explore whether data scaling, such as standardization and normalization,
+    - Data Scaling. Explore whether data scaling, such as standardization and normalization,
     can be used to improve the performance of any of the CNN models.
 
-     Learning Diagnostics. Use diagnostics such as learning curves for the train and valida-
+    - Learning Diagnostics. Use diagnostics such as learning curves for the train and valida-
     tion loss and mean squared error to help tune the structure and hyperparameters of a
     CNN model.
 
-     Vary Kernel Size. Combine the multi-channel CNN with the multi-headed CNN and
+    - Vary Kernel Size. Combine the multi-channel CNN with the multi-headed CNN and
     use a different kernel size for each head to see if this configuration can further improve
     performance.
 
@@ -1799,22 +1794,22 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     Getting started with the Keras Sequential model.
+    - Getting started with the Keras Sequential model.
     https://keras.io/getting-started/sequential-model-guide/
 
-     Getting started with the Keras functional API.
+    - Getting started with the Keras functional API.
     https://keras.io/getting-started/functional-api-guide/
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Convolutional Layers API.
+    - Keras Convolutional Layers API.
     https://keras.io/layers/convolutional/
 
-     Keras Pooling Layers API.
+    - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
 #### 19.11Summary
@@ -1822,13 +1817,13 @@ go deeper.
     In this tutorial, you discovered how to develop 1D convolutional neural networks for multi-step
     time series forecasting. Specifically, you learned:
 
-ˆ How to develop a CNN for multi-step time series forecasting model for
+- How to develop a CNN for multi-step time series forecasting model for
 univariate data.
 
-     How to develop a multi-channel multi-step time series forecasting model for multivariate
+    - How to develop a multi-channel multi-step time series forecasting model for multivariate
     data.
 
-     How to develop a multi-headed multi-step time series forecasting model for multivariate
+    - How to develop a multi-headed multi-step time series forecasting model for multivariate
     data.
 
 19.11.1 Next

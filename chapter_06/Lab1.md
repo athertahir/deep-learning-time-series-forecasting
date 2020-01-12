@@ -1,6 +1,3 @@
-
-### Chapter 6
-
 ### How to Prepare Time Series Data for CNNs and LSTMs
 
 Time series data must be transformed before it can be used to fit a
@@ -16,13 +13,13 @@ supervised learning model.
     into a three-dimensional structure ready for fitting a CNN or LSTM model. After completing
     this tutorial, you will know:
 
-ˆ How to transform a time series dataset into a two-dimensional
+- How to transform a time series dataset into a two-dimensional
 supervised learning format.
 
-     How to transform a two-dimensional time series dataset into a three-dimensional structure
+    - How to transform a two-dimensional time series dataset into a three-dimensional structure
     suitable for CNNs and LSTMs.
 
-     How to step through a worked example of splitting a very long time series into subsequences
+    - How to step through a worked example of splitting a very long time series into subsequences
     ready for training a CNN or LSTM model.
 
 Let’s get started.
@@ -125,10 +122,10 @@ supervised learning problem.
     to the model and may correspond to a separate lag observation. Each row will represent a
     sample and will correspond to a new example with input and output components.
 
-ˆ Feature: A column in a dataset, such as a lag observation for a time
+- Feature: A column in a dataset, such as a lag observation for a time
 series dataset.
 
-     Sample: A row in a dataset, such as an input and output sequence for a time series
+    - Sample: A row in a dataset, such as an input and output sequence for a time series
     dataset.
 
 For example, our univariate time series may look as follows:
@@ -289,13 +286,13 @@ data. The input to
 every CNN and LSTM layer must be three-dimensional. The three dimensions
 of this input are:
 
-ˆ Samples. One sequence is one sample. A batch is comprised of one or
+- Samples. One sequence is one sample. A batch is comprised of one or
 more samples.
 
-     Time Steps. One time step is one point of observation in the sample. One sample is
+    - Time Steps. One time step is one point of observation in the sample. One sample is
     comprised of multiple time steps.
 
-     Features. One feature is one observation at a time step. One time step is comprised of
+    - Features. One feature is one observation at a time step. One time step is comprised of
     one or more features.
 
 This expected three-dimensional structure of input data is often
@@ -497,10 +494,10 @@ Consider that you are in the current situation:
 
 There are few problems here:
 
-     Data Shape. LSTMs expect 3D input, and it can be challenging to get your head around
+    - Data Shape. LSTMs expect 3D input, and it can be challenging to get your head around
     this the first time.
 
-     Sequence Length. LSTMs don’t like sequences of more than 200-400 time steps, so the
+    - Sequence Length. LSTMs don’t like sequences of more than 200-400 time steps, so the
     data will need to be split into subsamples.
 
 We will work through this example, broken down into the following 4
@@ -775,13 +772,13 @@ format.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Explain Data Shape. Explain in your own words the meaning of samples, time steps
+    - Explain Data Shape. Explain in your own words the meaning of samples, time steps
     and features.
 
-     Worked Example. Select a standard time series forecasting problem and manually
+    - Worked Example. Select a standard time series forecasting problem and manually
     reshape it into a structure suitable for training a CNN or LSTM model.
 
-     Develop Framework. Develop a function to automatically reshape a time series dataset
+    - Develop Framework. Develop a function to automatically reshape a time series dataset
     into samples and into a shape suitable for training a CNN or LSTM model.
 
 If you explore any of these extensions, I’d love to know.
@@ -791,13 +788,13 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     numpy.reshapeAPI.
+    - numpy.reshapeAPI.
     https://docs.scipy.org/doc/numpy/reference/generated/numpy.reshape.html
 
-     Keras Recurrent Layers API in Keras.
+    - Keras Recurrent Layers API in Keras.
     https://keras.io/layers/recurrent/
 
-     Keras Convolutional Layers API in Keras.
+    - Keras Convolutional Layers API in Keras.
     https://keras.io/layers/convolutional/
 
 ### 6.7 Summary
@@ -806,13 +803,13 @@ go deeper.
     dimensional structure ready for fitting a CNN or LSTM model.
     Specifically, you learned:
 
-ˆ How to transform a time series dataset into a two-dimensional
+- How to transform a time series dataset into a two-dimensional
 supervised learning format.
 
-     How to transform a two-dimensional time series dataset into a three-dimensional structure
+    - How to transform a two-dimensional time series dataset into a three-dimensional structure
     suitable for CNNs and LSTMs.
 
-     How to step through a worked example of splitting a very long time series into subsequences
+    - How to step through a worked example of splitting a very long time series into subsequences
     ready for training a CNN or LSTM model.
 
 6.7.1 Next

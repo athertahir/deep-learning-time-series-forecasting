@@ -1,10 +1,4 @@
-
-
-### Chapter 24
-
-### How to Develop CNNs for Human
-
-### Activity Recognition
+### How to Develop CNNs for Human Activity Recognition
 
     Human activity recognition is the problem of classifying sequences of accelerometer data
     recorded by specialized harnesses or smartphones into known well-defined movements. Classical
@@ -21,13 +15,13 @@ in the field. Recently, deep
     networks for time series classification on the problem of human activity recognition. After
     completing this tutorial, you will know:
 
-     How to load and prepare the data for a standard human activity recognition dataset and
+    - How to load and prepare the data for a standard human activity recognition dataset and
     develop a single 1D CNN model that achieves excellent performance on the raw data.
 
-     How to further tune the performance of the model, including data transformation, filter
+    - How to further tune the performance of the model, including data transformation, filter
     maps, and kernel sizes.
 
-     How to develop a sophisticated multi-headed one-dimensional convolutional neural network
+    - How to develop a sophisticated multi-headed one-dimensional convolutional neural network
     model that provides an ensemble-like result.
 
 Let’s get started.
@@ -53,7 +47,7 @@ This tutorial is divided into four parts; they are:
     information on this dataset, see Chapter 22. The data is provided as a single zip file that is
     about 58 megabytes in size. A direct for downloading the dataset is provided below:
 
-ˆ HARSmartphones.zip\^1
+- HARSmartphones.zip\^1
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
@@ -2222,18 +2216,18 @@ Listing 24.29: Example output from evaluating a multi-headed CNN model.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Number of Variables. Run experiments to see if all nine variables are required in the
+    - Number of Variables. Run experiments to see if all nine variables are required in the
     CNN or if it can do as well or better with a subset, such as just total acceleration.
 
-     Date Preparation. Explore other data preparation schemes such as data normalization
+    - Date Preparation. Explore other data preparation schemes such as data normalization
     and perhaps normalization after standardization.
 
 24.7. Further Reading 522
 
-     Network Architecture. Explore other network architectures, such as deeper CNN
+    - Network Architecture. Explore other network architectures, such as deeper CNN
     architectures and deeper fully-connected layers for interpreting the CNN input features.
 
-     Diagnostics. Use simple learning curve diagnostics to interpret how the model is learning
+    - Diagnostics. Use simple learning curve diagnostics to interpret how the model is learning
     over the epochs and whether more regularization, different learning rates, or different
     batch sizes or numbers of epochs may result in a better performing or more stable model.
 
@@ -2244,22 +2238,22 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     Getting started with the Keras Sequential model.
+    - Getting started with the Keras Sequential model.
     https://keras.io/getting-started/sequential-model-guide/
 
-     Getting started with the Keras functional API.
+    - Getting started with the Keras functional API.
     https://keras.io/getting-started/functional-api-guide/
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Convolutional Layers API.
+    - Keras Convolutional Layers API.
     https://keras.io/layers/convolutional/
 
-     Keras Pooling Layers API.
+    - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
 #### 24.8 Summary
@@ -2268,13 +2262,13 @@ go deeper.
     for time series classification on the problem of human activity recognition. Specifically, you
     learned:
 
-     How to load and prepare the data for a standard human activity recognition dataset and
+    - How to load and prepare the data for a standard human activity recognition dataset and
     develop a single 1D CNN model that achieves excellent performance on the raw data.
 
-     How to further tune the performance of the model, including data transformation, filter
+    - How to further tune the performance of the model, including data transformation, filter
     maps, and kernel sizes.
 
-     How to develop a sophisticated multi-headed one-dimensional convolutional neural network
+    - How to develop a sophisticated multi-headed one-dimensional convolutional neural network
     model that provides an ensemble-like result.
 
 24.8.1 Next

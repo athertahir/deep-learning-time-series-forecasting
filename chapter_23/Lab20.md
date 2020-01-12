@@ -1,9 +1,5 @@
 
-### Chapter 23
-
-### How to Develop ML Models for
-
-### Human Activity Recognition
+### How to Develop ML Models for Human Activity Recognition
 
     Human activity recognition is the problem of classifying sequences of accelerometer data
     recorded by specialized harnesses or smartphones into known well-defined movements. Classical
@@ -20,13 +16,13 @@ in the field.
     of machine learning algorithms on theActivity Recognition Using Smartphonesdataset. After
     completing this tutorial, you will know:
 
-     How to load and evaluate nonlinear and ensemble machine learning algorithms on the
+    - How to load and evaluate nonlinear and ensemble machine learning algorithms on the
     feature-engineered version of the activity recognition dataset.
 
-     How to load and evaluate machine learning algorithms on the raw signal data for the
+    - How to load and evaluate machine learning algorithms on the raw signal data for the
     activity recognition dataset.
 
-     How to define reasonable lower and upper bounds on the expected performance of more
+    - How to define reasonable lower and upper bounds on the expected performance of more
     sophisticated algorithms capable of feature learning, such as deep learning methods.
 
 Let’s get started.
@@ -51,7 +47,7 @@ This tutorial is divided into three parts; they are:
     information on this dataset, see Chapter 22. The data is provided as a single zip file that is
     about 58 megabytes in size. A direct for downloading the dataset is provided below:
 
-ˆ HARSmartphones.zip\^1
+- HARSmartphones.zip\^1
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
@@ -77,13 +73,13 @@ data. Specifically, the
 
 following files:
 
-ˆ HARDataset/train/Xtrain.txt
+- HARDataset/train/Xtrain.txt
 
-ˆ HARDataset/train/ytrain.txt
+- HARDataset/train/ytrain.txt
 
-ˆ HARDataset/test/Xtest.txt
+- HARDataset/test/Xtest.txt
 
-ˆ HARDataset/test/ytest.txt
+- HARDataset/test/ytest.txt
 
     The input data is in CSV format where columns are separated via whitespace. Each of these
     files can be loaded as a NumPy array. Theloadfile()function below loads a dataset given
@@ -157,23 +153,23 @@ Listing 23.4: Example of calling a function to load the dataset.
 
 Nonlinear Algorithms:
 
-ˆ k-Nearest Neighbors
+- k-Nearest Neighbors
 
-ˆ Classification and Regression Tree
+- Classification and Regression Tree
 
-ˆ Support Vector Machine
+- Support Vector Machine
 
-ˆ Naive Bayes
+- Naive Bayes
 
 Ensemble Algorithms:
 
-ˆ Bagged Decision Trees
+- Bagged Decision Trees
 
-ˆ Random Forest
+- Random Forest
 
-ˆ Extra Trees
+- Extra Trees
 
-ˆ Gradient Boosting Machine
+- Gradient Boosting Machine
 
     We will define the models and store them in a dictionary that maps the model object to a
     short name that will help in analyzing the results. Thedefinemodels()function below defines
@@ -885,15 +881,15 @@ summary, the bounds for
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     More Algorithms. Only eight machine learning algorithms were evaluated on the
+    - More Algorithms. Only eight machine learning algorithms were evaluated on the
     problem; try some linear methods and perhaps some more nonlinear and ensemble methods.
 
-     Algorithm Tuning. No tuning of the machine learning algorithms was performed; mostly
+    - Algorithm Tuning. No tuning of the machine learning algorithms was performed; mostly
     default configurations were used. Pick a method such as SVM, ExtraTrees, or Gradient
     Boosting and grid search a suite of different hyperparameter configurations to see if you
     can further lift performance on the problem.
 
-     Data Scaling. The data is already scaled to [-1,1], perhaps per subject. Explore whether
+    - Data Scaling. The data is already scaled to [-1,1], perhaps per subject. Explore whether
     additional scaling, such as standardization, can result in better performance, perhaps on
     methods sensitive to such scaling such askNN.
 
@@ -904,28 +900,28 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     scikit-learn: Machine Learning in Python.
+    - scikit-learn: Machine Learning in Python.
     http://scikit-learn.org/stable/
 
-     sklearn.metrics.accuracyscoreAPI.
+    - sklearn.metrics.accuracyscoreAPI.
     http://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_
     score.html
 
-     sklearn.neighborsAPI.
+    - sklearn.neighborsAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.neighbors
 
-     sklearn.treeAPI.
+    - sklearn.treeAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.tree
 
-     sklearn.svmAPI.
+    - sklearn.svmAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.svm
 
 23.7. Summary 490
 
-     sklearn.naivebayesAPI.
+    - sklearn.naivebayesAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.naive_bayes
 
-     sklearn.ensembleAPI.
+    - sklearn.ensembleAPI.
     http://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble
 
 #### 23.7 Summary
@@ -936,13 +932,13 @@ machine learning algorithms
 on theActivity Recognition Using Smartphonesdataset. Specifically, you
 learned:
 
-     How to load and evaluate nonlinear and ensemble machine learning algorithms on the
+    - How to load and evaluate nonlinear and ensemble machine learning algorithms on the
     feature-engineered version of the activity recognition dataset.
 
-     How to load and evaluate machine learning algorithms on the raw signal data for the
+    - How to load and evaluate machine learning algorithms on the raw signal data for the
     activity recognition dataset.
 
-     How to define reasonable lower and upper bounds on the expected performance of more
+    - How to define reasonable lower and upper bounds on the expected performance of more
     sophisticated algorithms capable of feature learning, such as deep learning methods.
 
 23.7.1 Next

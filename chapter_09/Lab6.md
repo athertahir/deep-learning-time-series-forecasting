@@ -1,9 +1,4 @@
-
-### Chapter 9
-
-### How to Develop LSTMs for Time
-
-### Series Forecasting
+### How to Develop LSTMs for Time Series Forecasting
 
 Long Short-Term Memory networks, or LSTMs for short, can be applied to
 time series forecasting.
@@ -17,11 +12,11 @@ type of time series
     that you can copy and adapt for your specific time series forecasting problem.
     After completing this tutorial, you will know:
 
-ˆ How to develop LSTM models for univariate time series forecasting.
+- How to develop LSTM models for univariate time series forecasting.
 
-ˆ How to develop LSTM models for multivariate time series forecasting.
+- How to develop LSTM models for multivariate time series forecasting.
 
-ˆ How to develop LSTM models for multi-step time series forecasting.
+- How to develop LSTM models for multi-step time series forecasting.
 
 Let’s get started.
 
@@ -2766,13 +2761,13 @@ running the example a few times.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Problem Differences. Explain the main changes to the LSTM required when modeling
+    - Problem Differences. Explain the main changes to the LSTM required when modeling
     each of univariate, multivariate and multi-step time series forecasting problems.
 
-     Experiment. Select one example and modify it to work with your own small contrived
+    - Experiment. Select one example and modify it to work with your own small contrived
     dataset.
 
-     Develop Framework. Use the examples in this chapter as the basis for a framework for
+    - Develop Framework. Use the examples in this chapter as the basis for a framework for
     automatically developing an LSTM model for a given time series forecasting problem.
 
 If you explore any of these extensions, I’d love to know.
@@ -2784,50 +2779,50 @@ go deeper.
 
 9.7.1 Books
 
-     Deep Learning, 2016.
+    - Deep Learning, 2016.
     https://amzn.to/2MQyLVZ
 
-     Deep Learning with Python, 2017.
+    - Deep Learning with Python, 2017.
     https://amzn.to/2vMRiMe
 
 9.7.2 Papers
 
-     Long Short-Term Memory, 1997.
+    - Long Short-Term Memory, 1997.
     https://ieeexplore.ieee.org/document/6795963/.
 
-     Learning to Forget: Continual Prediction with LSTM, 1999.
+    - Learning to Forget: Continual Prediction with LSTM, 1999.
     https://ieeexplore.ieee.org/document/818041/
 
-     Recurrent Nets that Time and Count, 2000.
+    - Recurrent Nets that Time and Count, 2000.
     https://ieeexplore.ieee.org/document/861302/
 
-     LSTM: A Search Space Odyssey, 2017.
+    - LSTM: A Search Space Odyssey, 2017.
     https://arxiv.org/abs/1503.04069
 
 9.8. Summary 160
 
-     Convolutional LSTM Network: A Machine Learning Approach for Precipitation Nowcasting,
+    - Convolutional LSTM Network: A Machine Learning Approach for Precipitation Nowcasting,
     2015.
     https://arxiv.org/abs/1506.04214v1
 
 9.7.3 APIs
 
-     Keras: The Python Deep Learning library.
+    - Keras: The Python Deep Learning library.
     https://keras.io/
 
-     Getting started with the Keras Sequential model.
+    - Getting started with the Keras Sequential model.
     https://keras.io/getting-started/sequential-model-guide/
 
-     Getting started with the Keras functional API.
+    - Getting started with the Keras functional API.
     https://keras.io/getting-started/functional-api-guide/
 
-     Keras Sequential Model API.
+    - Keras Sequential Model API.
     https://keras.io/models/sequential/
 
-     Keras Core Layers API.
+    - Keras Core Layers API.
     https://keras.io/layers/core/
 
-     Keras Recurrent Layers API.
+    - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
 ### 9.8 Summary
@@ -2835,11 +2830,11 @@ go deeper.
     In this tutorial, you discovered how to develop a suite of LSTM models for a range of standard
     time series forecasting problems. Specifically, you learned:
 
-ˆ How to develop LSTM models for univariate time series forecasting.
+- How to develop LSTM models for univariate time series forecasting.
 
-ˆ How to develop LSTM models for multivariate time series forecasting.
+- How to develop LSTM models for multivariate time series forecasting.
 
-ˆ How to develop LSTM models for multi-step time series forecasting.
+- How to develop LSTM models for multi-step time series forecasting.
 
 9.8.1 Next
 
@@ -2868,23 +2863,23 @@ providing you the tools
     for grid searching classical and deep learning methods and demonstrating these tools on a suite
     of standard univariate datasets. After reading the chapters in this part, you will know:
 
-     The results of a recent and reasonably conclusive study that classical methods out-perform
+    - The results of a recent and reasonably conclusive study that classical methods out-perform
     machine learning and deep learning methods for univariate time series forecasting problems
     on average (Chapter 10).
 
-     How to develop and grid search a suite of naive forecasting methods for univariate time
+    - How to develop and grid search a suite of naive forecasting methods for univariate time
     series, the results of which can be used as a baseline for determining whether a model has
     skill (Chapter 11).
 
-     How to develop and grid search exponential smoothing forecasting models, also known as
+    - How to develop and grid search exponential smoothing forecasting models, also known as
     ETS, for univariate time series forecasting problems (Chapter 12).
 
-     How to develop and grid search Seasonal ARIMA models or SARIMA for univariate time
+    - How to develop and grid search Seasonal ARIMA models or SARIMA for univariate time
     series forecasting problems (Chapter 13).
 
-     How to develop and evaluate MLP, CNN and LSTM deep learning models for univariate
+    - How to develop and evaluate MLP, CNN and LSTM deep learning models for univariate
     time series forecasting (Chapter 14).
 
-     How to grid search the hyperparameters for MLP, CNN and LSTM deep learning models
+    - How to grid search the hyperparameters for MLP, CNN and LSTM deep learning models
     for univariate time series forecasting (Chapter 15).
 

@@ -1,9 +1,4 @@
-
-### Chapter 12
-
-### How to Develop ETS Models for
-
-### Univariate Forecasting
+### How to Develop ETS Models for Univariate Forecasting
 
     Exponential smoothing is a time series forecasting method for univariate data that can be
     extended to support data with a systematic trend or seasonal component. It is common practice
@@ -17,13 +12,13 @@
     exponential smoothing model hyperparameters for univariate time series forecasting. After
     completing this tutorial, you will know:
 
-     How to develop a framework for grid searching ETS models from scratch using walk-forward
+    - How to develop a framework for grid searching ETS models from scratch using walk-forward
     validation.
 
-     How to grid search ETS model hyperparameters for daily time series data for female
+    - How to grid search ETS model hyperparameters for daily time series data for female
     births.
 
-     How to grid search ETS model hyperparameters for monthly time series data for shampoo
+    - How to grid search ETS model hyperparameters for monthly time series data for shampoo
     sales, car sales, and temperature.
 
 Let’s get started.
@@ -51,33 +46,33 @@ This tutorial is divided into five parts; they are:
     library. This model has hyperparameters that control the nature of the exponential performed
     for the series, trend, and seasonality, specifically:
 
-ˆ smoothinglevel(alpha): the smoothing coefficient for the level.
+- smoothinglevel(alpha): the smoothing coefficient for the level.
 
-ˆ smoothingslope(beta): the smoothing coefficient for the trend.
+- smoothingslope(beta): the smoothing coefficient for the trend.
 
-ˆ smoothingseasonal(gamma): the smoothing coefficient for the seasonal
+- smoothingseasonal(gamma): the smoothing coefficient for the seasonal
 component.
 
-ˆ dampingslope(phi): the coefficient for the damped trend.
+- dampingslope(phi): the coefficient for the damped trend.
 
     All four of these hyperparameters can be specified when defining the model. If they are not
     specified, the library will automatically tune the model and find the optimal values for these
     hyperparameters (e.g.optimized=True). There are other hyperparameters that the model will
     not automatically tune that you may want to specify; they are:
 
-     trend: The type of trend component, as eitheraddfor additive ormulfor multiplicative.
+    - trend: The type of trend component, as eitheraddfor additive ormulfor multiplicative.
     Modeling the trend can be disabled by setting it toNone.
 
-ˆ damped: Whether or not the trend component should be damped, either
+- damped: Whether or not the trend component should be damped, either
 True or False.
 
-     seasonal: The type of seasonal component, as eitheraddfor additive ormulfor multi-
+    - seasonal: The type of seasonal component, as eitheraddfor additive ormulfor multi-
     plicative. Modeling the seasonal component can be disabled by setting it toNone.
 
-     seasonalperiods: The number of time steps in a seasonal period, e.g. 12 for 12 months
+    - seasonalperiods: The number of time steps in a seasonal period, e.g. 12 for 12 months
     in a yearly seasonal structure.
 
-     useboxcox: Whether or not to perform a power transform of the series (True/False) or
+    - useboxcox: Whether or not to perform a power transform of the series (True/False) or
     specify the lambda for the transform.
 
     If you know enough about your problem to specify one or more of these parameters, then
@@ -432,7 +427,7 @@ in California, USA in
 
 download the dataset directly from here:
 
-ˆ daily-total-female-births.csv\^1
+- daily-total-female-births.csv\^1
 
     Save the file with the filenamedaily-total-female-births.csvin your current working
     directory. The dataset has one year, or 365 observations. We will use the first 200 for training
@@ -691,17 +686,17 @@ running the example a few times.
     an RMSE of 6.93 births, meaning that the best performing ETS model is not skillful on this
     problem. We can unpack the configuration of the best performing model as follows:
 
-ˆ Trend: Multiplicative
+- Trend: Multiplicative
 
-ˆ Damped: False
+- Damped: False
 
-ˆ Seasonal: None
+- Seasonal: None
 
-ˆ Seasonal Periods: None
+- Seasonal Periods: None
 
-ˆ Box-Cox Transform: True
+- Box-Cox Transform: True
 
-ˆ Remove Bias: True
+- Remove Bias: True
 
     What is surprising is that a model that assumed an multiplicative trend performed better
     than one that didn’t. We would not know that this is the case unless we threw out assumptions
@@ -715,7 +710,7 @@ over a three-year
     period. For more information on this dataset, see Chapter 11 where it was introduced. You can
     download the dataset directly from here:
 
-ˆ monthly-shampoo-sales.csv\^2
+- monthly-shampoo-sales.csv\^2
 
     Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
     rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
@@ -981,17 +976,17 @@ ETS model is skillful
 on this problem. We can unpack the configuration of the best performing
 model as follows:
 
-ˆ Trend: Multiplicative
+- Trend: Multiplicative
 
-ˆ Damped: False
+- Damped: False
 
-ˆ Seasonal: None
+- Seasonal: None
 
-ˆ Seasonal Periods: None
+- Seasonal Periods: None
 
-ˆ Box-Cox Transform: False
+- Box-Cox Transform: False
 
-ˆ Remove Bias: False
+- Remove Bias: False
 
 12.5. Case Study 3: Seasonality 219
 
@@ -1004,7 +999,7 @@ temperatures in
     this dataset, see Chapter 11 where it was introduced. You can download the dataset directly
     from here:
 
-ˆ monthly-mean-temp.csv\^3
+- monthly-mean-temp.csv\^3
 
 Save the file with the filenamemonthly-mean-temp.csvin your current
 working directory.
@@ -1279,17 +1274,17 @@ running the hyperparameter grid search are listed below.
     found by a naive model on this problem, suggesting that the best ETS model sits on the border
     of being unskillful. We can unpack the configuration of the best performing model as follows:
 
-ˆ Trend: None
+- Trend: None
 
-ˆ Damped: False
+- Damped: False
 
-ˆ Seasonal: Additive
+- Seasonal: Additive
 
-ˆ Seasonal Periods: 12
+- Seasonal Periods: 12
 
-ˆ Box-Cox Transform: False
+- Box-Cox Transform: False
 
-ˆ Remove Bias: False
+- Remove Bias: False
 
 ### 12.6 Case Study 4: Trend and Seasonality
 
@@ -1301,7 +1296,7 @@ where it was introduced.
 
 You can download the dataset directly from here:
 
-ˆ monthly-car-sales.csv\^4
+- monthly-car-sales.csv\^4
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -1603,19 +1598,19 @@ performing ETS model is
 skillful. We can unpack the configuration of the best performing model
 as follows:
 
-ˆ Trend: Additive
+- Trend: Additive
 
-ˆ Damped: False
+- Damped: False
 
-ˆ Seasonal: Additive
+- Seasonal: Additive
 
 12.7. Extensions 226
 
-ˆ Seasonal Periods: 12
+- Seasonal Periods: 12
 
-ˆ Box-Cox Transform: False
+- Box-Cox Transform: False
 
-ˆ Remove Bias: True
+- Remove Bias: True
 
     This is a little surprising as I would have guessed that a six-month seasonal model would be
     the preferred approach.
@@ -1625,14 +1620,14 @@ as follows:
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Data Transforms. Update the framework to support configurable data transforms such
+    - Data Transforms. Update the framework to support configurable data transforms such
     as normalization and standardization.
 
-     Plot Forecast. Update the framework to re-fit a model with the best configuration and
+    - Plot Forecast. Update the framework to re-fit a model with the best configuration and
     forecast the entire test dataset, then plot the forecast compared to the actual observations
     in the test set.
 
-     Tune Amount of History. Update the framework to tune the amount of historical data
+    - Tune Amount of History. Update the framework to tune the amount of historical data
     used to fit the model (e.g. in the case of the 10 years of max temperature data).
 
 If you explore any of these extensions, I’d love to know.
@@ -1644,26 +1639,26 @@ go deeper.
 
 12.8.1 Books
 
-     Chapter 7 Exponential smoothing,Forecasting: principles and practice, 2013.
+    - Chapter 7 Exponential smoothing,Forecasting: principles and practice, 2013.
     https://amzn.to/2xlJsfV
 
-     Section 6.4. Introduction to Time Series Analysis,Engineering Statistics Handbook, 2012.
+    - Section 6.4. Introduction to Time Series Analysis,Engineering Statistics Handbook, 2012.
     https://www.itl.nist.gov/div898/handbook/
 
-     Practical Time Series Forecasting with R, 2016.
+    - Practical Time Series Forecasting with R, 2016.
     https://amzn.to/2LGKzKm
 
 12.8.2 APIs
 
-ˆ statsmodels.tsa.holtwinters.ExponentialSmoothingAPI.
+- statsmodels.tsa.holtwinters.ExponentialSmoothingAPI.
 
-ˆ statsmodels.tsa.holtwinters.HoltWintersResultsAPI.
+- statsmodels.tsa.holtwinters.HoltWintersResultsAPI.
 
 12.9. Summary 227
 
 12.8.3 Articles
 
-     Exponential smoothing, Wikipedia.
+    - Exponential smoothing, Wikipedia.
     https://en.wikipedia.org/wiki/Exponential_smoothing
 
 ### 12.9 Summary
@@ -1673,13 +1668,13 @@ go deeper.
 
 you learned:
 
-     How to develop a framework for grid searching ETS models from scratch using walk-forward
+    - How to develop a framework for grid searching ETS models from scratch using walk-forward
     validation.
 
-ˆ How to grid search ETS model hyperparameters for daily time series
+- How to grid search ETS model hyperparameters for daily time series
 data for births.
 
-     How to grid search ETS model hyperparameters for monthly time series data for shampoo
+    - How to grid search ETS model hyperparameters for monthly time series data for shampoo
     sales, car sales and temperature.
 
 12.9.1 Next

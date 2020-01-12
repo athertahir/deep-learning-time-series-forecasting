@@ -1,9 +1,5 @@
 
-### Chapter 17
-
-### How to Develop Naive Models for
-
-### Multi-step Energy Usage Forecasting
+### How to Develop Naive Models for Multi-step Energy Usage Forecasting
 
     Given the rise of smart electricity meters and the wide adoption of electricity generation
     technology like solar panels, there is a wealth of electricity usage data available. This data
@@ -13,13 +9,13 @@
     forecast strategies that provide a baseline for more sophisticated algorithms. After completing
     this tutorial, you will know:
 
-     How to load, prepare, and downsample the household power consumption dataset ready
+    - How to load, prepare, and downsample the household power consumption dataset ready
     for developing models.
 
-     How to develop metrics, dataset split, and walk-forward validation elements for a robust
+    - How to develop metrics, dataset split, and walk-forward validation elements for a robust
     test harness for evaluating forecasting models.
 
-     How to develop and evaluate and compare the performance a suite of naive persistence
+    - How to develop and evaluate and compare the performance a suite of naive persistence
     forecasting methods.
 
 Let’s get started.
@@ -46,23 +42,23 @@ This tutorial is divided into four parts; they are:
 
 (besides the date and time); they are:
 
-ˆ globalactivepower: The total active power consumed by the household
+- globalactivepower: The total active power consumed by the household
 (kilowatts).
 
-ˆ globalreactivepower: The total reactive power consumed by the
+- globalreactivepower: The total reactive power consumed by the
 household (kilowatts).
 
-ˆ voltage: Average voltage (volts).
+- voltage: Average voltage (volts).
 
-ˆ globalintensity: Average current intensity (amps).
+- globalintensity: Average current intensity (amps).
 
-ˆ submetering 1 : Active energy for kitchen (watt-hours of active
+- submetering 1 : Active energy for kitchen (watt-hours of active
 energy).
 
-ˆ submetering 2 : Active energy for laundry (watt-hours of active
+- submetering 2 : Active energy for laundry (watt-hours of active
 energy).
 
-ˆ submetering 3 : Active energy for climate control systems (watt-hours
+- submetering 3 : Active energy for climate control systems (watt-hours
 of active energy).
 
     Active and reactive energy refer to the technical details of alternative current. A fourth
@@ -75,7 +71,7 @@ of active energy).
     The dataset can be downloaded as a single 20 megabyte zip file. A direct download link is
     provided blow:
 
-ˆ householdpowerconsumption.zip\^1
+- householdpowerconsumption.zip\^1
 
     Download the dataset and unzip it into your current working directory. You will now have
     the filehouseholdpowerconsumption.txtthat is about 127 megabytes in size and contains
@@ -252,10 +248,10 @@ step separately. This is
 
 helpful for a few reasons:
 
-ˆ To comment on the skill at a specific lead time (e.g. +1 day vs +3
+- To comment on the skill at a specific lead time (e.g. +1 day vs +3
 days).
 
-     To contrast models based on their skills at different lead times (e.g. models good at +1
+    - To contrast models based on their skills at different lead times (e.g. models good at +1
     day vs models good at days +5).
 
     The units of the total power are kilowatts and it would be useful to have an error metric
@@ -776,13 +772,13 @@ wish to explore.
 
 17.7. Further Reading 355
 
-     Additional Naive Strategy. Propose, develop, and evaluate one more naive strategy
+    - Additional Naive Strategy. Propose, develop, and evaluate one more naive strategy
     for forecasting the next week of power consumption.
 
-     Naive Ensemble Strategy. Develop an ensemble strategy that combines the predictions
+    - Naive Ensemble Strategy. Develop an ensemble strategy that combines the predictions
     from the three proposed naive forecast methods.
 
-     Optimized Direct Persistence Models. Test and find the optimal relative prior day
+    - Optimized Direct Persistence Models. Test and find the optimal relative prior day
     (e.g. -1 or -7) to use for each forecast day in a direct persistence model.
 
 If you explore any of these extensions, I’d love to know.
@@ -792,20 +788,20 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-     pandas.readcsvAPI.
+    - pandas.readcsvAPI.
     https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
 
-     numpy.splitAPI.
+    - numpy.splitAPI.
     https://docs.scipy.org/doc/numpy/reference/generated/numpy.split.html
 
-     pandas.DataFrame.resampleAPI.
+    - pandas.DataFrame.resampleAPI.
     https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.resample.
     html
 
-     Resample Offset Aliases.
+    - Resample Offset Aliases.
     http://pandas.pydata.org/pandas-docs/stable/timeseries.html#offset-aliases
 
-     sklearn.metrics.meansquarederrorAPI.
+    - sklearn.metrics.meansquarederrorAPI.
     http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_
     error.html
 
@@ -815,13 +811,13 @@ go deeper.
     dataset and evaluate three naive forecast strategies that provide a baseline for more sophisticated
     algorithms. Specifically, you learned:
 
-     How to load, prepare, and downsample the household power consumption dataset ready
+    - How to load, prepare, and downsample the household power consumption dataset ready
     for modeling.
 
-     How to develop metrics, dataset split, and walk-forward validation elements for a robust
+    - How to develop metrics, dataset split, and walk-forward validation elements for a robust
     test harness for evaluating forecasting models.
 
-     How to develop and evaluate and compare the performance a suite of naive persistence
+    - How to develop and evaluate and compare the performance a suite of naive persistence
     forecasting methods.
 
 17.8.1 Next

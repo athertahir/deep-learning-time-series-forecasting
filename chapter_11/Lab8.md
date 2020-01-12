@@ -1,10 +1,4 @@
-
-
-### Chapter 11
-
-### How to Develop Simple Methods for
-
-### Univariate Forecasting
+### How to Develop Simple Methods for Univariate Forecasting
 
     Simple forecasting methods include naively using the last observation as the prediction or an
     average of prior observations. It is important to evaluate the performance of simple forecasting
@@ -20,13 +14,13 @@
     simple naive and averaging strategies for time series forecasting with univariate data. After
     completing this tutorial, you will know:
 
-     How to develop a framework for grid searching simple models from scratch using walk-
+    - How to develop a framework for grid searching simple models from scratch using walk-
     forward validation.
 
-ˆ How to grid search simple model hyperparameters for daily time series
+- How to grid search simple model hyperparameters for daily time series
 data for births.
 
-     How to grid search simple model hyperparameters for monthly time series data for shampoo
+    - How to grid search simple model hyperparameters for monthly time series data for shampoo
     sales, car sales, and temperature.
 
 Let’s get started.
@@ -66,9 +60,9 @@ skillful. There are two main
 
 themes to simple forecast strategies; they are:
 
-ˆ Naive, or using observations values directly.
+- Naive, or using observations values directly.
 
-ˆ Average, or using a statistic calculated on previous observations.
+- Average, or using a statistic calculated on previous observations.
 
 For more information on simple forecasting strategies, see Chapter 5.
 
@@ -876,7 +870,7 @@ in California, USA in
 
 1959. You can download the dataset directly from here:
 
-ˆ daily-total-female-births.csv\^3
+- daily-total-female-births.csv\^3
 
     Save the file with the filenamedaily-total-female-births.csvin your current working
     directory. We can load this dataset as a PandasSeriesusing the functionreadcsv()and
@@ -1191,11 +1185,11 @@ female births dataset.
     We can see that the best result was an RMSE of about 6.93 births with the following
     configuration:
 
-ˆ Strategy: Average
+- Strategy: Average
 
-ˆ n: 22
+- n: 22
 
-ˆ function: mean()
+- function: mean()
 
     This is surprising given the lack of trend or seasonality, I would have expected either a
     persistence of -1 or an average of the entire historical dataset to result in the best performance.
@@ -1207,7 +1201,7 @@ over a three-year
 
 period. You can download the dataset directly from here:
 
-ˆ monthly-shampoo-sales.csv\^4
+- monthly-shampoo-sales.csv\^4
 
     Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
     rectory. We can load this dataset as a PandasSeriesusing the function readcsv()and
@@ -1540,9 +1534,9 @@ as the models are
     We can see that the best result was an RMSE of about 95.69 sales with the following
     configuration:
 
-ˆ Strategy: Persist
+- Strategy: Persist
 
-ˆ n: 2
+- n: 2
 
 This is surprising as the trend structure of the data would suggest that
 persisting the previous
@@ -1558,7 +1552,7 @@ temperatures in
     Nottingham Castle, England from 1920 to 1939 in degrees Fahrenheit. You can download the
     dataset directly from here:
 
-ˆ monthly-mean-temp.csv\^5
+- monthly-mean-temp.csv\^5
 
 Save the file with the filenamemonthly-mean-temp.csvin your current
 working directory.
@@ -1901,13 +1895,13 @@ series = read\_csv('monthly-mean-temp.csv', header=0, index\_col=0)
     We can see that the best result was an RMSE of about 1.50 degrees with the following
     configuration:
 
-ˆ Strategy: Average
+- Strategy: Average
 
-ˆ n: 4
+- n: 4
 
-ˆ offset: 12
+- offset: 12
 
-ˆ function: mean()
+- function: mean()
 
     This finding is not too surprising. Given the seasonal structure of the data, we would expect
     a function of the last few observations at prior points in the yearly cycle to be effective.
@@ -1921,7 +1915,7 @@ Canada between
 
 11.7. Case Study 4: Trend and Seasonality 199
 
-ˆ monthly-car-sales.csv\^6
+- monthly-car-sales.csv\^6
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -2246,13 +2240,13 @@ car sales dataset.
     We can see that the best result was an RMSE of about 1841.15 sales with the following
     configuration:
 
-ˆ Strategy: Average
+- Strategy: Average
 
-ˆ n: 3
+- n: 3
 
-ˆ offset: 12
+- offset: 12
 
-ˆ function: median()
+- function: median()
 
     It is not surprising that the chosen model is a function of the last few observations at the
     same point in prior cycles, although the use of the median instead of the mean may not have
@@ -2263,16 +2257,16 @@ car sales dataset.
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
 
-     Plot Forecast. Update the framework to re-fit a model with the best configuration and
+    - Plot Forecast. Update the framework to re-fit a model with the best configuration and
     forecast the entire test dataset, then plot the forecast compared to the actual observations
     in the test set.
 
-     Drift Method. Implement the drift method for simple forecasts and compare the results
+    - Drift Method. Implement the drift method for simple forecasts and compare the results
     to the average and naive methods.
 
 11.9. Further Reading 204
 
-     Another Dataset. Apply the developed framework to an additional univariate time
+    - Another Dataset. Apply the developed framework to an additional univariate time
     series problem (e.g. from the Time Series Dataset Library).
 
 If you explore any of these extensions, I’d love to know.
@@ -2284,42 +2278,42 @@ go deeper.
 
 11.9.1 Datasets
 
-     Time Series Dataset Library, DataMarket.
+    - Time Series Dataset Library, DataMarket.
     https://datamarket.com/data/list/?q=provider:tsdl
 
-     Daily Female Births Dataset, DataMarket.
+    - Daily Female Births Dataset, DataMarket.
     https://datamarket.com/data/set/235k/daily-total-female-births-in-california-1959
 
-     Monthly Shampoo Sales Dataset, DataMarket.
+    - Monthly Shampoo Sales Dataset, DataMarket.
     https://datamarket.com/data/set/22r0/sales-of-shampoo-over-a-three-year-period
 
-     Monthly Mean Temperature Dataset, DataMarket.
+    - Monthly Mean Temperature Dataset, DataMarket.
     https://datamarket.com/data/set/22li/mean-monthly-air-temperature-deg-f-nottingham-castle-1920-1939
 
-     Monthly Car Sales Dataset, DataMarket.
+    - Monthly Car Sales Dataset, DataMarket.
     https://datamarket.com/data/set/22n4/monthly-car-sales-in-quebec-1960-1968
 
 11.9.2 APIs
 
-     numpy.meanAPI.
+    - numpy.meanAPI.
     https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html
 
-     numpy.medianAPI.
+    - numpy.medianAPI.
     https://docs.scipy.org/doc/numpy/reference/generated/numpy.median.html
 
-     sklearn.metrics.meansquarederrorAPI.
+    - sklearn.metrics.meansquarederrorAPI.
     http://scikit-learn.org/stable/modules/generated/sklearn.metrics.mean_squared_
     error.html
 
-     pandas.readcsvAPI.
+    - pandas.readcsvAPI.
     https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
 
-     Joblib: running Python functions as pipeline jobs.
+    - Joblib: running Python functions as pipeline jobs.
     https://pythonhosted.org/joblib/
 
 11.9.3 Articles
 
-     Forecasting, Wikipedia.
+    - Forecasting, Wikipedia.
     https://en.wikipedia.org/wiki/Forecasting
 
 11.10. Summary 205
@@ -2331,13 +2325,13 @@ go deeper.
 
 you learned:
 
-     How to develop a framework for grid searching simple models from scratch using walk-
+    - How to develop a framework for grid searching simple models from scratch using walk-
     forward validation.
 
-ˆ How to grid search simple model hyperparameters for daily time series
+- How to grid search simple model hyperparameters for daily time series
 data for births.
 
-     How to grid search simple model hyperparameters for monthly time series data for shampoo
+    - How to grid search simple model hyperparameters for monthly time series data for shampoo
     sales, car sales, and temperature.
 
 11.10.1 Next
