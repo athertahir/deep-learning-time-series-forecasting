@@ -72,8 +72,7 @@ beyond this tutorial.
 
     [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-Listing 7.1: Example of a univariate time series.
-
+```
     We can divide the sequence into multiple input/output patterns called samples, where three
     time steps are used as input and one time step is used as output for the one-step prediction
     that is being learned.
@@ -84,8 +83,7 @@ Listing 7.1: Example of a univariate time series.
     30, 40, 50, 60
     ...
 
-Listing 7.2: Example of a univariate time series as a supervised
-learning problem.
+```
 
     Thesplitsequence()function below implements this behavior and will split a given
     univariate sequence into multiple samples where each sample has a specified number of time
@@ -109,8 +107,7 @@ learning problem.
     y.append(seq_y)
     return array(X), array(y)
 
-Listing 7.3: Example of a function to split a univariate series into a
-supervised learning problem.
+```
 
     We can demonstrate this function on our small contrived dataset above. The complete
 
@@ -132,8 +129,7 @@ X, y = split_sequence(raw_seq, n_steps)
 for i in range(len(X)):
  print(X[i], y[i])
 
-Listing 7.4: Example of transforming a univariate time series into a
-supervised learning problem.
+```
 
     Running the example splits the univariate series into six samples where each sample has
 
@@ -146,8 +142,7 @@ three input time steps and one output time step.
  [50 60 70] 80
  [60 70 80] 90
 
-Listing 7.5: Example output from transforming a univariate time series
-into a supervised learning
+```
 
 problem.
 
@@ -170,8 +165,7 @@ layer used to make a
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 7.6: Example of defining an MLP model.
-
+```
     Important in the definition is the shape of the input; that is what the model expects as
     input for each sample in terms of the number of time steps. The number of time steps as input
     is the number we chose when preparing our dataset as an argument to thesplitsequence()
@@ -187,8 +181,7 @@ Listing 7.6: Example of defining an MLP model.
     # fit model
     model.fit(X, y, epochs=2000, verbose=0)
 
-Listing 7.7: Example of fitting an MLP model.
-
+```
     After the model is fit, we can use it to make a prediction. We can predict the next value
     in the sequence by providing the input:[70, 80, 90]. And expecting the model to predict
     something like:[100]. The model expects the input shape to be two-dimensional with[samples,
@@ -199,8 +192,7 @@ Listing 7.7: Example of fitting an MLP model.
     x_input = x_input.reshape((1, n_steps))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 7.8: Example of reshaping a single sample for making a
-prediction.
+```
 
     We can tie all of this together and demonstrate how to develop an MLP for univariate time
     series forecasting and make a single prediction.
@@ -240,8 +232,7 @@ x_input = array([70, 80, 90])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 7.9: Example of demonstrating an MLP for univariate time series
-forecasting.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction. We can see
@@ -255,8 +246,7 @@ running the example a few times.
 
 ##### [[100.0109]]
 
-Listing 7.10: Example output from demonstrating an MLP for univariate
-time series forecasting.
+```
 
 For an example of an MLP applied to a real-world univariate time series
 forecasting problem
@@ -297,8 +287,7 @@ time series that is
     in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
     out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
 
-Listing 7.11: Example of defining a parallel time series.
-
+```
     We can reshape these three arrays of data as a single dataset where each row is a time step
     and each column is a separate time series. This is a standard way of storing parallel time series
     in a CSV file.
@@ -310,8 +299,7 @@ Listing 7.11: Example of defining a parallel time series.
     # horizontally stack columns
     dataset = hstack((in_seq1, in_seq2, out_seq))
 
-Listing 7.12: Example of horizontally stacking parallel series into a
-dataset.
+```
 
 The complete example is listed below.
 
@@ -330,8 +318,7 @@ The complete example is listed below.
     dataset = hstack((in_seq1, in_seq2, out_seq))
     print(dataset)
 
-Listing 7.13: Example of parallel dependent time series.
-
+```
     Running the example prints the dataset with one row per time step and one column for each
     of the two input and one output parallel time series.
 
@@ -355,8 +342,7 @@ Listing 7.13: Example of parallel dependent time series.
 
 ##### [ 90 95 185]]
 
-Listing 7.14: Example output from parallel dependent time series.
-
+```
 As with the univariate time series, we must structure these data into
 samples with input and
 
@@ -374,14 +360,12 @@ Input:
  20, 25
  30, 35
 
-Listing 7.15: Example input data for the first data sample.
-
+```
 Output:
 
 65
 
-Listing 7.16: Example output data for the first data sample.
-
+```
 That is, the first three time steps of each parallel series are provided
 as input to the model
 
@@ -420,8 +404,7 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
 
 7.3. Multivariate MLP Models 60
 
-    Listing 7.17: Example of a function for separating parallel time series into a supervised learning
-    problem.
+    ```
 
     We can test this function on our dataset using three time steps for each input time series as
     input. The complete example is listed below.
@@ -463,8 +446,7 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
     for i in range(len(X)):
     print(X[i], y[i])
 
-    Listing 7.18: Example of transforming a parallel dependent time series into a supervised learning
-    problem.
+    ```
 
     Running the example first prints the shape of theXandycomponents. We can see that the
     Xcomponent has a three-dimensional structure. The first dimension is the number of samples,
@@ -523,8 +505,7 @@ the number of parallel time
 
 ##### [90 95]] 185
 
-    Listing 7.19: Example output from transforming a parallel dependent time series into a supervised
-    learning problem.
+    ```
 
 MLP Model
 
@@ -539,13 +520,11 @@ the temporal structure of
     [20 25]
     [30 35]]
 
-Listing 7.20: Example input data for the first data sample.
-
+```
     Becomes:
     [10, 15, 20, 25, 30, 35]
 
-Listing 7.21: Example of a flattened input data for the first data
-sample.
+```
 
     First, we can calculate the length of each input vector as the number of time steps multiplied
     by the number of features or time series. We can then use this vector size to reshape the input.
@@ -554,8 +533,7 @@ sample.
     n_input = X.shape[1] * X.shape[2]
     X = X.reshape((X.shape[0], n_input))
 
-Listing 7.22: Example of flattening input samples for the MLP.
-
+```
 7.3. Multivariate MLP Models 62
 
     We can now define an MLP model for the multivariate input where the vector length is used
@@ -566,8 +544,7 @@ Listing 7.22: Example of flattening input samples for the MLP.
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mse')
 
-    Listing 7.23: Example of defining an MLP that expects a flattened multivariate time series as
-    input.
+    ```
 
     When making a prediction, the model expects three time steps for two input time series.
 
@@ -578,8 +555,7 @@ values of:
     90, 95
     100, 105
 
-Listing 7.24: Example input sample for making a prediction beyond the
-end of the time series.
+```
 
     The shape of the 1 sample with 3 time steps and 2 variables would be[1, 3, 2]. We must
     again reshape this to be 1 sample with a vector of 6 elements or[1, 6]. We would expect the
@@ -590,8 +566,7 @@ end of the time series.
     x_input = x_input.reshape((1, n_input))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 7.25: Example of reshaping the input sample for making a
-prediction.
+```
 
     The complete example is listed below.
     # multivariate mlp example
@@ -648,8 +623,7 @@ prediction.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 7.26: Example of using an MLP to forecast a dependent time
-series.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -659,8 +633,7 @@ prediction.
 
 ##### [[205.04436]]
 
-Listing 7.27: Example output from using an MLP to forecast a dependent
-time series.
+```
 
 Multi-headed MLP Model
 
@@ -679,16 +652,14 @@ withnstepsfeatures.
     visible1 = Input(shape=(n_steps,))
     dense1 = Dense(100, activation='relu')(visible1)
 
-Listing 7.28: Example of defining the first input model.
-
+```
 7.3. Multivariate MLP Models 64
 
 We can define the second input submodel in the same way.
 visible2 = Input(shape=(n_steps,))
  dense2 = Dense(100, activation='relu')(visible2)
 
-Listing 7.29: Example of defining the second input model.
-
+```
     Now that both input submodels have been defined, we can merge the output from each
 
 model into one long vector, which can be interpreted before making a
@@ -698,13 +669,11 @@ sequence.
 merge = concatenate([dense1, dense2])
  output = Dense(1)(merge)
 
-Listing 7.30: Example of merging the two input models.
-
+```
 We can then tie the inputs and outputs together.
 model = Model(inputs=[visible1, visible2], outputs=output)
 
-Listing 7.31: Example of connecting the input and output elements
-together.
+```
 
 The image below provides a schematic for how this model looks, including
 the shape of the
@@ -728,13 +697,11 @@ array with the shape[7, 3,
 X1 = X[:, :, 0]
  X2 = X[:, :, 1]
 
-Listing 7.32: Example of separating input data for the two input models.
-
+```
 These data can then be provided in order to fit the model.
 model.fit([X1, X2], y, epochs=2000, verbose=0)
 
-Listing 7.33: Example of fitting the multi-headed input model.
-
+```
     Similarly, we must prepare the data for a single sample as two separate two-dimensional
 
 arrays when making a single one-step prediction.
@@ -742,8 +709,7 @@ x_input = array([[80, 85], [90, 95], [100, 105]])
  x1 = x_input[:, 0].reshape((1, n_steps))
  x2 = x_input[:, 1].reshape((1, n_steps))
 
-Listing 7.34: Example of preparing an input sample for making a
-forecast.
+```
 
 We can tie all of this together; the complete example is listed below.
 from numpy import array
@@ -799,8 +765,7 @@ in_seq1 = in_seq1.reshape((len(in_seq1), 1))
     yhat = model.predict([x1, x2], verbose=0)
     print(yhat)
 
-Listing 7.35: Example of using a Multi-headed MLP to forecast a
-dependent time series.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -810,8 +775,7 @@ prediction.
 
 ##### [[206.05022]]
 
-    Listing 7.36: Example output from using a Multi-headed MLP to forecast a dependent time
-    series.
+    ```
 
 7.3.2 Multiple Parallel Series
 
@@ -833,8 +797,7 @@ previous section:
 
 7.3. Multivariate MLP Models 67
 
-Listing 7.37: Example of a parallel time series problem.
-
+```
 We may want to predict the value for each of the three time series for
 the next time step. This
 
@@ -850,14 +813,12 @@ Input:
  20, 25, 45
  30, 35, 65
 
-Listing 7.38: Example input from the first data sample.
-
+```
 Output:
 
 40, 45, 85
 
-Listing 7.39: Example output from the first data sample.
-
+```
 Thesplitsequences()function below will split multiple parallel time
 series with rows for
 
@@ -874,8 +835,7 @@ seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 7.40: Example of a function for splitting a multivariate time
-series dataset into a
+```
 
 supervised learning problem.
 
@@ -915,8 +875,7 @@ if end_ix > len(sequences)-1:
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 7.41: Example of splitting a multivariate time series into a
-supervised learning problem.
+```
 
     Running the example first prints the shape of the preparedXandycomponents. The
     shape ofXis three-dimensional, including the number of samples (6), the number of time steps
@@ -948,8 +907,7 @@ printed showing the input
     [ 70 75 145]
     [ 80 85 165]] [ 90 95 185]
 
-    Listing 7.42: Example output from splitting a multivariate time series into a supervised learning
-    problem.
+    ```
 
 7.3. Multivariate MLP Models 69
 
@@ -965,8 +923,7 @@ case of multivariate
     n_input = X.shape[1] * X.shape[2]
     X = X.reshape((X.shape[0], n_input))
 
-Listing 7.43: Example of flattening multivariate time series for input
-to a MLP.
+```
 
     The model output will be a vector, with one element for each of the three different time
     series.
@@ -974,8 +931,7 @@ to a MLP.
     # determine the number of outputs
     n_output = y.shape[1]
 
-Listing 7.44: Example of defining the size of the vector to forecast.
-
+```
     We can now define our model, using the flattened vector length for the input layer and the
     number of time series as the vector length when making a prediction.
     # define model
@@ -984,8 +940,7 @@ Listing 7.44: Example of defining the size of the vector to forecast.
     model.add(Dense(n_output))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 7.45: Example of defining a MLP for multivariate forecasting.
-
+```
     We can predict the next value in each of the three parallel series by providing an input of
     three time steps for each series.
 
@@ -993,23 +948,20 @@ Listing 7.45: Example of defining a MLP for multivariate forecasting.
     80, 85, 165
     90, 95, 185
 
-Listing 7.46: Example input for making an out-of-sample forecast.
-
+```
     The shape of the input for making a single prediction must be 1 sample, 3 time steps and 3
     features, or[1, 3, 3]. Again, we can flatten this to[1, 6]to meet the expectations of the
     model. We would expect the vector output to be:
 
     [100, 105, 205]
 
-Listing 7.47: Example output for an out-of-sample forecast.
-
+```
     # demonstrate prediction
     x_input = array([[70,75,145], [80,85,165], [90,95,185]])
     x_input = x_input.reshape((1, n_input))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 7.48: Example of preparing data for making an out-of-sample
-forecast with a MLP.
+```
 
     We can tie all of this together and demonstrate an MLP for multivariate output time series
     forecasting below.
@@ -1052,8 +1004,7 @@ x_input = array([[70,75,145], [80,85,165], [90,95,185]])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 7.49: Example of an MLP for multivariate time series
-forecasting.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -1065,8 +1016,7 @@ prediction.
 
     [[100.95039 107.541306 206.81033 ]]
 
-Listing 7.50: Example output from an MLP for multivariate time series
-forecasting.
+```
 
 Multi-output MLP Model
 
@@ -1082,8 +1032,7 @@ model the problem. Each
     visible = Input(shape=(n_input,))
     dense = Dense(100, activation='relu')(visible)
 
-Listing 7.51: Example of defining an input model.
-
+```
     We can then define one output layer for each of the three series that we wish to forecast,
 
 where each output submodel will forecast a single time step.
@@ -1095,15 +1044,13 @@ where each output submodel will forecast a single time step.
     # define output 2
     output3 = Dense(1)(dense)
 
-Listing 7.52: Example of defining multiple output models.
-
+```
     We can then tie the input and output layers together into a single model.
     # tie together
     model = Model(inputs=visible, outputs=[output1, output2, output3])
     model.compile(optimizer='adam', loss='mse')
 
-Listing 7.53: Example of connecting input and output models.
-
+```
     To make the model architecture clear, the schematic below clearly shows the three separate
     output layers of the model and the input and output shapes of each layer.
 
@@ -1122,15 +1069,13 @@ with the shape[7, 1].
     y2 = y[:, 1].reshape((y.shape[0], 1))
     y3 = y[:, 2].reshape((y.shape[0], 1))
 
-Listing 7.54: Example of splitting output data for the multi-output
-model.
+```
 
     These arrays can be provided to the model during training.
     # fit model
     model.fit(X, [y1,y2,y3], epochs=2000, verbose=0)
 
-Listing 7.55: Example of fitting the multi-output MLP model.
-
+```
 Tying all of this together, the complete example is listed below.
 
     # multivariate output mlp example
@@ -1199,8 +1144,7 @@ Tying all of this together, the complete example is listed below.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 7.56: Example of a multi-output MLP for multivariate time series
-forecasting.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -1212,8 +1156,7 @@ prediction.
     array([[105.14738]], dtype=float32),
     array([[205.97507]], dtype=float32)]
 
-Listing 7.57: Example output from a multi-output MLP for multivariate
-time series forecasting.
+```
 
 ### 7.4 Multi-step MLP Models
 
@@ -1240,20 +1183,17 @@ same number of steps.
     For example, given the univariate time series:
     [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-Listing 7.58: Example of a univariate time series.
-
+```
     We could use the last three time steps as input and forecast the next two time steps. The
     first sample would look as follows:
     Input:
     [10, 20, 30]
 
-Listing 7.59: Example input for a multi-step forecast.
-
+```
     Output:
     [40, 50]
 
-Listing 7.60: Example output for a multi-step forecast.
-
+```
     Thesplitsequence()function below implements this behavior and will split a given
     univariate time series into samples with a specified number of input and output time steps.
 
@@ -1273,8 +1213,7 @@ Listing 7.60: Example output for a multi-step forecast.
     y.append(seq_y)
     return array(X), array(y)
 
-    Listing 7.61: Example of a function for preparing a univariate time series for multi-step
-    forecasting.
+    ```
 
     We can demonstrate this function on the small contrived dataset. The complete example is
     listed below.
@@ -1311,8 +1250,7 @@ Listing 7.60: Example output for a multi-step forecast.
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 7.62: Example of data preparation for multi-step time series
-forecasting.
+```
 
     Running the example splits the univariate series into input and output time steps and prints
     the input and output components of each.
@@ -1323,8 +1261,7 @@ forecasting.
     [40 50 60] [70 80]
     [50 60 70] [80 90]
 
-Listing 7.63: Example output from data preparation for multi-step time
-series forecasting.
+```
 
     Now that we know how to prepare data for multi-step forecasting, let’s look at an MLP
     model that can learn this mapping.
@@ -1344,25 +1281,20 @@ multi-step forecast. This
     model.add(Dense(n_steps_out))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 7.64: Example of preparing an MLP mode for multi-step time
-series forecasting.
+```
 
     The model can make a prediction for a single sample. We can predict the next two steps
     beyond the end of the dataset by providing the input:
 
     [70, 80, 90]
 
-Listing 7.65: Example input for making an out-of-sample multi-step
-forecast.
+```
 
 We would expect the predicted output to be:
 
-7.4. Multi-step MLP Models 76
-
 ##### [100, 110]
 
-Listing 7.66: Example output for an out-of-sample multi-step forecast.
-
+```
     As expected by the model, the shape of the single sample of input data when making the
 
 prediction must be[1, 3]for the 1 sample and 3 time steps (features) of
@@ -1373,8 +1305,7 @@ x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps_in))
  yhat = model.predict(x_input, verbose=0)
 
-Listing 7.67: Example of preparing data for making an out-of-sample
-multi-step forecast.
+```
 
 Tying all of this together, the MLP for multi-step forecasting with a
 univariate time series is
@@ -1410,8 +1341,7 @@ x_input = array([70, 80, 90])
 
     print(yhat)
 
-Listing 7.68: Example of an MLP for multi-step time series forecasting.
-
+```
 Running the example forecasts and prints the next two time steps in the
 sequence.
 
@@ -1420,8 +1350,7 @@ sequence.
 
 ##### [[102.572365 113.88405 ]]
 
-Listing 7.69: Example output from an MLP for multi-step time series
-forecasting.
+```
 
 #### 7.5 Multivariate Multi-step MLP Models
 
@@ -1463,8 +1392,7 @@ output series is separate
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 7.70: Example of a multivariate time series with a dependent
-series.
+```
 
     We may use three prior time steps of each of the two input time series to predict two time
     steps of the output time series.
@@ -1478,16 +1406,14 @@ series.
 
 ##### 30, 35
 
-Listing 7.71: Example input for a multi-step forecast for a dependent
-series.
+```
 
 Output:
 
 65
  85
 
-Listing 7.72: Example output for a multi-step forecast for a dependent
-series.
+```
 
 Thesplitsequences()function below implements this behavior.
 def split_sequences(sequences, n_steps_in, n_steps_out):
@@ -1503,8 +1429,7 @@ sequences[end_ix-1:out_end_ix, -1]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 7.73: Example of a function for preparing data for a multi-step
-dependent series.
+```
 
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
@@ -1543,8 +1468,7 @@ in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 7.74: Example of preparing data for multi-step forecasting for a
-dependent series.
+```
 
     Running the example first prints the shape of the prepared training data. We can see that
     the shape of the input portion of the samples is three-dimensional, comprised of six samples,
@@ -1577,8 +1501,7 @@ The output portion of the
     [70 75]
     [80 85]] [165 185]
 
-    Listing 7.75: Example output from preparing data for multi-step forecasting for a dependent
-    series.
+    ```
 
     We can now develop an MLP model for multi-step predictions using a vector output. The
     complete example is listed below.
@@ -1625,8 +1548,7 @@ x_input = array([[70, 75], [80, 85], [90, 95]])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 7.76: Example of an MLP model for multi-step forecasting for a
-dependent series.
+```
 
     Running the example fits the model and predicts the next two time steps of the output
 
@@ -1642,8 +1564,7 @@ running the example a few times.
 
 ##### [[186.53822 208.41725]]
 
-    Listing 7.77: Example output from an MLP model for multi-step forecasting for a dependent
-    series.
+    ```
 
 7.5.2 Multiple Parallel Input and Multi-step Output
 
@@ -1661,8 +1582,7 @@ multiple time steps of each
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 7.78: Example of a multivariate time series.
-
+```
     We may use the last three time steps from each of the three time series as input to the model
     and predict the next time steps of each of the three time series as output. The first sample in
     the training dataset would be the following.
@@ -1672,15 +1592,13 @@ Listing 7.78: Example of a multivariate time series.
     20, 25, 45
     30, 35, 65
 
-Listing 7.79: Example input for the first a multivariate time series
-sample.
+```
 
     Output:
     40, 45, 85
     50, 55, 105
 
-Listing 7.80: Example output for the first a multivariate time series
-sample.
+```
 
 Thesplitsequences()function below implements this behavior.
 
@@ -1703,8 +1621,7 @@ Thesplitsequences()function below implements this behavior.
 
     return array(X), array(y)
 
-Listing 7.81: Example of a function for preparing data for a multi-step
-multivariate series.
+```
 
 We can demonstrate this function on the small contrived dataset. The
 complete example is
@@ -1738,8 +1655,7 @@ X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 for i in range(len(X)):
  print(X[i], y[i])
 
-Listing 7.82: Example of preparing data for multi-step forecasting for a
-multivariate series.
+```
 
     Running the example first prints the shape of the prepared training dataset. We can see
 
@@ -1798,8 +1714,7 @@ data was prepared as we expected.
 
 ##### [ 90 95 185]]
 
-Listing 7.83: Example output from preparing data for multi-step
-forecasting for a multivariate
+```
 
 series.
 
@@ -1818,8 +1733,7 @@ n_input = X.shape[1] * X.shape[2]
 n_output = y.shape[1] * y.shape[2]
  y = y.reshape((y.shape[0], n_output))
 
-Listing 7.84: Example of reshaping input and output data for fitting an
-MLP model for a
+```
 
 multi-step multivariate series.
 
@@ -1865,8 +1779,7 @@ x_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 7.85: Example of an MLP model for multi-step forecasting for a
-multivariate series.
+```
 
 Running the example fits the model and predicts the values for each of
 the three time steps
@@ -1879,8 +1792,7 @@ series and time steps to be as follows:
 90, 95, 185
  100, 105, 205
 
-Listing 7.86: Expected output for an out-of-sample multi-step
-multivariate forecast.
+```
 
 We can see that the model forecast gets reasonably close to the expected
 values.
@@ -1894,8 +1806,7 @@ running the example a few times.
 
 7.6. Extensions 85
 
-    Listing 7.87: Example output from an MLP model for multi-step forecasting for a multivariate
-    series.
+    ```
 
 ### 7.6 Extensions
 

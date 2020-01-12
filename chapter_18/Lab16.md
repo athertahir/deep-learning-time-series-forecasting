@@ -122,8 +122,7 @@ AutoCorrelation Function, or the
     series = array(series).flatten()
     return series
 
-Listing 18.1: Example of converting weekly data to a series.
-
+```
     We can call this function for the prepared training dataset. First, the daily power consumption
     dataset must be loaded.
 
@@ -131,24 +130,21 @@ Listing 18.1: Example of converting weekly data to a series.
     dataset = read_csv('household_power_consumption_days.csv', header=0,
     infer_datetime_format=True, parse_dates=['datetime'], index_col=['datetime'])
 
-Listing 18.2: Example of loading the prepared dataset.
-
+```
     The dataset must then be split into train and test sets with the standard week window
     structure.
 
     # split into train and test
     train, test = split_dataset(dataset.values)
 
-Listing 18.3: Example of splitting the loaded dataset into train and
-test sets.
+```
 
     A univariate time series of daily power consumption can then be extracted from the training
     dataset.
     # convert training data into a series
     series = to_series(train)
 
-Listing 18.4: Example of converting the window-based data into a series.
-
+```
 18.5. Autocorrelation Analysis 359
 
     We can then create a single figure that contains both an ACF and a PACF plot. The number
@@ -167,8 +163,7 @@ Listing 18.4: Example of converting the window-based data into a series.
     # show plot
     pyplot.show()
 
-Listing 18.5: Example of creating ACF and PACF plots.
-
+```
     The complete example is listed below. We would expect that the power consumed tomorrow
     and in the coming week will be dependent upon the power consumed in the prior days. As such,
 
@@ -222,8 +217,7 @@ PACF plots.
     # show plot
     pyplot.show()
 
-Listing 18.6: Example of creating ACF and PACF plots from the training
-dataset.
+```
 
 Running the example creates a single figure with both ACF and PACF
 plots. The plots are
@@ -240,8 +234,7 @@ consumption.
     We can zoom in the plot and change the number of lag observations from 365 to 50.
     lags = 50
 
-Listing 18.7: Example of changing the number of lag observations in the
-plots.
+```
 
 18.6. Develop an Autoregressive Model 361
 
@@ -288,8 +281,7 @@ power consumption. For
     # convert history into a univariate series
     series = to_series(history)
 
-Listing 18.8: Example of converting the window-based history data into a
-series.
+```
 
     Next, an ARIMA model can be defined by passing arguments to the constructor of the
 
@@ -299,15 +291,13 @@ isARIMA(7,0,0).
     # define the model
     model = ARIMA(series, order=(7,0,0))
 
-Listing 18.9: Example of defining an ARIMA model.
-
+```
     Next, the model can be fit on the training data. We will use the defaults and disable all
     debugging information during the fit by settingdisp=False.
     # fit the model
     model_fit = model.fit(disp=False)
 
-Listing 18.10: Example of fitting an ARIMA model.
-
+```
     Now that the model has been fit, we can make a prediction. A prediction can be made by
     calling thepredict()function and passing it either an interval of dates or indices relative to
     the training data. We will use indices starting with the first time step beyond the training data
@@ -317,8 +307,7 @@ Listing 18.10: Example of fitting an ARIMA model.
     # make forecast
     yhat = model_fit.predict(len(series), len(series)+6)
 
-Listing 18.11: Example of making a one-week forecast with an ARIMA
-model.
+```
 
     We can wrap all of this up into a function below namedarimaforecast()that takes the
     history and returns a one week forecast.
@@ -335,8 +324,7 @@ model.
     yhat = model_fit.predict(len(series), len(series)+6)
     return yhat
 
-Listing 18.12: Example of a function for fitting and forecasting with an
-ARIMA model.
+```
 
     This function can be used directly in the test harness described previously. The complete
     example is listed below.
@@ -439,8 +427,7 @@ history.append(test[i, :])
     pyplot.legend()
     pyplot.show()
 
-    Listing 18.13: Example of evaluating an ARIMA model for multi-step power consumption
-    forecasting.
+    ```
 
 Running the example first prints the performance of theAR(7)model on the
 test dataset.
@@ -457,8 +444,7 @@ kilowatts. This model has
 
 18.7. Extensions 365
 
-    Listing 18.14: Sample output from evaluating an ARIMA model for multi-step power
-    consumption forecasting.
+    ```
 
     A line plot of the forecast is also created, showing the RMSE in kilowatts for each of the
     seven lead times of the forecast. We can see an interesting pattern. We might expect that

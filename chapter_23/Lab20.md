@@ -95,8 +95,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
     return dataframe.values
 
-Listing 23.1: Example of a function for loading a single file.
-
+```
     We can call this function to load theXandyfiles for a given train or test set group, given
     the similarity in directory layout and filenames. Theloaddatasetgroup()function below
 
@@ -114,8 +113,7 @@ train and test groups.
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
-Listing 23.2: Example of a function for loading a group of files.
-
+```
     Finally, we can load both the train and test dataset and return them as NumPy arrays ready
     for fitting and evaluating machine learning models.
 
@@ -132,15 +130,13 @@ Listing 23.2: Example of a function for loading a group of files.
     print(trainX.shape, trainy.shape, testX.shape, testy.shape)
     return trainX, trainy, testX, testy
 
-Listing 23.3: Example of a function for loading the entire dataset.
-
+```
 We can call this function to load all of the required data; for example:
 
     # load dataset
     trainX, trainy, testX, testy = load_dataset()
 
-Listing 23.4: Example of calling a function to load the dataset.
-
+```
 23.3.2 Define Models
 
     Next, we can define a list of machine learning models to evaluate on this problem. We will
@@ -190,8 +186,7 @@ Ensemble Algorithms:
     print('Defined %d models'% len(models))
     return models
 
-Listing 23.5: Example of a function for defining machine learning
-models.
+```
 
     This function is quite extensible and you can easily update to define any machine learning
     models or model configurations you wish.
@@ -220,8 +215,7 @@ This step is divided into
     accuracy = accuracy_score(testy, yhat)
     return accuracy * 100.0
 
-Listing 23.6: Example of a function for evaluating a machine learning
-model.
+```
 
 We can now call theevaluatemodel()function repeatedly for each of the
 defined model.
@@ -243,8 +237,7 @@ dictionary of
     print('>%s: %.3f' % (name, results[name]))
     return results
 
-Listing 23.7: Example of a function for evaluating multiple machine
-learning models.
+```
 
 23.3.4 Summarize Results
 
@@ -268,8 +261,7 @@ results by the classification
     for name, score in mean_scores:
     print('Name=%s, Score=%.3f'% (name, score))
 
-Listing 23.8: Example of a function for summarizing model performance.
-
+```
 23.3. Modeling Feature Engineered Data 482
 
 23.3.5 Complete Example
@@ -366,8 +358,7 @@ results = evaluate_models(trainX, trainy, testX, testy, models)
 
 summarize_results(results)
 
-Listing 23.9: Example of evaluating machine learning models for activity
-recognition.
+```
 
     Running the example first loads the train and test datasets. The eight models are then
 
@@ -412,8 +403,7 @@ Defined 8 models
     Name=cart, Score=86.020
     Name=bayes, Score=77.027
 
-Listing 23.10: Example output from evaluating machine learning models
-for activity recognition.
+```
 
     These results show what is possible given domain expertise in the preparation of the data and
     the engineering of domain-specific features. As such, these results can be taken as a performance
@@ -473,8 +463,7 @@ arrays into a single 3D
     loaded = dstack(loaded)
     return loaded
 
-Listing 23.11: Example of a function for loading a group of raw files.
-
+```
 We can use this function to load all input signal data for a given
 group, such as train or test.
 
@@ -504,8 +493,7 @@ directories.
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
-Listing 23.12: Example of a function for loading multiple groups of raw
-files.
+```
 
 Finally, we can load each of the train and test datasets. As part of
 preparing the loaded data,
@@ -537,8 +525,7 @@ this with the NumPy
     print(trainX.shape, trainy.shape, testX.shape, testy.shape)
     return trainX, trainy, testX, testy
 
-Listing 23.13: Example of a function for loading the raw dataset.
-
+```
 Putting this all together, the complete example is listed below.
 
 from numpy import dstack
@@ -649,8 +636,7 @@ results = evaluate_models(trainX, trainy, testX, testy, models)
 
 summarize_results(results)
 
-Listing 23.14: Example of evaluating machine learning models for
-activity recognition on the
+```
 
 raw dataset.
 
@@ -710,8 +696,7 @@ Name=gbm, Score=87.615
 
 23.5. Extensions 489
 
-    Listing 23.15: Example output from evaluating machine learning models for activity recognition
-    on the raw dataset.
+    ```
 
     As noted in the previous section, these results provide a lower-bound on accuracy for any
     more sophisticated methods that may attempt to learn higher order features automatically (e.g.

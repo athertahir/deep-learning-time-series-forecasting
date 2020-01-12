@@ -112,8 +112,7 @@ https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+cons
     16/12/2006;17:28:00;3.666;0.528;235.680;15.800;0.000;1.000;17.000
     ...
 
-Listing 16.1: Sample of the household power consumption dataset.
-
+```
     We can see that the data columns are separated by semicolons (‘;’). The data is reported
     to have one row for each day in the time period. The data does have missing values; for example,
 
@@ -127,8 +126,7 @@ we can see 2-3 days worth of missing data around28/4/2007.
     28/4/2007;00:24:00;?;?;?;?;?;?;
     ...
 
-Listing 16.2: Sample of the household power consumption dataset with
-missing values.
+```
 
     We can start-off by loading the data file as a PandasDataFrameand summarize the loaded
     data. We can use thereadcsv()function to load the data. It is easy to load the data with this
@@ -168,8 +166,7 @@ index_col=['datetime'])
 print(dataset.shape)
  print(dataset.head())
 
-Listing 16.3: Example of loading and summarizing the dataset.
-
+```
 Next, we can mark all missing values indicated with a‘?’character with
 aNaNvalue, which
 
@@ -180,8 +177,7 @@ than mixed types, which is less efficient.
 
 dataset.replace('?', nan, inplace=True)
 
-Listing 16.4: Example of replacing missing values withNaN.
-
+```
 Now we can create a new column that contains the remainder of the
 sub-metering, using the
 
@@ -192,8 +188,7 @@ values = dataset.values.astype('float32')
 + values[:,5] +
  values[:,6])
 
-Listing 16.5: Example of calculating the remaining sub-metered data.
-
+```
 We can now save the cleaned-up version of the dataset to a new file; in
 this case we will just
 
@@ -202,8 +197,7 @@ ashouseholdpowerconsumption.csv.
 
 dataset.to_csv('household_power_consumption.csv')
 
-Listing 16.6: Example of saving the dataset to a new file.
-
+```
 To confirm that we have not messed-up, we can re-load the dataset and
 summarize the first
 
@@ -212,8 +206,7 @@ five rows.
 dataset = read_csv('household_power_consumption.csv', header=None)
  print(dataset.head())
 
-Listing 16.7: Example of loading the newly saved data file
-
+```
     Tying all of this together, the complete example of loading, cleaning-up, and saving the
 
 dataset is listed below.
@@ -244,8 +237,7 @@ infer_datetime_format=True,
  parse_dates=['datetime'], index_col=['datetime'])
  print(dataset.head())
 
-Listing 16.8: Example of loading and preparing the power consumption
-dataset.
+```
 
 Running the example first loads the raw data and summarizes the shape
 and first five rows
@@ -262,8 +254,7 @@ Global_active_power ... Sub_metering_3
  2006-12-16 17:27:00 5.388 ... 17.0
  2006-12-16 17:28:00 3.666 ... 17.0
 
-Listing 16.9: Example of the loaded raw dataset.
-
+```
 The dataset is then cleaned up and saved to a new file. We load this new
 file and again print
 
@@ -280,8 +271,7 @@ Global_active_power ... sub_metering_4
  2006-12-16 17:27:00 5.388 ... 71.800000
  2006-12-16 17:28:00 3.666 ... 43.100000
 
-Listing 16.10: Example of the prepared dataset.
-
+```
 We can peek inside the newhouseholdpowerconsumption.csvfile and check
 that the
 
@@ -301,8 +291,7 @@ for example around row 190,499:
 
 16.4. Patterns in Observations Over Time 327
 
-Listing 16.11: Sample of the prepared dataset with missing values.
-
+```
     Now that we have a cleaned-up version of the dataset, we can investigate it further using
 
 visualizations.
@@ -336,8 +325,7 @@ time series is to create
     pyplot.xticks([])
     pyplot.show()
 
-Listing 16.12: Example of creating line plots from the prepared dataset.
-
+```
     Running the example creates a single image with eight subplots, one for each variable. This
     gives us a really high level of the four years of one minute observations. We can see that
     something interesting was going on inSubmetering 3 (environmental control) that may not
@@ -393,8 +381,7 @@ pyplot.plot(result['Global_active_power'])
     pyplot.xticks([])
     pyplot.show()
 
-Listing 16.13: Example of creating line plots of power consumption per
-year.
+```
 
     Running the example creates one single image with four line plots, one for each full year
 
@@ -441,8 +428,7 @@ gross patterns across
     pyplot.xticks([])
     pyplot.show()
 
-Listing 16.14: Example of creating line plots of power consumption per
-month.
+```
 
 Running the example creates a single image with 12 line plots, one for
 each month in 2007.
@@ -497,8 +483,7 @@ pyplot.title(day, y=0, loc='left', size=6)
     pyplot.xticks([])
     pyplot.show()
 
-Listing 16.15: Example of creating line plots of power consumption per
-day.
+```
 
     Running the example creates a single image with 20 line plots, one for the first 20 days in
 
@@ -555,8 +540,7 @@ example is listed below.
     pyplot.xticks([])
     pyplot.show()
 
-Listing 16.16: Example of creating histograms for each variable.
-
+```
     Running the example creates a single figure with a separate histogram for each of the 8
 
 variables. We can see that active and reactive power, intensity, as well
@@ -608,8 +592,7 @@ ax.set_xlim(0, 5)
     pyplot.xticks([])
     pyplot.show()
 
-Listing 16.17: Example of creating histograms of power consumption per
-year.
+```
 
 Running the example creates a single plot with four figures, one for
 each of the years between
@@ -664,8 +647,7 @@ developing a predictive model.
     pyplot.xticks([])
     pyplot.show()
 
-Listing 16.18: Example of creating histograms of power consumption per
-month.
+```
 
     Running the example creates an image with 12 plots, one for each month in 2007. We can
     see generally the same data distribution each month. The axes for the plots appear to align

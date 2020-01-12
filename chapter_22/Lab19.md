@@ -260,8 +260,7 @@ space.
 
 dataframe = read_csv(filepath, header=None, delim_whitespace=True)
 
-Listing 22.1: Example of loading a file as aDataFrame.
-
+```
 We can wrap this in a function namedloadfile(). The complete example of
 this function
 
@@ -280,8 +279,7 @@ Signals/total_acc_y_train.txt')
 
     print(data.shape)
 
-Listing 22.2: Example of loading one axis of accelerometer data.
-
+```
     Running the example loads the filetotalaccytrain.txt, returns a NumPy array, and
     prints the shape of the array. We can see that the training data is comprised of 7,352 rows or
 
@@ -289,8 +287,7 @@ windows of data, where each window has 128 observations.
 
     (7352, 128)
 
-Listing 22.3: Example output from loading one axis of accelerometer
-data.
+```
 
     Next, it would be useful to load a group of files, such as all of the body acceleration data
     files as a single group. Ideally, when working with multivariate time series data, it is useful to
@@ -312,8 +309,7 @@ data.
     loaded = dstack(loaded)
     return loaded
 
-Listing 22.4: Example of a function for loading a group of files.
-
+```
     We can demonstrate this function by loading all of the total acceleration files. The complete
     example is listed below.
 
@@ -344,8 +340,7 @@ filenames =
 Signals/')
  print(total_acc.shape)
 
-Listing 22.5: Example of loading a group of accelerometer data files.
-
+```
 Running the example prints the shape of the returned NumPy array,
 showing the expected
 
@@ -354,8 +349,7 @@ the dataset.
 
 (7352, 128, 3)
 
-Listing 22.6: Example output from loading a group of accelerometer data
-files.
+```
 
 Finally, we can use the two functions developed so far to load all data
 for the train and the
@@ -396,8 +390,7 @@ X = load_group(filenames, filepath)
 y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-Listing 22.7: Example of a function for loading all data files for
-either train or test.
+```
 
 The complete example is listed below.
 
@@ -447,8 +440,7 @@ def load_group(filenames, prefix=''):
     testX, testy = load_dataset('test','HARDataset/')
     print(testX.shape, testy.shape)
 
-Listing 22.8: Example of loading all accelerometer data files.
-
+```
     Running the example loads the train and test datasets. We can see that the test dataset
     has 2,947 rows of window data. As expected, we can see that the size of windows in the train
     and test sets matches and the size of the output (y) in each the train and test case matches the
@@ -457,8 +449,7 @@ Listing 22.8: Example of loading all accelerometer data files.
     (7352, 128, 9) (7352, 1)
     (2947, 128, 9) (2947, 1)
 
-Listing 22.9: Example output from loading all accelerometer data files.
-
+```
 #### 22.5 Balance of Activity Classes
 
 A good first check of the data is to investigate the balance of each
@@ -493,8 +484,7 @@ for i in range(len(counts)):
  print('Class=%d, total=%d, percentage=%.3f' % (i+1, counts[i],
 percent))
 
-Listing 22.10: Example of a function for summarizing the class
-breakdown.
+```
 
     It may be useful to summarize the breakdown of the classes in the train and test datasets
 
@@ -539,8 +529,7 @@ testy = load_file('HARDataset/test/y_test.txt')
     combined = vstack((trainy, testy))
     class_breakdown(combined)
 
-Listing 22.11: Example of summarizing the breakdown of classes in the
-dataset.
+```
 
     Running the example first summarizes the breakdown for the training set. We can see a
     pretty similar distribution of each class hovering between 13% and 19% of the dataset. The
@@ -574,8 +563,7 @@ train and test set and
     Class=5, total=1906, percentage=18.507
     Class=6, total=1944, percentage=18.876
 
-Listing 22.12: Example output from summarizing the breakdown of classes
-in the dataset.
+```
 
 #### 22.6 Plot Time Series Per Subject
 
@@ -592,8 +580,7 @@ in the observations
     # load data
     trainX, trainy = load_dataset('train', 'HARDataset/')
 
-Listing 22.13: Example of loading the training dataset.
-
+```
 22.6. Plot Time Series Per Subject 453
 
     Next, we can load thesubjecttrain.txtin thetraindirectory that provides a mapping
@@ -606,8 +593,7 @@ Listing 22.13: Example of loading the training dataset.
     train_subjects = unique(sub_map)
     print(train_subjects)
 
-Listing 22.14: Example of loading the mapping of observations to
-subjects.
+```
 
     Next, we need a way to retrieve all of the rows for a single subject, e.g. subject number 1.
 
@@ -625,8 +611,7 @@ subject and use those
     # return the selected samples
     return X[ix, :, :], y[ix]
 
-Listing 22.15: Example of a function to get data for a given subject id.
-
+```
     Now that we have data for one subject, we can plot it. The data is comprised of windows
 
 with overlap. We can write a function to remove this overlap and squash
@@ -645,8 +630,7 @@ the windows down
     series.append(value)
     return series
 
-Listing 22.16: Example of a function to convert window data to a series.
-
+```
     Finally, we have enough to plot the data. We can plot each of the nine variables for the
     subject in turn and a final plot for the activity level. Each series will have the same number of
     time steps (length of x-axis), therefore, it may be useful to create a subplot for each variable and
@@ -700,8 +684,7 @@ pyplot.yticks([])
  pyplot.xticks([])
  pyplot.show()
 
-Listing 22.17: Example of a function to plot data for a subject.
-
+```
 The complete example is listed below.
 
 from numpy import dstack
@@ -815,8 +798,7 @@ for i in range(3):
     # plot data for subject
     plot_subject(subX, suby)
 
-Listing 22.18: Example of creating line plots accelerometer data for a
-subject.
+```
 
     Running the example prints the unique subjects in the training dataset, the sample of the
     data for the first subject, and creates one figure with 10 plots, one for each of the nine input
@@ -826,8 +808,7 @@ variables and the output class.
     [ 1 3 5 6 7 8 11 14 15 16 17 19 21 22 23 25 26 27 28 29 30]
     (341, 128, 9) (341, 1)
 
-Listing 22.19: Example output from preparing data to plot for a subject.
-
+```
     In the plot, we can see periods of large movement corresponding with activities 1, 2, and
 
 3: the walking activities. We can also see much less activity (i.e. a
@@ -855,8 +836,7 @@ what activities may have been performed or their order.
     # get the data for one subject
     sub_id = train_subjects[1]
 
-Listing 22.20: Example of changing the subject data to plot.
-
+```
     The plot for the second subject shows similar behavior with no surprises. The double
     sequence of activities does appear more regular than the first subject.
 
@@ -905,8 +885,7 @@ detected movements
     pyplot.xticks([-1,0,1])
     pyplot.show()
 
-Listing 22.21: Example of a create histograms of data.
-
+```
     The addition of anoffsetargument allows the same function to be called for each of the 3
     groups of variables to plot at a time: total acceleration, body acceleration and gyroscopic with
     offsets 0, 3 and 6 respectively.
@@ -918,8 +897,7 @@ Listing 22.21: Example of a create histograms of data.
     # plot gyroscopic histograms for subjects
     plot_subject_histograms(X, y, sub_map, 6)
 
-    Listing 22.22: Example of creating per-subjects histogram plots for each of the 3 groups of
-
+    ```
 variables.
 
     For a given call, a plot is created for each subject and the three variables for one data type
@@ -1014,8 +992,7 @@ plot_subject_histograms(X, y, sub_map, 3)
 
 plot_subject_histograms(X, y, sub_map, 6)
 
-Listing 22.23: Example of plotting histograms of total accelerometer
-data.
+```
 
 Running the example creates three figures, each with 10 plots with
 histograms for the three
@@ -1089,8 +1066,7 @@ movement data for
     # group windows by activity
     return {a:X[y[:,0]==a, :, :] for a in activities}
 
-Listing 22.24: Example of a function for splitting data by activity.
-
+```
 22.8. Plot Distribution Per Activity 464
 
     We can now create plots per activity for a given subject. Theplotactivityhistograms()
@@ -1121,8 +1097,7 @@ Listing 22.24: Example of a function for splitting data by activity.
     pyplot.xticks([-1,0,1])
     pyplot.show()
 
-Listing 22.25: Example of a function for plotting histograms of data by
-activity.
+```
 
     As in the previous section, the addition of anoffsetargument allows the same function
     to be called for each of the 3 groups of variables to plot at a time: total acceleration, body
@@ -1134,8 +1109,7 @@ activity.
     # plot gyroscopic histograms per activity for a subject
     plot_activity_histograms(subX, suby, 6)
 
-    Listing 22.26: Example of creating per-activity histogram plots for each of the 3 groups of
-
+    ```
 variables.
 
     The complete example is listed below.
@@ -1239,8 +1213,7 @@ plot_activity_histograms(subX, suby, 3)
 
 plot_activity_histograms(subX, suby, 6)
 
-Listing 22.27: Example of plotting histograms per activity.
-
+```
     Running the example creates three figures, where each figure has with six subplots, one
 
 for each activity for the first subject in the train dataset. Each of
@@ -1344,8 +1317,7 @@ functionplotactivitydurationsbysubject()
     pyplot.boxplot(durations, labels=activity_ids)
     pyplot.show()
 
-Listing 22.28: Example of a function for plotting activity duration.
-
+```
 The complete example is listed below.
 
 from numpy import dstack
@@ -1430,8 +1402,7 @@ X, y = load_dataset('train','HARDataset/')
 sub_map = load_file('HARDataset/train/subject_train.txt')
 plot_activity_durations_by_subject(X, y, sub_map)
 
-Listing 22.29: Example of plotting activity durations.
-
+```
 Running the example creates six box plots, one for each activity. Each
 box plot summarizes
 
@@ -1467,8 +1438,7 @@ X, y = load_dataset('test','HARDataset/')
 sub_map = load_file('HARDataset/test/subject_test.txt')
 plot_activity_durations_by_subject(X, y, sub_map)
 
-Listing 22.30: Example of preparing the test dataset.
-
+```
     Running the updated example shows a similar relationship between activities. This is
 
 encouraging, suggesting that indeed the test and training dataset are

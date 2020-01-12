@@ -81,8 +81,7 @@ of active energy).
     dataset = read_csv('household_power_consumption.txt', sep=';', header=0, low_memory=False,
     infer_datetime_format=True, parse_dates={'datetime':[0,1]}, index_col=['datetime'])
 
-Listing 17.1: Example of loading the dataset.
-
+```
     Next, we can mark all missing values indicated with a‘?’character with aNaNvalue, which
     is a float. This will allow us to work with the data as one array of floating point values rather
     than mixed types (less efficient.)
@@ -98,8 +97,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_cons
     # make dataset numeric
     dataset = dataset.astype('float32')
 
-Listing 17.2: Example of marking missing values.
-
+```
     We also need to fill in the missing values now that they have been marked. A very simple
     approach would be to copy the observation from the same time the day before. We can implement
     this in a function namedfillmissing()that will take the NumPy array of the data and copy
@@ -114,15 +112,13 @@ values from exactly 24 hours ago.
     if isnan(values[row, col]):
     values[row, col] = values[row - one_day, col]
 
-Listing 17.3: Example of a function for filling missing values.
-
+```
 We can apply this function directly to the data within theDataFrame.
 
     # fill missing
     fill_missing(dataset.values)
 
-Listing 17.4: Example filling missing values.
-
+```
     Now we can create a new column that contains the remainder of the sub-metering, using the
     calculation from the previous section.
 
@@ -131,15 +127,13 @@ Listing 17.4: Example filling missing values.
     dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4] + values[:,5] +
     values[:,6])
 
-Listing 17.5: Example of calculating the remaining sub-metered power.
-
+```
     We can now save the cleaned-up version of the dataset to a new file; in this case we will just
     change the file extension to.csvand save the dataset ashouseholdpowerconsumption.csv.
     # save updated dataset
     dataset.to_csv('household_power_consumption.csv')
 
-Listing 17.6: Example of saving the prepared dataset to file.
-
+```
     Tying all of this together, the complete example of loading, cleaning-up, and saving the
     dataset is listed below.
     # load and clean-up the power usage dataset
@@ -174,8 +168,7 @@ Listing 17.6: Example of saving the prepared dataset to file.
     # save updated dataset
     dataset.to_csv('household_power_consumption.csv')
 
-Listing 17.7: Example of preparing the dataset for modeling.
-
+```
     Running the example creates the new filehouseholdpowerconsumption.csvthat we can
     use as the starting point for our modeling project.
 
@@ -232,8 +225,7 @@ downsample the per-minute
     # save
     daily_data.to_csv('household_power_consumption_days.csv')
 
-Listing 17.8: Example of resampling the dataset to daily.
-
+```
     Running the example creates a new daily total power consumption dataset and saves the
     result into a separate file namedhouseholdpowerconsumptiondays.csv. We can use this as
     the dataset for fitting and evaluating predictive models for the chosen framing of the problem.
@@ -286,8 +278,7 @@ days).
     score = sqrt(s / (actual.shape[0] * actual.shape[1]))
     return score, scores
 
-Listing 17.9: Example of a function for evaluating forecasts.
-
+```
     Running the function will first return the overall RMSE regardless of day, then an array of
     RMSE scores for each day.
 
@@ -318,8 +309,7 @@ below for confirmation.
     ...
     2010-11-20,2197.006000000004,153.76800000000028,346475.9999999998,9320.20000000002,...
 
-Listing 17.10: First and last rows of the daily dataset.
-
+```
     The daily data starts in late 2006. The first Sunday in the dataset is December 17th, which
     is the second row of data. Organizing the data into standard weeks gives 159 full standard
 
@@ -329,8 +319,7 @@ weeks for training a predictive model.
     ...
     2010-01-02,1309.2679999999998,199.54600000000016,352332.8399999997,5489.7999999999865,...
 
-Listing 17.11: Observations that define the boundary of training and
-test sets.
+```
 
     The function splitdataset()below splits the daily data into train and test sets and
     organizes each into standard weeks. Specific row offsets are used to split the data using
@@ -348,8 +337,7 @@ test sets.
     test = array(split(test, len(test)/7))
     return train, test
 
-Listing 17.12: Example of a function for splitting the data into train
-and test sets.
+```
 
     We can test this function out by loading the daily dataset and printing the first and last
     rows of data from both the train and test sets to confirm they match the expectations above.
@@ -381,8 +369,7 @@ The complete code example is listed below.
     print(test.shape)
     print(test[0, 0, 0], test[-1, -1, 0])
 
-Listing 17.13: Example of splitting the data into train and test sets.
-
+```
     Running the example shows that indeed the train dataset has 159 weeks of data, whereas
     the test dataset has 46 weeks. We can see that the total active power for the train and test
     dataset for the first and last rows match the data for the specific dates that we defined as the
@@ -393,8 +380,7 @@ Listing 17.13: Example of splitting the data into train and test sets.
     (46, 7, 8)
     2083.4539999999984 2197.006000000004
 
-Listing 17.14: Sample output from splitting the data into train and test
-sets.
+```
 
 17.4. Model Evaluation 349
 
@@ -415,8 +401,7 @@ beneficial to the models
     [Week1 + Week2 + Week3] Week4
     ...
 
-Listing 17.15: Example of weekly walk-forward validation.
-
+```
     The walk-forward validation approach to evaluating predictive models on this dataset is
     implement below, namedevaluatemodel(). The name of a function is provided for the model
     as the argumentmodelfunc. This function is responsible for defining the model, fitting the
@@ -441,8 +426,7 @@ Listing 17.15: Example of weekly walk-forward validation.
     score, scores = evaluate_forecasts(test[:, :, 0], predictions)
     return score, scores
 
-Listing 17.16: Example of a function for walk-forward validation.
-
+```
     Once we have the evaluation for a model, we can summarize the performance. The function
     below namedsummarizescores()will display the performance of a model as a single line for
     easy comparison with other models.
@@ -452,8 +436,7 @@ Listing 17.16: Example of a function for walk-forward validation.
     s_scores = ','.join(['%.1f' % s for s in scores])
     print('%s: [%.3f] %s'% (name, score, s_scores))
 
-Listing 17.17: Example of a function for summarizing model performance.
-
+```
 We now have all of the elements to begin evaluating predictive models on
 the dataset.
 
@@ -493,8 +476,7 @@ model. This model takes
     forecast = [value for _ in range(7)]
     return forecast
 
-Listing 17.18: Example of a function for a daily persistence model.
-
+```
 17.5.2 Weekly Persistent Forecast
 
 Another good naive forecast when forecasting a standard week is to use
@@ -510,8 +492,7 @@ the entire prior week
     last_week = history[-1]
     return last_week[:, 0]
 
-Listing 17.19: Example of a function for a weekly persistence model.
-
+```
 17.5. Develop Naive Forecast Models 351
 
 17.5.3 Weekly One-Year-Ago Persistent Forecast
@@ -530,8 +511,7 @@ ago forecast
     last_week = history[-52]
     return last_week[:, 0]
 
-Listing 17.20: Example of a function for a week one year ago persistence
-model.
+```
 
 17.5.4 Naive Model Comparison
 
@@ -545,8 +525,7 @@ developed in the previous
     # split into train and test
     train, test = split_dataset(dataset.values)
 
-Listing 17.21: Load and split the daily dataset.
-
+```
     Each of the strategies can be stored in a dictionary against a unique name. This name can
     be used in printing and in creating a plot of the scores.
     # define the names and functions for the models we wish to evaluate
@@ -555,8 +534,7 @@ Listing 17.21: Load and split the daily dataset.
     models['weekly'] = weekly_persistence
     models['week-oya'] = week_one_year_ago_persistence
 
-Listing 17.22: Specify the model functions to evaluate.
-
+```
     We can then enumerate each of the strategies, evaluating it using walk-forward validation,
     printing the scores, and adding the scores to a line plot for visual comparison.
     # evaluate each model
@@ -569,8 +547,7 @@ Listing 17.22: Specify the model functions to evaluate.
     # plot scores
     pyplot.plot(days, scores, marker='o', label=name)
 
-Listing 17.23: Evaluate and plot the performance of each model.
-
+```
     Tying all of this together, the complete example evaluating the three naive forecast strategies
     is listed below.
 
@@ -675,8 +652,7 @@ history.append(test[i, :])
     pyplot.legend()
     pyplot.show()
 
-Listing 17.24: Example of evaluating and comparing naive forecast
-methods.
+```
 
     Running the example first prints the total and daily scores for each model. We can see that
     the weekly strategy performs better than the daily strategy and that the week one year ago
@@ -698,8 +674,7 @@ is the forecast error for
     weekly: [469.389] 567.6, 500.3, 411.2, 466.1, 471.9, 358.3, 482.0
     week-oya: [465.294] 550.0, 446.7, 398.6, 487.0, 459.3, 313.5, 555.1
 
-Listing 17.25: Sample output from evaluating and comparing naive
-forecast methods.
+```
 
     A line plot of the daily forecast error is also created. We can see the same observed pattern
     of the weekly strategies performing better than the daily strategy in general, except in the

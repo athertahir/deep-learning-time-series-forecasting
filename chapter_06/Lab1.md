@@ -564,8 +564,7 @@ model needs state
     We now have 25 subsequences of 200 time steps each.
     25
 
-Listing 6.20: Example output from splitting the series into samples.
-
+```
 6.4.4 Reshape Subsequences
 
 The LSTM needs data with the format of[samples, timesteps, features]. We
@@ -598,8 +597,7 @@ sample = data[i:i+length]
 data = array(samples)
  print(data.shape)
 
-Listing 6.21: Example of printing the shape of the samples.
-
+```
 Running this piece, you should see that we have 25 rows and 200 columns.
 Interpreted in a
 

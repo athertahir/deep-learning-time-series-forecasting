@@ -79,8 +79,7 @@ parameters. We can start-off
     yhat = model_fit.predict(len(history), len(history))
     return yhat[0]
 
-Listing 13.1: Example of a function for making a SARIMA forecast.
-
+```
     In this tutorial, we will use the grid searching framework developed in Chapter 11 for tuning
     and evaluating naive forecasting methods. One important modification to the framework is the
     function used to perform the walk-forward validation of the model namedwalkforwardvalidation().
@@ -112,8 +111,7 @@ updated version of the function is listed below.
     error = measure_rmse(test, predictions)
     return error
 
-Listing 13.2: Example of a function for walk-forward validation with
-SARIMA forecasts.
+```
 
     We’re nearly done. The only thing left to do is to define a list of model configurations to
     try for a dataset. We can define this generically. The only parameter we may want to specify
@@ -151,8 +149,7 @@ SARIMA forecasts.
     models.append(cfg)
     return models
 
-    Listing 13.3: Example of a function for defining configurations for SARIMA models to grid
-    search.
+    ```
 
 We now have a framework for grid searching SARIMA model hyperparameters
 via one-step
@@ -290,8 +287,7 @@ for p in p_params:
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-Listing 13.4: Example of demonstrating the grid search infrastructure.
-
+```
     Running the example first prints the contrived time series dataset. Next, the model
     configurations and their errors are reported as they are evaluated, truncated below for brevity.
     Finally, the configurations and the error for the top three configurations are reported. We can
@@ -309,8 +305,7 @@ Listing 13.4: Example of demonstrating the grid search infrastructure.
     [(2, 1, 0), (2, 0, 0, 0),'n'] 0.0
     [(2, 1, 1), (1, 0, 1, 0),'n'] 0.0
 
-Listing 13.5: Example output from demonstrating the grid search
-infrastructure.
+```
 
     Now that we have a robust framework for grid searching SARIMA model hyperparameters,
     let’s test it out on a suite of standard univariate time series datasets. The datasets were chosen
@@ -468,8 +463,7 @@ scores = grid_search(data, cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 13.6: Example of grid searching SARIMA models for the daily
-female births dataset.
+```
 
 Running the example may take a while on modern hardware. Model
 configurations and the
@@ -497,8 +491,7 @@ running the example a few times.
  [(0, 1, 2), (1, 0, 2, 0),'ct'] 6.773217122759515
  [(2, 1, 1), (2, 0, 2, 0),'ct'] 6.886633191752254
 
-Listing 13.7: Example output from grid searching SARIMA models for the
-daily female births
+```
 
 dataset.
 
@@ -666,8 +659,7 @@ scores = grid_search(data, cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 13.8: Example of grid searching SARIMA models for the monthly
-shampoo sales dataset.
+```
 
 Running the example may take a while on modern hardware. Model
 configurations and the
@@ -701,8 +693,7 @@ running the example a few times.
     [(0, 1, 1), (2, 0, 2, 0),'ct'] 58.69987083057107
     [(1, 1, 2), (0, 0, 1, 0),'t'] 58.709089340600094
 
-    Listing 13.9: Example output from grid searching naive models for the monthly shampoo sales
-    dataset.
+    ```
 
     We can see that the best result was an RMSE of about 54.76 sales. A naive model achieved
     an RMSE of 95.69 sales on this dataset, meaning that the best performing SARIMA model
@@ -738,8 +729,7 @@ to the last five years of
     # trim dataset to 5 years
     data = data[-(5*12):]
 
-Listing 13.10: Example of reducing the size of the dataset.
-
+```
     The period of the seasonal component is about one year, or 12 observations. We will use
     this as the seasonal period in the call to thesarimaconfigs()function when preparing the
     model configurations.
@@ -747,8 +737,7 @@ Listing 13.10: Example of reducing the size of the dataset.
     # model configs
     cfg_list = sarima_configs(seasonal=[0, 12])
 
-Listing 13.11: Example of specifying some seasonal configurations.
-
+```
 (^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
@@ -882,8 +871,7 @@ scores = grid_search(data, cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 13.12: Example of grid searching SARIMA models for the monthly
-mean temperature
+```
 
 dataset.
 
@@ -916,8 +904,7 @@ running the example a few times.
  [(0, 0, 0), (1, 1, 0, 12),'n'] 1.6469530713847962
  [(0, 0, 0), (2, 0, 0, 12),'n'] 1.7314448163607488
 
-Listing 13.13: Example output from grid searching SARIMA models for the
-monthly mean
+```
 
 temperature dataset.
 
@@ -965,8 +952,7 @@ or 12 observations as the
     # model configs
     cfg_list = sarima_configs(seasonal=[0,6,12])
 
-Listing 13.14: Example of specifying some seasonal configurations.
-
+```
     The complete example grid searching the monthly car sales time series forecasting problem
     is listed below.
 
@@ -1098,8 +1084,7 @@ scores = grid_search(data, cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 13.15: Example of grid searching SARIMA models for the monthly
-car sales dataset.
+```
 
 Running the example may take a while on modern hardware. Model
 configurations and the
@@ -1130,8 +1115,7 @@ running the example a few times.
     [(0, 0, 0), (2, 1, 1, 12),'c'] 1557.334614575545
     [(0, 0, 0), (1, 1, 0, 12),'c'] 1559.3276311282675
 
-    Listing 13.16: Example output from grid searching SARIMA models for the monthly car sales
-    dataset.
+    ```
 
     We can see that the best result was an RMSE of about 1,551.84 sales. A naive model achieved
     an RMSE of 1,841.15 sales on this problem, suggesting that the best performing SARIMA model

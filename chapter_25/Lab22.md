@@ -123,8 +123,7 @@ Theloadfile()function
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
     return dataframe.values
 
-Listing 25.1: Example of a function for loading a single file.
-
+```
     We can then load all data for a given group (train or test) into a single three-dimensional
     NumPy array, where the dimensions of the array are[samples, timesteps, features]. To
     make this clearer, there are 128 time steps and nine features, where the number of samples is the
@@ -141,8 +140,7 @@ Listing 25.1: Example of a function for loading a single file.
     loaded = dstack(loaded)
     return loaded
 
-Listing 25.2: Example of a function for loading a group of files.
-
+```
 We can use this function to load all input signal data for a given
 group, such as train or test.
 
@@ -173,8 +171,7 @@ output data for
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
-Listing 25.3: Example of a function for loading a dataset group of
-files.
+```
 
     Finally, we can load each of the train and test datasets. The output data is defined as an
 
@@ -206,8 +203,7 @@ trainy = to_categorical(trainy)
  print(trainX.shape, trainy.shape, testX.shape, testy.shape)
  return trainX, trainy, testX, testy
 
-Listing 25.4: Example of a function for loading the entire dataset.
-
+```
 25.3.2 Fit and Evaluate Model
 
 Now that we have the data loaded into memory ready for modeling, we can
@@ -241,8 +237,7 @@ variables or features. The
     # define data shape
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
-Listing 25.5: Example of a model shape based on data shape.
-
+```
     he model is defined as a Sequential Keras model, for simplicity.
     We will define the model as having a single LSTM hidden layer. This is followed by a dropout
     layer intended to reduce overfitting of the model to the training data. Finally, a dense fully
@@ -263,8 +258,7 @@ model is listed below.
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-Listing 25.6: Example of defining an LSTM model.
-
+```
 The model is fit for a fixed number of epochs, in this case 15, and a
 batch size of 64 samples
 
@@ -294,8 +288,7 @@ before the weights of
     _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
     return accuracy
 
-Listing 25.7: Example of a function for defining, fitting and evaluating
-an LSTM model.
+```
 
 25.3. LSTM Model 528
 
@@ -324,8 +317,7 @@ summarize the performance of
     print('>#%d: %.3f'% (r+1, score))
     scores.append(score)
 
-Listing 25.8: Example of repeating a model evaluation experiment.
-
+```
     We can summarize the sample of scores by calculating and reporting the mean and standard
     deviation of the performance. The mean gives the average accuracy of the model on the dataset,
 
@@ -339,8 +331,7 @@ accuracy from the mean. The
     m, s = mean(scores), std(scores)
     print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
-Listing 25.9: Example of a function for summarizing model performance.
-
+```
     We can bundle up the repeated evaluation, gathering of results, and summarization of results
     into a main function for the experiment, calledrunexperiment(), listed below. By default,
     the model is evaluated 10 times before the performance of the model is reported.
@@ -358,8 +349,7 @@ Listing 25.9: Example of a function for summarizing model performance.
     # summarize results
     summarize_results(scores)
 
-Listing 25.10: Example of a function for driving the experiment.
-
+```
 25.3. LSTM Model 529
 
 25.3.4 Complete Example
@@ -367,8 +357,7 @@ Listing 25.10: Example of a function for driving the experiment.
 Now that we have all of the pieces, we can tie them together into a
 worked example. The
 
-complete code listing is provided below.
-
+complete code ```
 from numpy import mean
  from numpy import std
  from numpy import dstack
@@ -465,8 +454,7 @@ trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
     # run the experiment
     run_experiment()
 
-Listing 25.11: Example of evaluating an LSTM model for activity
-recognition.
+```
 
     Running the example first loads the dataset. The models are created and evaluated and a
     debug message is printed for each. Finally, the sample of scores is printed, followed by the mean
@@ -512,8 +500,7 @@ dataset.
 
     Accuracy: 89.722% (+/-1.371)
 
-Listing 25.12: Example output from evaluating an LSTM model for activity
-recognition.
+```
 
     Now that we have seen how to develop an LSTM model for time series classification, let’s
     look at how we can develop a more sophisticated CNN-LSTM model.
@@ -539,8 +526,7 @@ blocks, extract
     trainX = trainX.reshape((trainX.shape[0], n_steps, n_length, n_features))
     testX = testX.reshape((testX.shape[0], n_steps, n_length, n_features))
 
-Listing 25.13: Example of reshaping the window data into subsequences.
-
+```
     We can then define a CNN model that expects to read in sequences with a length of 32 time
     steps and nine features. The entire CNN model can be wrapped in aTimeDistributedlayer
     to allow the same CNN model to read in each of the four subsequences in the window. The
@@ -563,8 +549,7 @@ activation='relu')))
  model.add(Dense(100, activation='relu'))
  model.add(Dense(n_outputs, activation='softmax'))
 
-Listing 25.14: Example of defining a CNN-LSTM model.
-
+```
     It is common to use two consecutive CNN layers followed by dropout and a max pooling
 
 layer, and that is the simple structure used in the this CNN-LSTM model.
@@ -603,14 +588,12 @@ _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
  return accuracy
 
-Listing 25.15: Example of a function for defining, fitting and
-evaluating a CNN-LSTM model.
+```
 
 We can evaluate this model as we did the straight LSTM model in the
 previous section. The
 
-complete code listing is provided below.
-
+complete code ```
 from numpy import mean
  from numpy import std
  from numpy import dstack
@@ -724,8 +707,7 @@ summarize_results(scores)
 
 run_experiment()
 
-Listing 25.16: Example of evaluating a CNN-LSTM model for activity
-recognition.
+```
 
 25.5. ConvLSTM Model 535
 
@@ -764,8 +746,7 @@ recognition.
 
     Accuracy: 90.689% (+/-1.051)
 
-Listing 25.17: Example output from evaluating a CNN-LSTM model for
-activity recognition.
+```
 
 #### 25.5 ConvLSTM Model
 
@@ -805,8 +786,7 @@ We can now prepare the data for theConvLSTM2Dmodel.
     trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length, n_features))
     testX = testX.reshape((testX.shape[0], n_steps, 1, n_length, n_features))
 
-Listing 25.18: Example of preparing input data for the ConvLSTM model.
-
+```
     TheConvLSTM2Dclass requires configuration both in terms of the CNN and the LSTM. This
     includes specifying the number of filters (e.g. 64), the two-dimensional kernel size, in this case
 
@@ -825,8 +805,7 @@ function, in this case
     model.add(Dense(100, activation='relu'))
     model.add(Dense(n_outputs, activation='softmax'))
 
-Listing 25.19: Example of defining the ConvLSTM model.
-
+```
     We can then evaluate the model as we did the LSTM and CNN-LSTM models before it.
     The complete example is listed below.
 
@@ -938,8 +917,7 @@ summarize_results(scores)
 
 run_experiment()
 
-Listing 25.20: Example of evaluating a ConvLSTM model for activity
-recognition.
+```
 
 As with the prior experiments, running the model prints the performance
 of the model each
@@ -986,8 +964,7 @@ running the example a few times.
 
 Accuracy: 90.801% (+/-0.886)
 
-Listing 25.21: Example output from evaluating a ConvLSTM model for
-activity recognition.
+```
 
 25.6. Extensions 539
 

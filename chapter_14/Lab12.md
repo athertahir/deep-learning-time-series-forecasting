@@ -65,8 +65,7 @@ testing, will use the
 
     yhat = median(-12, -24, -36)
 
-Listing 14.1: Example of an effective naive forecast model.
-
+```
     Where the negative indexes refer to observations in the series relative to the end of the
     historical data for the month being predicted. From prior experiments, we know that a SARIMA
     model can achieve an RMSE of 1,551.84 with the configuration ofSARIMA(0, 0, 0),(1, 1,
@@ -121,8 +120,7 @@ Thetraintestsplit()
     def train_test_split(data, n_test):
     return data[:-n_test], data[-n_test:]
 
-Listing 14.2: Example of a function for splitting data into train and
-test sets.
+```
 
 14.3.2 Series as Supervised Learning
 
@@ -145,8 +143,7 @@ test sets.
     3
     4
 
-Listing 14.3: Example of a time series as a column of data.
-
+```
     Can be shifted and inserted as a column beforehand:
     (t-1), (t)
     Nan, 1
@@ -155,8 +152,7 @@ Listing 14.3: Example of a time series as a column of data.
     3, 4
     4, NaN
 
-Listing 14.4: Example of column time series data with an added shifted
-column.
+```
 
 14.3. Model Evaluation Test Harness 252
 
@@ -184,8 +180,7 @@ column.
     agg.dropna(inplace=True)
     return agg.values
 
-    Listing 14.5: Example of a function for transforming a univariate series into a supervised learning
-    dataset.
+    ```
 
     Note, this is a more generic way of transforming a time series dataset into samples than the
     specialized methods presented in Chapters 7, 8, and 9.
@@ -215,8 +210,7 @@ for each observation
     def model_fit(train, config):
     return None
 
-Listing 14.6: Example of a function for fitting a model with a
-configuration.
+```
 
 14.3. Model Evaluation Test Harness 253
 
@@ -233,8 +227,7 @@ prediction.
     def model_predict(model, history, config):
     return 0.0
 
-Listing 14.7: Example of a function for making a forecast with a fit
-model.
+```
 
     The prediction is added to a list of predictions and the true observation from the test set is
     added to a list of observations that was seeded with all observations from the training dataset.
@@ -254,8 +247,7 @@ allowing the model to make
     def measure_rmse(actual, predicted):
     return sqrt(mean_squared_error(actual, predicted))
 
-Listing 14.8: Example of a function for calculating RMSE for a forecast.
-
+```
     The completewalkforwardvalidation()function that ties all of this together is listed
     below. It takes the dataset, the number of observations to use as the test set, and the
     configuration for the model, and returns the RMSE for the model performance on the test set.
@@ -282,8 +274,7 @@ Listing 14.8: Example of a function for calculating RMSE for a forecast.
     print(' > %.3f' % error)
     return error
 
-Listing 14.9: Example of a function for walk-forward validation of a
-forecast model configuration.
+```
 
 14.3. Model Evaluation Test Harness 254
 
@@ -314,8 +305,7 @@ each evaluation. This is
     scores = [walk_forward_validation(data, n_test, config) for _ in range(n_repeats)]
     return scores
 
-Listing 14.10: Example of a function for the repeated evaluation of a
-forecast model configuration.
+```
 
 14.3.5 Summarize Performance
 
@@ -338,8 +328,7 @@ specifically the mean and the
     pyplot.boxplot(scores)
     pyplot.show()
 
-Listing 14.11: Example of a function for summarizing the performance of
-a forecast model.
+```
 
 14.3.6 Worked Example
 
@@ -352,8 +341,7 @@ a forecast model.
 def model_fit(train, config):
  return None
 
-Listing 14.12: Example of a function for fitting a forecast model.
-
+```
     We will use the config to define a list of index offsets in the prior observations relative to
 
 the time to be forecasted that will be used as the prediction. For
@@ -362,8 +350,7 @@ example, 12 will use the
 observation 12 months ago (-12) relative to the time to be forecasted.
 config = [12, 24, 36]
 
-Listing 14.13: Example of a configuration to evaluate.
-
+```
 Themodelpredict()function can be implemented to use this configuration
 to collect the
 
@@ -375,8 +362,7 @@ def model_predict(model, history, config):
  values.append(history[-offset])
  return median(values)
 
-Listing 14.14: Example of a function for making a naive forecast.
-
+```
     The complete example of using the framework with a simple persistence model is listed
 
 below.
@@ -451,8 +437,7 @@ scores = repeat_evaluate(data, config, n_test)
 
 summarize_scores('persistence', scores)
 
-Listing 14.15: Example of demonstrating the forecast infrastructure with
-a naive model.
+```
 
 Running the example prints the RMSE of the model evaluated using
 walk-forward validation
@@ -474,8 +459,7 @@ walk-forward validation
 
     persistence: 1841.156 RMSE (+/- 0.000)
 
-    Listing 14.16: Example output from demonstrating the forecast infrastructure with a naive
-    model.
+    ```
 
     We can see that the RMSE of the model is 1841 sales, providing a lower-bound of performance
     by which we can evaluate whether a model is skillful or not on the problem. A box and whisker
@@ -502,8 +486,7 @@ MLP for short. This is a
     month3, month4, month5, month6
     ...
 
-Listing 14.17: Example framing of the forecast problem for training a
-model.
+```
 
     The model will attempt to generalize over these samples, such that when a new sample is
     provided beyond what is known by the model, it can predict something useful; for example:
@@ -511,8 +494,7 @@ model.
     X, y
     month4, month5, month6, ???
 
-Listing 14.18: Example framing of the forecast problem for making a
-forecast.
+```
 
     We will implement a simple MLP using the Keras deep learning library. For more details
     on modeling a univariate time series with an MLP, see Chapter 7. The model will have an
@@ -533,8 +515,7 @@ forecast.
     model.add(Dense(1))
     model.compile(loss='mse', optimizer='adam')
 
-Listing 14.19: Example of defining an MLP forecast model.
-
+```
     The model will be fit for some number of training epochs (exposures to the training data)
     and batch size can be specified to define how often the weights are updated within each epoch.
 
@@ -570,16 +551,14 @@ are updated.
     model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
     return model
 
-Listing 14.20: Example of a function for defining and fitting a MLP
-forecast model.
+```
 
     Making a prediction with a fit MLP model is as straightforward as calling thepredict()
     function and passing in one sample worth of input values required to make the prediction.
     # make a prediction
     yhat = model.predict(x_input, verbose=0)
 
-Listing 14.21: Example of making a prediction with a fit MLP model.
-
+```
     In order to make a prediction beyond the limit of known data, this requires that the lastn
     known observations are taken as an array and used as input. Thepredict()function expects
     one or more samples of inputs when making a prediction, so providing a single sample requires
@@ -606,8 +585,7 @@ the model, the
     yhat = model.predict(x_input, verbose=0)
     return yhat[0]
 
-Listing 14.22: Example of a function for making a forecast with a fit
-MLP model.
+```
 
     We now have everything we need to evaluate an MLP model on the monthly car sales dataset.
     Model hyperparameters were chosen with a little trial and error and are listed below. The model
@@ -626,8 +604,7 @@ MLP model.
     # define config
     config = [24, 500, 100, 100]
 
-Listing 14.23: Example of good configuration for an MLP forecast model.
-
+```
 Note that when the training data is framed as a supervised learning
 problem, there are only
 
@@ -742,8 +719,7 @@ def walk_forward_validation(data, n_test, cfg):
     # summarize scores
     summarize_scores('mlp', scores)
 
-Listing 14.24: Example of an MLP model for forecasting monthly car
-sales.
+```
 
 Running the example prints the RMSE for each of the 30 repeated
 evaluations of the model.
@@ -774,8 +750,7 @@ reported of about 1,526
 
 mlp: 1526.688 RMSE (+/- 134.789)
 
-Listing 14.25: Example output from an MLP model for forecasting monthly
-car sales.
+```
 
     A box and whisker plot of the RMSE scores is created to summarize the spread of the
 
@@ -832,8 +807,7 @@ within each snapshot as the network reads along the input sequence.
     input_shape=(n_input, 1)))
     model.add(Conv1D(filters=n_filters, kernel_size=n_kernel, activation='relu'))
 
-Listing 14.26: Example of defining convolutional layers.
-
+```
 A max pooling layer is used after convolutional layers to distill the
 weighted input features
 
@@ -846,8 +820,7 @@ weighted input features
     model.add(Flatten())
     model.add(Dense(1))
 
-Listing 14.27: Example of defining pooling, flatten and output layers.
-
+```
     The CNN model expects input data to be in the form of multiple samples, where each sample
     has multiple input time steps, the same as the MLP in the previous section. One difference is
     that the CNN can support multiple features or types of observations at each time step, which are
@@ -856,8 +829,7 @@ Listing 14.27: Example of defining pooling, flatten and output layers.
     # reshape training data
     train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
-Listing 14.28: Example of reshaping input data for the CNN model.
-
+```
 Themodelfit()function for fitting the CNN model on the training dataset
 is listed below.
 
@@ -897,8 +869,7 @@ are updated.
     model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
     return model
 
-Listing 14.29: Example of a function for defining and fitting a CNN
-forecast model.
+```
 
 14.5. Convolutional Neural Network Model 265
 
@@ -921,8 +892,7 @@ must be: [1, ninput,
     yhat = model.predict(x_input, verbose=0)
     return yhat[0]
 
-Listing 14.30: Example of a function for making a forecast with a fit
-CNN model.
+```
 
     Model hyperparameters were chosen with a little trial and error and are listed below. The
     model may not be optimal for the problem and improvements could be made via grid searching.
@@ -943,8 +913,7 @@ This can be specified as a list as follows:
     # define config
     config = [36, 256, 3, 100, 100]
 
-Listing 14.31: Example of good configuration for a CNN forecast model.
-
+```
 Tying all of this together, the complete example is listed below.
 
     # evaluate cnn for monthly car sales dataset
@@ -1053,8 +1022,7 @@ scores = repeat_evaluate(data, config, n_test)
 
 summarize_scores('cnn', scores)
 
-Listing 14.32: Example of a CNN model for forecasting monthly car sales.
-
+```
     Running the example first prints the RMSE for each repeated evaluation of the model. At
 
 the end of the run, we can see that indeed the model is skillful,
@@ -1092,8 +1060,7 @@ directly without scaling or the data being made stationary.
 
     cnn: 1524.067 RMSE (+/- 57.148)
 
-Listing 14.33: Example output from a CNN model for forecasting monthly
-car sales.
+```
 
     A box and whisker plot of the scores is created to help understand the spread of error across
     the runs. We can see that the spread does seem to be biased towards larger error values, as we
@@ -1160,8 +1127,7 @@ LSTM has an internal
     model.add(Dense(1))
     model.compile(loss='mse', optimizer='adam')
 
-Listing 14.34: Example of defining an LSTM forecast model.
-
+```
     Like the CNN, the LSTM can support multiple variables or features at each time step. As
     the car sales dataset only has one value at each time step, we can fix this at 1, both when
     defining the input to the network in theinputshapeargument[ninput, 1], and in defining
@@ -1170,8 +1136,7 @@ Listing 14.34: Example of defining an LSTM forecast model.
     # reshape input samples
     train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
-Listing 14.35: Example of reshaping input data for the LSTM model.
-
+```
     Unlike the MLP and CNN that do not read the sequence data one-step at a time, the
     LSTM does perform better if the data is stationary. This means that difference operations are
     performed to remove the trend and seasonal structure. In the case of the car sales dataset, we
@@ -1181,8 +1146,7 @@ Listing 14.35: Example of reshaping input data for the LSTM model.
     # seasonal differencing
     adjusted = value - value[-12]
 
-Listing 14.36: Example of seasonal differencing.
-
+```
     This can be performed systematically for the entire training dataset. It also means that the
     first year of observations must be discarded as we have no prior year of data to difference them
 
@@ -1194,8 +1158,7 @@ with a provided
     def difference(data, interval):
     return [data[i] - data[i - interval] for i in range(interval, len(data))]
 
-Listing 14.37: Example of a function for differencing a series.
-
+```
 14.6. Recurrent Neural Network Models 271
 
     We can make the difference order a hyperparameter to the model and only perform the
@@ -1234,8 +1197,7 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
  return model
 
-Listing 14.38: Example of a function for fitting an LSTM forecast model.
-
+```
 Making a prediction with the LSTM model is the same as making a
 prediction with a CNN
 
@@ -1270,8 +1232,7 @@ correction = 0.0
     yhat = model.predict(x_input, verbose=0)
     return correction + yhat[0]
 
-Listing 14.39: Example of a function for making a forecast with a fit
-LSTM model.
+```
 
     Model hyperparameters were chosen with a little trial and error and are listed below. The
 
@@ -1293,8 +1254,7 @@ For details on how, see Chapter 15.
 This can be specified as a list:
 config = [36, 50, 100, 100, 12]
 
-Listing 14.40: Example of good configuration for an LSTM forecast model.
-
+```
 Tying all of this together, the complete example is listed below.
 
 from math import sqrt
@@ -1412,8 +1372,7 @@ model = model_fit(train, cfg)
     # summarize scores
     summarize_scores('lstm', scores)
 
-Listing 14.41: Example of an LSTM model for forecasting monthly car
-sales.
+```
 
     Running the example, we can see the RMSE for each repeated evaluation of the model. At
     the end of the run, we can see that the average RMSE is about 2,109, which is worse than the
@@ -1444,8 +1403,7 @@ a bad fit for autoregressive-type sequence prediction problems.
 
     lstm: 2109.779 RMSE (+/- 81.373)
 
-Listing 14.42: Example output from an LSTM model for forecasting monthly
-car sales.
+```
 
     A box and whisker plot is also created summarizing the distribution of RMSE scores. Even
     the base case for the model did not achieve the performance of a naive model.
@@ -1487,8 +1445,7 @@ number of steps per subsequence parameters.
 
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
-Listing 14.43: Example of reshaping input data for the CNN-LSTM model.
-
+```
 The number of lag observations per sample is simply (nseq × nsteps).
 This is a 4-
 
@@ -1510,8 +1467,7 @@ kernel_size=n_kernel,
  model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
  model.add(TimeDistributed(Flatten()))
 
-Listing 14.44: Example of defining the CNN input model.
-
+```
     The output of one application of the CNN submodel will be a vector. The output of
 
 the submodel to each input subsequence will be a time series of
@@ -1527,8 +1483,7 @@ model.add(LSTM(n_nodes, activation='relu'))
  model.add(Dense(n_nodes, activation='relu'))
  model.add(Dense(1))
 
-Listing 14.45: Example of defining the LSTM output model.
-
+```
 The completemodelfit()function is listed below. The model expects a list
 of seven
 
@@ -1578,8 +1533,7 @@ are updated.
     model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
     return model
 
-Listing 14.46: Example of a function for defining and fitting a CNN-LSTM
-model.
+```
 
     Making a prediction with the fit model is much the same as the LSTM or CNN, although
 
@@ -1589,8 +1543,7 @@ given number of time steps.
     # prepare data
     x_input = array(history[-n_input:]).reshape((1, n_seq, n_steps, 1))
 
-Listing 14.47: Example of reshaping data for making a prediction.
-
+```
 The updatedmodelpredict()function is listed below.
 
     # forecast with a pre-fit model
@@ -1604,8 +1557,7 @@ The updatedmodelpredict()function is listed below.
     yhat = model.predict(x_input, verbose=0)
     return yhat[0]
 
-    Listing 14.48: Example of defining a function for making a forecast with a fit CNN-LSTM
-    model.
+    ```
 
     Model hyperparameters were chosen with a little trial and error and are listed below. The
     model may not be optimal for the problem and improvements could be made via grid searching.
@@ -1630,8 +1582,7 @@ The updatedmodelpredict()function is listed below.
 We can define the configuration as a list; for example:
 config = [3, 12, 64, 3, 100, 200, 100]
 
-Listing 14.49: Example of defining a good configuration for the CNN-LSTM
-model.
+```
 
     The complete example of evaluating the CNN-LSTM model for forecasting the univariate
 
@@ -1751,8 +1702,7 @@ scores = repeat_evaluate(data, config, n_test)
 
 summarize_scores('cnn-lstm', scores)
 
-Listing 14.50: Example of a CNN-LSTM model for forecasting monthly car
-sales.
+```
 
 Running the example prints the RMSE for each repeated evaluation of the
 model. The final
@@ -1785,8 +1735,7 @@ running the example a few times.
 
 cnn-lstm: 1626.735 RMSE (+/- 279.850)
 
-Listing 14.51: Example output from a CNN-LSTM model for forecasting
-monthly car sales.
+```
 
 14.6. Recurrent Neural Network Models 281
 
@@ -1819,8 +1768,7 @@ step at a time, the
 
 14.6. Recurrent Neural Network Models 282
 
-Listing 14.52: Example of reshaping input data for the ConvLSTM model.
-
+```
 The shape is five-dimensional, with the dimensions: [samples,
 subsequences, rows,
 
@@ -1835,8 +1783,7 @@ model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
 activation='relu',
  input_shape=(n_seq, 1, n_steps, 1)))
 
-Listing 14.53: Example of defining a ConvLSTM layer for univariate data.
-
+```
     The output of the layer is a sequence of filter maps that must first be flattened before
 
 it can be interpreted and followed by an output layer. The model expects
@@ -1882,8 +1829,7 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
  return model
 
-Listing 14.54: Example of a function for defining and fitting a ConvLSTM
-forecast model.
+```
 
 14.6. Recurrent Neural Network Models 283
 
@@ -1894,8 +1840,7 @@ the additional rows dimension that we fix to 1.
 x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 1))
 
-Listing 14.55: Example of reshaping input data for making a forecast
-with a ConvLSTM model.
+```
 
 Themodelpredict()function for making a single one-step prediction is
 listed below.
@@ -1908,8 +1853,7 @@ x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 yhat = model.predict(x_input, verbose=0)
  return yhat[0]
 
-Listing 14.56: Example of a function for making a forecast with a fit
-ConvLSTM model.
+```
 
     Model hyperparameters were chosen with a little trial and error and are listed below. The
 
@@ -1935,11 +1879,9 @@ For details on how, see Chapter 15.
 We can define the configuration as a list; for example:
 config = [3, 12, 256, 3, 200, 200, 100]
 
-Listing 14.57: Example of defining a good configuration for the ConvLSTM
-model.
+```
 
-We can tie all of this together. The complete code listing for the
-ConvLSTM model evaluated
+We can tie all of this together. The complete code ```
 
 for one-step forecasting of the monthly car sales dataset is listed
 below.
@@ -2059,8 +2001,7 @@ scores = repeat_evaluate(data, config, n_test)
 
 summarize_scores('convlstm', scores)
 
-Listing 14.58: Example of a ConvLSTM model for forecasting monthly car
-sales.
+```
 
 Running the example prints the RMSE for each repeated evaluation of the
 model. The final
@@ -2095,8 +2036,7 @@ running the example a few times.
 
 convlstm: 1660.840 RMSE (+/- 248.826)
 
-Listing 14.59: Example output from a ConvLSTM model for forecasting
-monthly car sales.
+```
 
 A box and whisker plot is also created, summarizing the distribution of
 RMSE scores.

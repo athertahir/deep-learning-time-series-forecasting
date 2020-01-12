@@ -70,8 +70,7 @@ six parts; they are:
 
     [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-Listing 9.1: Example of a univariate time series.
-
+```
     We can divide the sequence into multiple input/output patterns called samples, where three
     time steps are used as input and one time step is used as output for the one-step prediction
     that is being learned.
@@ -82,8 +81,7 @@ Listing 9.1: Example of a univariate time series.
     30, 40, 50, 60
     ...
 
-Listing 9.2: Example of a univariate time series as a supervised
-learning problem.
+```
 
     Thesplitsequence()function below implements this behavior and will split a given
     univariate sequence into multiple samples where each sample has a specified number of time
@@ -105,8 +103,7 @@ seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 9.3: Example of a function to split a univariate series into a
-supervised learning problem.
+```
 
     We can demonstrate this function on our small contrived dataset above. The complete
 
@@ -137,8 +134,7 @@ X, y = split_sequence(raw_seq, n_steps)
 for i in range(len(X)):
  print(X[i], y[i])
 
-Listing 9.4: Example of transforming a univariate time series into a
-supervised learning problem.
+```
 
     Running the example splits the univariate series into six samples where each sample has
 
@@ -156,8 +152,7 @@ three input time steps and one output time step.
 
 ##### [60 70 80] 90
 
-    Listing 9.5: Example output from transforming a univariate time series into a supervised learning
-    problem.
+    ```
 
     Now that we know how to prepare a univariate series for modeling, let’s look at developing
     LSTM models that can learn the mapping of inputs to outputs, starting with a Vanilla LSTM.
@@ -178,8 +173,7 @@ units, and an
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 9.6: Example of defining a Vanilla LSTM model.
-
+```
     Key in the definition is the shape of the input; that is what the model expects as input for
     each sample in terms of the number of time steps and the number of features. We are working
 
@@ -205,8 +199,7 @@ additional dimension
     n_features = 1
     X = X.reshape((X.shape[0], X.shape[1], n_features))
 
-Listing 9.7: Example of reshaping training data for the LSTM.
-
+```
     In this case, we define a model with 50 LSTM units in the hidden layer and an output layer
     that predicts a single numerical value. The model is fit using the efficient Adam version of
     stochastic gradient descent and optimized using the mean squared error, or‘mse’loss function.
@@ -214,8 +207,7 @@ Listing 9.7: Example of reshaping training data for the LSTM.
     # fit model
     model.fit(X, y, epochs=200, verbose=0)
 
-Listing 9.8: Example of fitting the LSTM model.
-
+```
 9.2. Univariate LSTM Models 127
 
     After the model is fit, we can use it to make a prediction. We can predict the next value
@@ -235,8 +227,7 @@ x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
  yhat = model.predict(x_input, verbose=0)
 
-Listing 9.9: Example of preparing an input sample ready for making an
-out-of-sample forecast.
+```
 
 We can tie all of this together and demonstrate how to develop a Vanilla
 LSTM for univariate
@@ -287,8 +278,7 @@ x_input = array([70, 80, 90])
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 9.10: Example of a Vanilla LSTM for univariate time series
-forecasting.
+```
 
     Running the example prepares the data, fits the model, and makes a prediction. We can see
     that the model predicts the next value in the sequence.
@@ -298,8 +288,7 @@ forecasting.
 
 ##### [[102.09213]]
 
-Listing 9.11: Example output from a Vanilla LSTM for univariate time
-series forecasting.
+```
 
 9.2.3 Stacked LSTM
 
@@ -321,8 +310,7 @@ in the input data by
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 9.12: Example of defining a Stacked LSTM model.
-
+```
 We can tie this together; the complete code example is listed below.
 
     # univariate stacked lstm example
@@ -373,8 +361,7 @@ We can tie this together; the complete code example is listed below.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 9.13: Example of a Stacked LSTM for univariate time series
-forecasting.
+```
 
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
@@ -384,8 +371,7 @@ expect would be 100.
 
 ##### [[102.47341]]
 
-Listing 9.14: Example output from a Stacked LSTM for univariate time
-series forecasting.
+```
 
 9.2.4 Bidirectional LSTM
 
@@ -404,8 +390,7 @@ and backward is as
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 9.15: Example of defining a Bidirectional LSTM model.
-
+```
 9.2. Univariate LSTM Models 130
 
     The complete example of the Bidirectional LSTM for univariate time series forecasting is
@@ -454,8 +439,7 @@ x_input = array([70, 80, 90])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 9.16: Example of a Bidirectional LSTM for univariate time series
-forecasting.
+```
 
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
@@ -467,8 +451,7 @@ running the example a few times.
 
 [[101.48093]]
 
-Listing 9.17: Example output from a Bidirectional LSTM for univariate
-time series forecasting.
+```
 
 9.2. Univariate LSTM Models 131
 
@@ -503,8 +486,7 @@ at automatically
     n_steps = 2
     X = X.reshape((X.shape[0], n_seq, n_steps, n_features))
 
-Listing 9.18: Example of reshaping data for a CNN-LSTM model.
-
+```
 We want to reuse the same CNN model when reading in each sub-sequence of
 data separately.
 
@@ -531,8 +513,7 @@ single input time step to the LSTM layer.
     model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
     model.add(TimeDistributed(Flatten()))
 
-Listing 9.19: Example of defining the CNN input model.
-
+```
     Next, we can define the LSTM part of the model that interprets the CNN model’s read of
     the input sequence and makes a prediction.
     # define the output model
@@ -542,8 +523,7 @@ Listing 9.19: Example of defining the CNN input model.
 model.add(LSTM(50, activation='relu'))
  model.add(Dense(1))
 
-Listing 9.20: Example of defining the LSTM output model.
-
+```
 We can tie all of this together; the complete example of a CNN-LSTM
 model for univariate
 
@@ -603,8 +583,7 @@ x_input = array([60, 70, 80, 90])
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 9.21: Example of a CNN-LSTM for univariate time series
-forecasting.
+```
 
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
@@ -614,8 +593,7 @@ expect would be 100.
 
 ##### [[101.69263]]
 
-Listing 9.22: Example output from a CNN-LSTM for univariate time series
-forecasting.
+```
 
 9.2.6 ConvLSTM
 
@@ -641,8 +619,7 @@ convolutional reading
     n_steps = 2
     X = X.reshape((X.shape[0], n_seq, 1, n_steps, n_features))
 
-Listing 9.23: Example of reshaping data for a ConvLSTM model.
-
+```
     We can define the ConvLSTM as a single layer in terms of the number of filters and a two-
     dimensional kernel size in terms of(rows, columns). As we are working with a one-dimensional
     series, the number of rows is always fixed to 1 in the kernel. The output of the model must
@@ -653,8 +630,7 @@ Listing 9.23: Example of reshaping data for a ConvLSTM model.
     1, n_steps, n_features)))
     model.add(Flatten())
 
-Listing 9.24: Example of defining the ConvLSTM input model.
-
+```
     The complete example of a ConvLSTM for one-step univariate time series forecasting is
     listed below.
 
@@ -706,8 +682,7 @@ x_input = array([60, 70, 80, 90])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 9.25: Example of a ConvLSTM for univariate time series
-forecasting.
+```
 
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
@@ -721,8 +696,7 @@ running the example a few times.
 
 ##### [[103.68166]]
 
-Listing 9.26: Example output from a ConvLSTM for univariate time series
-forecasting.
+```
 
     For an example of an LSTM applied to a real-world univariate time series forecasting problem
     see Chapter 14. For an example of grid searching LSTM hyperparameters on a univariate time
@@ -753,8 +727,7 @@ time series that is
     in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
     out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
 
-Listing 9.27: Example of defining multiple input and a dependent time
-series.
+```
 
     We can reshape these three arrays of data as a single dataset where each row is a time step,
     and each column is a separate time series. This is a standard way of storing parallel time series
@@ -766,8 +739,7 @@ series.
     # horizontally stack columns
     dataset = hstack((in_seq1, in_seq2, out_seq))
 
-Listing 9.28: Example of reshaping the parallel series into the columns
-of a dataset.
+```
 
 The complete example is listed below.
 
@@ -788,8 +760,7 @@ The complete example is listed below.
     dataset = hstack((in_seq1, in_seq2, out_seq))
     print(dataset)
 
-Listing 9.29: Example of defining a dependent series dataset.
-
+```
     Running the example prints the dataset with one row per time step and one column for each
     of the two input and one output parallel time series.
 
@@ -803,8 +774,7 @@ Listing 9.29: Example of defining a dependent series dataset.
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 9.30: Example output from defining a dependent series dataset.
-
+```
     As with the univariate time series, we must structure these data into samples with input
     and output elements. An LSTM model needs sufficient context to learn a mapping from an
     input sequence to an output value. LSTMs can support parallel input time series as separate
@@ -820,14 +790,12 @@ maintaining the order of
     20, 25
     30, 35
 
-Listing 9.31: Example input from the first sample.
-
+```
 Output:
 
     65
 
-Listing 9.32: Example Output from the first sample.
-
+```
     That is, the first three time steps of each parallel series are provided as input to the model
     and the model associates this with the value in the output series at the third time step, in this
     case, 65. We can see that, in transforming the time series into input/output samples to train
@@ -863,8 +831,7 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 9.33: Example of a function for transforming a dependent series
-dataset into samples.
+```
 
 We can test this function on our dataset using three time steps for each
 input time series as
@@ -909,8 +876,7 @@ X, y = split_sequences(dataset, n_steps)
 for i in range(len(X)):
  print(X[i], y[i])
 
-Listing 9.34: Example of splitting a dependent series dataset into
-samples.
+```
 
 Running the example first prints the shape of theXandycomponents. We can
 see that
@@ -962,8 +928,7 @@ for each sample.
  [80 85]
  [90 95]] 185
 
-Listing 9.35: Example output from splitting a dependent series dataset
-into samples.
+```
 
 We are now ready to fit an LSTM model on this data. Any of the varieties
 of LSTMs in the
@@ -985,8 +950,7 @@ n_features)))
 
     model.compile(optimizer='adam', loss='mse')
 
-Listing 9.36: Example of defining a Vanilla LSTM for modeling a
-dependent series.
+```
 
     When making a prediction, the model expects three time steps for two input time series.
 
@@ -997,8 +961,7 @@ values of:
     90, 95
     100, 105
 
-Listing 9.37: Example input for making an out-of-sample forecast.
-
+```
 The shape of the one sample with three time steps and two variables must
 be[1, 3, 2].
 
@@ -1009,8 +972,7 @@ We would expect the next value in the sequence to be 100 + 105, or 205.
     x_input = x_input.reshape((1, n_steps, n_features))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 9.38: Example of making an out-of-sample forecast.
-
+```
     The complete example is listed below.
     # multivariate lstm example
     from numpy import array
@@ -1066,8 +1028,7 @@ Listing 9.38: Example of making an out-of-sample forecast.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 9.39: Example of a Vanilla LSTM for multivariate dependent time
-series forecasting.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -1077,8 +1038,7 @@ prediction.
 
 ##### [[208.13531]]
 
-    Listing 9.40: Example output from a Vanilla LSTM for multivariate dependent time series
-    forecasting.
+    ```
 
     For an example of LSTM models developed for a multivariate time series classification
     problem, see Chapter 25.
@@ -1101,8 +1061,7 @@ previous section:
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 9.41: Example of a multivariate parallel time series.
-
+```
     We may want to predict the value for each of the three time series for the next time step. This
     might be referred to as multivariate forecasting. Again, the data must be split into input/output
     samples in order to train a model. The first sample of this dataset would be:
@@ -1116,14 +1075,12 @@ Listing 9.41: Example of a multivariate parallel time series.
 
 ##### 30, 35, 65
 
-Listing 9.42: Example input from the first sample.
-
+```
 Output:
 
 40, 45, 85
 
-Listing 9.43: Example output from the first sample.
-
+```
 Thesplitsequences()function below will split multiple parallel time
 series with rows for
 
@@ -1144,8 +1101,7 @@ seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 9.44: Example of a function for splitting parallel series into
-samples.
+```
 
 We can demonstrate this on the contrived problem; the complete example
 is listed below.
@@ -1189,8 +1145,7 @@ range(len(in_seq1))])
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 9.45: Example of splitting a multivariate parallel time series
-onto samples.
+```
 
     Running the example first prints the shape of the preparedXandycomponents. The
     shape ofXis three-dimensional, including the number of samples (6), the number of time steps
@@ -1224,8 +1179,7 @@ LSTM model that
     [ 70 75 145]
     [ 80 85 165]] [ 90 95 185]
 
-Listing 9.46: Example output from splitting a multivariate parallel time
-series onto samples.
+```
 
     We are now ready to fit an LSTM model on this data. Any of the varieties of LSTMs in the
     previous section can be used, such as a Vanilla, Stacked, Bidirectional, CNN, or ConvLSTM
@@ -1244,8 +1198,7 @@ input_shape=(n_steps,
  model.add(Dense(n_features))
  model.compile(optimizer='adam', loss='mse')
 
-Listing 9.47: Example of defining a Stacked LSTM for parallel time
-series forecasting.
+```
 
     We can predict the next value in each of the three parallel series by providing an input of
 
@@ -1255,8 +1208,7 @@ three time steps for each series.
  80, 85, 165
  90, 95, 185
 
-Listing 9.48: Example input for making an out-of-sample forecast.
-
+```
 The shape of the input for making a single prediction must be 1 sample,
 3 time steps, and 3
 
@@ -1266,15 +1218,13 @@ x_input = array([[70,75,145], [80,85,165], [90,95,185]])
  x_input = x_input.reshape((1, n_steps, n_features))
  yhat = model.predict(x_input, verbose=0)
 
-Listing 9.49: Example of reshaping a sample for making an out-of-sample
-forecast.
+```
 
 We would expect the vector output to be:
 
 [100, 105, 205]
 
-Listing 9.50: Example output for an out-of-sample forecast.
-
+```
     We can tie all of this together and demonstrate a Stacked LSTM for multivariate output
 
 time series forecasting below.
@@ -1333,8 +1283,7 @@ seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 9.51: Example of a Stacked LSTM for multivariate parallel time
-series forecasting.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -1344,8 +1293,7 @@ prediction.
 
 ##### [[101.76599 108.730484 206.63577 ]]
 
-    Listing 9.52: Example output from a Stacked LSTM for multivariate parallel time series
-    forecasting.
+    ```
 
     For an example of LSTM models developed for a multivariate time series forecasting problem,
     see Chapter 20.
@@ -1386,20 +1334,17 @@ same number of steps.
     For example, given the univariate time series:
     [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-Listing 9.53: Example of a univariate time series.
-
+```
     We could use the last three time steps as input and forecast the next two time steps. The
     first sample would look as follows:
     Input:
     [10, 20, 30]
 
-Listing 9.54: Example input from the first sample.
-
+```
     Output:
     [40, 50]
 
-Listing 9.55: Example output from the first sample.
-
+```
     Thesplitsequence()function below implements this behavior and will split a given
     univariate time series into samples with a specified number of input and output time steps.
 
@@ -1419,8 +1364,7 @@ Listing 9.55: Example output from the first sample.
     y.append(seq_y)
     return array(X), array(y)
 
-    Listing 9.56: Example of a function for splitting a univariate series into samples for multi-step
-    forecasting.
+    ```
 
     We can demonstrate this function on the small contrived dataset. The complete example is
     listed below.
@@ -1453,8 +1397,7 @@ X, y = split_sequence(raw_seq, n_steps_in, n_steps_out)
 for i in range(len(X)):
  print(X[i], y[i])
 
-Listing 9.57: Example of splitting a univariate series for multi-step
-forecasting into samples.
+```
 
 Running the example splits the univariate series into input and output
 time steps and prints
@@ -1467,8 +1410,7 @@ the input and output components of each.
  [40 50 60] [70 80]
  [50 60 70] [80 90]
 
-Listing 9.58: Example output from splitting a univariate series for
-multi-step forecasting into
+```
 
 samples.
 
@@ -1503,8 +1445,7 @@ straightforward.
     n_features = 1
     X = X.reshape((X.shape[0], X.shape[1], n_features))
 
-Listing 9.59: Example of preparing data for fitting an LSTM model.
-
+```
 With the number of input and output steps specified in
 thenstepsinandnstepsout
 
@@ -1521,20 +1462,17 @@ of the presented LSTM
     model.add(Dense(n_steps_out))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 9.60: Example of defining a Stacked LSTM for multi-step
-forecasting.
+```
 
     The model can make a prediction for a single sample. We can predict the next two steps
     beyond the end of the dataset by providing the input:
     [70, 80, 90]
 
-Listing 9.61: Example input for making an out-of-sample forecast.
-
+```
     We would expect the predicted output to be:
     [100, 110]
 
-Listing 9.62: Expected output for making an out-of-sample forecast.
-
+```
     As expected by the model, the shape of the single sample of input data when making the
     prediction must be[1, 3, 1]for the 1 sample, 3 time steps of the input, and the single feature.
     # demonstrate prediction
@@ -1542,8 +1480,7 @@ Listing 9.62: Expected output for making an out-of-sample forecast.
     x_input = x_input.reshape((1, n_steps_in, n_features))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 9.63: Example of preparing a sample for making an out-of-sample
-forecast.
+```
 
     Tying all of this together, the Stacked LSTM for multi-step forecasting with a univariate
     time series is listed below.
@@ -1596,8 +1533,7 @@ forecast.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 9.64: Example of a Stacked LSTM for multi-step time series
-forecasting.
+```
 
 Running the example forecasts and prints the next two time steps in the
 sequence.
@@ -1607,8 +1543,7 @@ sequence.
 
 ##### [[100.98096 113.28924]]
 
-Listing 9.65: Example output from a Stacked LSTM for multi-step time
-series forecasting.
+```
 
 9.4.3 Encoder-Decoder Model
 
@@ -1631,24 +1566,21 @@ sequences is called the
     # define encoder model
     model.add(LSTM(100, activation='relu', input_shape=(n_steps_in, n_features)))
 
-Listing 9.66: Example of defining the encoder input model.
-
+```
     The decoder uses the output of the encoder as an input. First, the fixed-length output of
     the encoder is repeated, once for each required time step in the output sequence.
 
     # repeat encoding
     model.add(RepeatVector(n_steps_out))
 
-Listing 9.67: Example of repeating the encoded vector.
-
+```
     This sequence is then provided to an LSTM decoder model. The model must output a value
     for each value in the output time step, which can be interpreted by a single output model.
 
     # define decoder model
     model.add(LSTM(100, activation='relu', return_sequences=True))
 
-Listing 9.68: Example of defining the decoder model.
-
+```
     We can use the same output layer or layers to make each one-step prediction in the output
     sequence. This can be achieved by wrapping the output part of the model in aTimeDistributed
 
@@ -1657,8 +1589,7 @@ wrapper.
     # define model output
     model.add(TimeDistributed(Dense(1)))
 
-Listing 9.69: Example of defining the output model.
-
+```
     The full definition for an Encoder-Decoder model for multi-step time series forecasting is
     listed below.
     # define model
@@ -1669,16 +1600,14 @@ Listing 9.69: Example of defining the output model.
     model.add(TimeDistributed(Dense(1)))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 9.70: Example of defining an Encoder-Decoder LSTM for multi-step
-forecasting.
+```
 
     As with other LSTM models, the input data must be reshaped into the expected three-
     dimensional shape of[samples, timesteps, features].
     # reshape input training data
     X = X.reshape((X.shape[0], X.shape[1], n_features))
 
-Listing 9.71: Example of reshaping input samples for training the
-Encoder-Decoder LSTM.
+```
 
     In the case of the Encoder-Decoder model, the output, orypart, of the training dataset
     must also have this shape. This is because the model will predict a given number of time steps
@@ -1689,8 +1618,7 @@ with a given number of features for each input sample.
 
 y = y.reshape((y.shape[0], y.shape[1], n_features))
 
-Listing 9.72: Example of reshaping output samples for training the
-Encoder-Decoder LSTM.
+```
 
     The complete example of an Encoder-Decoder LSTM for multi-step time series forecasting
 
@@ -1745,8 +1673,7 @@ x_input = array([70, 80, 90])
 
 9.5. Multivariate Multi-step LSTM Models 151
 
-Listing 9.73: Example of an Encoder-Decoder LSTM for multi-step time
-series forecasting.
+```
 
 Running the example forecasts and prints the next two time steps in the
 sequence.
@@ -1758,8 +1685,7 @@ sequence.
 
 ##### [116.213615]]]
 
-    Listing 9.74: Example output from an Encoder-Decoder LSTM for multi-step time series
-    forecasting.
+    ```
 
     For an example of LSTM models developed for a multi-step time series forecasting problem,
     see Chapter 20.
@@ -1802,8 +1728,7 @@ output series is separate
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 9.75: Example of a multivariate dependent time series.
-
+```
 9.5. Multivariate Multi-step LSTM Models 152
 
     We may use three prior time steps of each of the two input time series to predict two time
@@ -1816,15 +1741,13 @@ Input:
  20, 25
  30, 35
 
-Listing 9.76: Example of input from the first sample.
-
+```
 Output:
 
 65
  85
 
-Listing 9.77: Example of output from the first sample.
-
+```
 Thesplitsequences()function below implements this behavior.
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
@@ -1843,8 +1766,7 @@ sequences[end_ix-1:out_end_ix, -1]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 9.78: Example of a function for splitting a dependent series for
-multi-step forecasting
+```
 
 into samples.
 
@@ -1892,8 +1814,7 @@ sequences[end_ix-1:out_end_ix, -1]
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 9.79: Example splitting a parallel series for multi-step
-forecasting into samples.
+```
 
     Running the example first prints the shape of the prepared training data. We can see that
     the shape of the input portion of the samples is three-dimensional, comprised of six samples,
@@ -1925,8 +1846,7 @@ The output portion of the
     [70 75]
     [80 85]] [165 185]
 
-    Listing 9.80: Example output from splitting a parallel series for multi-step forecasting into
-    samples.
+    ```
 
     We can now develop an LSTM model for multi-step predictions. A vector output or an
     encoder-decoder model could be used. In this case, we will demonstrate a vector output with a
@@ -1991,8 +1911,7 @@ x_input = array([[70, 75], [80, 85], [90, 95]])
 
 9.5. Multivariate Multi-step LSTM Models 155
 
-Listing 9.81: Example of an Stacked LSTM for multi-step forecasting for
-a dependent series.
+```
 
     Running the example fits the model and predicts the next two time steps of the output
     sequence beyond the dataset. We would expect the next two steps to be:[185, 205]. It is a
@@ -2004,8 +1923,7 @@ a dependent series.
 
 ##### [[188.70619 210.16513]]
 
-    Listing 9.82: Example output from an Stacked LSTM for multi-step forecasting for a dependent
-    series.
+    ```
 
 9.5.2 Multiple Parallel Input and Multi-step Output
 
@@ -2023,8 +1941,7 @@ multiple time steps of each
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 9.83: Example of a multivariate parallel time series dataset.
-
+```
     We may use the last three time steps from each of the three time series as input to the model
     and predict the next time steps of each of the three time series as output. The first sample in
     the training dataset would be the following.
@@ -2033,14 +1950,12 @@ Listing 9.83: Example of a multivariate parallel time series dataset.
     20, 25, 45
     30, 35, 65
 
-Listing 9.84: Example of input from the first sample.
-
+```
     Output:
     40, 45, 85
     50, 55, 105
 
-Listing 9.85: Example of output from the first sample.
-
+```
 Thesplitsequences()function below implements this behavior.
 
 9.5. Multivariate Multi-step LSTM Models 156
@@ -2061,8 +1976,7 @@ sequences[end_ix:out_end_ix, :]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 9.86: Example of a function for splitting a parallel dataset for
-multi-step forecasting
+```
 
 into samples.
 
@@ -2112,8 +2026,7 @@ print(X.shape, y.shape)
 for i in range(len(X)):
  print(X[i], y[i])
 
-Listing 9.87: Example splitting a parallel series for multi-step
-forecasting into samples.
+```
 
     Running the example first prints the shape of the prepared training dataset. We can see
 
@@ -2151,8 +2064,7 @@ data was prepared as we expected.
  [ 70 75 145]] [[ 80 85 165]
  [ 90 95 185]]
 
-Listing 9.88: Example output from splitting a parallel series for
-multi-step forecasting into
+```
 
 samples.
 
@@ -2219,8 +2131,7 @@ x_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 9.89: Example of an Encoder-Decoder LSTM for multi-step
-forecasting for parallel series.
+```
 
 Running the example fits the model and predicts the values for each of
 the three time steps
@@ -2233,8 +2144,7 @@ series and time steps to be as follows:
 90, 95, 185
  100, 105, 205
 
-Listing 9.90: Expected output for an out-of-sample forecast.
-
+```
 We can see that the model forecast gets reasonably close to the expected
 values.
 
@@ -2249,8 +2159,7 @@ running the example a few times.
 
 ##### [103.299355 109.18123 212.6863 ]]]
 
-    Listing 9.91: Example output from an Encoder-Decoder Output LSTM for multi-step forecasting
-    for parallel series.
+    ```
 
     For an example of LSTM models developed for a multivariate multi-step time series forecasting
     problem, see Chapter 20.

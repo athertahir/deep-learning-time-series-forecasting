@@ -124,8 +124,7 @@ Theloadfile()function
     dataframe = read_csv(filepath, header=None, delim_whitespace=True)
     return dataframe.values
 
-Listing 24.1: Example of a function for loading a single file.
-
+```
     We can then load all data for a given group (train or test) into a single three-dimensional
     NumPy array, where the dimensions of the array are[samples, timesteps, features]. To
     make this clearer, there are 128 time steps and nine features, where the number of samples is the
@@ -142,8 +141,7 @@ Listing 24.1: Example of a function for loading a single file.
     loaded = dstack(loaded)
     return loaded
 
-Listing 24.2: Example of a function for loading a group of files.
-
+```
 We can use this function to load all input signal data for a given
 group, such as train or test.
 
@@ -174,8 +172,7 @@ output data for
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
-Listing 24.3: Example of a function for loading a dataset group of
-files.
+```
 
     Finally, we can load each of the train and test datasets. The output data is defined as an
 
@@ -207,8 +204,7 @@ trainy = to_categorical(trainy)
  print(trainX.shape, trainy.shape, testX.shape, testy.shape)
  return trainX, trainy, testX, testy
 
-Listing 24.4: Example of a function for loading the entire dataset.
-
+```
 24.3.2 Fit and Evaluate Model
 
 Now that we have the data loaded into memory ready for modeling, we can
@@ -244,8 +240,7 @@ training dataset.
     # define data shape
     n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
-Listing 24.5: Example of a model shape based on data shape.
-
+```
     The model is defined as a Sequential Keras model, for simplicity. We will define the model
     as having two 1D CNN layers, followed by a dropout layer for regularization, then a pooling
     layer. It is common to define CNN layers in groups of two in order to give the model a good
@@ -284,8 +279,7 @@ problem. The definition of the
     model.add(Dense(n_outputs, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-Listing 24.6: Example of defining a 1D CNN model.
-
+```
 The model is fit for a fixed number of epochs, in this case 10, and a
 batch size of 32 samples
 
@@ -318,8 +312,7 @@ before the weights of the
     _, accuracy = model.evaluate(testX, testy, batch_size=batch_size, verbose=0)
     return accuracy
 
-Listing 24.7: Example of a function for defining, fitting and evaluating
-a 1D CNN model.
+```
 
     There is nothing special about the network structure or chosen hyperparameters; they are
     just a starting point for this problem.
@@ -347,8 +340,7 @@ summarize the performance of
     print('>#%d: %.3f'% (r+1, score))
     scores.append(score)
 
-Listing 24.8: Example of repeating a model evaluation experiment.
-
+```
     We can summarize the sample of scores by calculating and reporting the mean and standard
     deviation of the performance. The mean gives the average accuracy of the model on the dataset,
 
@@ -363,8 +355,7 @@ functionsummarizeresults()below summarizes the results of a run.
     m, s = mean(scores), std(scores)
     print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
-Listing 24.9: Example of a function for summarizing model performance.
-
+```
     We can bundle up the repeated evaluation, gathering of results, and summarization of results
     into a main function for the experiment, calledrunexperiment(), listed below. By default,
     the model is evaluated 10 times before the performance of the model is reported.
@@ -383,15 +374,13 @@ scores = list()
 
 summarize_results(scores)
 
-Listing 24.10: Example of a function for driving the experiment.
-
+```
 24.3.4 Complete Example
 
 Now that we have all of the pieces, we can tie them together into a
 worked example. The
 
-complete code listing is provided below.
-
+complete code ```
 from numpy import mean
  from numpy import std
  from numpy import dstack
@@ -494,8 +483,7 @@ def summarize_results(scores):
     # run the experiment
     run_experiment()
 
-Listing 24.11: Example of evaluating a 1D CNN model for activity
-recognition.
+```
 
     Running the example first loads the dataset. The models are created and evaluated and a
     debug message is printed for each. Finally, the sample of scores is printed followed by the mean
@@ -539,8 +527,7 @@ dataset.
 
     Accuracy: 90.787% (+/-1.341)
 
-Listing 24.12: Example output from evaluating a 1D CNN model for
-activity recognition.
+```
 
     Now that we have seen how to load the data and fit a 1D CNN model, we can investigate
 
@@ -586,8 +573,7 @@ window.
     # flatten windows
     longX = longX.reshape((longX.shape[0] * longX.shape[1], longX.shape[2]))
 
-Listing 24.13: Example of flattening the window data.
-
+```
     The complete example of loading the data, flattening it, and plotting a histogram for each
     of the nine variables is listed below.
 
@@ -671,8 +657,7 @@ pyplot.yticks([])
     # plot histograms
     plot_variable_distributions(trainX)
 
-Listing 24.14: Example of plotting histograms of all data for each
-variable.
+```
 
     Running the example creates a figure with nine histogram plots, one for each variable in
     the training dataset. The order of the plots matches the order in which the data was loaded,
@@ -740,8 +725,7 @@ transform. It is first fit on the
     flatTestX = flatTestX.reshape((testX.shape))
     return flatTrainX, flatTestX
 
-Listing 24.15: Example of a function to standardize the dataset.
-
+```
 We can update theevaluatemodel()function to take a parameter, then use
 this parameter
 
@@ -769,8 +753,7 @@ _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
  return accuracy
 
-Listing 24.16: Example of a function to evaluate a model with
-parameterized data
+```
 
 standardization.
 
@@ -801,8 +784,7 @@ scores = list()
     # summarize results
     summarize_results(all_scores, params)
 
-Listing 24.17: Example of a function to run the experiment with
-parameterization.
+```
 
     This will result in two samples of results that can be compared. We will update the
     summarizeresults() function to summarize the sample of results for each configuration
@@ -818,15 +800,13 @@ parameterization.
     pyplot.boxplot(scores, labels=params)
     pyplot.savefig('exp_cnn_standardize.png')
 
-Listing 24.18: Example of a function to summarize the results of a
-parameterized experiment.
+```
 
     These updates will allow us to directly compare the results of a model fit as before and a
     model fit on the dataset after it has been standardized. It is also a generic change that will
     allow us to evaluate and compare the results of other sets of parameters in the following sections.
 
-The complete code listing is provided below.
-
+The complete code ```
     # cnn model with standardization for the har dataset
     from numpy import mean
     from numpy import std
@@ -971,8 +951,7 @@ n_params = [False, True]
 
 run_experiment(n_params)
 
-Listing 24.19: Example of evaluating a CNN with and without data
-standardization.
+```
 
     Running the example may take a while, depending on your hardware. The performance
 
@@ -1031,8 +1010,7 @@ running the example a few times.
 Param=False: 90.451% (+/-0.785)
  Param=True: 91.517% (+/-0.965)
 
-Listing 24.20: Example output from evaluating a CNN with and without
-data standardization.
+```
 
 A box and whisker plot of the results is also created. This allows the
 two samples of results
@@ -1060,8 +1038,7 @@ standardization.
     # define configuration
     n_params = [8, 16, 32, 64, 128, 256]
 
-Listing 24.21: Example of a configuration for the number of filter maps.
-
+```
     We can use the same code from the previous section and update theevaluatemodel()
     function to use the provided parameter as the number of filters in theConv1Dlayers. We can
     also update thesummarizeresults()function to save the box plot asexpcnnfilters.png.
@@ -1184,8 +1161,7 @@ summarize_results(all_scores, params)
 n_params = [8, 16, 32, 64, 128, 256]
  run_experiment(n_params)
 
-Listing 24.22: Example of evaluating a CNN with different numbers of
-filter maps.
+```
 
 24.4. Tuned CNN Model 512
 
@@ -1207,8 +1183,7 @@ filter maps.
     Param=128: 91.032% (+/-0.702)
     Param=256: 90.706% (+/-0.997)
 
-Listing 24.23: Example output from evaluating a CNN with different
-numbers of filter maps.
+```
 
     A box and whisker plot of the results is also created, allowing the distribution of results with
     each number of filters to be compared. From the plot, we can see the trend upward in terms
@@ -1238,10 +1213,8 @@ to tune. The kernel
     # define configuration
     n_params = [2, 3, 5, 7, 11]
 
-Listing 24.24: Example of a configuration for different sized kernels.
-
-    The complete code listing is provided below:
-    # cnn model vary kernel size for the har dataset
+```
+    The complete code ```
     from numpy import mean
     from numpy import std
     from numpy import dstack
@@ -1357,8 +1330,7 @@ summarize_results(all_scores, params)
 n_params = [2, 3, 5, 7, 11]
  run_experiment(n_params)
 
-Listing 24.25: Example of evaluating a CNN with different sized kernels.
-
+```
 Running the example tests each kernel size in turn. The results are
 summarized at the end
 
@@ -1386,8 +1358,7 @@ Param=2: 90.176% (+/-0.724)
  Param=7: 91.347% (+/-0.852)
  Param=11: 91.456% (+/-0.743)
 
-Listing 24.26: Example output from evaluating a CNN with different sized
-kernels.
+```
 
 A box and whisker plot of the results is also created. The results
 suggest that a larger kernel
@@ -1469,8 +1440,7 @@ three-headed 1D CNN
 
     return accuracy
 
-Listing 24.27: Example of a function to define a multi-headed CNN model.
-
+```
 When the model is created, a plot of the network architecture is
 created; provided below, it
 
@@ -1615,8 +1585,7 @@ scores = list()
     # run the experiment
     run_experiment()
 
-Listing 24.28: Example of evaluating a multi-headed CNN model.
-
+```
     Running the example prints the performance of the model each repeat of the experiment and
     then summarizes the estimated score as the mean and standard deviation, as we did in the first
     case with the simple 1D CNN. We can see that the average performance of the model is about
@@ -1659,8 +1628,7 @@ Listing 24.28: Example of evaluating a multi-headed CNN model.
 
     Accuracy: 91.680% (+/-0.823)
 
-Listing 24.29: Example output from evaluating a multi-headed CNN model.
-
+```
 #### 24.6 Extensions
 
 This section lists some ideas for extending the tutorial that you may

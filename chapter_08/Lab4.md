@@ -74,8 +74,7 @@ can be used to model
     can learn. Consider a given univariate sequence:
     [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-Listing 8.1: Example of a univariate time series.
-
+```
     We can divide the sequence into multiple input/output patterns called samples, where three
     time steps are used as input and one time step is used as output for the one-step prediction
     that is being learned.
@@ -85,8 +84,7 @@ Listing 8.1: Example of a univariate time series.
     30, 40, 50, 60
     ...
 
-Listing 8.2: Example of a univariate time series as a supervised
-learning problem.
+```
 
     Thesplitsequence()function below implements this behavior and will split a given
     univariate sequence into multiple samples where each sample has a specified number of time
@@ -106,8 +104,7 @@ learning problem.
     y.append(seq_y)
     return array(X), array(y)
 
-Listing 8.3: Example of a function to split a univariate series into a
-supervised learning problem.
+```
 
 8.2. Univariate CNN Models 89
 
@@ -141,8 +138,7 @@ supervised learning problem.
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 8.4: Example of transforming a univariate time series into a
-supervised learning problem.
+```
 
     Running the example splits the univariate series into six samples where each sample has
     three input time steps and one output time step.
@@ -154,8 +150,7 @@ supervised learning problem.
     [50 60 70] 80
     [60 70 80] 90
 
-    Listing 8.5: Example output from transforming a univariate time series into a supervised learning
-    problem.
+    ```
 
     Now that we know how to prepare a univariate series for modeling, let’s look at developing
     a CNN model that can learn the mapping of inputs to outputs.
@@ -187,8 +182,7 @@ layer that operates
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 8.6: Example of defining a CNN model.
-
+```
     Key in the definition is the shape of the input; that is what the model expects as input for
     each sample in terms of the number of time steps and the number of features. We are working
 
@@ -207,8 +201,7 @@ variable. The number of
     n_features = 1
     X = X.reshape((X.shape[0], X.shape[1], n_features))
 
-Listing 8.7: Example of reshaping data for the CNN.
-
+```
     The CNN does not actually view the data as having time steps, instead, it is treated as a
     sequence over which convolutional read operations can be performed, like a one-dimensional
     image. In this example, we define a convolutional layer with 64 filter maps and a kernel size
@@ -223,8 +216,7 @@ model is fit using the
     # fit model
     model.fit(X, y, epochs=1000, verbose=0)
 
-Listing 8.8: Example of fitting a CNN model.
-
+```
     After the model is fit, we can use it to make a prediction. We can predict the next value
     in the sequence by providing the input:[70, 80, 90]. And expecting the model to predict
     something like: [100]. The model expects the input shape to be three-dimensional with
@@ -237,8 +229,7 @@ x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
  yhat = model.predict(x_input, verbose=0)
 
-Listing 8.9: Example of reshaping data read for making a prediction.
-
+```
     We can tie all of this together and demonstrate how to develop a 1D CNN model for
 
 univariate time series forecasting and make a single prediction.
@@ -291,8 +282,7 @@ x_input = array([70, 80, 90])
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 8.10: Example of a CNN model for univariate time series
-forecasting.
+```
 
     Running the example prepares the data, fits the model, and makes a prediction. We can see
     that the model predicts the next value in the sequence.
@@ -302,8 +292,7 @@ forecasting.
 
 ##### [[101.67965]]
 
-Listing 8.11: Example output from a CNN model for univariate time series
-forecasting.
+```
 
     For an example of a CNN applied to a real-world univariate time series forecasting problem
     see Chapter 14. For an example of grid searching CNN hyperparameters on a univariate time
@@ -334,8 +323,7 @@ time series that is
     in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
     out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
 
-Listing 8.12: Example of defining multiple parallel series.
-
+```
     We can reshape these three arrays of data as a single dataset where each row is a time step
     and each column is a separate time series. This is a standard way of storing parallel time series
     in a CSV file.
@@ -348,8 +336,7 @@ in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
-Listing 8.13: Example of defining parallel series as a dataset.
-
+```
 The complete example is listed below.
 
 from numpy import array
@@ -367,8 +354,7 @@ in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 dataset = hstack((in_seq1, in_seq2, out_seq))
  print(dataset)
 
-Listing 8.14: Example of defining a dependent time series dataset.
-
+```
 Running the example prints the dataset with one row per time step and
 one column for each
 
@@ -384,8 +370,7 @@ of the two input and one output parallel time series.
  [ 80 85 165]
  [ 90 95 185]]
 
-Listing 8.15: Example output from defining a dependent time series
-dataset.
+```
 
     As with the univariate time series, we must structure these data into samples with input
 
@@ -410,16 +395,14 @@ Input:
  20, 25
  30, 35
 
-Listing 8.16: Example input from the first sample.
-
+```
 8.3. Multivariate CNN Models 94
 
 Output:
 
 65
 
-Listing 8.17: Example output from the first sample.
-
+```
 That is, the first three time steps of each parallel series are provided
 as input to the model
 
@@ -460,8 +443,7 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 8.18: Example of a function for preparing samples for a
-dependent time series.
+```
 
 We can test this function on our dataset using three time steps for each
 input time series as
@@ -505,8 +487,7 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 8.19: Example of splitting a dependent series into samples.
-
+```
     Running the example first prints the shape of theXandycomponents. We can see that the
     Xcomponent has a three-dimensional structure. The first dimension is the number of samples,
     in this case 7. The second dimension is the number of time steps per sample, in this case 3, the
@@ -543,8 +524,7 @@ the number of parallel time
     [80 85]
     [90 95]] 185
 
-Listing 8.20: Example output from splitting a dependent series into
-samples.
+```
 
 8.3. Multivariate CNN Models 96
 
@@ -564,8 +544,7 @@ expected number of time
     model.add(Dense(1))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 8.21: Example of defining a CNN for forecasting a dependent
-series.
+```
 
     When making a prediction, the model expects three time steps for two input time series.
 
@@ -576,8 +555,7 @@ values of:
     90, 95
     100, 105
 
-Listing 8.22: Example input for forecasting out-of-sample.
-
+```
 The shape of the one sample with three time steps and two variables must
 be[1, 3, 2].
 
@@ -588,8 +566,7 @@ We would expect the next value in the sequence to be 100 + 105 or 205.
     x_input = x_input.reshape((1, n_steps, n_features))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 8.23: Example of preparing input for forecasting out-of-sample.
-
+```
     The complete example is listed below.
     # multivariate cnn example
     from numpy import array
@@ -651,8 +628,7 @@ Listing 8.23: Example of preparing input for forecasting out-of-sample.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 8.24: Example of a CNN model for forecasting a dependent time
-series.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -662,8 +638,7 @@ prediction.
 
 ##### [[206.0161]]
 
-Listing 8.25: Example output from a CNN model for forecasting a
-dependent time series.
+```
 
 Multi-headed CNN Model
 
@@ -692,8 +667,7 @@ visible1 = Input(shape=(n_steps, n_features))
  cnn1 = MaxPooling1D(pool_size=2)(cnn1)
  cnn1 = Flatten()(cnn1)
 
-Listing 8.26: Example of defining the first input model.
-
+```
 We can define the second input submodel in the same way.
 
 visible2 = Input(shape=(n_steps, n_features))
@@ -701,8 +675,7 @@ visible2 = Input(shape=(n_steps, n_features))
  cnn2 = MaxPooling1D(pool_size=2)(cnn2)
  cnn2 = Flatten()(cnn2)
 
-Listing 8.27: Example of defining the second input model.
-
+```
     Now that both input submodels have been defined, we can merge the output from each
 
 model into one long vector which can be interpreted before making a
@@ -714,14 +687,12 @@ merge = concatenate([cnn1, cnn2])
  dense = Dense(50, activation='relu')(merge)
  output = Dense(1)(dense)
 
-Listing 8.28: Example of defining the output model.
-
+```
 We can then tie the inputs and outputs together.
 
 model = Model(inputs=[visible1, visible2], outputs=output)
 
-Listing 8.29: Example of connecting the input and output models.
-
+```
 The image below provides a schematic for how this model looks, including
 the shape of the
 
@@ -748,14 +719,12 @@ n_features = 1
 X1 = X[:, :, 0].reshape(X.shape[0], X.shape[1], n_features)
  X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n_features)
 
-Listing 8.30: Example of preparing the input data for the multi-headed
-model.
+```
 
 These data can then be provided in order to fit the model.
 model.fit([X1, X2], y, epochs=1000, verbose=0)
 
-Listing 8.31: Example of fitting the multi-headed model.
-
+```
     Similarly, we must prepare the data for a single sample as two separate two-dimensional
 
 arrays when making a single one-step prediction.
@@ -764,8 +733,7 @@ x_input = array([[80, 85], [90, 95], [100, 105]])
  x1 = x_input[:, 0].reshape((1, n_steps, n_features))
  x2 = x_input[:, 1].reshape((1, n_steps, n_features))
 
-Listing 8.32: Example of preparing data for forecasting with the
-multi-headed model.
+```
 
 8.3. Multivariate CNN Models 100
 
@@ -842,8 +810,7 @@ visible2 = Input(shape=(n_steps, n_features))
     yhat = model.predict([x1, x2], verbose=0)
     print(yhat)
 
-Listing 8.33: Example of a Multi-headed CNN for forecasting a dependent
-time series.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -853,8 +820,7 @@ prediction.
 
 ##### [[205.871]]
 
-    Listing 8.34: Example output from a Multi-headed CNN model for forecasting a dependent
-    time series.
+    ```
 
     For an example of CNN models developed for a multivariate time series classification problem,
     see Chapter 24.
@@ -877,8 +843,7 @@ previous section:
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 8.35: Example of parallel time series.
-
+```
     We may want to predict the value for each of the three time series for the next time step. This
     might be referred to as multivariate forecasting. Again, the data must be split into input/output
     samples in order to train a model. The first sample of this dataset would be:
@@ -892,14 +857,12 @@ Listing 8.35: Example of parallel time series.
 
 ##### 30, 35, 65
 
-Listing 8.36: Example input from the first sample.
-
+```
 Output:
 
 40, 45, 85
 
-Listing 8.37: Example output from the first sample.
-
+```
 Thesplitsequences()function below will split multiple parallel time
 series with rows for
 
@@ -920,8 +883,7 @@ seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 8.38: Example of splitting multiple parallel time series into
-samples.
+```
 
 We can demonstrate this on the contrived problem; the complete example
 is listed below.
@@ -965,8 +927,7 @@ range(len(in_seq1))])
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 8.39: Example of splitting multiple parallel series into
-samples.
+```
 
     Running the example first prints the shape of the preparedXandycomponents. The
     shape ofXis three-dimensional, including the number of samples (6), the number of time steps
@@ -1001,8 +962,7 @@ variables per sample to be predicted (3). The data is ready to use in a
     [ 70 75 145]
     [ 80 85 165]] [ 90 95 185]
 
-Listing 8.40: Example output from splitting multiple parallel series
-into samples.
+```
 
 Vector-Output CNN Model
 
@@ -1028,8 +988,7 @@ number of values to predict
     model.add(Dense(n_features))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 8.41: Example of defining a CNN model for forecasting multiple
-parallel time series.
+```
 
     We can predict the next value in each of the three parallel series by providing an input of
     three time steps for each series.
@@ -1037,8 +996,7 @@ parallel time series.
     80, 85, 165
     90, 95, 185
 
-Listing 8.42: Example input for forecasting out-of-sample.
-
+```
     The shape of the input for making a single prediction must be 1 sample, 3 time steps, and 3
     features, or[1, 3, 3].
 
@@ -1047,8 +1005,7 @@ Listing 8.42: Example input for forecasting out-of-sample.
     x_input = x_input.reshape((1, n_steps, n_features))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 8.43: Example of preparing data for forecasting out-of-sample.
-
+```
     We would expect the vector output to be: [100, 105, 205]. We can tie all of this together
     and demonstrate a 1D CNN for multivariate output time series forecasting below.
 
@@ -1112,8 +1069,7 @@ Listing 8.43: Example of preparing data for forecasting out-of-sample.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 8.44: Example of a CNN model for forecasting multiple parallel
-time series.
+```
 
 Running the example prepares the data, fits the model and makes a
 prediction.
@@ -1123,8 +1079,7 @@ prediction.
 
 ##### [[100.11272 105.32213 205.53436]]
 
-Listing 8.45: Example output from a CNN model for forecasting multiple
-parallel time series.
+```
 
 Multi-output CNN Model
 
@@ -1145,8 +1100,7 @@ model the problem. Each
     cnn = Flatten()(cnn)
     cnn = Dense(50, activation='relu')(cnn)
 
-Listing 8.46: Example of defining the input model.
-
+```
     We can then define one output layer for each of the three series that we wish to forecast,
 
 where each output submodel will forecast a single time step.
@@ -1158,8 +1112,7 @@ where each output submodel will forecast a single time step.
     # define output 3
     output3 = Dense(1)(cnn)
 
-Listing 8.47: Example of defining the output models.
-
+```
 We can then tie the input and output layers together into a single
 model.
 
@@ -1167,8 +1120,7 @@ model.
     model = Model(inputs=visible, outputs=[output1, output2, output3])
     model.compile(optimizer='adam', loss='mse')
 
-Listing 8.48: Example of connecting the input and output models.
-
+```
     To make the model architecture clear, the schematic below clearly shows the three separate
     output layers of the model and the input and output shapes of each layer.
 
@@ -1187,15 +1139,13 @@ with the shape[7, 1].
     y2 = y[:, 1].reshape((y.shape[0], 1))
     y3 = y[:, 2].reshape((y.shape[0], 1))
 
-Listing 8.49: Example of preparing the output samples for fitting the
-multi-output model.
+```
 
     These arrays can be provided to the model during training.
     # fit model
     model.fit(X, [y1,y2,y3], epochs=2000, verbose=0)
 
-Listing 8.50: Example of fitting the multi-output model.
-
+```
 Tying all of this together, the complete example is listed below.
 
     # multivariate output 1d cnn example
@@ -1266,8 +1216,7 @@ x_input = array([[70,75,145], [80,85,165], [90,95,185]])
  yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
-Listing 8.51: Example of a Multi-output CNN model for forecasting
-multiple parallel time series.
+```
 
 Running the example prepares the data, fits the model, and makes a
 prediction.
@@ -1281,8 +1230,7 @@ running the example a few times.
  array([[105.502686]], dtype=float32),
  array([[205.98045]], dtype=float32)]
 
-Listing 8.52: Example output from a Multi-output CNN model for
-forecasting multiple parallel
+```
 
 time series.
 
@@ -1324,22 +1272,19 @@ same number of steps.
     For example, given the univariate time series:
     [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-Listing 8.53: Example of a univariate time series.
-
+```
     We could use the last three time steps as input and forecast the next two time steps. The
     first sample would look as follows:
     Input:
 
     [10, 20, 30]
 
-Listing 8.54: Example input for the first sample.
-
+```
 Output:
 
     [40, 50]
 
-Listing 8.55: Example output for the first sample.
-
+```
     Thesplitsequence()function below implements this behavior and will split a given
     univariate time series into samples with a specified number of input and output time steps.
 
@@ -1359,8 +1304,7 @@ Listing 8.55: Example output for the first sample.
     y.append(seq_y)
     return array(X), array(y)
 
-    Listing 8.56: Example of function for splitting a univariate time series into samples for multi-step
-    forecasting.
+    ```
 
     We can demonstrate this function on the small contrived dataset. The complete example is
     listed below.
@@ -1397,8 +1341,7 @@ Listing 8.55: Example output for the first sample.
     for i in range(len(X)):
     print(X[i], y[i])
 
-Listing 8.57: Example transforming a time series into samples for
-multi-step forecasting.
+```
 
     Running the example splits the univariate series into input and output time steps and prints
     the input and output components of each.
@@ -1408,8 +1351,7 @@ multi-step forecasting.
     [40 50 60] [70 80]
     [50 60 70] [80 90]
 
-    Listing 8.58: Example output from transforming a time series into samples for multi-step
-    forecasting.
+    ```
 
     Now that we know how to prepare data for multi-step forecasting, let’s look at a 1D CNN
     model that can learn this mapping.
@@ -1428,8 +1370,7 @@ multi-step forecast. This
     n_features = 1
     X = X.reshape((X.shape[0], X.shape[1], n_features))
 
-Listing 8.59: Example of reshaping data for multi-step forecasting.
-
+```
 8.4. Multi-step CNN Models 111
 
 With the number of input and output steps specified in
@@ -1447,8 +1388,7 @@ variables, we can define a multi-step time-series forecasting model.
     model.add(Dense(n_steps_out))
     model.compile(optimizer='adam', loss='mse')
 
-Listing 8.60: Example of defining a CNN model for multi-step
-forecasting.
+```
 
     The model can make a prediction for a single sample. We can predict the next two steps
     beyond the end of the dataset by providing the input:[70, 80, 90]. We would expect the
@@ -1461,8 +1401,7 @@ forecasting.
     x_input = x_input.reshape((1, n_steps_in, n_features))
     yhat = model.predict(x_input, verbose=0)
 
-Listing 8.61: Example of reshaping data for making an out-of-sample
-forecast.
+```
 
     Tying all of this together, the 1D CNN for multi-step forecasting with a univariate time
     series is listed below.
@@ -1519,8 +1458,7 @@ forecast.
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-Listing 8.62: Example of a vector-output CNN for multi-step forecasting.
-
+```
 Running the example forecasts and prints the next two time steps in the
 sequence.
 
@@ -1529,8 +1467,7 @@ sequence.
 
 ##### [[102.86651 115.08979]]
 
-Listing 8.63: Example output from a vector-output CNN for multi-step
-forecasting.
+```
 
     For an example of CNN models developed for a multi-step time series forecasting problem,
     see Chapter 19.
@@ -1576,8 +1513,7 @@ output series is separate
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 8.64: Example of a multivariate time series.
-
+```
     We may use three prior time steps of each of the two input time series to predict two time
     steps of the output time series.
     Input:
@@ -1586,15 +1522,13 @@ Listing 8.64: Example of a multivariate time series.
     20, 25
     30, 35
 
-Listing 8.65: Example input for the first sample.
-
+```
 Output:
 
     65
     85
 
-Listing 8.66: Example output for the first sample.
-
+```
 Thesplitsequences()function below implements this behavior.
 
     # split a multivariate sequence into samples
@@ -1613,8 +1547,7 @@ Thesplitsequences()function below implements this behavior.
     y.append(seq_y)
     return array(X), array(y)
 
-    Listing 8.67: Example of a function for transforming a multivariate time series into samples for
-    multi-step forecasting.
+    ```
 
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
@@ -1660,8 +1593,7 @@ is listed below.
     for i in range(len(X)):
     print(X[i], y[i])
 
-    Listing 8.68: Example preparing a multivariate input dependent time series with multi-step
-    forecasts.
+    ```
 
     Running the example first prints the shape of the prepared training data. We can see that
     the shape of the input portion of the samples is three-dimensional, comprised of six samples,
@@ -1709,8 +1641,7 @@ The output portion of the
 
 ##### [80 85]] [165 185]
 
-Listing 8.69: Example output from preparing a multivariate input
-dependent time series with
+```
 
 multi-step forecasts.
 
@@ -1778,8 +1709,7 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-    Listing 8.70: Example of a CNN model for multivariate dependent time series with multi-step
-    forecasts.
+    ```
 
     Running the example fits the model and predicts the next two time steps of the output
     sequence beyond the dataset. We would expect the next two steps to be[185, 205].
@@ -1789,8 +1719,7 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
 
 ##### [[185.57011 207.77893]]
 
-    Listing 8.71: Example output from a CNN model for multivariate dependent time series with
-    multi-step forecasts.
+    ```
 
 8.5.2 Multiple Parallel Input and Multi-step Output
 
@@ -1808,8 +1737,7 @@ multiple time steps of each
     [ 80 85 165]
     [ 90 95 185]]
 
-Listing 8.72: Example of a multivariate time series.
-
+```
 8.5. Multivariate Multi-step CNN Models 117
 
     We may use the last three time steps from each of the three time series as input to the
@@ -1825,15 +1753,13 @@ Input:
  20, 25, 45
  30, 35, 65
 
-Listing 8.73: Example input for the first sample.
-
+```
 Output:
 
 40, 45, 85
  50, 55, 105
 
-Listing 8.74: Example output for the first sample.
-
+```
 Thesplitsequences()function below implements this behavior.
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
@@ -1852,8 +1778,7 @@ sequences[end_ix:out_end_ix, :]
  y.append(seq_y)
  return array(X), array(y)
 
-Listing 8.75: Example of a function for transforming a multivariate time
-series into samples for
+```
 
 multi-step forecasting.
 
@@ -1903,8 +1828,7 @@ X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 for i in range(len(X)):
  print(X[i], y[i])
 
-Listing 8.76: Example preparing a multivariate parallel time series with
-multi-step forecasts.
+```
 
     Running the example first prints the shape of the prepared training dataset. We can see
 
@@ -1942,8 +1866,7 @@ data was prepared as we expected.
  [ 70 75 145]] [[ 80 85 165]
  [ 90 95 185]]
 
-Listing 8.77: Example output from preparing a multivariate parallel time
-series with multi-step
+```
 
 forecasts.
 
@@ -1963,8 +1886,7 @@ numbers directly.
 n_output = y.shape[1] * y.shape[2]
  y = y.reshape((y.shape[0], n_output))
 
-Listing 8.78: Example of flattening output samples for training the
-model with vector output.
+```
 
 The complete example is listed below.
 
@@ -2030,8 +1952,7 @@ n_features = X.shape[2]
     yhat = model.predict(x_input, verbose=0)
     print(yhat)
 
-    Listing 8.79: Example of a CNN model for multivariate parallel time series with multi-step
-    forecasts.
+    ```
 
     Running the example fits the model and predicts the values for each of the three time steps
     for the next two time steps beyond the end of the dataset. We would expect the values for these
@@ -2039,8 +1960,7 @@ n_features = X.shape[2]
     90, 95, 185
     100, 105, 205
 
-Listing 8.80: Example output for the out-of-sample forecast.
-
+```
 We can see that the model forecast gets reasonably close to the expected
 values.
 
@@ -2049,8 +1969,7 @@ values.
 
     [[ 90.47855 95.621284 186.02629 100.48118 105.80815 206.52821 ]]
 
-    Listing 8.81: Example output from a CNN model for multivariate parallel time series with
-    multi-step forecasts.
+    ```
 
     For an example of CNN models developed for a multivariate multi-step time series forecasting
     problem, see Chapter 19.

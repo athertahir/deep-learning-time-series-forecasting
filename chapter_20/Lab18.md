@@ -187,8 +187,7 @@ flatten the data so that we
     # flatten data
     data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-Listing 20.1: Example of flattened weekly data.
-
+```
     We then need to iterate over the time steps and divide the data into overlapping windows;
     each iteration moves along one time step and predicts the subsequent seven days. For example:
     Input, Output
@@ -196,8 +195,7 @@ Listing 20.1: Example of flattened weekly data.
     [d02, d03, d04, d05, d06, d07, d08], [d09, d10, d11, d12, d13, d14, d15]
     ...
 
-Listing 20.2: Example of overlapping weekly data.
-
+```
     We can do this by keeping track of start and end indexes for the inputs and outputs as we
     iterate across the length of the flattened data in terms of time steps. We can also do this in a
 
@@ -233,8 +231,7 @@ problem. Below is a function
     in_start += 1
     return array(X), array(y)
 
-Listing 20.3: Example of a function for creating overlapping windows of
-data.
+```
 
     When we run this function on the entire training dataset, we transform 159 samples into
 
@@ -285,8 +282,7 @@ it is trained. This means
     model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return model
 
-Listing 20.4: Example of a function for fitting an LSTM model.
-
+```
     Now that we know how to fit the model, we can look at how the model can be used to make
     a prediction. Generally, the model expects data to have the same three dimensional shape when
     making a prediction. In this case, the expected shape of an input pattern is one sample, seven
@@ -307,22 +303,19 @@ the weekly structure so
     # flatten data
     data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-Listing 20.5: Example of flattened weekly data.
-
+```
     Next, we need to retrieve the last seven days of daily total power consumed (feature index
     0). We will parameterize this as we did for the training data so that the number of prior days
     used as input by the model can be modified in the future.
     # retrieve last observations for input data
     input_x = data[-n_input:, 0]
 
-Listing 20.6: Example of retrieving the required input data.
-
+```
     Next, we reshape the input into the expected three-dimensional structure.
     # reshape into [1, n_input, 1]
     input_x = input_x.reshape((1, len(input_x), 1))
 
-Listing 20.7: Example of reshaping input data.
-
+```
     We then make a prediction using the fit model and the input data and retrieve the vector of
     seven days of output.
     # forecast the next week
@@ -330,8 +323,7 @@ Listing 20.7: Example of reshaping input data.
     # we only want the vector forecast
     yhat = yhat[0]
 
-Listing 20.8: Example of making a single one-week prediction.
-
+```
 20.6. Univariate Input and Vector Output 400
 
 Theforecast()function below implements this and takes as arguments the
@@ -355,8 +347,7 @@ yhat = model.predict(input_x, verbose=0)
 yhat = yhat[0]
  return yhat
 
-Listing 20.9: Example of a function for making a multi-step forecast
-with an LSTM model.
+```
 
     That’s it; we now have everything we need to make multi-step time series forecasts with
 
@@ -491,8 +482,7 @@ data = array(history)
     pyplot.plot(days, scores, marker='o', label='lstm')
     pyplot.show()
 
-Listing 20.10: Example of evaluating a univariate LSTM model for
-multi-step forecasting.
+```
 
     Running the example fits and evaluates the model, printing the overall RMSE across all
     seven days, and the per-day RMSE for each lead time. We can see that in this case, the model
@@ -509,8 +499,7 @@ less than 465 kilowatts achieved by a naive model.
 
 lstm: [399.456] 419.4, 422.1, 384.5, 395.1, 403.9, 317.7, 441.5
 
-Listing 20.11: Sample output from evaluating a univariate LSTM model for
-multi-step forecasting.
+```
 
 A plot of the daily RMSE is also created. The plot shows that perhaps
 Tuesdays and Fridays
@@ -532,8 +521,7 @@ ninputvariable.
 
 n_input = 14
 
-Listing 20.12: Example of changing the size of the input for making a
-forecast.
+```
 
 Re-running the example with this change first prints a summary of
 performance of the model.
@@ -555,8 +543,7 @@ running the example a few times.
 
 lstm: [370.028] 387.4, 377.9, 334.0, 371.2, 367.1, 330.4, 415.1
 
-Listing 20.13: Sample output from evaluating the updated univariate LSTM
-model for multi-step
+```
 
 forecasting.
 
@@ -611,8 +598,7 @@ output per unit) that
     # define encoder
     model.add(LSTM(200, activation='relu', input_shape=(n_timesteps, n_features)))
 
-Listing 20.14: Example of defining an encoder model.
-
+```
     We will use a simple encoder-decoder architecture that is easy to implement in Keras,
     that has a lot of similarity to the architecture of an LSTM autoencoder. First, the internal
     representation of the input sequence is repeated multiple times, once for each time step in the
@@ -620,8 +606,7 @@ Listing 20.14: Example of defining an encoder model.
     # repeat encodering
     model.add(RepeatVector(7))
 
-Listing 20.15: Example of repeating the output of the encoder.
-
+```
     We then define the decoder as an LSTM hidden layer with 200 units. Importantly, the
     decoder will output the entire sequence, not just the output at the end of the sequence as we
     did with the encoder. This means that each of the 200 units will output a value for each of the
@@ -630,8 +615,7 @@ Listing 20.15: Example of repeating the output of the encoder.
     # define decoder model
     model.add(LSTM(200, activation='relu', return_sequences=True))
 
-Listing 20.16: Example of defining the decoder model.
-
+```
     We will then use a fully connected layer to interpret each time step in the output sequence
     before the final output layer. Importantly, the output layer predicts a single step in the output
     sequence, not all seven days at a time. This means that we will use the same layers applied
@@ -647,8 +631,7 @@ the wrapped layers to be used for each time step from the decoder.
     model.add(TimeDistributed(Dense(100, activation='relu')))
     model.add(TimeDistributed(Dense(1)))
 
-Listing 20.17: Example of defining the output model.
-
+```
     This allows the LSTM decoder to figure out the context required for each step in the output
     sequence and the wrapped dense layers to interpret each time step separately, yet reusing
     the same weights to perform the interpretation. An alternative would be to flatten all of the
@@ -674,8 +657,7 @@ Therefore, when training
     # reshape output into [samples, timesteps, features]
     train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 
-Listing 20.18: Example of reshaping output data for training.
-
+```
 We can tie all of this together into the updatedbuildmodel()function
 listed below.
 
@@ -700,8 +682,7 @@ listed below.
     model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return model
 
-Listing 20.19: Example of a function for defining and fitting an
-encoder-decoder LSTM model.
+```
 
     The complete example with the encoder-decoder model is listed below.
     # univariate multi-step encoder-decoder lstm for the power usage dataset
@@ -840,8 +821,7 @@ n_input = 14
     pyplot.plot(days, scores, marker='o', label='lstm')
     pyplot.show()
 
-    Listing 20.20: Example of evaluating a univariate Encoder-Decoder LSTM model for multi-step
-    forecasting.
+    ```
 
     Running the example fits the model and summarizes the performance on the test dataset.
 
@@ -855,8 +835,7 @@ kilowatts.
 
     lstm: [372.595] 379.5, 399.8, 339.6, 372.2, 370.9, 309.9, 424.8
 
-    Listing 20.21: Sample output from evaluating a univariate Encoder-Decoder LSTM model for
-    multi-step forecasting.
+    ```
 
     A line plot of the per-day RMSE is also created showing a similar pattern in error as was
     seen in the previous section.
@@ -902,8 +881,7 @@ consumed. It requires a single line change:
 
 X.append(data[in_start:in_end, :])
 
-Listing 20.22: Example of preparing data with all input variables.
-
+```
 The completetosupervised()function with this change is listed below.
 
 20.8. Encoder-Decoder LSTM With Multivariate Input 411
@@ -925,8 +903,7 @@ if out_end < len(data):
 in_start += 1
  return array(X), array(y)
 
-Listing 20.23: Example of a function for creating overlapping windows of
-data with all variables.
+```
 
 We also must update the function used to make forecasts with the fit
 model to use all eight
@@ -937,8 +914,7 @@ input_x = data[-n_input:, :]
 
 input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
-Listing 20.24: Example of using all variables as input when making a
-forecast.
+```
 
 def forecast(model, history, n_input):
 data = array(history)
@@ -953,8 +929,7 @@ yhat = model.predict(input_x, verbose=0)
 yhat = yhat[0]
  return yhat
 
-Listing 20.25: Example of a function for making a multi-step forecast
-with a LSTM model and
+```
 
 all input variables.
 
@@ -1095,8 +1070,7 @@ days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
  pyplot.plot(days, scores, marker='o', label='lstm')
  pyplot.show()
 
-Listing 20.26: Example of evaluating a multivariate Encoder-Decoder LSTM
-model for multi-step
+```
 
 forecasting.
 
@@ -1118,8 +1092,7 @@ running the example a few times.
 
 lstm: [376.273] 378.5, 381.5, 328.4, 388.3, 361.2, 308.0, 467.2
 
-Listing 20.27: Sample output from evaluating a multivariate
-Encoder-Decoder LSTM model for
+```
 
 multi-step forecasting.
 
@@ -1179,8 +1152,7 @@ model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
  model.add(MaxPooling1D(pool_size=2))
  model.add(Flatten())
 
-Listing 20.28: Example of defining the CNN encoder model.
-
+```
 The decoder is the same as was defined in previous sections. The only
 other change is to set
 
@@ -1212,16 +1184,14 @@ model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
  return model
 
-Listing 20.29: Example of a function for defining and fitting a CNN
-Encoder-Decoder LSTM
+```
 
 model.
 
 We are now ready to try the encoder-decoder architecture with a CNN
 encoder. The complete
 
-code listing is provided below.
-
+code ```
 from math import sqrt
  from numpy import split
  from numpy import array
@@ -1359,8 +1329,7 @@ days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
  pyplot.plot(days, scores, marker='o', label='lstm')
  pyplot.show()
 
-Listing 20.30: Example of evaluating a univariate CNN Encoder-Decoder
-LSTM model for
+```
 
 multi-step forecasting.
 
@@ -1382,8 +1351,7 @@ running the example a few times.
 
 lstm: [372.055] 383.8, 381.6, 339.1, 371.8, 371.8, 319.6, 427.2
 
-Listing 20.31: Sample output from evaluating a univariate CNN
-Encoder-Decoder LSTM model
+```
 
 for multi-step forecasting.
 
@@ -1458,8 +1426,7 @@ channels].
 train_x = train_x.reshape((train_x.shape[0], n_steps, 1, n_length,
 n_features))
 
-Listing 20.32: Example of preparing data for theConvLSTM2Dencoder model.
-
+```
     We can then define the encoder as a ConvLSTM hidden layer followed by a flatten layer
 
 ready for decoding.
@@ -1468,8 +1435,7 @@ model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu',
  input_shape=(n_steps, 1, n_length, n_features)))
  model.add(Flatten())
 
-Listing 20.33: Example of defining theConvLSTM2Dencoder model.
-
+```
 We will also parameterize the number of subsequences (nsteps) and the
 length of each
 
@@ -1506,8 +1472,7 @@ activation='relu',
     model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return model
 
-Listing 20.34: Example of a function for defining and fitting a ConvLSTM
-Encoder-Decoder
+```
 
 LSTM model.
 
@@ -1518,8 +1483,7 @@ prediction.
 
 input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 
-Listing 20.35: Example of preparing input data for theConvLSTM2Dmodel
-when making a
+```
 
 prediction.
 
@@ -1541,8 +1505,7 @@ yhat = model.predict(input_x, verbose=0)
 yhat = yhat[0]
  return yhat
 
-Listing 20.36: Example of a function for making a forecast with the
-ConvLSTM Encoder-Decoder
+```
 
 LSTM model.
 
@@ -1695,8 +1658,7 @@ days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
  pyplot.plot(days, scores, marker='o', label='lstm')
  pyplot.show()
 
-Listing 20.37: Example of evaluating a univariate ConvLSTM
-Encoder-Decoder LSTM model
+```
 
 for multi-step forecasting.
 
@@ -1718,8 +1680,7 @@ running the example a few times.
 
 lstm: [367.929] 416.3, 379.7, 334.7, 362.3, 374.7, 284.8, 406.7
 
-Listing 20.38: Sample output from evaluating a univariate ConvLSTM
-Encoder-Decoder LSTM
+```
 
 model for multi-step forecasting.
 

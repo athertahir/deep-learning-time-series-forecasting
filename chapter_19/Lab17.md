@@ -105,8 +105,7 @@ of active energy).
     [Week1 + Week2 + Week3] Week4
     ...
 
-Listing 19.1: Example of weekly walk-forward validation.
-
+```
     The walk-forward validation approach to evaluating predictive models on this dataset is
     provided below, namedevaluatemodel(). The train and test datasets in standard-week format
     are provided to the function as arguments. An additional argument,ninput, is provided that
@@ -145,8 +144,7 @@ models that are faster to
     score, scores = evaluate_forecasts(test[:, :, 0], predictions)
     return score, scores
 
-Listing 19.2: Example of a function for walk-forward validation.
-
+```
 19.5. CNNs for Multi-step Forecasting 370
 
     Once we have the evaluation for a model, we can summarize the performance. The function
@@ -157,8 +155,7 @@ Listing 19.2: Example of a function for walk-forward validation.
     s_scores = ','.join(['%.1f' % s for s in scores])
     print('%s: [%.3f] %s'% (name, score, s_scores))
 
-Listing 19.3: Example of a function for summarizing model performance.
-
+```
 We now have all of the elements to begin evaluating predictive models on
 the dataset.
 
@@ -264,8 +261,7 @@ training to predict the
     # flatten data
     data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-Listing 19.4: Example of flattened weekly data.
-
+```
     We then need to iterate over the time steps and divide the data into overlapping windows;
     each iteration moves along one time step and predicts the subsequent seven days. For example:
 
@@ -276,8 +272,7 @@ Listing 19.4: Example of flattened weekly data.
     [d02, d03, d04, d05, d06, d07, d08], [d09, d10, d11, d12, d13, d14, d15]
     ...
 
-Listing 19.5: Example of overlapping weekly data.
-
+```
     We can do this by keeping track of start and end indexes for the inputs and outputs as we
     iterate across the length of the flattened data in terms of time steps. We can also do this in a
 
@@ -311,8 +306,7 @@ problem. Below is a function
     in_start += 1
     return array(X), array(y)
 
-Listing 19.6: Example of a function for creating overlapping windows of
-data.
+```
 
     When we run this function on the entire training dataset, we transform 159 samples into
 
@@ -359,8 +353,7 @@ data.
     model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return model
 
-Listing 19.7: Example of a function for fitting a CNN model.
-
+```
     Now that we know how to fit the model, we can look at how the model can be used to make
     a prediction. Generally, the model expects data to have the same three dimensional shape when
     making a prediction. In this case, the expected shape of an input pattern is one sample, seven
@@ -381,16 +374,14 @@ the weekly structure so
     # flatten data
     data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-Listing 19.8: Example of flattened weekly data.
-
+```
     Next, we need to retrieve the last seven days of daily total power consumed (feature number
     0). We will parameterize as we did for the training data so that the number of prior days used
     as input by the model can be modified in the future.
     # retrieve last observations for input data
     input_x = data[-n_input:, 0]
 
-Listing 19.9: Example of retrieving the required input data.
-
+```
 19.6. Univariate CNN Model 374
 
 Next, we reshape the input into the expected three-dimensional
@@ -398,8 +389,7 @@ structure.
 
 input_x = input_x.reshape((1, len(input_x), 1))
 
-Listing 19.10: Example of reshaping input data.
-
+```
 We then make a prediction using the fit model and the input data and
 retrieve the vector of
 
@@ -409,8 +399,7 @@ yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
 
-Listing 19.11: Example of making a single one-week prediction.
-
+```
 Theforecast()function below implements this and takes as arguments the
 model fit on
 
@@ -432,8 +421,7 @@ yhat = model.predict(input_x, verbose=0)
 yhat = yhat[0]
  return yhat
 
-Listing 19.12: Example of a function for making a multi-step forecast
-with a CNN model.
+```
 
     That’s it; we now have everything we need to make multi-step time series forecasts with
 
@@ -571,8 +559,7 @@ train, test = split_dataset(dataset.values)
     pyplot.plot(days, scores, marker='o', label='cnn')
     pyplot.show()
 
-Listing 19.13: Example of evaluating a univariate CNN model for
-multi-step forecasting.
+```
 
     Running the example fits and evaluates the model, printing the overall RMSE across all
     seven days, and the per-day RMSE for each lead time. We can see that in this case, the model
@@ -587,8 +574,7 @@ less than 465 kilowatts achieved by a naive model.
 
     cnn: [404.411] 436.1, 400.6, 346.2, 388.2, 405.5, 326.0, 502.9
 
-Listing 19.14: Sample output from evaluating a univariate CNN model for
-multi-step forecasting.
+```
 
     A plot of the daily RMSE is also created. The plot shows that perhaps Tuesdays and Fridays
     are easier days to forecast than the other days and that perhaps Saturday at the end of the
@@ -606,8 +592,7 @@ ninputvariable.
 
 n_input = 14
 
-Listing 19.15: Example of changing the size of the input for making a
-forecast.
+```
 
     Re-running the example with this change first prints a summary of the performance of the
 
@@ -624,8 +609,7 @@ running the example a few times.
 
 cnn: [396.497] 392.2, 412.8, 384.0, 389.0, 387.3, 381.0, 427.1
 
-Listing 19.16: Sample output from evaluating the updated CNN model for
-multi-step forecasting.
+```
 
 Comparing the per-day RMSE scores, we see some are better and some are
 worse than using
@@ -662,8 +646,7 @@ model as a separate channel
     # use all variables in input samples
     X.append(data[in_start:in_end, :])
 
-Listing 19.17: Example of data preparation using all data variables.
-
+```
     The completetosupervised()function with this change is listed below.
     # convert history into inputs and outputs
     def to_supervised(train, n_input, n_out=7):
@@ -687,8 +670,7 @@ Listing 19.17: Example of data preparation using all data variables.
     in_start += 1
     return array(X), array(y)
 
-Listing 19.18: Example of a function for creating overlapping windows of
-data with all variables.
+```
 
 We also must update the function used to make forecasts with the fit
 model to use all eight
@@ -699,8 +681,7 @@ input_x = data[-n_input:, :]
 
 input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
-Listing 19.19: Example of using all variables as input when making a
-forecast.
+```
 
 The completeforecast()with this change is listed below:
 
@@ -717,8 +698,7 @@ yhat = model.predict(input_x, verbose=0)
 yhat = yhat[0]
  return yhat
 
-Listing 19.20: Example of a function for making a multi-step forecast
-with a CNN model and
+```
 
 all input variables.
 
@@ -730,8 +710,7 @@ performance.
 
 n_input = 14
 
-Listing 19.21: Example of using two weeks of data as input.
-
+```
 19.7. Multi-channel CNN Model 381
 
     Finally, the model used in the previous section does not perform well on this new framing
@@ -768,8 +747,7 @@ training dataset is
     model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return model
 
-Listing 19.22: Example of a function for fitting a multi-channel CNN
-model.
+```
 
     We now have all of the elements required to develop a multi-channel CNN for multivariate
     input data to make multi-step time series forecasts. The complete example is listed below.
@@ -906,8 +884,7 @@ days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
  pyplot.plot(days, scores, marker='o', label='cnn')
  pyplot.show()
 
-Listing 19.23: Example of evaluating a multi-channel CNN model for
-multi-step forecasting.
+```
 
     Running the example fits and evaluates the model, printing the overall RMSE across all
 
@@ -924,8 +901,7 @@ running the example a few times.
 
 cnn: [385.711] 422.2, 363.5, 349.8, 393.1, 357.1, 318.8, 474.3
 
-Listing 19.24: Sample output from evaluating a multi-channel CNN model
-for multi-step
+```
 
 forecasting.
 
@@ -1005,8 +981,7 @@ layers in lists. This is
     # compile model
     model.compile(loss='mse', optimizer='adam')
 
-Listing 19.25: Example of defining a multi-headed CNN model.
-
+```
 When the model is used, it will require eight arrays as input: one for
 each of the submodels.
 
@@ -1024,8 +999,7 @@ prepare the training
     input_data = [train_x[:,:,i].reshape((train_x.shape[0],n_timesteps,1)) for i in
     range(n_features)]
 
-Listing 19.26: Example of defining input where each variable is a
-separate array.
+```
 
     The updatedbuildmodel()function with these changes is listed below.
     # train the model
@@ -1066,8 +1040,7 @@ separate array.
     model.fit(input_data, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return model
 
-Listing 19.27: Example of a function to define and fit a multi-headed
-CNN model.
+```
 
     When the model is built, a diagram of the structure of the model is created and saved to
 
@@ -1090,8 +1063,7 @@ transformed into a list of eight 3D arrays each with[1, 14, 1].
 input_x = [input_x[:,i].reshape((1,input_x.shape[0],1)) for i in
 range(input_x.shape[1])]
 
-Listing 19.28: Example of defining input where each variable is a
-separate array.
+```
 
 Theforecast()function with this change is listed below.
 
@@ -1110,8 +1082,7 @@ data = array(history)
     yhat = yhat[0]
     return yhat
 
-Listing 19.29: Example of a function for making a forecast with a
-multi-headed CNN model.
+```
 
 That’s it. We can tie all of this together; the complete example is
 listed below.
@@ -1274,8 +1245,7 @@ days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
  pyplot.plot(days, scores, marker='o', label='cnn')
  pyplot.show()
 
-Listing 19.30: Example of evaluating a multi-headed CNN model for
-multi-step forecasting.
+```
 
     Running the example fits and evaluates the model, printing the overall RMSE across all
 
@@ -1294,8 +1264,7 @@ running the example a few times.
 
 cnn: [396.116] 414.5, 385.5, 377.2, 412.1, 371.1, 380.6, 428.1
 
-Listing 19.31: Sample output from evaluating a multi-headed CNN model
-for multi-step
+```
 
 forecasting.
 

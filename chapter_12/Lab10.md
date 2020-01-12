@@ -103,8 +103,7 @@ whether or not to remove the bias when fitting the model.
     yhat = model_fit.predict(len(history), len(history))
     return yhat[0]
 
-Listing 12.1: Example of a function for making an ETS forecast.
-
+```
     In this tutorial, we will use the grid searching framework developed in Chapter 11 for tuning
     and evaluating naive forecasting methods. One important modification to the framework is the
     function used to perform the walk-forward validation of the model namedwalkforwardvalidation().
@@ -133,8 +132,7 @@ version of the function is listed below.
     error = measure_rmse(test, predictions)
     return error
 
-Listing 12.2: Example of a function for walk-forward validation with ETS
-forecasts.
+```
 
     We’re nearly done. The only thing left to do is to define a list of model configurations to try
     for a dataset. We can define this generically. The only parameter we may want to specify is the
@@ -168,8 +166,7 @@ forecasts.
     models.append(cfg)
     return models
 
-Listing 12.3: Example of a function for defining configurations for ETS
-models to grid search.
+```
 
     We now have a framework for grid searching triple exponential smoothing model hyperpa-
 
@@ -305,8 +302,7 @@ t_params = ['add','mul', None]
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-Listing 12.4: Example of demonstrating the grid search infrastructure.
-
+```
     Running the example first prints the contrived time series dataset. Next, the model
     configurations and their errors are reported as they are evaluated. Finally, the configurations
     and the error for the top three configurations are reported.
@@ -323,8 +319,7 @@ Listing 12.4: Example of demonstrating the grid search infrastructure.
     [None, False, None, None, False, True] 2.5628662672606612
     [None, False, None, None, False, False] 10.0
 
-Listing 12.5: Example output from demonstrating the grid search
-infrastructure.
+```
 
     We do not report the model parameters optimized by the model itself. It is assumed that
 
@@ -340,8 +335,7 @@ hyperparameters and allow
 
     print(model_fit.params)
 
-Listing 12.6: Example of accessing the automatically fit model
-parameters.
+```
 
     Now that we have a robust framework for grid searching ETS model hyperparameters, let’s
     test it out on a suite of standard univariate time series datasets. The datasets were chosen for
@@ -495,8 +489,7 @@ scores = grid_search(data[:,0], cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 12.7: Example of grid searching ETS models for the daily female
-births dataset.
+```
 
     Running the example may take a few minutes as fitting each ETS model can take about a
 
@@ -532,8 +525,7 @@ running the example a few times.
     ['mul', False, None, None, True, False] 6.984513598720297
     ['add', False, None, None, True, True] 7.081359856193836
 
-    Listing 12.8: Example output from grid searching ETS models for the daily female births
-    dataset.
+    ```
 
     We can see that the best result was an RMSE of about 6.96 births. A naive model achieved
     an RMSE of 6.93 births, meaning that the best performing ETS model is not skillful on this
@@ -699,8 +691,7 @@ n_test = 12
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-Listing 12.9: Example of grid searching ETS models for the monthly
-shampoo sales dataset.
+```
 
 Running the example is fast given there are a small number of
 observations. Model configura-
@@ -731,8 +722,7 @@ running the example a few times.
  ['mul', False, None, None, False, True] 86.40648953786152
  ['mul', True, None, None, False, True] 95.33737598817238
 
-Listing 12.10: Example output from grid searching ETS models for the
-monthly shampoo sales
+```
 
 dataset.
 
@@ -782,8 +772,7 @@ to the last five years of
     # trim dataset to 5 years
     data = data[-(5*12):]
 
-Listing 12.11: Example of reducing the size of the dataset.
-
+```
     The period of the seasonal component is about one year, or 12 observations. We will use this
     as the seasonal period in the call to theexpsmoothingconfigs()function when preparing
     the model configurations.
@@ -791,8 +780,7 @@ Listing 12.11: Example of reducing the size of the dataset.
     # model configs
     cfg_list = exp_smoothing_configs(seasonal=[0, 12])
 
-Listing 12.12: Example of specifying some seasonal configurations.
-
+```
     The complete example grid searching the monthly mean temperature time series forecasting
     problem is listed below.
 
@@ -925,8 +913,7 @@ scores = grid_search(data[:,0], cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 12.13: Example of grid searching ETS models for the monthly mean
-temperature dataset.
+```
 
 Running the example is relatively slow given the large amount of data.
 Model configurations
@@ -955,8 +942,7 @@ running the hyperparameter grid search are listed below.
     [None, False,'add', 12, False, True] 1.5015531225114707
     [None, False,'mul', 12, False, False] 1.501561363221282
 
-    Listing 12.14: Example output from grid searching ETS models for the monthly mean
-    temperature dataset.
+    ```
 
     We can see that the best result was an RMSE of about 1.50 degrees. This is the same RMSE
     found by a naive model on this problem, suggesting that the best ETS model sits on the border
@@ -1006,8 +992,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.cs
 
 cfg_list = exp_smoothing_configs(seasonal=[0,6,12])
 
-Listing 12.15: Example of specifying some seasonal configurations.
-
+```
 The complete example grid searching the monthly car sales time series
 forecasting problem
 
@@ -1137,8 +1122,7 @@ scores = grid_search(data[:,0], cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 12.16: Example of grid searching ETS models for the monthly car
-sales dataset.
+```
 
 Running the example is slow given the large amount of data. Model
 configurations and the
@@ -1170,8 +1154,7 @@ done
  ['add', False,'add', 12, False, False] 1680.845043013083
  ['add', True,'add', 12, False, False] 1696.1734099400082
 
-Listing 12.17: Example output from grid searching ETS models for the
-monthly car sales
+```
 
 dataset.
 

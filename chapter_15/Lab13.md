@@ -65,8 +65,7 @@ functionreadcsv().
 series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
 
-Listing 15.1: Load the dataset.
-
+```
 Once loaded, we can summarize the shape of the dataset in order to
 determine the number
 
@@ -74,15 +73,13 @@ of observations.
 
 print(series.shape)
 
-Listing 15.2: Summarize the shape of the dataset.
-
+```
 We can then create a line plot of the series to get an idea of the
 structure of the series.
 pyplot.plot(series)
  pyplot.show()
 
-Listing 15.3: Create a line plot of the dataset.
-
+```
 We can tie all of this together; the complete example is listed below.
 
 from pandas import read_csv
@@ -95,15 +92,13 @@ pyplot.plot(series)
  pyplot.xticks([])
  pyplot.show()
 
-Listing 15.4: Example of loading and plotting the monthly airline
-passengers dataset.
+```
 
 Running the example first prints the shape of the dataset.
 
 (144, 1)
 
-Listing 15.5: Example output from loading and plotting the monthly
-airline passengers dataset.
+```
 
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv
@@ -167,8 +162,7 @@ Thetraintestsplit()
     def train_test_split(data, n_test):
     return data[:-n_test], data[-n_test:]
 
-Listing 15.6: Example of a function to split the dataset into train and
-test sets.
+```
 
 15.3.2 Series as Supervised Learning
 
@@ -197,8 +191,7 @@ three years, or 36 time
     3
     4
 
-Listing 15.7: Example of a time series as a column.
-
+```
     This column can be shifted and inserted as a column beforehand:
     (t-1), (t)
     Nan, 1
@@ -207,8 +200,7 @@ Listing 15.7: Example of a time series as a column.
     3, 4
     4, NaN
 
-Listing 15.8: Example of an added columns with the shifted time series.
-
+```
     We can see that on the second row, the value 1 is provided as input as an observation at the
     prior time step, and 2 is the next value in the series that can be predicted, or learned by the
     model to be predicted when 1 is presented as input. Rows withNaNvalues can be removed. The
@@ -233,8 +225,7 @@ Listing 15.8: Example of an added columns with the shifted time series.
     agg.dropna(inplace=True)
     return agg.values
 
-Listing 15.9: Example of a function to transform a time series into
-samples.
+```
 
     Note, this is a more generic way of transforming a time series dataset into samples than the
     specialized methods presented in Chapters 7, 8, and 9.
@@ -267,8 +258,7 @@ for each observation
     def model_fit(train, config):
     return None
 
-Listing 15.10: Example of a dummy function for fitting a model.
-
+```
 Each time step of the test dataset is enumerated. A prediction is made
 using the fit model.
 
@@ -282,8 +272,7 @@ prediction.
     def model_predict(model, history, config):
     return 0.0
 
-Listing 15.11: Example of a dummy function for making a prediction with
-a fit model.
+```
 
     The prediction is added to a list of predictions and the true observation from the test set is
     added to a list of observations that was seeded with all observations from the training dataset.
@@ -303,8 +292,7 @@ allowing the model to make
     def measure_rmse(actual, predicted):
     return sqrt(mean_squared_error(actual, predicted))
 
-Listing 15.12: Example of a function for calculating the error for a
-forecast.
+```
 
     The completewalkforwardvalidation()function that ties all of this together is listed
     below. It takes the dataset, the number of observations to use as the test set, and the
@@ -335,8 +323,7 @@ forecast.
     print(' > %.3f' % error)
     return error
 
-Listing 15.13: Example of a function for the walk-forward evaluation of
-a deep learning model.
+```
 
 15.3.4 Repeat Evaluation
 
@@ -370,8 +357,7 @@ each evaluation. This is
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-Listing 15.14: Example of a function for the repeated evaluation of a
-model.
+```
 
 15.3.5 Grid Search
 
@@ -393,8 +379,7 @@ function to drive the search. We
     scores.sort(key=lambda tup: tup[1])
     return scores
 
-Listing 15.15: Example of a function for coordinating the grid search of
-model hyperparameters.
+```
 
 15.3.6 Worked Example
 
@@ -407,16 +392,14 @@ will be implemented to simply returnNone.
     def model_fit(train, config):
     return None
 
-Listing 15.16: Example of a dummy function for fitting a model.
-
+```
     We will use the config to define a list of index offsets in the prior observations relative to
     the time to be forecasted that will be used as the prediction. For example, 12 will use the
     observation 12 months ago (-12) relative to the time to be forecasted.
     # define config
     cfg_list = [1, 6, 12, 24, 36]
 
-Listing 15.17: Example of a set of configurations to search.
-
+```
 Themodelpredict()function can be implemented to use this configuration
 to persist the
 
@@ -426,8 +409,7 @@ value at the negative relative offset.
     def model_predict(model, history, offset):
     history[-offset]
 
-Listing 15.18: Example of a function for making persistence forecasts.
-
+```
     The complete example of using the framework with a simple persistence model is listed
     below.
     # grid search persistence models for monthly airline passengers dataset
@@ -504,8 +486,7 @@ index_col=0)
     for cfg, error in scores[:10]:
     print(cfg, error)
 
-    Listing 15.19: Example of demonstrating the grid search framework for evaluating a persistence
-    model on the airline passengers dataset.
+    ```
 
     Running the example prints the RMSE of the model evaluated using walk-forward validation
     on the final 12 months of data. Each model configuration is evaluated 10 times, although,
@@ -531,8 +512,7 @@ persistence model.
     36 110.27352356753639
     6 126.73495965991387
 
-    Listing 15.20: Example output from demonstrating the grid search framework for evaluating a
-    persistence model on the airline passengers dataset.
+    ```
 
     Now that we have a robust test harness for grid searching model hyperparameters, we can
     use it to evaluate a suite of neural network models.
@@ -570,8 +550,7 @@ persistence model.
     def difference(data, order):
     return [data[i] - data[i - order] for i in range(order, len(data))]
 
-Listing 15.21: Example of a function for differencing a dataset.
-
+```
 Differencing will be optional, where an order of 0 suggests no
 differencing, whereas an order
 
@@ -585,8 +564,7 @@ the model and that the
     # unpack config
     n_input, n_nodes, n_epochs, n_batch, n_diff = config
 
-Listing 15.22: Example of unpacking MLP hyperparameters.
-
+```
     Next, we must prepare the data, including the differencing, transforming the data to a
     supervised format and separating out the input and output aspects of the data samples.
 
@@ -598,8 +576,7 @@ Listing 15.22: Example of unpacking MLP hyperparameters.
     # separate inputs and outputs
     train_x, train_y = data[:, :-1], data[:, -1]
 
-Listing 15.23: Example of preparing data for fitting the MLP model.
-
+```
 We can now define and fit the model with the provided configuration.
 
     # define model
@@ -610,8 +587,7 @@ We can now define and fit the model with the provided configuration.
     # fit model
     model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 
-Listing 15.24: Example of defining an MLP model.
-
+```
 The complete implementation of themodelfit()function is listed below.
 
 15.4. Multilayer Perceptron Model 301
@@ -631,8 +607,7 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
  return model
 
-Listing 15.25: Example of a function for fitting an MLP model for a
-given configuration.
+```
 
 The five chosen hyperparameters are by no means the only or best
 hyperparameters of the
@@ -658,8 +633,7 @@ correction = 0.0
 
 return correction + yhat[0]
 
-Listing 15.26: Example of inverting any differencing performed.
-
+```
 It also means that the history must be differenced so that the input
 data used to make the
 
@@ -667,8 +641,7 @@ prediction has the expected form.
 
 history = difference(history, n_diff)
 
-Listing 15.27: Example of differencing the history prior to making a
-prediction.
+```
 
 Once prepared, we can use the history data to create a single sample as
 input to the model for
@@ -680,8 +653,7 @@ is the chosen number of lag observations to use.
 
 x_input = array(history[-n_input:]).reshape((1, n_input))
 
-Listing 15.28: Example of preparing one sample ready for making a
-forecast.
+```
 
 Finally, a prediction can be made.
 
@@ -690,8 +662,7 @@ Finally, a prediction can be made.
     # make forecast
     yhat = model.predict(x_input, verbose=0)
 
-Listing 15.29: Example of making a forecast with a single sample of
-data.
+```
 
     The complete implementation of themodelpredict()function is listed below. Next, we
     must define the range of values to try for each hyperparameter. We can define amodelconfigs()
@@ -729,8 +700,7 @@ values of the hyperparameters to grid search.
     print('Total configs: %d'% len(configs))
     return configs
 
-Listing 15.30: Example of a function for preparing a list of model
-configurations to evaluate.
+```
 
     We now have all of the pieces needed to grid search MLP models for a univariate time series
     forecasting problem. The complete example is listed below.
@@ -877,8 +847,7 @@ configs = list()
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-    Listing 15.31: Example of demonstrating the grid search framework for evaluating a MLP model
-    configurations on the airline passengers dataset.
+    ```
 
     Running the example, we can see that there are a total of eight configurations to be evaluated
     by the framework. Each config will be evaluated 10 times; that means 10 models will be created
@@ -924,8 +893,7 @@ A truncated example output of the grid search is listed below.
     [12, 50, 100, 150, 12] 19.33004059448595
     [12, 100, 100, 1, 0] 19.5389405532858
 
-    Listing 15.32: Example output from demonstrating the grid search framework for evaluating a
-    MLP model configurations on the airline passengers dataset.
+    ```
 
 ### 15.5 Convolutional Neural Network Model
 
@@ -968,8 +936,7 @@ details on modeling a
 model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
 
-Listing 15.33: Example of defining a CNN model.
-
+```
     The data must be prepared in much the same way as for the MLP. Unlike the MLP that
 
 expects the input data to have the shape[samples, features], the 1D CNN
@@ -984,8 +951,7 @@ n_features = 1
  train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
-Listing 15.34: Example of reshaping data for the CNN model.
-
+```
 The complete implementation of themodelfit()function is listed below.
 def model_fit(train, config):
 n_input, n_filters, n_kernel, n_epochs, n_batch, n_diff = config
@@ -1011,8 +977,7 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
  return model
 
-Listing 15.35: Example of a function for fitting a CNN model for a given
-configuration.
+```
 
     Making a prediction with a fit CNN model is very much like making a prediction with a
 
@@ -1023,8 +988,7 @@ three-dimensional shape.
 
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
-Listing 15.36: Example of reshaping one sample for making a forecast.
-
+```
 The complete implementation of themodelpredict()function is listed
 below.
 
@@ -1044,8 +1008,7 @@ def model_predict(model, history, config):
     yhat = model.predict(x_input, verbose=0)
     return correction + yhat[0]
 
-Listing 15.37: Example of a function for making a forecast with a fit
-CNN model.
+```
 
     Finally, we can define a list of configurations for the model to evaluate. As before, we can
 
@@ -1077,8 +1040,7 @@ configs = list()
  print('Total configs: %d'% len(configs))
  return configs
 
-Listing 15.38: Example of a function for preparing a list of model
-configurations to evaluate.
+```
 
 We now have all of the elements needed to grid search the
 hyperparameters of a convolutional
@@ -1231,8 +1193,7 @@ scores = grid_search(data, cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 15.39: Example of demonstrating the grid search framework for
-evaluating a CNN model
+```
 
 configurations on the airline passengers dataset.
 
@@ -1281,8 +1242,7 @@ A truncated example output of the grid search is listed below.
     [12, 64, 5, 100, 150, 12] 19.152486150334234
     [12, 64, 3, 100, 150, 12] 19.44680151564605
 
-    Listing 15.40: Example output from demonstrating the grid search framework for evaluating a
-    CNN model configurations on the airline passengers dataset.
+    ```
 
 ### 15.6 Long Short-Term Memory Network Model
 
@@ -1316,8 +1276,7 @@ they are:
     # fit model
     model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 
-Listing 15.41: Example of defining an LSTM model.
-
+```
 15.6. Long Short-Term Memory Network Model 313
 
     It may be interesting to explore tuning additional configurations such as the use of a
@@ -1334,8 +1293,7 @@ n_features = 1
  train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
-Listing 15.42: Example of reshaping training data for the LSTM model.
-
+```
 The complete implementation of themodelfit()function is listed below.
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
@@ -1359,8 +1317,7 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
  return model
 
-Listing 15.43: Example of a function for fitting an LSTM model.
-
+```
 Also like the CNN, the single input sample used to make a prediction
 must also be reshaped
 
@@ -1368,8 +1325,7 @@ into the expected three-dimensional structure.
 
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
-Listing 15.44: Example of reshaping a single sample for making a
-prediction.
+```
 
 The completemodelpredict()function is listed below.
 
@@ -1388,8 +1344,7 @@ correction = 0.0
     yhat = model.predict(x_input, verbose=0)
     return correction + yhat[0]
 
-Listing 15.45: Example of a function for making a forecast with a fit
-LSTM model.
+```
 
     We can now define the function used to create the list of model configurations to evaluate.
 
@@ -1418,8 +1373,7 @@ as such, you
     print('Total configs: %d'% len(configs))
     return configs
 
-Listing 15.46: Example of a function for defining model configurations
-to evaluate.
+```
 
     We now have everything we need to grid search hyperparameters for the LSTM model for
     univariate time series forecasting. The complete example is listed below.
@@ -1570,8 +1524,7 @@ scores = grid_search(data, cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 15.47: Example of demonstrating the grid search framework for
-evaluating an LSTM
+```
 
 model configurations on the airline passengers dataset.
 
@@ -1624,8 +1577,7 @@ Total configs: 2
     [12, 100, 50, 1, 12] 21.243775750634093
     [12, 100, 50, 150, 12] 21.259553398553606
 
-    Listing 15.48: Example output from demonstrating the grid search framework for evaluating an
-    LSTM model configurations on the airline passengers dataset.
+    ```
 
 ### 15.7 Extensions
 

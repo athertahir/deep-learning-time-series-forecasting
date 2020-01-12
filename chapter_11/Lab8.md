@@ -89,8 +89,7 @@ the dataset.
 def naive_forecast(history, n):
  return history[-n]
 
-Listing 11.1: Example of a function for making a persistence forecast.
-
+```
 We can test this function out on a small contrived dataset.
 
 def naive_forecast(history, n):
@@ -101,8 +100,7 @@ data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
 for i in range(1, len(data)+1):
  print(naive_forecast(data, i))
 
-Listing 11.2: Example of making a persistence forecast.
-
+```
 11.3. Develop a Grid Search Framework 174
 
 Running the example first prints the contrived dataset, then the naive
@@ -122,16 +120,14 @@ in the historical dataset.
  20.0
  10.0
 
-Listing 11.3: Example output from making a persistence forecast.
-
+```
     We can now look at developing a function for the average forecast strategy. Averaging the
 
 lastnobservations is straight-forward; for example:
 from numpy import mean
  result = mean(history[-n:])
 
-Listing 11.4: Example of averaging prior observations.
-
+```
 We may also want to test out the median in those cases where the
 distribution of observations
 
@@ -140,8 +136,7 @@ is non-Gaussian.
 from numpy import median
  result = median(history[-n:])
 
-Listing 11.5: Example of calculating the median prior observations.
-
+```
 Theaverageforecast()function below implements this taking the historical
 data and a
 
@@ -158,8 +153,7 @@ if avg_type is 'mean':
 
 return median(history[-n:])
 
-Listing 11.6: Example of a function for calculating an average forecast.
-
+```
 The complete example on a small contrived dataset is listed below.
 
 from numpy import mean
@@ -181,8 +175,7 @@ data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
 for i in range(1, len(data)+1):
  print(average_forecast(data, (i, 'mean')))
 
-Listing 11.7: Example of making an average forecast.
-
+```
 Running the example forecasts the next value in the series as the mean
 value from contiguous
 
@@ -200,8 +193,7 @@ subsets of prior observations from -1 to -10, inclusively.
  60.0
  55.0
 
-Listing 11.8: Example output from making an average forecast.
-
+```
 We can update the function to support averaging over seasonal data,
 respecting the seasonal
 
@@ -247,8 +239,7 @@ for i in range(1, n+1):
     # median of last n values
     return median(values)
 
-Listing 11.9: Example of a function for calculating an average forecast
-with support for
+```
 
 seasonality.
 
@@ -283,8 +274,7 @@ data = [10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]
 for i in [1, 2, 3]:
  print(average_forecast(data, (i, 3,'mean')))
 
-Listing 11.10: Example of making an average forecast with seasonality.
-
+```
 Running the example calculates the mean values of[10],[10, 10]and[10,
 10, 10].
 
@@ -293,8 +283,7 @@ Running the example calculates the mean values of[10],[10, 10]and[10,
  10.0
  10.0
 
-Listing 11.11: Example output from making an average forecast with
-seasonality.
+```
 
     It is possible to combine both the naive and the average forecast strategies together into
 
@@ -337,8 +326,7 @@ number of values to average.
     # median of last n values
     return median(values)
 
-Listing 11.12: Example of a function that combines persistence and
-average forecasts.
+```
 
 Next, we need to build up some functions for fitting and evaluating a
 model repeatedly via
@@ -355,8 +343,7 @@ test sets and evaluating
     def train_test_split(data, n_test):
     return data[:-n_test], data[-n_test:]
 
-Listing 11.13: Example of a function for splitting data into train and
-test sets.
+```
 
     After forecasts have been made for each step in the test dataset, they need to be compared
     to the test set in order to calculate an error score. There are many popular error scores for
@@ -370,8 +357,7 @@ test sets.
 
 11.3. Develop a Grid Search Framework 178
 
-Listing 11.14: Example of a function for calculating RMSE.
-
+```
     We can now implement the walk-forward validation scheme. This is a standard approach to
     evaluating a time series forecasting model that respects the temporal ordering of observations.
     First, a provided univariate time series dataset is split into train and test sets using the
@@ -404,8 +390,7 @@ univariate time
     error = measure_rmse(test, predictions)
     return error
 
-Listing 11.15: Example of a function for performing walk-forward
-validation.
+```
 
     If you are interested in making multi-step predictions, you can change the call topredict()in
     thesimpleforecast()function and also change the calculation of error in themeasurermse()
@@ -447,8 +432,7 @@ We can also
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-Listing 11.16: Example of a function the robust evaluation of a model.
-
+```
     Next, we need a loop to test a list of different model configurations. This is the main
     function that drives the grid search process and will call thescoremodel()function for each
     model configuration. We can dramatically speed up the grid search process by evaluating model
@@ -460,21 +444,18 @@ your hardware.
     # define executor
     executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
 
-Listing 11.17: Example of preparing a Joblib executor.
-
+```
     We can then create a list of tasks to execute in parallel, which will be one call to the
     scoremodel()function for each model configuration we have.
     # define list of tasks
     tasks = (delayed(score_model)(data, n_test, cfg) for cfg in cfg_list)
 
-Listing 11.18: Example of preparing a task list for a Joblib executor.
-
+```
     Finally, we can use the Parallel object to execute the list of tasks in parallel.
     # execute list of tasks
     scores = executor(tasks)
 
-Listing 11.19: Example of running a Joblib executor.
-
+```
     On some systems, such as windows that do not support thefork()function, it is necessary
     to add a check to ensure that the entry point of the script is only executed by the main process
     and not child processes.
@@ -482,8 +463,7 @@ Listing 11.19: Example of running a Joblib executor.
     if __name__ =='__main__':
     ...
 
-    Listing 11.20: Example of wrapping the entry point into the script in a check for the main
-    process.
+    ```
 
 (^1) Note, you may have to install Joblib:pip install joblib
 
@@ -494,8 +474,7 @@ Listing 11.19: Example of running a Joblib executor.
     # execute list of tasks sequentially
     scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
-Listing 11.21: Example of evaluating a suite of configurations in
-sequence.
+```
 
     The result of evaluating a list of configurations will be a list of tuples, each with a name
     that summarizes a specific model configuration and the error of the model evaluated with that
@@ -504,8 +483,7 @@ sequence.
     # order scores
     scores = [r for r in scores if r[1] != None]
 
-Listing 11.22: Example of filtering out scores for invalid
-configurations.
+```
 
     We can then sort all tuples in the list by the score in ascending order (best are first), then
     return this list of scores for review. Thegridsearch()function below implements this behavior
@@ -528,8 +506,7 @@ configurations.
     scores.sort(key=lambda tup: tup[1])
     return scores
 
-Listing 11.23: Example of a function for grid searching configurations.
-
+```
     We’re nearly done. The only thing left to do is to define a list of model configurations to try
     for a dataset. We can define this generically. The only parameter we may want to specify is
     the periodicity of the seasonal component in the series (offset), if one exists. By default, we
@@ -553,8 +530,7 @@ create a list
     configs.append(cfg)
     return configs
 
-Listing 11.24: Example of a function for defining simple forecast
-configurations to grid search.
+```
 
     We now have a framework for grid searching simple model hyperparameters via one-step
 
@@ -694,8 +670,7 @@ scores.sort(key=lambda tup: tup[1])
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-Listing 11.25: Example of demonstrating the grid search infrastructure.
-
+```
     Running the example first prints the contrived time series dataset. Next, the model
     configurations and their errors are reported as they are evaluated. Finally, the configurations
     and the error for the top three configurations are reported. We can see that the persistence
@@ -716,8 +691,7 @@ Listing 11.25: Example of demonstrating the grid search infrastructure.
     [2, 1,'mean'] 15.0
     [2, 1,'median'] 15.0
 
-Listing 11.26: Example output from demonstrating the grid search
-infrastructure.
+```
 
     Now that we have a robust framework for grid searching simple model hyperparameters, let’s
     test it out on a suite of standard univariate time series datasets. All datasets in this tutorial
@@ -750,8 +724,7 @@ in California, USA in
     # summarize shape
     print(series.shape)
 
-Listing 11.27: Example of loading the daily female births dataset.
-
+```
     We can then create a line plot of the series and inspect it for systematic structures like
     trends and seasonality.
 
@@ -760,8 +733,7 @@ Listing 11.27: Example of loading the daily female births dataset.
     pyplot.xticks([])
     pyplot.show()
 
-Listing 11.28: Example of plotting the daily female births dataset.
-
+```
 The complete example is listed below.
 
     # load and plot daily births dataset
@@ -776,8 +748,7 @@ The complete example is listed below.
     pyplot.xticks([])
     pyplot.show()
 
-Listing 11.29: Example of loading and plotting the daily female births
-dataset.
+```
 
 Running the example first summarizes the shape of the loaded dataset.
 The dataset has one
@@ -795,8 +766,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-b
 
 ##### (365, 1)
 
-Listing 11.30: Example output from loading and summarizing the shape of
-the daily female
+```
 
 births dataset
 
@@ -938,8 +908,7 @@ max_length = len(data) - n_test
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-Listing 11.31: Example of grid searching naive models for the daily
-female births dataset.
+```
 
     Running the example prints the model configurations and the RMSE are printed as the
     models are evaluated. The top three model configurations and their error are reported at the
@@ -956,8 +925,7 @@ female births dataset.
     [23, 1,'mean'] 6.932293117115201
     [21, 1,'mean'] 6.951918385845375
 
-    Listing 11.32: Example output from grid searching naive models for the daily female births
-    dataset.
+    ```
 
     We can see that the best result was an RMSE of about 6.93 births with the following
     configuration:
@@ -992,8 +960,7 @@ series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 print(series.shape)
 
-Listing 11.33: Example of loading the monthly shampoo sales dataset.
-
+```
     We can then create a line plot of the series and inspect it for systematic structures like
 
 trends and seasonality.
@@ -1001,8 +968,7 @@ pyplot.plot(series)
  pyplot.xticks([])
  pyplot.show()
 
-Listing 11.34: Example of plotting the monthly shampoo sales dataset.
-
+```
 The complete example is listed below.
 
 from pandas import read_csv
@@ -1014,8 +980,7 @@ pyplot.plot(series)
  pyplot.xticks([])
  pyplot.show()
 
-Listing 11.35: Example of loading and plotting the monthly shampoo sales
-dataset.
+```
 
     Running the example first summarizes the shape of the loaded dataset. The dataset has
 
@@ -1026,8 +991,7 @@ test set.
 
 (36, 1)
 
-Listing 11.36: Example output from loading and summarizing the shape of
-the monthly shampoo
+```
 
 sales dataset
 
@@ -1169,8 +1133,7 @@ scores = grid_search(data, cfg_list, n_test)
 for cfg, error in scores[:3]:
  print(cfg, error)
 
-Listing 11.37: Example of grid searching naive models for the monthly
-shampoo sales dataset.
+```
 
 Running the example prints the configurations and the RMSE are printed
 as the models are
@@ -1191,8 +1154,7 @@ as the models are
     [2, 1,'mean'] 96.01140340258198
     [2, 1,'median'] 96.01140340258198
 
-    Listing 11.38: Example output from grid searching naive models for the monthly shampoo sales
-    dataset.
+    ```
 
     We can see that the best result was an RMSE of about 95.69 sales with the following
     configuration:
@@ -1229,8 +1191,7 @@ summarize
     # summarize shape
     print(series.shape)
 
-Listing 11.39: Example of loading the monthly mean temperature dataset.
-
+```
     We can then create a line plot of the series and inspect it for systematic structures like
     trends and seasonality.
 
@@ -1244,8 +1205,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.cs
     pyplot.xticks([])
     pyplot.show()
 
-Listing 11.40: Example of plotting the monthly mean temperature dataset.
-
+```
 The complete example is listed below.
 
     # load and plot monthly mean temp dataset
@@ -1260,8 +1220,7 @@ The complete example is listed below.
     pyplot.xticks([])
     pyplot.show()
 
-Listing 11.41: Example of loading and plotting the monthly mean
-temperature dataset.
+```
 
 Running the example first summarizes the shape of the loaded dataset.
 The dataset has 20
@@ -1270,8 +1229,7 @@ years, or 240 observations.
 
     (240, 1)
 
-    Listing 11.42: Example output from loading and summarizing the shape of the monthly mean
-    temperature dataset
+    ```
 
     A line plot of the series is also created. We can see that there is no obvious trend and an
     obvious seasonality structure.
@@ -1288,8 +1246,7 @@ for the test set.
 
 data = data[-(5*12):]
 
-Listing 11.43: Example of reducing the size of the dataset.
-
+```
     The period of the seasonal component is about one year, or 12 observations. We will use
 
 this as the seasonal period in the call to thesimpleconfigs()function
@@ -1298,8 +1255,7 @@ when preparing the
 model configurations.
 cfg_list = simple_configs(seasonal=[0, 12])
 
-Listing 11.44: Example of specifying some seasonal configurations.
-
+```
 We can now grid search naive models for the dataset. The complete
 example grid searching
 
@@ -1435,8 +1391,7 @@ series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-    Listing 11.45: Example of grid searching naive models for the monthly mean temperature
-    dataset.
+    ```
 
     Running the example prints the model configurations and the RMSE are printed as the
     models are evaluated. The top three model configurations and their error are reported at the
@@ -1453,8 +1408,7 @@ series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
     [8, 12,'mean'] 1.5794579766489512
     [13, 12,'mean'] 1.586186052546763
 
-    Listing 11.46: Example output from grid searching naive models for the monthly mean
-    temperature dataset.
+    ```
 
     We can see that the best result was an RMSE of about 1.50 degrees with the following
     configuration:
@@ -1494,8 +1448,7 @@ the shape of the dataset.
     # summarize shape
     print(series.shape)
 
-Listing 11.47: Example of loading the monthly car sales dataset.
-
+```
     We can then create a line plot of the series and inspect it for systematic structures like
     trends and seasonality.
 
@@ -1504,8 +1457,7 @@ Listing 11.47: Example of loading the monthly car sales dataset.
     pyplot.xticks([])
     pyplot.show()
 
-Listing 11.48: Example of plotting the monthly car sales dataset.
-
+```
 The complete example is listed below.
 
     # load and plot monthly car sales dataset
@@ -1520,8 +1472,7 @@ The complete example is listed below.
     pyplot.xticks([])
     pyplot.show()
 
-Listing 11.49: Example of loading and plotting the monthly car sales
-dataset.
+```
 
     Running the example first summarizes the shape of the loaded dataset. The dataset has 9
 
@@ -1530,8 +1481,7 @@ as the test set.
 
     (108, 1)
 
-    Listing 11.50: Example output from loading and summarizing the shape of the monthly shampoo
-    sales dataset
+    ```
 
     A line plot of the series is also created. We can see that there is an obvious trend and
     seasonal components.
@@ -1552,8 +1502,7 @@ preparing the model
 configurations.
 cfg_list = simple_configs(seasonal=[0,6,12])
 
-Listing 11.51: Example of specifying some seasonal configurations.
-
+```
 We can now grid search naive models for the dataset. The complete
 example grid searching
 
@@ -1684,8 +1633,7 @@ max_length = len(data) - n_test
     for cfg, error in scores[:3]:
     print(cfg, error)
 
-Listing 11.52: Example of grid searching naive models for the monthly
-car sales dataset.
+```
 
     Running the example prints the model configurations and the RMSE are printed as the
     models are evaluated. The top three model configurations and their error are reported at the
@@ -1702,8 +1650,7 @@ car sales dataset.
     [3, 12,'mean'] 2115.198495632485
     [4, 12,'median'] 2184.37708988932
 
-    Listing 11.53: Example output from grid searching naive models for the monthly car sales
-    dataset.
+    ```
 
     We can see that the best result was an RMSE of about 1841.15 sales with the following
     configuration:
