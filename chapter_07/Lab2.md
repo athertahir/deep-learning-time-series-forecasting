@@ -115,57 +115,21 @@ supervised learning problem.
     We can demonstrate this function on our small contrived dataset above. The complete
 
 example is listed below.
-
-univariate data preparation
-===========================
-
 from numpy import array
-
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+end_ix = i + n_steps
+if end_ix > len(sequence)-1:
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
-
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
-
-choose a number of time steps
-=============================
-
-n\_steps = 3
-
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-summarize the data
-==================
-
-for i in range(len(X)):\
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 3
+X, y = split_sequence(raw_seq, n_steps)
+for i in range(len(X)):
  print(X[i], y[i])
 
 Listing 7.4: Example of transforming a univariate time series into a
@@ -175,11 +139,11 @@ supervised learning problem.
 
 three input time steps and one output time step.
 
-[10 20 30] 40\
- [20 30 40] 50\
- [30 40 50] 60\
- [40 50 60] 70\
- [50 60 70] 80\
+[10 20 30] 40
+ [20 30 40] 50
+ [30 40 50] 60
+ [40 50 60] 70
+ [50 60 70] 80
  [60 70 80] 90
 
 Listing 7.5: Example output from transforming a univariate time series
@@ -263,41 +227,17 @@ prediction.
     X.append(seq_x)
     y.append(seq_y)
     return array(X), array(y)
-
-define input sequence
-=====================
-
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
-
-choose a number of time steps
-=============================
-
-n\_steps = 3
-
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-define model
-============
-
-model = Sequential()\
- model.add(Dense(100, activation='relu', input\_dim=n\_steps))\
- model.add(Dense(1))\
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 3
+X, y = split_sequence(raw_seq, n_steps)
+model = Sequential()
+ model.add(Dense(100, activation='relu', input_dim=n_steps))
+ model.add(Dense(1))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
-
 model.fit(X, y, epochs=2000, verbose=0)
-
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 7.9: Example of demonstrating an MLP for univariate time series
@@ -430,8 +370,8 @@ look as follows:
 
 Input:
 
-10, 15\
- 20, 25\
+10, 15
+ 20, 25
  30, 35
 
 Listing 7.15: Example input data for the first data sample.
@@ -467,31 +407,15 @@ have defined it with rows for time steps and columns for parallel series
 and return input/output
 
 samples.
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences):\
+end_ix = i + n_steps
+if end_ix > len(sequences):
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1], sequences[end\_ix-1, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 7.3. Multivariate MLP Models 60
@@ -760,11 +684,7 @@ Listing 7.28: Example of defining the first input model.
 7.3. Multivariate MLP Models 64
 
 We can define the second input submodel in the same way.
-
-second input model
-==================
-
-visible2 = Input(shape=(n\_steps,))\
+visible2 = Input(shape=(n_steps,))
  dense2 = Dense(100, activation='relu')(visible2)
 
 Listing 7.29: Example of defining the second input model.
@@ -775,20 +695,12 @@ model into one long vector, which can be interpreted before making a
 prediction for the output
 
 sequence.
-
-merge input models
-==================
-
-merge = concatenate([dense1, dense2])\
+merge = concatenate([dense1, dense2])
  output = Dense(1)(merge)
 
 Listing 7.30: Example of merging the two input models.
 
 We can then tie the inputs and outputs together.
-
-connect input and output models
-===============================
-
 model = Model(inputs=[visible1, visible2], outputs=output)
 
 Listing 7.31: Example of connecting the input and output elements
@@ -813,20 +725,12 @@ array with the shape[7, 3,
 2]to two 2D arrays with the shape[7, 3].
 
 7.3. Multivariate MLP Models 65
-
-separate input data
-===================
-
-X1 = X[:, :, 0]\
+X1 = X[:, :, 0]
  X2 = X[:, :, 1]
 
 Listing 7.32: Example of separating input data for the two input models.
 
 These data can then be provided in order to fit the model.
-
-fit model
-=========
-
 model.fit([X1, X2], y, epochs=2000, verbose=0)
 
 Listing 7.33: Example of fitting the multi-headed input model.
@@ -834,73 +738,37 @@ Listing 7.33: Example of fitting the multi-headed input model.
     Similarly, we must prepare the data for a single sample as two separate two-dimensional
 
 arrays when making a single one-step prediction.
-
-reshape one sample for making a forecast
-========================================
-
-x\_input = array([[80, 85], [90, 95], [100, 105]])\
- x1 = x\_input[:, 0].reshape((1, n\_steps))\
- x2 = x\_input[:, 1].reshape((1, n\_steps))
+x_input = array([[80, 85], [90, 95], [100, 105]])
+ x1 = x_input[:, 0].reshape((1, n_steps))
+ x2 = x_input[:, 1].reshape((1, n_steps))
 
 Listing 7.34: Example of preparing an input sample for making a
 forecast.
 
 We can tie all of this together; the complete example is listed below.
-
-multivariate mlp example
-========================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Model\
- from keras.layers import Input\
- from keras.layers import Dense\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Model
+ from keras.layers import Input
+ from keras.layers import Dense
  from keras.layers.merge import concatenate
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences):\
+end_ix = i + n_steps
+if end_ix > len(sequences):
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1], sequences[end\_ix-1, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
-
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 7.3. Multivariate MLP Models 66
 
     dataset = hstack((in_seq1, in_seq2, out_seq))
@@ -978,8 +846,8 @@ would be:
 
 Input:
 
-10, 15, 25\
- 20, 25, 45\
+10, 15, 25
+ 20, 25, 45
  30, 35, 65
 
 Listing 7.38: Example input from the first data sample.
@@ -995,31 +863,15 @@ series with rows for
 
 time steps and one series per column into the required input/output
 shape.
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+end_ix = i + n_steps
+if end_ix > len(sequences)-1:
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :], sequences[end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 7.40: Example of a function for splitting a multivariate time
@@ -1029,34 +881,14 @@ supervised learning problem.
 
 We can demonstrate this on the contrived problem; the complete example
 is listed below.
-
-multivariate output data prep
-=============================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+end_ix = i + n_steps
+if end_ix > len(sequences)-1:
  break
-
-gather input and output parts of the pattern
-============================================
-
 7.3. Multivariate MLP Models 68
 
     seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
@@ -1183,97 +1015,41 @@ forecast with a MLP.
     forecasting below.
 
 7.3. Multivariate MLP Models 70
-
-multivariate output mlp example
-===============================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Sequential\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Sequential
  from keras.layers import Dense
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+end_ix = i + n_steps
+if end_ix > len(sequences)-1:
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :], sequences[end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
-
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
-
-n\_steps = 3
-
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps)
-
-flatten input
-=============
-
-n\_input = X.shape[1] \* X.shape[2]\
- X = X.reshape((X.shape[0], n\_input))\
- n\_output = y.shape[1]
-
-define model
-============
-
-model = Sequential()\
- model.add(Dense(100, activation='relu', input\_dim=n\_input))\
- model.add(Dense(n\_output))\
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
+dataset = hstack((in_seq1, in_seq2, out_seq))
+n_steps = 3
+X, y = split_sequences(dataset, n_steps)
+n_input = X.shape[1] * X.shape[2]
+ X = X.reshape((X.shape[0], n_input))
+ n_output = y.shape[1]
+model = Sequential()
+ model.add(Dense(100, activation='relu', input_dim=n_input))
+ model.add(Dense(n_output))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
-
 model.fit(X, y, epochs=2000, verbose=0)
-
-demonstrate prediction
-======================
-
-x\_input = array([[70,75,145], [80,85,165], [90,95,185]])\
- x\_input = x\_input.reshape((1, n\_input))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([[70,75,145], [80,85,165], [90,95,185]])
+ x_input = x_input.reshape((1, n_input))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 7.49: Example of an MLP for multivariate time series
@@ -1593,13 +1369,9 @@ prediction must be[1, 3]for the 1 sample and 3 time steps (features) of
 the input and the
 
 single feature.
-
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps\_in))\
- yhat = model.predict(x\_input, verbose=0)
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps_in))
+ yhat = model.predict(x_input, verbose=0)
 
 Listing 7.67: Example of preparing data for making an out-of-sample
 multi-step forecast.
@@ -1608,75 +1380,31 @@ Tying all of this together, the MLP for multi-step forecasting with a
 univariate time series is
 
 listed below.
-
-univariate multi-step vector-output mlp example
-===============================================
-
-from numpy import array\
- from keras.models import Sequential\
+from numpy import array
+ from keras.models import Sequential
  from keras.layers import Dense
-
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequence)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the sequence
-===================================
-
-if out\_end\_ix \> len(sequence):\
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
+if out_end_ix > len(sequence):
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix:out\_end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix:out_end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
-
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
-
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps\_in, n\_steps\_out)
-
-define model
-============
-
-model = Sequential()\
- model.add(Dense(100, activation='relu', input\_dim=n\_steps\_in))\
- model.add(Dense(n\_steps\_out))\
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps_in, n_steps_out = 3, 2
+X, y = split_sequence(raw_seq, n_steps_in, n_steps_out)
+model = Sequential()
+ model.add(Dense(100, activation='relu', input_dim=n_steps_in))
+ model.add(Dense(n_steps_out))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
-
 model.fit(X, y, epochs=2000, verbose=0)
-
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps\_in))\
- yhat = model.predict(x\_input, verbose=0)
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps_in))
+ yhat = model.predict(x_input, verbose=0)
 
 7.5. Multivariate Multi-step MLP Models 77
 
@@ -1755,40 +1483,24 @@ series.
 
 Output:
 
-65\
+65
  85
 
 Listing 7.72: Example output for a multi-step forecast for a dependent
 series.
 
 Thesplitsequences()function below implements this behavior.
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out-1
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out-1
+if out_end_ix > len(sequences):
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1],
-sequences[end\_ix-1:out\_end\_ix, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1],
+sequences[end_ix-1:out_end_ix, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 7.73: Example of a function for preparing data for a multi-step
@@ -1796,46 +1508,22 @@ dependent series.
 
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
-
-multivariate multi-step data preparation
-========================================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out-1
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out-1
+if out_end_ix > len(sequences):
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1],
-sequences[end\_ix-1:out\_end\_ix, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1],
+sequences[end_ix-1:out_end_ix, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
 
 7.5. Multivariate Multi-step MLP Models 79
 
@@ -1903,90 +1591,38 @@ The output portion of the
 7.5. Multivariate Multi-step MLP Models 80
 
 from keras.layers import Dense
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out-1
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out-1
+if out_end_ix > len(sequences):
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1],
-sequences[end\_ix-1:out\_end\_ix, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1],
+sequences[end_ix-1:out_end_ix, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
-
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)
-
-flatten input
-=============
-
-n\_input = X.shape[1] \* X.shape[2]\
- X = X.reshape((X.shape[0], n\_input))
-
-define model
-============
-
-model = Sequential()\
- model.add(Dense(100, activation='relu', input\_dim=n\_input))\
- model.add(Dense(n\_steps\_out))\
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
+dataset = hstack((in_seq1, in_seq2, out_seq))
+n_steps_in, n_steps_out = 3, 2
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
+n_input = X.shape[1] * X.shape[2]
+ X = X.reshape((X.shape[0], n_input))
+model = Sequential()
+ model.add(Dense(100, activation='relu', input_dim=n_input))
+ model.add(Dense(n_steps_out))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
-
 model.fit(X, y, epochs=2000, verbose=0)
-
-demonstrate prediction
-======================
-
-x\_input = array([[70, 75], [80, 85], [90, 95]])\
- x\_input = x\_input.reshape((1, n\_input))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([[70, 75], [80, 85], [90, 95]])
+ x_input = x_input.reshape((1, n_input))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 7.76: Example of an MLP model for multi-step forecasting for a
@@ -2074,76 +1710,32 @@ We can demonstrate this function on the small contrived dataset. The
 complete example is
 
 listed below.
-
-multivariate multi-step data preparation
-========================================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
+if out_end_ix > len(sequences):
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :],
-sequences[end\_ix:out\_end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :],
+sequences[end_ix:out_end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
-
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)\
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
+dataset = hstack((in_seq1, in_seq2, out_seq))
+n_steps_in, n_steps_out = 3, 2
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
  print(X.shape, y.shape)
-
-summarize the data
-==================
-
-for i in range(len(X)):\
+for i in range(len(X)):
  print(X[i], y[i])
 
 Listing 7.82: Example of preparing data for multi-step forecasting for a
@@ -2221,18 +1813,10 @@ three-dimensional structure of the output data. This is because the MLP
 model is only capable
 
 of taking vector inputs and outputs.
-
-flatten input
-=============
-
-n\_input = X.shape[1] \* X.shape[2]\
- X = X.reshape((X.shape[0], n\_input))
-
-flatten output
-==============
-
-n\_output = y.shape[1] \* y.shape[2]\
- y = y.reshape((y.shape[0], n\_output))
+n_input = X.shape[1] * X.shape[2]
+ X = X.reshape((X.shape[0], n_input))
+n_output = y.shape[1] * y.shape[2]
+ y = y.reshape((y.shape[0], n_output))
 
 Listing 7.84: Example of reshaping input and output data for fitting an
 MLP model for a
@@ -2240,105 +1824,45 @@ MLP model for a
 multi-step multivariate series.
 
 The complete example is listed below.
-
-multivariate multi-step mlp example
-===================================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Sequential\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Sequential
  from keras.layers import Dense
-
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
+if out_end_ix > len(sequences):
  break
-
-gather input and output parts of the pattern
-============================================
-
 7.5. Multivariate Multi-step MLP Models 84
 
     seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix:out_end_ix, :]
     X.append(seq_x)
     y.append(seq_y)
     return array(X), array(y)
-
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
-
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)
-
-flatten input
-=============
-
-n\_input = X.shape[1] \* X.shape[2]\
- X = X.reshape((X.shape[0], n\_input))
-
-flatten output
-==============
-
-n\_output = y.shape[1] \* y.shape[2]\
- y = y.reshape((y.shape[0], n\_output))
-
-define model
-============
-
-model = Sequential()\
- model.add(Dense(100, activation='relu', input\_dim=n\_input))\
- model.add(Dense(n\_output))\
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
+dataset = hstack((in_seq1, in_seq2, out_seq))
+n_steps_in, n_steps_out = 3, 2
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
+n_input = X.shape[1] * X.shape[2]
+ X = X.reshape((X.shape[0], n_input))
+n_output = y.shape[1] * y.shape[2]
+ y = y.reshape((y.shape[0], n_output))
+model = Sequential()
+ model.add(Dense(100, activation='relu', input_dim=n_input))
+ model.add(Dense(n_output))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
-
 model.fit(X, y, epochs=2000, verbose=0)
-
-demonstrate prediction
-======================
-
-x\_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])\
- x\_input = x\_input.reshape((1, n\_input))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
+ x_input = x_input.reshape((1, n_input))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 7.85: Example of an MLP model for multi-step forecasting for a
@@ -2352,7 +1876,7 @@ expect the values for these
 
 series and time steps to be as follows:
 
-90, 95, 185\
+90, 95, 185
  100, 105, 205
 
 Listing 7.86: Expected output for an out-of-sample multi-step

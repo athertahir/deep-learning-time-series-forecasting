@@ -233,12 +233,9 @@ Listing 8.8: Example of fitting a CNN model.
 
 8.2. Univariate CNN Models 91
 
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps, n\_features))\
- yhat = model.predict(x\_input, verbose=0)
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps, n_features))
+ yhat = model.predict(x_input, verbose=0)
 
 Listing 8.9: Example of reshaping data read for making a prediction.
 
@@ -246,86 +243,48 @@ Listing 8.9: Example of reshaping data read for making a prediction.
 
 univariate time series forecasting and make a single prediction.
 
-univariate cnn example
-======================
-
-from numpy import array\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers.convolutional import Conv1D\
+from numpy import array
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers.convolutional import Conv1D
  from keras.layers.convolutional import MaxPooling1D
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+if end_ix > len(sequence)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 3
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps)
 
-n\_steps = 3
-
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-reshape from [samples, timesteps] into [samples, timesteps, features]
-=====================================================================
-
-n\_features = 1\
- X = X.reshape((X.shape[0], X.shape[1], n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(Conv1D(filters=64, kernel\_size=2, activation='relu',
-input\_shape=(n\_steps,\
- n\_features)))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(Dense(50, activation='relu'))\
- model.add(Dense(1))\
+n_features = 1
+ X = X.reshape((X.shape[0], X.shape[1], n_features))
+model = Sequential()
+ model.add(Conv1D(filters=64, kernel_size=2, activation='relu',
+input_shape=(n_steps,
+ n_features)))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(Dense(50, activation='relu'))
+ model.add(Dense(1))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
-
 model.fit(X, y, epochs=1000, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps, n\_features))
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps, n_features))
 
 8.3. Multivariate CNN Models 92
 
@@ -383,47 +342,29 @@ Listing 8.12: Example of defining multiple parallel series.
 
 8.3. Multivariate CNN Models 93
 
-convert to [rows, columns] structure
-====================================
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
 Listing 8.13: Example of defining parallel series as a dataset.
 
 The complete example is listed below.
 
-multivariate data preparation
-=============================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))\
+dataset = hstack((in_seq1, in_seq2, out_seq))
  print(dataset)
 
 Listing 8.14: Example of defining a dependent time series dataset.
@@ -433,14 +374,14 @@ one column for each
 
 of the two input and one output parallel time series.
 
-[[ 10 15 25]\
- [ 20 25 45]\
- [ 30 35 65]\
- [ 40 45 85]\
- [ 50 55 105]\
- [ 60 65 125]\
- [ 70 75 145]\
- [ 80 85 165]\
+[[ 10 15 25]
+ [ 20 25 45]
+ [ 30 35 65]
+ [ 40 45 85]
+ [ 50 55 105]
+ [ 60 65 125]
+ [ 70 75 145]
+ [ 80 85 165]
  [ 90 95 185]]
 
 Listing 8.15: Example output from defining a dependent time series
@@ -465,8 +406,8 @@ follows:
 
 Input:
 
-10, 15\
- 20, 25\
+10, 15
+ 20, 25
  30, 35
 
 Listing 8.16: Example input from the first sample.
@@ -505,30 +446,18 @@ and return input/output
 
 samples.
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences):\
+if end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1], sequences[end\_ix-1, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 8.18: Example of a function for preparing samples for a
@@ -539,40 +468,22 @@ input time series as
 
 input. The complete example is listed below.
 
-multivariate data preparation
-=============================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences):\
+if end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1], sequences[end\_ix-1, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define input sequence
-=====================
 
 8.3. Multivariate CNN Models 95
 
@@ -776,24 +687,18 @@ input model as a 1D
 
 CNN with an input layer that expects vectors withnstepsand 1 feature.
 
-first input model
-=================
-
-visible1 = Input(shape=(n\_steps, n\_features))\
- cnn1 = Conv1D(filters=64, kernel\_size=2, activation='relu')(visible1)\
- cnn1 = MaxPooling1D(pool\_size=2)(cnn1)\
+visible1 = Input(shape=(n_steps, n_features))
+ cnn1 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible1)
+ cnn1 = MaxPooling1D(pool_size=2)(cnn1)
  cnn1 = Flatten()(cnn1)
 
 Listing 8.26: Example of defining the first input model.
 
 We can define the second input submodel in the same way.
 
-second input model
-==================
-
-visible2 = Input(shape=(n\_steps, n\_features))\
- cnn2 = Conv1D(filters=64, kernel\_size=2, activation='relu')(visible2)\
- cnn2 = MaxPooling1D(pool\_size=2)(cnn2)\
+visible2 = Input(shape=(n_steps, n_features))
+ cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
+ cnn2 = MaxPooling1D(pool_size=2)(cnn2)
  cnn2 = Flatten()(cnn2)
 
 Listing 8.27: Example of defining the second input model.
@@ -805,19 +710,13 @@ prediction for the output
 
 sequence.
 
-merge input models
-==================
-
-merge = concatenate([cnn1, cnn2])\
- dense = Dense(50, activation='relu')(merge)\
+merge = concatenate([cnn1, cnn2])
+ dense = Dense(50, activation='relu')(merge)
  output = Dense(1)(dense)
 
 Listing 8.28: Example of defining the output model.
 
 We can then tie the inputs and outputs together.
-
-connect input and output models
-===============================
 
 model = Model(inputs=[visible1, visible2], outputs=output)
 
@@ -844,25 +743,15 @@ the shape[7, 3, 2]
 
 to two 3D arrays with[7, 3, 1].
 
-one time series per head
-========================
+n_features = 1
 
-n\_features = 1
-
-separate input data
-===================
-
-X1 = X[:, :, 0].reshape(X.shape[0], X.shape[1], n\_features)\
- X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n\_features)
+X1 = X[:, :, 0].reshape(X.shape[0], X.shape[1], n_features)
+ X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n_features)
 
 Listing 8.30: Example of preparing the input data for the multi-headed
 model.
 
 These data can then be provided in order to fit the model.
-
-fit model
-=========
-
 model.fit([X1, X2], y, epochs=1000, verbose=0)
 
 Listing 8.31: Example of fitting the multi-headed model.
@@ -871,12 +760,9 @@ Listing 8.31: Example of fitting the multi-headed model.
 
 arrays when making a single one-step prediction.
 
-reshape one sample for making a prediction
-==========================================
-
-x\_input = array([[80, 85], [90, 95], [100, 105]])\
- x1 = x\_input[:, 0].reshape((1, n\_steps, n\_features))\
- x2 = x\_input[:, 1].reshape((1, n\_steps, n\_features))
+x_input = array([[80, 85], [90, 95], [100, 105]])
+ x1 = x_input[:, 0].reshape((1, n_steps, n_features))
+ x2 = x_input[:, 1].reshape((1, n_steps, n_features))
 
 Listing 8.32: Example of preparing data for forecasting with the
 multi-headed model.
@@ -885,100 +771,58 @@ multi-headed model.
 
 We can tie all of this together; the complete example is listed below.
 
-multivariate multi-headed 1d cnn example
-========================================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Model\
- from keras.layers import Input\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers.convolutional import Conv1D\
- from keras.layers.convolutional import MaxPooling1D\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Model
+ from keras.layers import Input
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers.convolutional import Conv1D
+ from keras.layers.convolutional import MaxPooling1D
  from keras.layers.merge import concatenate
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences):\
+if end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1], sequences[end\_ix-1, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
+n_steps = 3
 
-horizontally stack columns
-==========================
+X, y = split_sequences(dataset, n_steps)
 
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
+n_features = 1
 
-choose a number of time steps
-=============================
+X1 = X[:, :, 0].reshape(X.shape[0], X.shape[1], n_features)
+ X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n_features)
 
-n\_steps = 3
-
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps)
-
-one time series per head
-========================
-
-n\_features = 1
-
-separate input data
-===================
-
-X1 = X[:, :, 0].reshape(X.shape[0], X.shape[1], n\_features)\
- X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n\_features)
-
-first input model
-=================
-
-visible1 = Input(shape=(n\_steps, n\_features))\
- cnn1 = Conv1D(filters=64, kernel\_size=2, activation='relu')(visible1)\
- cnn1 = MaxPooling1D(pool\_size=2)(cnn1)\
+visible1 = Input(shape=(n_steps, n_features))
+ cnn1 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible1)
+ cnn1 = MaxPooling1D(pool_size=2)(cnn1)
  cnn1 = Flatten()(cnn1)
 
-second input model
-==================
-
-visible2 = Input(shape=(n\_steps, n\_features))\
- cnn2 = Conv1D(filters=64, kernel\_size=2, activation='relu')(visible2)\
- cnn2 = MaxPooling1D(pool\_size=2)(cnn2)
+visible2 = Input(shape=(n_steps, n_features))
+ cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
+ cnn2 = MaxPooling1D(pool_size=2)(cnn2)
 
 8.3. Multivariate CNN Models 101
 
@@ -1062,30 +906,18 @@ series with rows for
 time steps and one series per column into the required input/output
 shape.
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+if end_ix > len(sequences)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :], sequences[end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 8.38: Example of splitting multiple parallel time series into
@@ -1094,45 +926,27 @@ samples.
 We can demonstrate this on the contrived problem; the complete example
 is listed below.
 
-multivariate output data prep
-=============================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+if end_ix > len(sequences)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :], sequences[end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
 8.3. Multivariate CNN Models 103
 
@@ -1425,61 +1239,31 @@ Tying all of this together, the complete example is listed below.
 
 8.4. Multi-step CNN Models 108
 
-X, y = split\_sequences(dataset, n\_steps)
+X, y = split_sequences(dataset, n_steps)
 
-the dataset knows the number of features, e.g. 2
-================================================
+n_features = X.shape[2]
 
-n\_features = X.shape[2]
-
-separate output
-===============
-
-y1 = y[:, 0].reshape((y.shape[0], 1))\
- y2 = y[:, 1].reshape((y.shape[0], 1))\
+y1 = y[:, 0].reshape((y.shape[0], 1))
+ y2 = y[:, 1].reshape((y.shape[0], 1))
  y3 = y[:, 2].reshape((y.shape[0], 1))
-
-define model
-============
-
-visible = Input(shape=(n\_steps, n\_features))\
- cnn = Conv1D(filters=64, kernel\_size=2, activation='relu')(visible)\
- cnn = MaxPooling1D(pool\_size=2)(cnn)\
- cnn = Flatten()(cnn)\
+visible = Input(shape=(n_steps, n_features))
+ cnn = Conv1D(filters=64, kernel_size=2, activation='relu')(visible)
+ cnn = MaxPooling1D(pool_size=2)(cnn)
+ cnn = Flatten()(cnn)
  cnn = Dense(50, activation='relu')(cnn)
-
-define output 1
-===============
 
 output1 = Dense(1)(cnn)
 
-define output 2
-===============
-
 output2 = Dense(1)(cnn)
 
-define output 3
-===============
-
 output3 = Dense(1)(cnn)
-
-tie together
-============
-
-model = Model(inputs=visible, outputs=[output1, output2, output3])\
+model = Model(inputs=visible, outputs=[output1, output2, output3])
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
-
 model.fit(X, [y1,y2,y3], epochs=2000, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([[70,75,145], [80,85,165], [90,95,185]])\
- x\_input = x\_input.reshape((1, n\_steps, n\_features))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([[70,75,145], [80,85,165], [90,95,185]])
+ x_input = x_input.reshape((1, n_steps, n_features))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 8.51: Example of a Multi-output CNN model for forecasting
@@ -1493,8 +1277,8 @@ results may vary. Consider
 
 running the example a few times.
 
-[array([[100.96118]], dtype=float32),\
- array([[105.502686]], dtype=float32),\
+[array([[100.96118]], dtype=float32),
+ array([[105.502686]], dtype=float32),
  array([[205.98045]], dtype=float32)]
 
 Listing 8.52: Example output from a Multi-output CNN model for
@@ -1934,64 +1718,40 @@ multi-step forecasts.
 
 demonstrate a vector output model. The complete example is listed below.
 
-multivariate multi-step 1d cnn example
-======================================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers.convolutional import Conv1D\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers.convolutional import Conv1D
  from keras.layers.convolutional import MaxPooling1D
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out-1
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out-1
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1],
-sequences[end\_ix-1:out\_end\_ix, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1],
+sequences[end_ix-1:out_end_ix, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
 8.5. Multivariate Multi-step CNN Models 116
 
@@ -2061,47 +1821,35 @@ sample in the training dataset would be the following.
 
 Input:
 
-10, 15, 25\
- 20, 25, 45\
+10, 15, 25
+ 20, 25, 45
  30, 35, 65
 
 Listing 8.73: Example input for the first sample.
 
 Output:
 
-40, 45, 85\
+40, 45, 85
  50, 55, 105
 
 Listing 8.74: Example output for the first sample.
 
 Thesplitsequences()function below implements this behavior.
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :],
-sequences[end\_ix:out\_end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :],
+sequences[end_ix:out_end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 8.75: Example of a function for transforming a multivariate time
@@ -2114,36 +1862,21 @@ complete example is
 
 listed below.
 
-multivariate multi-step data preparation
-========================================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :],
-sequences[end\_ix:out\_end\_ix, :]
+seq_x, seq_y = sequences[i:end_ix, :],
+sequences[end_ix:out_end_ix, :]
 
 8.5. Multivariate Multi-step CNN Models 118
 
@@ -2151,41 +1884,23 @@ sequences[end\_ix:out\_end\_ix, :]
     y.append(seq_y)
     return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
+n_steps_in, n_steps_out = 3, 2
 
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)\
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
  print(X.shape, y.shape)
 
-summarize the data
-==================
-
-for i in range(len(X)):\
+for i in range(len(X)):
  print(X[i], y[i])
 
 Listing 8.76: Example preparing a multivariate parallel time series with
@@ -2206,25 +1921,25 @@ data was prepared as we expected.
 
 (5, 3, 3) (5, 2, 3)
 
-[[10 15 25]\
- [20 25 45]\
- [30 35 65]] [[ 40 45 85]\
- [ 50 55 105]]\
- [[20 25 45]\
- [30 35 65]\
- [40 45 85]] [[ 50 55 105]\
- [ 60 65 125]]\
- [[ 30 35 65]\
- [ 40 45 85]\
- [ 50 55 105]] [[ 60 65 125]\
- [ 70 75 145]]\
- [[ 40 45 85]\
- [ 50 55 105]\
- [ 60 65 125]] [[ 70 75 145]\
- [ 80 85 165]]\
- [[ 50 55 105]\
- [ 60 65 125]\
- [ 70 75 145]] [[ 80 85 165]\
+[[10 15 25]
+ [20 25 45]
+ [30 35 65]] [[ 40 45 85]
+ [ 50 55 105]]
+ [[20 25 45]
+ [30 35 65]
+ [40 45 85]] [[ 50 55 105]
+ [ 60 65 125]]
+ [[ 30 35 65]
+ [ 40 45 85]
+ [ 50 55 105]] [[ 60 65 125]
+ [ 70 75 145]]
+ [[ 40 45 85]
+ [ 50 55 105]
+ [ 60 65 125]] [[ 70 75 145]
+ [ 80 85 165]]
+ [[ 50 55 105]
+ [ 60 65 125]
+ [ 70 75 145]] [[ 80 85 165]
  [ 90 95 185]]
 
 Listing 8.77: Example output from preparing a multivariate parallel time
@@ -2245,97 +1960,56 @@ predicting two steps for each
 
 series, the model is trained on and expected to predict a vector of six
 numbers directly.
-
-flatten output
-==============
-
-n\_output = y.shape[1] \* y.shape[2]\
- y = y.reshape((y.shape[0], n\_output))
+n_output = y.shape[1] * y.shape[2]
+ y = y.reshape((y.shape[0], n_output))
 
 Listing 8.78: Example of flattening output samples for training the
 model with vector output.
 
 The complete example is listed below.
 
-multivariate output multi-step 1d cnn example
-=============================================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers.convolutional import Conv1D\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers.convolutional import Conv1D
  from keras.layers.convolutional import MaxPooling1D
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :],
-sequences[end\_ix:out\_end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :],
+sequences[end_ix:out_end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
+n_steps_in, n_steps_out = 3, 2
 
-horizontally stack columns
-==========================
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
+n_output = y.shape[1] * y.shape[2]
+ y = y.reshape((y.shape[0], n_output))
 
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)
-
-flatten output
-==============
-
-n\_output = y.shape[1] \* y.shape[2]\
- y = y.reshape((y.shape[0], n\_output))
-
-the dataset knows the number of features, e.g. 2
-================================================
-
-n\_features = X.shape[2]
+n_features = X.shape[2]
 
 8.6. Extensions 120
 

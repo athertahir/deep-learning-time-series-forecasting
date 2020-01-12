@@ -49,7 +49,7 @@ This tutorial is divided into five parts; they are:
 
 was introduced. You can download the dataset directly from here:
 
-- monthly-car-sales.csv\^1
+- monthly-car-sales.csv^1
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -98,7 +98,7 @@ ground. This section is divided into the following parts:
 2.  Series as Supervised Learning
 3.  Walk-Forward Validation
 
-(\^1)
+(^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
 14.3. Model Evaluation Test Harness 251
@@ -349,11 +349,7 @@ a forecast model.
     modelfit()function will be implemented to simply returnNone.
 
 14.3. Model Evaluation Test Harness 255
-
-fit a model
-===========
-
-def model\_fit(train, config):\
+def model_fit(train, config):
  return None
 
 Listing 14.12: Example of a function for fitting a forecast model.
@@ -364,10 +360,6 @@ the time to be forecasted that will be used as the prediction. For
 example, 12 will use the
 
 observation 12 months ago (-12) relative to the time to be forecasted.
-
-define config
-=============
-
 config = [12, 24, 36]
 
 Listing 14.13: Example of a configuration to evaluate.
@@ -377,13 +369,10 @@ to collect the
 
 observations, then return the median of those observations.
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):\
- values = list()\
- for offset in config:\
- values.append(history[-offset])\
+def model_predict(model, history, config):
+ values = list()
+ for offset in config:
+ values.append(history[-offset])
  return median(values)
 
 Listing 14.14: Example of a function for making a naive forecast.
@@ -392,46 +381,27 @@ Listing 14.14: Example of a function for making a naive forecast.
 
 below.
 
-persistence forecast for monthly car sales dataset
-==================================================
-
-from math import sqrt\
- from numpy import median\
- from numpy import mean\
- from numpy import std\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
+from math import sqrt
+ from numpy import median
+ from numpy import mean
+ from numpy import std
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
  from matplotlib import pyplot
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-root mean squared error or rmse
-===============================
-
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
-
-difference dataset
-==================
-
-def difference(data, interval):\
+def difference(data, interval):
  return [data[i] - data[i - interval] for i in range(interval,
 len(data))]
-
-fit a model
-===========
-
-def model\_fit(train, config):\
+def model_fit(train, config):
  return None
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
+def model_predict(model, history, config):
 
 14.3. Model Evaluation Test Harness 256
 
@@ -440,105 +410,46 @@ def model\_predict(model, history, config):
     values.append(history[-offset])
     return median(values)
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-fit model
-=========
-
-model = model\_fit(train, cfg)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
+model = model_fit(train, cfg)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = model\_predict(model, history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = model_predict(model, history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
- print(' \> %.3f' % error)\
+error = measure_rmse(test, predictions)
+ print(' > %.3f' % error)
  return error
 
-repeat evaluation of a config
-=============================
+def repeat_evaluate(data, config, n_test, n_repeats=30):
 
-def repeat\_evaluate(data, config, n\_test, n\_repeats=30):
-
-fit and evaluate the model n times
-==================================
-
-scores = [walk\_forward\_validation(data, n\_test, config) for \_ in
-range(n\_repeats)]\
+scores = [walk_forward_validation(data, n_test, config) for _ in
+range(n_repeats)]
  return scores
 
-summarize model performance
-===========================
+def summarize_scores(name, scores):
 
-def summarize\_scores(name, scores):
+scores_m, score_std = mean(scores), std(scores)
+ print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
-print a summary
-===============
-
-scores\_m, score\_std = mean(scores), std(scores)\
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores\_m, score\_std))
-
-box and whisker plot
-====================
-
-pyplot.boxplot(scores)\
+pyplot.boxplot(scores)
  pyplot.show()
 
-series = read\_csv('monthly-car-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-define config
-=============
-
+n_test = 12
 config = [12, 24, 36]
+scores = repeat_evaluate(data, config, n_test)
 
-grid search
-===========
-
-scores = repeat\_evaluate(data, config, n\_test)
-
-summarize scores
-================
-
-summarize\_scores('persistence', scores)
+summarize_scores('persistence', scores)
 
 Listing 14.15: Example of demonstrating the forecast infrastructure with
 a naive model.
@@ -551,15 +462,15 @@ walk-forward validation
     on the final 12 months of data. The model is evaluated 30 times, although, because the model
     has no stochastic element, the score is the same each time.
 
-##### \> 1841.156
+##### > 1841.156
 
-##### \> 1841.156
+##### > 1841.156
 
-##### \> 1841.156
+##### > 1841.156
 
-##### \> 1841.156
+##### > 1841.156
 
-##### \> 1841.156
+##### > 1841.156
 
     persistence: 1841.156 RMSE (+/- 0.000)
 
@@ -740,107 +651,48 @@ or more means that the
 
 14.4. Multilayer Perceptron Model 260
 
-from keras.layers import Dense\
+from keras.layers import Dense
  from matplotlib import pyplot
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-transform list into supervised learning format
-==============================================
-
-def series\_to\_supervised(data, n\_in, n\_out=1):\
- df = DataFrame(data)\
+def series_to_supervised(data, n_in, n_out=1):
+ df = DataFrame(data)
  cols = list()
 
-input sequence (t-n, ... t-1)
-=============================
-
-for i in range(n\_in, 0, -1):\
+for i in range(n_in, 0, -1):
  cols.append(df.shift(i))
 
-forecast sequence (t, t+1, ... t+n)
-===================================
-
-for i in range(0, n\_out):\
+for i in range(0, n_out):
  cols.append(df.shift(-i))
-
-put it all together
-===================
 
 agg = concat(cols, axis=1)
 
-drop rows with NaN values
-=========================
-
-agg.dropna(inplace=True)\
+agg.dropna(inplace=True)
  return agg.values
 
-root mean squared error or rmse
-===============================
-
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
-
-fit a model
-===========
-
-def model\_fit(train, config):
-
-unpack config
-=============
-
-n\_input, n\_nodes, n\_epochs, n\_batch = config
-
-prepare data
-============
-
-data = series\_to\_supervised(train, n\_input)\
- train\_x, train\_y = data[:, :-1], data[:, -1]
-
-define model
-============
-
-model = Sequential()\
- model.add(Dense(n\_nodes, activation='relu', input\_dim=n\_input))\
- model.add(Dense(1))\
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
+def model_fit(train, config):
+n_input, n_nodes, n_epochs, n_batch = config
+data = series_to_supervised(train, n_input)
+ train_x, train_y = data[:, :-1], data[:, -1]
+model = Sequential()
+ model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
+ model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
-
-fit
-===
-
-model.fit(train\_x, train\_y, epochs=n\_epochs, batch\_size=n\_batch,
-verbose=0)\
+model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
+verbose=0)
  return model
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
-
-unpack config
-=============
-
-n\_input, \_, \_, \_ = config
-
-prepare data
-============
-
-x\_input = array(history[-n\_input:]).reshape(1, n\_input)
-
-forecast
-========
-
-yhat = model.predict(x\_input, verbose=0)\
+def model_predict(model, history, config):
+n_input, _, _, _ = config
+x_input = array(history[-n_input:]).reshape(1, n_input)
+yhat = model.predict(x_input, verbose=0)
  return yhat[0]
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 
 14.4. Multilayer Perceptron Model 261
@@ -910,15 +762,15 @@ reported of about 1,526
 
 ##### ...
 
-##### \> 1458.993
+##### > 1458.993
 
-##### \> 1643.383
+##### > 1643.383
 
-##### \> 1457.925
+##### > 1457.925
 
-##### \> 1558.934
+##### > 1558.934
 
-##### \> 1708.278
+##### > 1708.278
 
 mlp: 1526.688 RMSE (+/- 134.789)
 
@@ -1113,208 +965,93 @@ Tying all of this together, the complete example is listed below.
 
 14.5. Convolutional Neural Network Model 266
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-transform list into supervised learning format
-==============================================
-
-def series\_to\_supervised(data, n\_in, n\_out=1):\
- df = DataFrame(data)\
+def series_to_supervised(data, n_in, n_out=1):
+ df = DataFrame(data)
  cols = list()
 
-input sequence (t-n, ... t-1)
-=============================
-
-for i in range(n\_in, 0, -1):\
+for i in range(n_in, 0, -1):
  cols.append(df.shift(i))
 
-forecast sequence (t, t+1, ... t+n)
-===================================
-
-for i in range(0, n\_out):\
+for i in range(0, n_out):
  cols.append(df.shift(-i))
-
-put it all together
-===================
 
 agg = concat(cols, axis=1)
 
-drop rows with NaN values
-=========================
-
-agg.dropna(inplace=True)\
+agg.dropna(inplace=True)
  return agg.values
 
-root mean squared error or rmse
-===============================
-
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
-
-fit a model
-===========
-
-def model\_fit(train, config):
-
-unpack config
-=============
-
-n\_input, n\_filters, n\_kernel, n\_epochs, n\_batch = config
-
-prepare data
-============
-
-data = series\_to\_supervised(train, n\_input)\
- train\_x, train\_y = data[:, :-1], data[:, -1]\
- train\_x = train\_x.reshape((train\_x.shape[0], train\_x.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(Conv1D(filters=n\_filters, kernel\_size=n\_kernel,
-activation='relu',\
- input\_shape=(n\_input, 1)))\
- model.add(Conv1D(filters=n\_filters, kernel\_size=n\_kernel,
-activation='relu'))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(Dense(1))\
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
+def model_fit(train, config):
+n_input, n_filters, n_kernel, n_epochs, n_batch = config
+data = series_to_supervised(train, n_input)
+ train_x, train_y = data[:, :-1], data[:, -1]
+ train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
+model = Sequential()
+ model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
+activation='relu',
+ input_shape=(n_input, 1)))
+ model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
+activation='relu'))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
-
-fit
-===
-
-model.fit(train\_x, train\_y, epochs=n\_epochs, batch\_size=n\_batch,
-verbose=0)\
+model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
+verbose=0)
  return model
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
-
-unpack config
-=============
-
-n\_input, \_, \_, \_, \_ = config
-
-prepare data
-============
-
-x\_input = array(history[-n\_input:]).reshape((1, n\_input, 1))
-
-forecast
-========
-
-yhat = model.predict(x\_input, verbose=0)\
+def model_predict(model, history, config):
+n_input, _, _, _, _ = config
+x_input = array(history[-n_input:]).reshape((1, n_input, 1))
+yhat = model.predict(x_input, verbose=0)
  return yhat[0]
 
 14.5. Convolutional Neural Network Model 267
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-fit model
-=========
-
-model = model\_fit(train, cfg)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
+model = model_fit(train, cfg)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = model\_predict(model, history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = model_predict(model, history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
- print(' \> %.3f' % error)\
+error = measure_rmse(test, predictions)
+ print(' > %.3f' % error)
  return error
 
-repeat evaluation of a config
-=============================
+def repeat_evaluate(data, config, n_test, n_repeats=30):
 
-def repeat\_evaluate(data, config, n\_test, n\_repeats=30):
-
-fit and evaluate the model n times
-==================================
-
-scores = [walk\_forward\_validation(data, n\_test, config) for \_ in
-range(n\_repeats)]\
+scores = [walk_forward_validation(data, n_test, config) for _ in
+range(n_repeats)]
  return scores
 
-summarize model performance
-===========================
+def summarize_scores(name, scores):
 
-def summarize\_scores(name, scores):
+scores_m, score_std = mean(scores), std(scores)
+ print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
-print a summary
-===============
-
-scores\_m, score\_std = mean(scores), std(scores)\
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores\_m, score\_std))
-
-box and whisker plot
-====================
-
-pyplot.boxplot(scores)\
+pyplot.boxplot(scores)
  pyplot.show()
 
-series = read\_csv('monthly-car-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-define config
-=============
-
+n_test = 12
 config = [36, 256, 3, 100, 100]
+scores = repeat_evaluate(data, config, n_test)
 
-grid search
-===========
-
-scores = repeat\_evaluate(data, config, n\_test)
-
-summarize scores
-================
-
-summarize\_scores('cnn', scores)
+summarize_scores('cnn', scores)
 
 Listing 14.32: Example of a CNN model for forecasting monthly car sales.
 
@@ -1343,15 +1080,15 @@ directly without scaling or the data being made stationary.
 
 ##### ...
 
-##### \> 1489.795
+##### > 1489.795
 
-##### \> 1652.620
+##### > 1652.620
 
-##### \> 1537.349
+##### > 1537.349
 
-##### \> 1443.777
+##### > 1443.777
 
-##### \> 1567.179
+##### > 1567.179
 
     cnn: 1524.067 RMSE (+/- 57.148)
 
@@ -1480,41 +1217,21 @@ dataset.
 are updated.
 
 - ndiff: The difference order or 0 if not used.
-
-fit a model
-===========
-
-def model\_fit(train, config):
-
-unpack config
-=============
-
-n\_input, n\_nodes, n\_epochs, n\_batch, n\_diff = config
-
-prepare data
-============
-
-if n\_diff \> 0:\
- train = difference(train, n\_diff)\
- data = series\_to\_supervised(train, n\_input)\
- train\_x, train\_y = data[:, :-1], data[:, -1]\
- train\_x = train\_x.reshape((train\_x.shape[0], train\_x.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(n\_nodes, activation='relu', input\_shape=(n\_input,
-1)))\
- model.add(Dense(n\_nodes, activation='relu'))\
- model.add(Dense(1))\
+def model_fit(train, config):
+n_input, n_nodes, n_epochs, n_batch, n_diff = config
+if n_diff > 0:
+ train = difference(train, n_diff)
+ data = series_to_supervised(train, n_input)
+ train_x, train_y = data[:, :-1], data[:, -1]
+ train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
+model = Sequential()
+ model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
+1)))
+ model.add(Dense(n_nodes, activation='relu'))
+ model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
-
-fit
-===
-
-model.fit(train\_x, train\_y, epochs=n\_epochs, batch\_size=n\_batch,
-verbose=0)\
+model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
+verbose=0)
  return model
 
 Listing 14.38: Example of a function for fitting an LSTM forecast model.
@@ -1539,24 +1256,13 @@ implements this
 
 behavior.
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
-
-unpack config
-=============
-
-n\_input, \_, \_, \_, n\_diff = config
-
-prepare data
-============
-
-correction = 0.0\
- if n\_diff \> 0:\
- correction = history[-n\_diff]\
- history = difference(history, n\_diff)\
- x\_input = array(history[-n\_input:]).reshape((1, n\_input, 1))
+def model_predict(model, history, config):
+n_input, _, _, _, n_diff = config
+correction = 0.0
+ if n_diff > 0:
+ correction = history[-n_diff]
+ history = difference(history, n_diff)
+ x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 14.6. Recurrent Neural Network Models 272
 
@@ -1585,55 +1291,36 @@ For details on how, see Chapter 15.
 - ndiff: 12 (i.e. seasonal difference)
 
 This can be specified as a list:
-
-define config
-=============
-
 config = [36, 50, 100, 100, 12]
 
 Listing 14.40: Example of good configuration for an LSTM forecast model.
 
 Tying all of this together, the complete example is listed below.
 
-evaluate lstm for monthly car sales dataset
-===========================================
-
-from math import sqrt\
- from numpy import array\
- from numpy import mean\
- from numpy import std\
- from pandas import DataFrame\
- from pandas import concat\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import LSTM\
+from math import sqrt
+ from numpy import array
+ from numpy import mean
+ from numpy import std
+ from pandas import DataFrame
+ from pandas import concat
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import LSTM
  from matplotlib import pyplot
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-transform list into supervised learning format
-==============================================
-
-def series\_to\_supervised(data, n\_in, n\_out=1):\
- df = DataFrame(data)\
+def series_to_supervised(data, n_in, n_out=1):
+ df = DataFrame(data)
  cols = list()
 
-input sequence (t-n, ... t-1)
-=============================
-
-for i in range(n\_in, 0, -1):\
+for i in range(n_in, 0, -1):
  cols.append(df.shift(i))
 
-forecast sequence (t, t+1, ... t+n)
-===================================
-
-for i in range(0, n\_out):
+for i in range(0, n_out):
 
 14.6. Recurrent Neural Network Models 273
 
@@ -1644,95 +1331,43 @@ for i in range(0, n\_out):
     agg.dropna(inplace=True)
     return agg.values
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
-
-difference dataset
-==================
-
-def difference(data, interval):\
+def difference(data, interval):
  return [data[i] - data[i - interval] for i in range(interval,
 len(data))]
-
-fit a model
-===========
-
-def model\_fit(train, config):
-
-unpack config
-=============
-
-n\_input, n\_nodes, n\_epochs, n\_batch, n\_diff = config
-
-prepare data
-============
-
-if n\_diff \> 0:\
- train = difference(train, n\_diff)\
- data = series\_to\_supervised(train, n\_input)\
- train\_x, train\_y = data[:, :-1], data[:, -1]\
- train\_x = train\_x.reshape((train\_x.shape[0], train\_x.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(n\_nodes, activation='relu', input\_shape=(n\_input,
-1)))\
- model.add(Dense(n\_nodes, activation='relu'))\
- model.add(Dense(1))\
+def model_fit(train, config):
+n_input, n_nodes, n_epochs, n_batch, n_diff = config
+if n_diff > 0:
+ train = difference(train, n_diff)
+ data = series_to_supervised(train, n_input)
+ train_x, train_y = data[:, :-1], data[:, -1]
+ train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
+model = Sequential()
+ model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
+1)))
+ model.add(Dense(n_nodes, activation='relu'))
+ model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
-
-fit
-===
-
-model.fit(train\_x, train\_y, epochs=n\_epochs, batch\_size=n\_batch,
-verbose=0)\
+model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
+verbose=0)
  return model
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
-
-unpack config
-=============
-
-n\_input, \_, \_, \_, n\_diff = config
-
-prepare data
-============
-
-correction = 0.0\
- if n\_diff \> 0:\
- correction = history[-n\_diff]\
- history = difference(history, n\_diff)\
- x\_input = array(history[-n\_input:]).reshape((1, n\_input, 1))
-
-forecast
-========
-
-yhat = model.predict(x\_input, verbose=0)\
+def model_predict(model, history, config):
+n_input, _, _, _, n_diff = config
+correction = 0.0
+ if n_diff > 0:
+ correction = history[-n_diff]
+ history = difference(history, n_diff)
+ x_input = array(history[-n_input:]).reshape((1, n_input, 1))
+yhat = model.predict(x_input, verbose=0)
  return correction + yhat[0]
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-fit model
-=========
-
-model = model\_fit(train, cfg)
+train, test = train_test_split(data, n_test)
+model = model_fit(train, cfg)
 
 14.6. Recurrent Neural Network Models 274
 
@@ -1797,15 +1432,15 @@ a bad fit for autoregressive-type sequence prediction problems.
 
 14.6. Recurrent Neural Network Models 275
 
-##### \> 2266.130
+##### > 2266.130
 
-##### \> 2105.043
+##### > 2105.043
 
-##### \> 2128.549
+##### > 2128.549
 
-##### \> 1952.002
+##### > 1952.002
 
-##### \> 2188.287
+##### > 2188.287
 
     lstm: 2109.779 RMSE (+/- 81.373)
 
@@ -1850,10 +1485,7 @@ subsequences and
 
 number of steps per subsequence parameters.
 
-reshape input samples
-=====================
-
-train\_x = train\_x.reshape((train\_x.shape[0], train\_x.shape[1], 1))
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
 Listing 14.43: Example of reshaping input data for the CNN-LSTM model.
 
@@ -1868,17 +1500,14 @@ We can achieve
 
 this by wrapping the entire CNN model in aTimeDistributedlayer wrapper.
 
-define CNN input model
-======================
-
-model = Sequential()\
- model.add(TimeDistributed(Conv1D(filters=n\_filters,
-kernel\_size=n\_kernel,\
- activation='relu', input\_shape=(None,n\_steps,1))))\
- model.add(TimeDistributed(Conv1D(filters=n\_filters,
-kernel\_size=n\_kernel,\
- activation='relu')))\
- model.add(TimeDistributed(MaxPooling1D(pool\_size=2)))\
+model = Sequential()
+ model.add(TimeDistributed(Conv1D(filters=n_filters,
+kernel_size=n_kernel,
+ activation='relu', input_shape=(None,n_steps,1))))
+ model.add(TimeDistributed(Conv1D(filters=n_filters,
+kernel_size=n_kernel,
+ activation='relu')))
+ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
  model.add(TimeDistributed(Flatten()))
 
 Listing 14.44: Example of defining the CNN input model.
@@ -1894,11 +1523,8 @@ layer to interpret the
 outcomes of the LSTM and finally an output layer for making one-step
 predictions.
 
-define LSTM and output model
-============================
-
-model.add(LSTM(n\_nodes, activation='relu'))\
- model.add(Dense(n\_nodes, activation='relu'))\
+model.add(LSTM(n_nodes, activation='relu'))
+ model.add(Dense(n_nodes, activation='relu'))
  model.add(Dense(1))
 
 Listing 14.45: Example of defining the LSTM output model.
@@ -2002,10 +1628,6 @@ The updatedmodelpredict()function is listed below.
 - nbatch: 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
-
-define config
-=============
-
 config = [3, 12, 64, 3, 100, 200, 100]
 
 Listing 14.49: Example of defining a good configuration for the CNN-LSTM
@@ -2015,165 +1637,86 @@ model.
 
 monthly car sales is listed below.
 
-evaluate cnn-lstm for monthly car sales dataset
-===============================================
-
-from math import sqrt\
- from numpy import array\
- from numpy import mean\
- from numpy import std\
- from pandas import DataFrame\
- from pandas import concat\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import LSTM\
- from keras.layers import TimeDistributed\
- from keras.layers import Flatten\
- from keras.layers.convolutional import Conv1D\
- from keras.layers.convolutional import MaxPooling1D\
+from math import sqrt
+ from numpy import array
+ from numpy import mean
+ from numpy import std
+ from pandas import DataFrame
+ from pandas import concat
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import LSTM
+ from keras.layers import TimeDistributed
+ from keras.layers import Flatten
+ from keras.layers.convolutional import Conv1D
+ from keras.layers.convolutional import MaxPooling1D
  from matplotlib import pyplot
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-transform list into supervised learning format
-==============================================
-
-def series\_to\_supervised(data, n\_in, n\_out=1):\
- df = DataFrame(data)\
+def series_to_supervised(data, n_in, n_out=1):
+ df = DataFrame(data)
  cols = list()
 
-input sequence (t-n, ... t-1)
-=============================
-
-for i in range(n\_in, 0, -1):\
+for i in range(n_in, 0, -1):
  cols.append(df.shift(i))
 
-forecast sequence (t, t+1, ... t+n)
-===================================
-
-for i in range(0, n\_out):\
+for i in range(0, n_out):
  cols.append(df.shift(-i))
 
-put it all together
-===================
-
 agg = concat(cols, axis=1)
-
-drop rows with NaN values
-=========================
 
 14.6. Recurrent Neural Network Models 279
 
     agg.dropna(inplace=True)
     return agg.values
 
-root mean squared error or rmse
-===============================
-
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
-
-fit a model
-===========
-
-def model\_fit(train, config):
-
-unpack config
-=============
-
-n\_seq, n\_steps, n\_filters, n\_kernel, n\_nodes, n\_epochs, n\_batch =
-config\
- n\_input = n\_seq \* n\_steps
-
-prepare data
-============
-
-data = series\_to\_supervised(train, n\_input)\
- train\_x, train\_y = data[:, :-1], data[:, -1]\
- train\_x = train\_x.reshape((train\_x.shape[0], n\_seq, n\_steps, 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(TimeDistributed(Conv1D(filters=n\_filters,
-kernel\_size=n\_kernel,\
- activation='relu', input\_shape=(None,n\_steps,1))))\
- model.add(TimeDistributed(Conv1D(filters=n\_filters,
-kernel\_size=n\_kernel,\
- activation='relu')))\
- model.add(TimeDistributed(MaxPooling1D(pool\_size=2)))\
- model.add(TimeDistributed(Flatten()))\
- model.add(LSTM(n\_nodes, activation='relu'))\
- model.add(Dense(n\_nodes, activation='relu'))\
- model.add(Dense(1))\
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
+def model_fit(train, config):
+n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
+config
+ n_input = n_seq * n_steps
+data = series_to_supervised(train, n_input)
+ train_x, train_y = data[:, :-1], data[:, -1]
+ train_x = train_x.reshape((train_x.shape[0], n_seq, n_steps, 1))
+model = Sequential()
+ model.add(TimeDistributed(Conv1D(filters=n_filters,
+kernel_size=n_kernel,
+ activation='relu', input_shape=(None,n_steps,1))))
+ model.add(TimeDistributed(Conv1D(filters=n_filters,
+kernel_size=n_kernel,
+ activation='relu')))
+ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+ model.add(TimeDistributed(Flatten()))
+ model.add(LSTM(n_nodes, activation='relu'))
+ model.add(Dense(n_nodes, activation='relu'))
+ model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
-
-fit
-===
-
-model.fit(train\_x, train\_y, epochs=n\_epochs, batch\_size=n\_batch,
-verbose=0)\
+model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
+verbose=0)
  return model
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
-
-unpack config
-=============
-
-n\_seq, n\_steps, \_, \_, \_, \_, \_ = config\
- n\_input = n\_seq \* n\_steps
-
-prepare data
-============
-
-x\_input = array(history[-n\_input:]).reshape((1, n\_seq, n\_steps, 1))
-
-forecast
-========
-
-yhat = model.predict(x\_input, verbose=0)\
+def model_predict(model, history, config):
+n_seq, n_steps, _, _, _, _, _ = config
+ n_input = n_seq * n_steps
+x_input = array(history[-n_input:]).reshape((1, n_seq, n_steps, 1))
+yhat = model.predict(x_input, verbose=0)
  return yhat[0]
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-fit model
-=========
-
-model = model\_fit(train, cfg)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
+model = model_fit(train, cfg)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = model\_predict(model, history, cfg)
+yhat = model_predict(model, history, cfg)
 
 14.6. Recurrent Neural Network Models 280
 
@@ -2186,57 +1729,27 @@ yhat = model\_predict(model, history, cfg)
     print(' > %.3f' % error)
     return error
 
-repeat evaluation of a config
-=============================
+def repeat_evaluate(data, config, n_test, n_repeats=30):
 
-def repeat\_evaluate(data, config, n\_test, n\_repeats=30):
-
-fit and evaluate the model n times
-==================================
-
-scores = [walk\_forward\_validation(data, n\_test, config) for \_ in
-range(n\_repeats)]\
+scores = [walk_forward_validation(data, n_test, config) for _ in
+range(n_repeats)]
  return scores
 
-summarize model performance
-===========================
+def summarize_scores(name, scores):
 
-def summarize\_scores(name, scores):
+scores_m, score_std = mean(scores), std(scores)
+ print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
-print a summary
-===============
-
-scores\_m, score\_std = mean(scores), std(scores)\
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores\_m, score\_std))
-
-box and whisker plot
-====================
-
-pyplot.boxplot(scores)\
+pyplot.boxplot(scores)
  pyplot.show()
 
-series = read\_csv('monthly-car-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-define config
-=============
-
+n_test = 12
 config = [3, 12, 64, 3, 100, 200, 100]
+scores = repeat_evaluate(data, config, n_test)
 
-grid search
-===========
-
-scores = repeat\_evaluate(data, config, n\_test)
-
-summarize scores
-================
-
-summarize\_scores('cnn-lstm', scores)
+summarize_scores('cnn-lstm', scores)
 
 Listing 14.50: Example of a CNN-LSTM model for forecasting monthly car
 sales.
@@ -2260,15 +1773,15 @@ running the example a few times.
 
 ##### ...
 
-##### \> 1289.794
+##### > 1289.794
 
-##### \> 1685.976
+##### > 1685.976
 
-##### \> 1498.123
+##### > 1498.123
 
-##### \> 1618.627
+##### > 1618.627
 
-##### \> 1448.361
+##### > 1448.361
 
 cnn-lstm: 1626.735 RMSE (+/- 279.850)
 
@@ -2318,12 +1831,9 @@ filter maps and the
 
 size of the kernel used when reading the input sequences.
 
-define convlstm layer
-=====================
-
-model.add(ConvLSTM2D(filters=n\_filters, kernel\_size=(1,n\_kernel),
-activation='relu',\
- input\_shape=(n\_seq, 1, n\_steps, 1)))
+model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
+activation='relu',
+ input_shape=(n_seq, 1, n_steps, 1)))
 
 Listing 14.53: Example of defining a ConvLSTM layer for univariate data.
 
@@ -2352,44 +1862,24 @@ dataset.
 are updated.
 
 Themodelfit()function that implements all of this is listed below.
-
-fit a model
-===========
-
-def model\_fit(train, config):
-
-unpack config
-=============
-
-n\_seq, n\_steps, n\_filters, n\_kernel, n\_nodes, n\_epochs, n\_batch =
-config\
- n\_input = n\_seq \* n\_steps
-
-prepare data
-============
-
-data = series\_to\_supervised(train, n\_input)\
- train\_x, train\_y = data[:, :-1], data[:, -1]\
- train\_x = train\_x.reshape((train\_x.shape[0], n\_seq, 1, n\_steps,
+def model_fit(train, config):
+n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
+config
+ n_input = n_seq * n_steps
+data = series_to_supervised(train, n_input)
+ train_x, train_y = data[:, :-1], data[:, -1]
+ train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps,
 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(ConvLSTM2D(filters=n\_filters, kernel\_size=(1,n\_kernel),
-activation='relu',\
- input\_shape=(n\_seq, 1, n\_steps, 1)))\
- model.add(Flatten())\
- model.add(Dense(n\_nodes, activation='relu'))\
- model.add(Dense(1))\
+model = Sequential()
+ model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
+activation='relu',
+ input_shape=(n_seq, 1, n_steps, 1)))
+ model.add(Flatten())
+ model.add(Dense(n_nodes, activation='relu'))
+ model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
-
-fit
-===
-
-model.fit(train\_x, train\_y, epochs=n\_epochs, batch\_size=n\_batch,
-verbose=0)\
+model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
+verbose=0)
  return model
 
 Listing 14.54: Example of a function for defining and fitting a ConvLSTM
@@ -2401,11 +1891,7 @@ A prediction is made with the fit model in the same way as the CNN-LSTM,
 although with
 
 the additional rows dimension that we fix to 1.
-
-prepare data
-============
-
-x\_input = array(history[-n\_input:]).reshape((1, n\_seq, 1, n\_steps,
+x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 1))
 
 Listing 14.55: Example of reshaping input data for making a forecast
@@ -2414,27 +1900,12 @@ with a ConvLSTM model.
 Themodelpredict()function for making a single one-step prediction is
 listed below.
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
-
-unpack config
-=============
-
-n\_seq, n\_steps, \_, \_, \_, \_, \_ = config\
- n\_input = n\_seq \* n\_steps
-
-prepare data
-============
-
-x\_input = array(history[-n\_input:]).reshape((1, n\_seq, 1, n\_steps,
+def model_predict(model, history, config):
+n_seq, n_steps, _, _, _, _, _ = config
+ n_input = n_seq * n_steps
+x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 1))
-
-forecast
-========
-
-yhat = model.predict(x\_input, verbose=0)\
+yhat = model.predict(x_input, verbose=0)
  return yhat[0]
 
 Listing 14.56: Example of a function for making a forecast with a fit
@@ -2462,10 +1933,6 @@ For details on how, see Chapter 15.
 - nbatch: 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
-
-define config
-=============
-
 config = [3, 12, 256, 3, 200, 200, 100]
 
 Listing 14.57: Example of defining a good configuration for the ConvLSTM
@@ -2477,241 +1944,120 @@ ConvLSTM model evaluated
 for one-step forecasting of the monthly car sales dataset is listed
 below.
 
-evaluate convlstm for monthly car sales dataset
-===============================================
-
-from math import sqrt\
- from numpy import array\
- from numpy import mean\
- from numpy import std\
+from math import sqrt
+ from numpy import array
+ from numpy import mean
+ from numpy import std
  from pandas import DataFrame
 
 14.6. Recurrent Neural Network Models 284
 
-from pandas import concat\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import ConvLSTM2D\
+from pandas import concat
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import ConvLSTM2D
  from matplotlib import pyplot
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-transform list into supervised learning format
-==============================================
-
-def series\_to\_supervised(data, n\_in, n\_out=1):\
- df = DataFrame(data)\
+def series_to_supervised(data, n_in, n_out=1):
+ df = DataFrame(data)
  cols = list()
 
-input sequence (t-n, ... t-1)
-=============================
-
-for i in range(n\_in, 0, -1):\
+for i in range(n_in, 0, -1):
  cols.append(df.shift(i))
 
-forecast sequence (t, t+1, ... t+n)
-===================================
-
-for i in range(0, n\_out):\
+for i in range(0, n_out):
  cols.append(df.shift(-i))
-
-put it all together
-===================
 
 agg = concat(cols, axis=1)
 
-drop rows with NaN values
-=========================
-
-agg.dropna(inplace=True)\
+agg.dropna(inplace=True)
  return agg.values
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
-
-difference dataset
-==================
-
-def difference(data, interval):\
+def difference(data, interval):
  return [data[i] - data[i - interval] for i in range(interval,
 len(data))]
-
-fit a model
-===========
-
-def model\_fit(train, config):
-
-unpack config
-=============
-
-n\_seq, n\_steps, n\_filters, n\_kernel, n\_nodes, n\_epochs, n\_batch =
-config\
- n\_input = n\_seq \* n\_steps
-
-prepare data
-============
-
-data = series\_to\_supervised(train, n\_input)\
- train\_x, train\_y = data[:, :-1], data[:, -1]\
- train\_x = train\_x.reshape((train\_x.shape[0], n\_seq, 1, n\_steps,
+def model_fit(train, config):
+n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
+config
+ n_input = n_seq * n_steps
+data = series_to_supervised(train, n_input)
+ train_x, train_y = data[:, :-1], data[:, -1]
+ train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps,
 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(ConvLSTM2D(filters=n\_filters, kernel\_size=(1,n\_kernel),
-activation='relu',\
- input\_shape=(n\_seq, 1, n\_steps, 1)))\
- model.add(Flatten())\
- model.add(Dense(n\_nodes, activation='relu'))\
- model.add(Dense(1))\
+model = Sequential()
+ model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
+activation='relu',
+ input_shape=(n_seq, 1, n_steps, 1)))
+ model.add(Flatten())
+ model.add(Dense(n_nodes, activation='relu'))
+ model.add(Dense(1))
  model.compile(loss='mse', optimizer='adam')
-
-fit
-===
-
-model.fit(train\_x, train\_y, epochs=n\_epochs, batch\_size=n\_batch,
+model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
 
 14.6. Recurrent Neural Network Models 285
 
     return model
 
-forecast with a pre-fit model
-=============================
-
-def model\_predict(model, history, config):
-
-unpack config
-=============
-
-n\_seq, n\_steps, \_, \_, \_, \_, \_ = config\
- n\_input = n\_seq \* n\_steps
-
-prepare data
-============
-
-x\_input = array(history[-n\_input:]).reshape((1, n\_seq, 1, n\_steps,
+def model_predict(model, history, config):
+n_seq, n_steps, _, _, _, _, _ = config
+ n_input = n_seq * n_steps
+x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 1))
-
-forecast
-========
-
-yhat = model.predict(x\_input, verbose=0)\
+yhat = model.predict(x_input, verbose=0)
  return yhat[0]
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-fit model
-=========
-
-model = model\_fit(train, cfg)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
+model = model_fit(train, cfg)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = model\_predict(model, history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = model_predict(model, history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
- print(' \> %.3f' % error)\
+error = measure_rmse(test, predictions)
+ print(' > %.3f' % error)
  return error
 
-repeat evaluation of a config
-=============================
+def repeat_evaluate(data, config, n_test, n_repeats=30):
 
-def repeat\_evaluate(data, config, n\_test, n\_repeats=30):
-
-fit and evaluate the model n times
-==================================
-
-scores = [walk\_forward\_validation(data, n\_test, config) for \_ in
-range(n\_repeats)]\
+scores = [walk_forward_validation(data, n_test, config) for _ in
+range(n_repeats)]
  return scores
 
-summarize model performance
-===========================
+def summarize_scores(name, scores):
 
-def summarize\_scores(name, scores):
+scores_m, score_std = mean(scores), std(scores)
+ print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
-print a summary
-===============
-
-scores\_m, score\_std = mean(scores), std(scores)\
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores\_m, score\_std))
-
-box and whisker plot
-====================
-
-pyplot.boxplot(scores)\
+pyplot.boxplot(scores)
  pyplot.show()
 
-series = read\_csv('monthly-car-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-define config
-=============
-
+n_test = 12
 config = [3, 12, 256, 3, 200, 200, 100]
 
 14.6. Recurrent Neural Network Models 286
+scores = repeat_evaluate(data, config, n_test)
 
-grid search
-===========
-
-scores = repeat\_evaluate(data, config, n\_test)
-
-summarize scores
-================
-
-summarize\_scores('convlstm', scores)
+summarize_scores('convlstm', scores)
 
 Listing 14.58: Example of a ConvLSTM model for forecasting monthly car
 sales.
@@ -2737,15 +2083,15 @@ running the example a few times.
 
 ##### ...
 
-##### \> 1653.084
+##### > 1653.084
 
-##### \> 1650.430
+##### > 1650.430
 
-##### \> 1291.353
+##### > 1291.353
 
-##### \> 1558.616
+##### > 1558.616
 
-##### \> 1653.231
+##### > 1653.231
 
 convlstm: 1660.840 RMSE (+/- 248.826)
 

@@ -91,30 +91,18 @@ learning problem.
 
 9.2. Univariate LSTM Models 125
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+if end_ix > len(sequence)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 9.3: Example of a function to split a univariate series into a
@@ -124,56 +112,29 @@ supervised learning problem.
 
 example is listed below.
 
-univariate data preparation
-===========================
-
 from numpy import array
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+if end_ix > len(sequence)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 3
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps)
 
-n\_steps = 3
-
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-summarize the data
-==================
-
-for i in range(len(X)):\
+for i in range(len(X)):
  print(X[i], y[i])
 
 Listing 9.4: Example of transforming a univariate time series into a
@@ -183,8 +144,8 @@ supervised learning problem.
 
 three input time steps and one output time step.
 
-[10 20 30] 40\
- [20 30 40] 50\
+[10 20 30] 40
+ [20 30 40] 50
  [30 40 50] 60
 
 9.2. Univariate LSTM Models 126
@@ -270,12 +231,9 @@ input sample before
 
 making the prediction.
 
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps, n\_features))\
- yhat = model.predict(x\_input, verbose=0)
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps, n_features))
+ yhat = model.predict(x_input, verbose=0)
 
 Listing 9.9: Example of preparing an input sample ready for making an
 out-of-sample forecast.
@@ -285,80 +243,44 @@ LSTM for univariate
 
 time series forecasting and make a single prediction.
 
-univariate lstm example
-=======================
-
-from numpy import array\
- from keras.models import Sequential\
- from keras.layers import LSTM\
+from numpy import array
+ from keras.models import Sequential
+ from keras.layers import LSTM
  from keras.layers import Dense
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+if end_ix > len(sequence)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 3
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps)
 
-n\_steps = 3
+n_features = 1
+ X = X.reshape((X.shape[0], X.shape[1], n_features))
 
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-reshape from [samples, timesteps] into [samples, timesteps, features]
-=====================================================================
-
-n\_features = 1\
- X = X.reshape((X.shape[0], X.shape[1], n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(50, activation='relu', input\_shape=(n\_steps,
-n\_features)))\
- model.add(Dense(1))\
+model = Sequential()
+ model.add(LSTM(50, activation='relu', input_shape=(n_steps,
+n_features)))
+ model.add(Dense(1))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
 
 model.fit(X, y, epochs=200, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps, n\_features))
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps, n_features))
 
 9.2. Univariate LSTM Models 128
 
@@ -490,82 +412,46 @@ Listing 9.15: Example of defining a Bidirectional LSTM model.
 
 listed below.
 
-univariate bidirectional lstm example
-=====================================
-
-from numpy import array\
- from keras.models import Sequential\
- from keras.layers import LSTM\
- from keras.layers import Dense\
+from numpy import array
+ from keras.models import Sequential
+ from keras.layers import LSTM
+ from keras.layers import Dense
  from keras.layers import Bidirectional
 
-split a univariate sequence
-===========================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+if end_ix > len(sequence)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 3
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps)
 
-n\_steps = 3
+n_features = 1
+ X = X.reshape((X.shape[0], X.shape[1], n_features))
 
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-reshape from [samples, timesteps] into [samples, timesteps, features]
-=====================================================================
-
-n\_features = 1\
- X = X.reshape((X.shape[0], X.shape[1], n\_features))
-
-define model
-============
-
-model = Sequential()\
+model = Sequential()
  model.add(Bidirectional(LSTM(50, activation='relu'),
-input\_shape=(n\_steps, n\_features)))\
- model.add(Dense(1))\
+input_shape=(n_steps, n_features)))
+ model.add(Dense(1))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
 
 model.fit(X, y, epochs=200, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps, n\_features))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps, n_features))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 9.16: Example of a Bidirectional LSTM for univariate time series
@@ -653,7 +539,7 @@ Listing 9.19: Example of defining the CNN input model.
 
 9.2. Univariate LSTM Models 132
 
-model.add(LSTM(50, activation='relu'))\
+model.add(LSTM(50, activation='relu'))
  model.add(Dense(1))
 
 Listing 9.20: Example of defining the LSTM output model.
@@ -663,89 +549,53 @@ model for univariate
 
 time series forecasting is listed below.
 
-univariate cnn lstm example
-===========================
-
-from numpy import array\
- from keras.models import Sequential\
- from keras.layers import LSTM\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import TimeDistributed\
- from keras.layers.convolutional import Conv1D\
+from numpy import array
+ from keras.models import Sequential
+ from keras.layers import LSTM
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import TimeDistributed
+ from keras.layers.convolutional import Conv1D
  from keras.layers.convolutional import MaxPooling1D
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+if end_ix > len(sequence)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 4
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps)
 
-n\_steps = 4
+n_features = 1
+ n_seq = 2
+ n_steps = 2
+ X = X.reshape((X.shape[0], n_seq, n_steps, n_features))
 
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-reshape from [samples, timesteps] into [samples, subsequences, timesteps, features]
-===================================================================================
-
-n\_features = 1\
- n\_seq = 2\
- n\_steps = 2\
- X = X.reshape((X.shape[0], n\_seq, n\_steps, n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(TimeDistributed(Conv1D(filters=64, kernel\_size=1,
-activation='relu'),\
- input\_shape=(None, n\_steps, n\_features)))\
- model.add(TimeDistributed(MaxPooling1D(pool\_size=2)))\
- model.add(TimeDistributed(Flatten()))\
- model.add(LSTM(50, activation='relu'))\
- model.add(Dense(1))\
+model = Sequential()
+ model.add(TimeDistributed(Conv1D(filters=64, kernel_size=1,
+activation='relu'),
+ input_shape=(None, n_steps, n_features)))
+ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+ model.add(TimeDistributed(Flatten()))
+ model.add(LSTM(50, activation='relu'))
+ model.add(Dense(1))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
 
 model.fit(X, y, epochs=500, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([60, 70, 80, 90])
+x_input = array([60, 70, 80, 90])
 
 9.2. Univariate LSTM Models 133
 
@@ -810,86 +660,50 @@ Listing 9.24: Example of defining the ConvLSTM input model.
 
 9.2. Univariate LSTM Models 134
 
-univariate convlstm example
-===========================
-
-from numpy import array\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
+from numpy import array
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
  from keras.layers import ConvLSTM2D
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+if end_ix > len(sequence)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps = 4
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps)
 
-n\_steps = 4
+n_features = 1
+ n_seq = 2
+ n_steps = 2
+ X = X.reshape((X.shape[0], n_seq, 1, n_steps, n_features))
 
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps)
-
-reshape from [samples, timesteps] into [samples, timesteps, rows, columns, features]
-====================================================================================
-
-n\_features = 1\
- n\_seq = 2\
- n\_steps = 2\
- X = X.reshape((X.shape[0], n\_seq, 1, n\_steps, n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(ConvLSTM2D(filters=64, kernel\_size=(1,2), activation='relu',
-input\_shape=(n\_seq,\
- 1, n\_steps, n\_features)))\
- model.add(Flatten())\
- model.add(Dense(1))\
+model = Sequential()
+ model.add(ConvLSTM2D(filters=64, kernel_size=(1,2), activation='relu',
+input_shape=(n_seq,
+ 1, n_steps, n_features)))
+ model.add(Flatten())
+ model.add(Dense(1))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
 
 model.fit(X, y, epochs=500, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([60, 70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_seq, 1, n\_steps, n\_features))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([60, 70, 80, 90])
+ x_input = x_input.reshape((1, n_seq, 1, n_steps, n_features))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 9.25: Example of a ConvLSTM for univariate time series
@@ -1035,30 +849,18 @@ and return input/output
 
 samples.
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences):\
+if end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1], sequences[end\_ix-1, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 9.33: Example of a function for transforming a dependent series
@@ -1069,75 +871,42 @@ input time series as
 
 input. The complete example is listed below.
 
-multivariate data preparation
-=============================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences):\
+if end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1], sequences[end\_ix-1, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
-
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
-
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
 9.3. Multivariate LSTM Models 138
 
-n\_steps = 3
+n_steps = 3
 
-convert into input/output
-=========================
-
-X, y = split\_sequences(dataset, n\_steps)\
+X, y = split_sequences(dataset, n_steps)
  print(X.shape, y.shape)
 
-summarize the data
-==================
-
-for i in range(len(X)):\
+for i in range(len(X)):
  print(X[i], y[i])
 
 Listing 9.34: Example of splitting a dependent series dataset into
@@ -1171,26 +940,26 @@ for each sample.
 
 (7, 3, 2) (7,)
 
-[[10 15]\
- [20 25]\
- [30 35]] 65\
- [[20 25]\
- [30 35]\
- [40 45]] 85\
- [[30 35]\
- [40 45]\
- [50 55]] 105\
- [[40 45]\
- [50 55]\
- [60 65]] 125\
- [[50 55]\
- [60 65]\
- [70 75]] 145\
- [[60 65]\
- [70 75]\
- [80 85]] 165\
- [[70 75]\
- [80 85]\
+[[10 15]
+ [20 25]
+ [30 35]] 65
+ [[20 25]
+ [30 35]
+ [40 45]] 85
+ [[30 35]
+ [40 45]
+ [50 55]] 105
+ [[40 45]
+ [50 55]
+ [60 65]] 125
+ [[50 55]
+ [60 65]
+ [70 75]] 145
+ [[60 65]
+ [70 75]
+ [80 85]] 165
+ [[70 75]
+ [80 85]
  [90 95]] 185
 
 Listing 9.35: Example output from splitting a dependent series dataset
@@ -1207,12 +976,9 @@ parallel series (features)
 
 are specified for the input layer via theinputshapeargument.
 
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(50, activation='relu', input\_shape=(n\_steps,
-n\_features)))\
+model = Sequential()
+ model.add(LSTM(50, activation='relu', input_shape=(n_steps,
+n_features)))
  model.add(Dense(1))
 
 9.3. Multivariate LSTM Models 139
@@ -1364,30 +1130,18 @@ series with rows for
 time steps and one series per column into the required input/output
 shape.
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+if end_ix > len(sequences)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :], sequences[end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 9.44: Example of a function for splitting parallel series into
@@ -1396,45 +1150,27 @@ samples.
 We can demonstrate this on the contrived problem; the complete example
 is listed below.
 
-multivariate output data prep
-=============================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+if end_ix > len(sequences)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :], sequences[end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
-
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
 9.3. Multivariate LSTM Models 142
 
@@ -1500,15 +1236,12 @@ series onto samples.
 
 9.3. Multivariate LSTM Models 143
 
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(100, activation='relu', return\_sequences=True,
-input\_shape=(n\_steps,\
- n\_features)))\
- model.add(LSTM(100, activation='relu'))\
- model.add(Dense(n\_features))\
+model = Sequential()
+ model.add(LSTM(100, activation='relu', return_sequences=True,
+input_shape=(n_steps,
+ n_features)))
+ model.add(LSTM(100, activation='relu'))
+ model.add(Dense(n_features))
  model.compile(optimizer='adam', loss='mse')
 
 Listing 9.47: Example of defining a Stacked LSTM for parallel time
@@ -1518,8 +1251,8 @@ series forecasting.
 
 three time steps for each series.
 
-70, 75, 145\
- 80, 85, 165\
+70, 75, 145
+ 80, 85, 165
  90, 95, 185
 
 Listing 9.48: Example input for making an out-of-sample forecast.
@@ -1529,12 +1262,9 @@ The shape of the input for making a single prediction must be 1 sample,
 
 features, or[1, 3, 3].
 
-demonstrate prediction
-======================
-
-x\_input = array([[70,75,145], [80,85,165], [90,95,185]])\
- x\_input = x\_input.reshape((1, n\_steps, n\_features))\
- yhat = model.predict(x\_input, verbose=0)
+x_input = array([[70,75,145], [80,85,165], [90,95,185]])
+ x_input = x_input.reshape((1, n_steps, n_features))
+ yhat = model.predict(x_input, verbose=0)
 
 Listing 9.49: Example of reshaping a sample for making an out-of-sample
 forecast.
@@ -1549,39 +1279,24 @@ Listing 9.50: Example output for an out-of-sample forecast.
 
 time series forecasting below.
 
-multivariate output stacked lstm example
-========================================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Sequential\
- from keras.layers import LSTM\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Sequential
+ from keras.layers import LSTM
  from keras.layers import Dense
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps
 
-end\_ix = i + n\_steps
-
-check if we are beyond the dataset
-==================================
-
-if end\_ix \> len(sequences)-1:\
+if end_ix > len(sequences)-1:
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :], sequences[end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)
+seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
 
 9.4. Multi-step LSTM Models 144
 
@@ -1712,57 +1427,30 @@ Listing 9.55: Example output from the first sample.
 
 9.4. Multi-step LSTM Models 146
 
-multi-step data preparation
-===========================
-
 from numpy import array
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the sequence
-===================================
-
-if out\_end\_ix \> len(sequence):\
+if out_end_ix > len(sequence):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix:out\_end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix:out_end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps_in, n_steps_out = 3, 2
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps_in, n_steps_out)
 
-n\_steps\_in, n\_steps\_out = 3, 2
-
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps\_in, n\_steps\_out)
-
-summarize the data
-==================
-
-for i in range(len(X)):\
+for i in range(len(X)):
  print(X[i], y[i])
 
 Listing 9.57: Example of splitting a univariate series for multi-step
@@ -1773,10 +1461,10 @@ time steps and prints
 
 the input and output components of each.
 
-[10 20 30] [40 50]\
- [20 30 40] [50 60]\
- [30 40 50] [60 70]\
- [40 50 60] [70 80]\
+[10 20 30] [40 50]
+ [20 30 40] [50 60]
+ [30 40 50] [60 70]
+ [40 50 60] [70 80]
  [50 60 70] [80 90]
 
 Listing 9.58: Example output from splitting a univariate series for
@@ -1999,10 +1687,7 @@ with a given number of features for each input sample.
 
 9.4. Multi-step LSTM Models 150
 
-reshape output training data
-============================
-
-y = y.reshape((y.shape[0], y.shape[1], n\_features))
+y = y.reshape((y.shape[0], y.shape[1], n_features))
 
 Listing 9.72: Example of reshaping output samples for training the
 Encoder-Decoder LSTM.
@@ -2011,87 +1696,51 @@ Encoder-Decoder LSTM.
 
 is listed below.
 
-univariate multi-step encoder-decoder lstm example
-==================================================
-
-from numpy import array\
- from keras.models import Sequential\
- from keras.layers import LSTM\
- from keras.layers import Dense\
- from keras.layers import RepeatVector\
+from numpy import array
+ from keras.models import Sequential
+ from keras.layers import LSTM
+ from keras.layers import Dense
+ from keras.layers import RepeatVector
  from keras.layers import TimeDistributed
 
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequence(sequence, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequence)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the sequence
-===================================
-
-if out\_end\_ix \> len(sequence):\
+if out_end_ix > len(sequence):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix:out\_end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix:out_end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-raw\_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
+n_steps_in, n_steps_out = 3, 2
 
-choose a number of time steps
-=============================
+X, y = split_sequence(raw_seq, n_steps_in, n_steps_out)
 
-n\_steps\_in, n\_steps\_out = 3, 2
+n_features = 1
+ X = X.reshape((X.shape[0], X.shape[1], n_features))
+ y = y.reshape((y.shape[0], y.shape[1], n_features))
 
-split into samples
-==================
-
-X, y = split\_sequence(raw\_seq, n\_steps\_in, n\_steps\_out)
-
-reshape from [samples, timesteps] into [samples, timesteps, features]
-=====================================================================
-
-n\_features = 1\
- X = X.reshape((X.shape[0], X.shape[1], n\_features))\
- y = y.reshape((y.shape[0], y.shape[1], n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(100, activation='relu', input\_shape=(n\_steps\_in,
-n\_features)))\
- model.add(RepeatVector(n\_steps\_out))\
- model.add(LSTM(100, activation='relu', return\_sequences=True))\
- model.add(TimeDistributed(Dense(1)))\
+model = Sequential()
+ model.add(LSTM(100, activation='relu', input_shape=(n_steps_in,
+n_features)))
+ model.add(RepeatVector(n_steps_out))
+ model.add(LSTM(100, activation='relu', return_sequences=True))
+ model.add(TimeDistributed(Dense(1)))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
 
 model.fit(X, y, epochs=100, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([70, 80, 90])\
- x\_input = x\_input.reshape((1, n\_steps\_in, n\_features))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([70, 80, 90])
+ x_input = x_input.reshape((1, n_steps_in, n_features))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 9.5. Multivariate Multi-step LSTM Models 151
@@ -2163,47 +1812,35 @@ steps of the output time series.
 
 Input:
 
-10, 15\
- 20, 25\
+10, 15
+ 20, 25
  30, 35
 
 Listing 9.76: Example of input from the first sample.
 
 Output:
 
-65\
+65
  85
 
 Listing 9.77: Example of output from the first sample.
 
 Thesplitsequences()function below implements this behavior.
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out-1
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out-1
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1],
-sequences[end\_ix-1:out\_end\_ix, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1],
+sequences[end_ix-1:out_end_ix, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 9.78: Example of a function for splitting a dependent series for
@@ -2214,38 +1851,23 @@ into samples.
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
 
-multivariate multi-step data preparation
-========================================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out-1
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out-1
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1],
-sequences[end\_ix-1:out\_end\_ix, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)
+seq_x, seq_y = sequences[i:end_ix, :-1],
+sequences[end_ix-1:out_end_ix, -1]
+ X.append(seq_x)
+ y.append(seq_y)
 
 9.5. Multivariate Multi-step LSTM Models 153
 
@@ -2313,100 +1935,58 @@ The output portion of the
 
 Stacked LSTM. The complete example is listed below.
 
-multivariate multi-step stacked lstm example
-============================================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Sequential\
- from keras.layers import LSTM\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Sequential
+ from keras.layers import LSTM
  from keras.layers import Dense
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out-1
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out-1
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :-1],
-sequences[end\_ix-1:out\_end\_ix, -1]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :-1],
+sequences[end_ix-1:out_end_ix, -1]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
+n_steps_in, n_steps_out = 3, 2
 
-horizontally stack columns
-==========================
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
+n_features = X.shape[2]
 
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-covert into input/output
-========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)
-
-the dataset knows the number of features, e.g. 2
-================================================
-
-n\_features = X.shape[2]
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(100, activation='relu', return\_sequences=True,
-input\_shape=(n\_steps\_in,\
- n\_features)))\
- model.add(LSTM(100, activation='relu'))\
- model.add(Dense(n\_steps\_out))\
+model = Sequential()
+ model.add(LSTM(100, activation='relu', return_sequences=True,
+input_shape=(n_steps_in,
+ n_features)))
+ model.add(LSTM(100, activation='relu'))
+ model.add(Dense(n_steps_out))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
 
 model.fit(X, y, epochs=200, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([[70, 75], [80, 85], [90, 95]])\
- x\_input = x\_input.reshape((1, n\_steps\_in, n\_features))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([[70, 75], [80, 85], [90, 95]])
+ x_input = x_input.reshape((1, n_steps_in, n_features))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 9.5. Multivariate Multi-step LSTM Models 155
@@ -2465,32 +2045,20 @@ Thesplitsequences()function below implements this behavior.
 
 9.5. Multivariate Multi-step LSTM Models 156
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :],
-sequences[end\_ix:out\_end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :],
+sequences[end_ix:out_end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
 Listing 9.86: Example of a function for splitting a parallel dataset for
@@ -2503,78 +2071,45 @@ complete example is
 
 listed below.
 
-multivariate multi-step data preparation
-========================================
-
-from numpy import array\
+from numpy import array
  from numpy import hstack
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
 
-find the end of this pattern
-============================
+end_ix = i + n_steps_in
+ out_end_ix = end_ix + n_steps_out
 
-end\_ix = i + n\_steps\_in\
- out\_end\_ix = end\_ix + n\_steps\_out
-
-check if we are beyond the dataset
-==================================
-
-if out\_end\_ix \> len(sequences):\
+if out_end_ix > len(sequences):
  break
 
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequences[i:end\_ix, :],
-sequences[end\_ix:out\_end\_ix, :]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequences[i:end_ix, :],
+sequences[end_ix:out_end_ix, :]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
+n_steps_in, n_steps_out = 3, 2
 
-horizontally stack columns
-==========================
-
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
-
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-covert into input/output
-========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 
 9.5. Multivariate Multi-step LSTM Models 157
 
 print(X.shape, y.shape)
 
-summarize the data
-==================
-
-for i in range(len(X)):\
+for i in range(len(X)):
  print(X[i], y[i])
 
 Listing 9.87: Example splitting a parallel series for multi-step
@@ -2595,25 +2130,25 @@ data was prepared as we expected.
 
 (5, 3, 3) (5, 2, 3)
 
-[[10 15 25]\
- [20 25 45]\
- [30 35 65]] [[ 40 45 85]\
- [ 50 55 105]]\
- [[20 25 45]\
- [30 35 65]\
- [40 45 85]] [[ 50 55 105]\
- [ 60 65 125]]\
- [[ 30 35 65]\
- [ 40 45 85]\
- [ 50 55 105]] [[ 60 65 125]\
- [ 70 75 145]]\
- [[ 40 45 85]\
- [ 50 55 105]\
- [ 60 65 125]] [[ 70 75 145]\
- [ 80 85 165]]\
- [[ 50 55 105]\
- [ 60 65 125]\
- [ 70 75 145]] [[ 80 85 165]\
+[[10 15 25]
+ [20 25 45]
+ [30 35 65]] [[ 40 45 85]
+ [ 50 55 105]]
+ [[20 25 45]
+ [30 35 65]
+ [40 45 85]] [[ 50 55 105]
+ [ 60 65 125]]
+ [[ 30 35 65]
+ [ 40 45 85]
+ [ 50 55 105]] [[ 60 65 125]
+ [ 70 75 145]]
+ [[ 40 45 85]
+ [ 50 55 105]
+ [ 60 65 125]] [[ 70 75 145]
+ [ 80 85 165]]
+ [[ 50 55 105]
+ [ 60 65 125]
+ [ 70 75 145]] [[ 80 85 165]
  [ 90 95 185]]
 
 Listing 9.88: Example output from splitting a parallel series for
@@ -2627,26 +2162,17 @@ this problem. In
 this case, we will use the Encoder-Decoder model. The complete example
 is listed below.
 
-multivariate multi-step encoder-decoder lstm example
-====================================================
-
-from numpy import array\
- from numpy import hstack\
- from keras.models import Sequential\
- from keras.layers import LSTM\
- from keras.layers import Dense\
- from keras.layers import RepeatVector\
+from numpy import array
+ from numpy import hstack
+ from keras.models import Sequential
+ from keras.layers import LSTM
+ from keras.layers import Dense
+ from keras.layers import RepeatVector
  from keras.layers import TimeDistributed
 
-split a multivariate sequence into samples
-==========================================
-
-def split\_sequences(sequences, n\_steps\_in, n\_steps\_out):\
- X, y = list(), list()\
+def split_sequences(sequences, n_steps_in, n_steps_out):
+ X, y = list(), list()
  for i in range(len(sequences)):
-
-find the end of this pattern
-============================
 
 9.5. Multivariate Multi-step LSTM Models 158
 
@@ -2661,63 +2187,36 @@ find the end of this pattern
     y.append(seq_y)
     return array(X), array(y)
 
-define input sequence
-=====================
+in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
+ in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+ out_seq = array([in_seq1[i]+in_seq2[i] for i in
+range(len(in_seq1))])
 
-in\_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])\
- in\_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])\
- out\_seq = array([in\_seq1[i]+in\_seq2[i] for i in
-range(len(in\_seq1))])
+in_seq1 = in_seq1.reshape((len(in_seq1), 1))
+ in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+ out_seq = out_seq.reshape((len(out_seq), 1))
 
-convert to [rows, columns] structure
-====================================
+dataset = hstack((in_seq1, in_seq2, out_seq))
 
-in\_seq1 = in\_seq1.reshape((len(in\_seq1), 1))\
- in\_seq2 = in\_seq2.reshape((len(in\_seq2), 1))\
- out\_seq = out\_seq.reshape((len(out\_seq), 1))
+n_steps_in, n_steps_out = 3, 2
 
-horizontally stack columns
-==========================
+X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 
-dataset = hstack((in\_seq1, in\_seq2, out\_seq))
+n_features = X.shape[2]
 
-choose a number of time steps
-=============================
-
-n\_steps\_in, n\_steps\_out = 3, 2
-
-covert into input/output
-========================
-
-X, y = split\_sequences(dataset, n\_steps\_in, n\_steps\_out)
-
-the dataset knows the number of features, e.g. 2
-================================================
-
-n\_features = X.shape[2]
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(200, activation='relu', input\_shape=(n\_steps\_in,
-n\_features)))\
- model.add(RepeatVector(n\_steps\_out))\
- model.add(LSTM(200, activation='relu', return\_sequences=True))\
- model.add(TimeDistributed(Dense(n\_features)))\
+model = Sequential()
+ model.add(LSTM(200, activation='relu', input_shape=(n_steps_in,
+n_features)))
+ model.add(RepeatVector(n_steps_out))
+ model.add(LSTM(200, activation='relu', return_sequences=True))
+ model.add(TimeDistributed(Dense(n_features)))
  model.compile(optimizer='adam', loss='mse')
-
-fit model
-=========
 
 model.fit(X, y, epochs=300, verbose=0)
 
-demonstrate prediction
-======================
-
-x\_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])\
- x\_input = x\_input.reshape((1, n\_steps\_in, n\_features))\
- yhat = model.predict(x\_input, verbose=0)\
+x_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
+ x_input = x_input.reshape((1, n_steps_in, n_features))
+ yhat = model.predict(x_input, verbose=0)
  print(yhat)
 
 Listing 9.89: Example of an Encoder-Decoder LSTM for multi-step
@@ -2731,7 +2230,7 @@ expect the values for these
 
 series and time steps to be as follows:
 
-90, 95, 185\
+90, 95, 185
  100, 105, 205
 
 Listing 9.90: Expected output for an out-of-sample forecast.

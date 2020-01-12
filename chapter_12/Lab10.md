@@ -182,73 +182,40 @@ sure all the pieces work
 together by testing it on a contrived 10-step dataset. The complete
 example is listed below.
 
-grid search holt winter's exponential smoothing
-===============================================
-
-from math import sqrt\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from statsmodels.tsa.holtwinters import ExponentialSmoothing\
- from sklearn.metrics import mean\_squared\_error\
+from math import sqrt
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from statsmodels.tsa.holtwinters import ExponentialSmoothing
+ from sklearn.metrics import mean_squared_error
  from numpy import array
 
-one-step Holt Winters Exponential Smoothing forecast
-====================================================
-
-def exp\_smoothing\_forecast(history, config):\
+def exp_smoothing_forecast(history, config):
  t,d,s,p,b,r = config
 
-define model
-============
-
-history = array(history)\
+history = array(history)
  model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
-seasonal\_periods=p)
+seasonal_periods=p)
 
-fit model
-=========
+model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
 
-model\_fit = model.fit(optimized=True, use\_boxcox=b, remove\_bias=r)
-
-make one step forecast
-======================
-
-yhat = model\_fit.predict(len(history), len(history))\
+yhat = model_fit.predict(len(history), len(history))
  return yhat[0]
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
-
-step over each time-step in the test set
-========================================
 
 12.2. Develop a Grid Search Framework 210
 
@@ -263,85 +230,49 @@ step over each time-step in the test set
     error = measure_rmse(test, predictions)
     return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of exponential smoothing configs to try
-====================================================
-
-def exp\_smoothing\_configs(seasonal=[None]):\
+def exp_smoothing_configs(seasonal=[None]):
  models = list()
 
-define config lists
-===================
-
-t\_params = ['add','mul', None]\
- d\_params = [True, False]\
- s\_params = ['add','mul', None]
+t_params = ['add','mul', None]
+ d_params = [True, False]
+ s_params = ['add','mul', None]
 
 12.2. Develop a Grid Search Framework 211
 
@@ -427,7 +358,7 @@ in California, USA in
 
 download the dataset directly from here:
 
-- daily-total-female-births.csv\^1
+- daily-total-female-births.csv^1
 
     Save the file with the filenamedaily-total-female-births.csvin your current working
     directory. The dataset has one year, or 365 observations. We will use the first 200 for training
@@ -462,118 +393,64 @@ download the dataset directly from here:
     def measure_rmse(actual, predicted):
     return sqrt(mean_squared_error(actual, predicted))
 
-(\^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.\
+(^1)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
  csv
 
 12.3. Case Study 1: No Trend or Seasonality 213
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = exp\_smoothing\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = exp_smoothing_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 12.3. Case Study 1: No Trend or Seasonality 214
 
@@ -582,64 +459,40 @@ remove empty results
     scores.sort(key=lambda tup: tup[1])
     return scores
 
-create a set of exponential smoothing configs to try
-====================================================
-
-def exp\_smoothing\_configs(seasonal=[None]):\
+def exp_smoothing_configs(seasonal=[None]):
  models = list()
 
-define config lists
-===================
+t_params = ['add','mul', None]
+ d_params = [True, False]
+ s_params = ['add','mul', None]
+ p_params = seasonal
+ b_params = [True, False]
+ r_params = [True, False]
 
-t\_params = ['add','mul', None]\
- d\_params = [True, False]\
- s\_params = ['add','mul', None]\
- p\_params = seasonal\
- b\_params = [True, False]\
- r\_params = [True, False]
-
-create config instances
-=======================
-
-for t in t\_params:\
- for d in d\_params:\
- for s in s\_params:\
- for p in p\_params:\
- for b in b\_params:\
- for r in r\_params:\
- cfg = [t,d,s,p,b,r]\
- models.append(cfg)\
+for t in t_params:
+ for d in d_params:
+ for s in s_params:
+ for p in p_params:
+ for b in b_params:
+ for r in r_params:
+ cfg = [t,d,s,p,b,r]
+ models.append(cfg)
  return models
 
 if **name** =='**main**':
 
-load dataset
-============
-
-series = read\_csv('daily-total-female-births.csv', header=0,
-index\_col=0)\
+series = read_csv('daily-total-female-births.csv', header=0,
+index_col=0)
  data = series.values
 
-data split
-==========
+n_test = 165
 
-n\_test = 165
+cfg_list = exp_smoothing_configs()
 
-model configs
-=============
-
-cfg\_list = exp\_smoothing\_configs()
-
-grid search
-===========
-
-scores = grid\_search(data[:,0], cfg\_list, n\_test)\
+scores = grid_search(data[:,0], cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 12.7: Example of grid searching ETS models for the daily female
@@ -710,7 +563,7 @@ over a three-year
     period. For more information on this dataset, see Chapter 11 where it was introduced. You can
     download the dataset directly from here:
 
-- monthly-shampoo-sales.csv\^2
+- monthly-shampoo-sales.csv^2
 
     Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
     rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
@@ -722,116 +575,62 @@ over a three-year
     from joblib import Parallel
     from joblib import delayed
 
-(\^2)
+(^2)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
 12.4. Case Study 2: Trend 216
 
-from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from statsmodels.tsa.holtwinters import ExponentialSmoothing\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv\
+from warnings import catch_warnings
+ from warnings import filterwarnings
+ from statsmodels.tsa.holtwinters import ExponentialSmoothing
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
  from numpy import array
 
-one-step Holt Winters Exponential Smoothing forecast
-====================================================
-
-def exp\_smoothing\_forecast(history, config):\
+def exp_smoothing_forecast(history, config):
  t,d,s,p,b,r = config
 
-define model
-============
-
-history = array(history)\
+history = array(history)
  model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
-seasonal\_periods=p)
+seasonal_periods=p)
 
-fit model
-=========
+model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
 
-model\_fit = model.fit(optimized=True, use\_boxcox=b, remove\_bias=r)
-
-make one step forecast
-======================
-
-yhat = model\_fit.predict(len(history), len(history))\
+yhat = model_fit.predict(len(history), len(history))
  return yhat[0]
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = exp\_smoothing\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = exp_smoothing_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 12.4. Case Study 2: Trend 217
 
@@ -847,78 +646,48 @@ one failure during model validation suggests an unstable config
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of exponential smoothing configs to try
-====================================================
-
-def exp\_smoothing\_configs(seasonal=[None]):\
+def exp_smoothing_configs(seasonal=[None]):
  models = list()
 
-define config lists
-===================
+t_params = ['add','mul', None]
+ d_params = [True, False]
+ s_params = ['add','mul', None]
+ p_params = seasonal
+ b_params = [True, False]
+ r_params = [True, False]
 
-t\_params = ['add','mul', None]\
- d\_params = [True, False]\
- s\_params = ['add','mul', None]\
- p\_params = seasonal\
- b\_params = [True, False]\
- r\_params = [True, False]
-
-create config instances
-=======================
-
-for t in t\_params:\
- for d in d\_params:\
- for s in s\_params:\
- for p in p\_params:\
- for b in b\_params:\
- for r in r\_params:\
- cfg = [t,d,s,p,b,r]\
- models.append(cfg)\
+for t in t_params:
+ for d in d_params:
+ for s in s_params:
+ for p in p_params:
+ for b in b_params:
+ for r in r_params:
+ cfg = [t,d,s,p,b,r]
+ models.append(cfg)
  return models
 
 if **name** =='**main**':
 
-load dataset
-============
-
-series = read\_csv('monthly-shampoo-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
  data = series.values
 
-data split
-==========
-
-n\_test = 12
-
-model configs
-=============
+n_test = 12
 
 12.4. Case Study 2: Trend 218
 
@@ -951,15 +720,15 @@ running the example a few times.
 
 ##### ...
 
-> Model[['mul', True, None, None, False, False]] 102.152\
->  Model[['mul', False, None, None, False, True]] 86.406\
->  Model[['mul', False, None, None, False, False]] 83.747\
->  Model[[None, False, None, None, False, True]] 99.416\
->  Model[[None, False, None, None, False, False]] 108.031\
+> Model[['mul', True, None, None, False, False]] 102.152
+>  Model[['mul', False, None, None, False, True]] 86.406
+>  Model[['mul', False, None, None, False, False]] 83.747
+>  Model[[None, False, None, None, False, True]] 99.416
+>  Model[[None, False, None, None, False, False]] 108.031
 >  done
 
-['mul', False, None, None, False, False] 83.74666940175238\
- ['mul', False, None, None, False, True] 86.40648953786152\
+['mul', False, None, None, False, False] 83.74666940175238
+ ['mul', False, None, None, False, True] 86.40648953786152
  ['mul', True, None, None, False, True] 95.33737598817238
 
 Listing 12.10: Example output from grid searching ETS models for the
@@ -999,7 +768,7 @@ temperatures in
     this dataset, see Chapter 11 where it was introduced. You can download the dataset directly
     from here:
 
-- monthly-mean-temp.csv\^3
+- monthly-mean-temp.csv^3
 
 Save the file with the filenamemonthly-mean-temp.csvin your current
 working directory.
@@ -1050,115 +819,61 @@ Listing 12.12: Example of specifying some seasonal configurations.
     # make one step forecast
     yhat = model_fit.predict(len(history), len(history))
 
-(\^3)
+(^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
 12.5. Case Study 3: Seasonality 220
 
     return yhat[0]
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = exp\_smoothing\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = exp_smoothing_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
-
-execute configs in parallel
-===========================
 
 12.5. Case Study 3: Seasonality 221
 
@@ -1173,68 +888,41 @@ execute configs in parallel
     scores.sort(key=lambda tup: tup[1])
     return scores
 
-create a set of exponential smoothing configs to try
-====================================================
-
-def exp\_smoothing\_configs(seasonal=[None]):\
+def exp_smoothing_configs(seasonal=[None]):
  models = list()
 
-define config lists
-===================
+t_params = ['add','mul', None]
+ d_params = [True, False]
+ s_params = ['add','mul', None]
+ p_params = seasonal
+ b_params = [True, False]
+ r_params = [True, False]
 
-t\_params = ['add','mul', None]\
- d\_params = [True, False]\
- s\_params = ['add','mul', None]\
- p\_params = seasonal\
- b\_params = [True, False]\
- r\_params = [True, False]
-
-create config instances
-=======================
-
-for t in t\_params:\
- for d in d\_params:\
- for s in s\_params:\
- for p in p\_params:\
- for b in b\_params:\
- for r in r\_params:\
- cfg = [t,d,s,p,b,r]\
- models.append(cfg)\
+for t in t_params:
+ for d in d_params:
+ for s in s_params:
+ for p in p_params:
+ for b in b_params:
+ for r in r_params:
+ cfg = [t,d,s,p,b,r]
+ models.append(cfg)
  return models
 
 if **name** =='**main**':
 
-load dataset
-============
-
-series = read\_csv('monthly-mean-temp.csv', header=0, index\_col=0)\
+series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
  data = series.values
 
-trim dataset to 5 years
-=======================
+data = data[-(5*12):]
 
-data = data[-(5\*12):]
+n_test = 12
 
-data split
-==========
+cfg_list = exp_smoothing_configs(seasonal=[0,12])
 
-n\_test = 12
-
-model configs
-=============
-
-cfg\_list = exp\_smoothing\_configs(seasonal=[0,12])
-
-grid search
-===========
-
-scores = grid\_search(data[:,0], cfg\_list, n\_test)\
+scores = grid_search(data[:,0], cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 12.13: Example of grid searching ETS models for the monthly mean
@@ -1296,7 +984,7 @@ where it was introduced.
 
 You can download the dataset directly from here:
 
-- monthly-car-sales.csv\^4
+- monthly-car-sales.csv^4
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -1311,15 +999,12 @@ theexpsmoothingconfigs()function when
 
 preparing the model configurations.
 
-(\^4)
+(^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
 12.6. Case Study 4: Trend and Seasonality 223
 
-model configs
-=============
-
-cfg\_list = exp\_smoothing\_configs(seasonal=[0,6,12])
+cfg_list = exp_smoothing_configs(seasonal=[0,6,12])
 
 Listing 12.15: Example of specifying some seasonal configurations.
 
@@ -1328,190 +1013,106 @@ forecasting problem
 
 is listed below.
 
-grid search ets models for monthly car sales
-============================================
-
-from math import sqrt\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from statsmodels.tsa.holtwinters import ExponentialSmoothing\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv\
+from math import sqrt
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from statsmodels.tsa.holtwinters import ExponentialSmoothing
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
  from numpy import array
 
-one-step Holt Winters Exponential Smoothing forecast
-====================================================
-
-def exp\_smoothing\_forecast(history, config):\
+def exp_smoothing_forecast(history, config):
  t,d,s,p,b,r = config
 
-define model
-============
-
-history = array(history)\
+history = array(history)
  model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
-seasonal\_periods=p)
+seasonal_periods=p)
 
-fit model
-=========
+model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
 
-model\_fit = model.fit(optimized=True, use\_boxcox=b, remove\_bias=r)
-
-make one step forecast
-======================
-
-yhat = model\_fit.predict(len(history), len(history))\
+yhat = model_fit.predict(len(history), len(history))
  return yhat[0]
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
 
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = exp\_smoothing\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = exp_smoothing_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
-
-estimate prediction error
-=========================
 
 12.6. Case Study 4: Trend and Seasonality 224
 
     error = measure_rmse(test, predictions)
     return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of exponential smoothing configs to try
-====================================================
-
-def exp\_smoothing\_configs(seasonal=[None]):\
+def exp_smoothing_configs(seasonal=[None]):
  models = list()
 
-define config lists
-===================
+t_params = ['add','mul', None]
+ d_params = [True, False]
+ s_params = ['add','mul', None]
+ p_params = seasonal
+ b_params = [True, False]
+ r_params = [True, False]
 
-t\_params = ['add','mul', None]\
- d\_params = [True, False]\
- s\_params = ['add','mul', None]\
- p\_params = seasonal\
- b\_params = [True, False]\
- r\_params = [True, False]
-
-create config instances
-=======================
-
-for t in t\_params:\
- for d in d\_params:\
- for s in s\_params:\
- for p in p\_params:
+for t in t_params:
+ for d in d_params:
+ for s in s_params:
+ for p in p_params:
 
 12.6. Case Study 4: Trend and Seasonality 225
 
@@ -1523,32 +1124,17 @@ for t in t\_params:\
 
 if **name** =='**main**':
 
-load dataset
-============
-
-series = read\_csv('monthly-car-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
  data = series.values
 
-data split
-==========
+n_test = 12
 
-n\_test = 12
+cfg_list = exp_smoothing_configs(seasonal=[0,6,12])
 
-model configs
-=============
-
-cfg\_list = exp\_smoothing\_configs(seasonal=[0,6,12])
-
-grid search
-===========
-
-scores = grid\_search(data[:,0], cfg\_list, n\_test)\
+scores = grid_search(data[:,0], cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 12.16: Example of grid searching ETS models for the monthly car
@@ -1572,16 +1158,16 @@ running the example a few times.
 
 ##### ...
 
-> Model[['mul', True,'add', 6, False, False]] 3745.142\
->  Model[['mul', True,'add', 12, True, True]] 2203.354\
->  Model[['mul', True,'add', 12, True, False]] 2284.172\
->  Model[['mul', True,'add', 12, False, True]] 2842.605\
+> Model[['mul', True,'add', 6, False, False]] 3745.142
+>  Model[['mul', True,'add', 12, True, True]] 2203.354
+>  Model[['mul', True,'add', 12, True, False]] 2284.172
+>  Model[['mul', True,'add', 12, False, True]] 2842.605
 >  Model[['mul', True,'add', 12, False, False]] 2086.899
 
 done
 
-['add', False,'add', 12, False, True] 1672.5539372356582\
- ['add', False,'add', 12, False, False] 1680.845043013083\
+['add', False,'add', 12, False, True] 1672.5539372356582
+ ['add', False,'add', 12, False, False] 1680.845043013083
  ['add', True,'add', 12, False, False] 1696.1734099400082
 
 Listing 12.17: Example output from grid searching ETS models for the

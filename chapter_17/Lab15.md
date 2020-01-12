@@ -71,7 +71,7 @@ of active energy).
     The dataset can be downloaded as a single 20 megabyte zip file. A direct download link is
     provided blow:
 
-- householdpowerconsumption.zip\^1
+- householdpowerconsumption.zip^1
 
     Download the dataset and unzip it into your current working directory. You will now have
     the filehouseholdpowerconsumption.txtthat is about 127 megabytes in size and contains
@@ -87,8 +87,8 @@ Listing 17.1: Example of loading the dataset.
     is a float. This will allow us to work with the data as one array of floating point values rather
     than mixed types (less efficient.)
 
-(\^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/household\_power\_consumption.\
+(^1)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
  zip
 
 17.3. Load and Prepare Dataset 344
@@ -576,106 +576,52 @@ Listing 17.23: Evaluate and plot the performance of each model.
 
 17.5. Develop Naive Forecast Models 352
 
-naive forecast strategies for the power usage dataset
-=====================================================
-
-from math import sqrt\
- from numpy import split\
- from numpy import array\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
+from math import sqrt
+ from numpy import split
+ from numpy import array
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
  from matplotlib import pyplot
 
-split a univariate dataset into train/test sets
-===============================================
-
-def split\_dataset(data):
-
-split into standard weeks
-=========================
+def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
-restructure into windows of weekly data
-=======================================
-
-train = array(split(train, len(train)/7))\
- test = array(split(test, len(test)/7))\
+train = array(split(train, len(train)/7))
+ test = array(split(test, len(test)/7))
  return train, test
 
-evaluate one or more weekly forecasts against expected values
-=============================================================
-
-def evaluate\_forecasts(actual, predicted):\
+def evaluate_forecasts(actual, predicted):
  scores = list()
 
-calculate an RMSE score for each day
-====================================
-
 for i in range(actual.shape[1]):
-
-calculate mse
-=============
-
-mse = mean\_squared\_error(actual[:, i], predicted[:, i])
-
-calculate rmse
-==============
-
+mse = mean_squared_error(actual[:, i], predicted[:, i])
 rmse = sqrt(mse)
-
-store
-=====
-
 scores.append(rmse)
 
-calculate overall RMSE
-======================
-
-s = 0\
- for row in range(actual.shape[0]):\
- for col in range(actual.shape[1]):\
- s += (actual[row, col] - predicted[row, col])\*\*2\
- score = sqrt(s / (actual.shape[0] \* actual.shape[1]))\
+s = 0
+ for row in range(actual.shape[0]):
+ for col in range(actual.shape[1]):
+ s += (actual[row, col] - predicted[row, col])**2
+ score = sqrt(s / (actual.shape[0] * actual.shape[1]))
  return score, scores
 
-summarize scores
-================
+def summarize_scores(name, score, scores):
+ s_scores = ','.join(['%.1f' % s for s in scores])
+ print('%s: [%.3f] %s'% (name, score, s_scores))
 
-def summarize\_scores(name, score, scores):\
- s\_scores = ','.join(['%.1f' % s for s in scores])\
- print('%s: [%.3f] %s'% (name, score, s\_scores))
-
-evaluate a single model
-=======================
-
-def evaluate\_model(model\_func, train, test):
-
-history is a list of weekly data
-================================
+def evaluate_model(model_func, train, test):
 
 history = [x for x in train]
 
-walk-forward validation over each week
-======================================
-
-predictions = list()\
+predictions = list()
  for i in range(len(test)):
 
-predict the week
-================
+yhat_sequence = model_func(history)
 
-yhat\_sequence = model\_func(history)
+predictions.append(yhat_sequence)
 
-store the predictions
-=====================
-
-predictions.append(yhat\_sequence)
-
-get real observation and add to history for predicting the next week
-====================================================================
-
-history.append(test[i, :])\
+history.append(test[i, :])
  predictions = array(predictions)
 
 17.5. Develop Naive Forecast Models 353

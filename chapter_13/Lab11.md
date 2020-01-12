@@ -167,104 +167,50 @@ together by testing it
 
 on a contrived 10-step dataset. The complete example is listed below.
 
-grid search sarima hyperparameters
-==================================
+from math import sqrt
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from statsmodels.tsa.statespace.sarimax import SARIMAX
+ from sklearn.metrics import mean_squared_error
 
-from math import sqrt\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from statsmodels.tsa.statespace.sarimax import SARIMAX\
- from sklearn.metrics import mean\_squared\_error
-
-one-step sarima forecast
-========================
-
-def sarima\_forecast(history, config):\
+def sarima_forecast(history, config):
  order, sorder, trend = config
+model = SARIMAX(history, order=order, seasonal_order=sorder,
+trend=trend,
+ enforce_stationarity=False, enforce_invertibility=False)
+model_fit = model.fit(disp=False)
 
-define model
-============
-
-model = SARIMAX(history, order=order, seasonal\_order=sorder,
-trend=trend,\
- enforce\_stationarity=False, enforce\_invertibility=False)
-
-fit model
-=========
-
-model\_fit = model.fit(disp=False)
-
-make one step forecast
-======================
-
-yhat = model\_fit.predict(len(history), len(history))\
+yhat = model_fit.predict(len(history), len(history))
  return yhat[0]
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = sarima\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = sarima_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 13.2. Develop a Grid Search Framework 232
 
@@ -286,63 +232,42 @@ convert config to a key
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of sarima configs to try
-=====================================
-
-def sarima\_configs(seasonal=[0]):\
+def sarima_configs(seasonal=[0]):
  models = list()
 
-define config lists
-===================
+p_params = [0, 1, 2]
+ d_params = [0, 1]
+ q_params = [0, 1, 2]
+ t_params = ['n','c','t','ct']
+ P_params = [0, 1, 2]
+ D_params = [0, 1]
+ Q_params = [0, 1, 2]
+ m_params = seasonal
 
-p\_params = [0, 1, 2]\
- d\_params = [0, 1]\
- q\_params = [0, 1, 2]\
- t\_params = ['n','c','t','ct']\
- P\_params = [0, 1, 2]\
- D\_params = [0, 1]\
- Q\_params = [0, 1, 2]\
- m\_params = seasonal
-
-create config instances
-=======================
-
-for p in p\_params:\
- for d in d\_params:\
- for q in q\_params:\
- for t in t\_params:\
- for P in P\_params:\
- for D in D\_params:\
- for Q in Q\_params:\
- for m in m\_params:\
+for p in p_params:
+ for d in d_params:
+ for q in q_params:
+ for t in t_params:
+ for P in P_params:
+ for D in D_params:
+ for Q in Q_params:
+ for m in m_params:
  cfg = [(p,d,q), (P,D,Q,m), t]
 
 13.3. Case Study 1: No Trend or Seasonality 233
@@ -404,7 +329,7 @@ download the dataset directly from here:
 
 13.3. Case Study 1: No Trend or Seasonality 234
 
-- daily-total-female-births.csv\^1
+- daily-total-female-births.csv^1
 
 Save the file with the filenamedaily-total-female-births.csvin your
 current working
@@ -417,93 +342,48 @@ searching the daily female
 
 univariate time series forecasting problem is listed below.
 
-grid search sarima hyperparameters for daily female dataset
-===========================================================
+from math import sqrt
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from statsmodels.tsa.statespace.sarimax import SARIMAX
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
 
-from math import sqrt\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from statsmodels.tsa.statespace.sarimax import SARIMAX\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv
-
-one-step sarima forecast
-========================
-
-def sarima\_forecast(history, config):\
+def sarima_forecast(history, config):
  order, sorder, trend = config
+model = SARIMAX(history, order=order, seasonal_order=sorder,
+trend=trend,
+ enforce_stationarity=False, enforce_invertibility=False)
+model_fit = model.fit(disp=False)
 
-define model
-============
-
-model = SARIMAX(history, order=order, seasonal\_order=sorder,
-trend=trend,\
- enforce\_stationarity=False, enforce\_invertibility=False)
-
-fit model
-=========
-
-model\_fit = model.fit(disp=False)
-
-make one step forecast
-======================
-
-yhat = model\_fit.predict(len(history), len(history))\
+yhat = model_fit.predict(len(history), len(history))
  return yhat[0]
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = sarima\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = sarima_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-(\^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.\
+(^1)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
  csv
 
 13.3. Case Study 1: No Trend or Seasonality 235
@@ -512,95 +392,56 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-b
     error = measure_rmse(test, predictions)
     return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of sarima configs to try
-=====================================
-
-def sarima\_configs(seasonal=[0]):\
+def sarima_configs(seasonal=[0]):
  models = list()
 
-define config lists
-===================
+p_params = [0, 1, 2]
+ d_params = [0, 1]
+ q_params = [0, 1, 2]
+ t_params = ['n','c','t','ct']
+ P_params = [0, 1, 2]
+ D_params = [0, 1]
+ Q_params = [0, 1, 2]
+ m_params = seasonal
 
-p\_params = [0, 1, 2]\
- d\_params = [0, 1]\
- q\_params = [0, 1, 2]\
- t\_params = ['n','c','t','ct']\
- P\_params = [0, 1, 2]\
- D\_params = [0, 1]\
- Q\_params = [0, 1, 2]\
- m\_params = seasonal
-
-create config instances
-=======================
-
-for p in p\_params:
+for p in p_params:
 
 13.3. Case Study 1: No Trend or Seasonality 236
 
@@ -616,34 +457,15 @@ for p in p\_params:
     return models
 
 if **name** =='**main**':
-
-load dataset
-============
-
-series = read\_csv('daily-total-female-births.csv', header=0,
-index\_col=0)\
+series = read_csv('daily-total-female-births.csv', header=0,
+index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 165
-
-model configs
-=============
-
-cfg\_list = sarima\_configs()
-
-grid search
-===========
-
-scores = grid\_search(data, cfg\_list, n\_test)\
+n_test = 165
+cfg_list = sarima_configs()
+scores = grid_search(data, cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 13.6: Example of grid searching SARIMA models for the daily
@@ -664,15 +486,15 @@ running the example a few times.
 
 ##### ...
 
-> Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 6.905\
->  Model[[(2, 1, 2), (2, 0, 0, 0),'ct']] 7.031\
->  Model[[(2, 1, 2), (2, 0, 1, 0),'ct']] 6.985\
->  Model[[(2, 1, 2), (1, 0, 2, 0),'ct']] 6.941\
->  Model[[(2, 1, 2), (2, 0, 2, 0),'ct']] 7.056\
+> Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 6.905
+>  Model[[(2, 1, 2), (2, 0, 0, 0),'ct']] 7.031
+>  Model[[(2, 1, 2), (2, 0, 1, 0),'ct']] 6.985
+>  Model[[(2, 1, 2), (1, 0, 2, 0),'ct']] 6.941
+>  Model[[(2, 1, 2), (2, 0, 2, 0),'ct']] 7.056
 >  done
 
-[(1, 0, 2), (1, 0, 1, 0),'t'] 6.770349800255089\
- [(0, 1, 2), (1, 0, 2, 0),'ct'] 6.773217122759515\
+[(1, 0, 2), (1, 0, 1, 0),'t'] 6.770349800255089
+ [(0, 1, 2), (1, 0, 2, 0),'ct'] 6.773217122759515
  [(2, 1, 1), (2, 0, 2, 0),'ct'] 6.886633191752254
 
 Listing 13.7: Example output from grid searching SARIMA models for the
@@ -709,7 +531,7 @@ over a three-year
     period. For more information on this dataset, see Chapter 11 where it was introduced. You can
     download the dataset directly from here:
 
-- monthly-shampoo-sales.csv\^2
+- monthly-shampoo-sales.csv^2
 
     Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
     rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
@@ -747,116 +569,61 @@ over a three-year
     def train_test_split(data, n_test):
     return data[:-n_test], data[-n_test:]
 
-(\^2)
+(^2)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
 13.4. Case Study 2: Trend 238
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = sarima\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = sarima_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
-
-sort configs by error, asc
-==========================
 
 scores.sort(key=lambda tup: tup[1])
 
@@ -864,67 +631,39 @@ scores.sort(key=lambda tup: tup[1])
 
     return scores
 
-create a set of sarima configs to try
-=====================================
-
-def sarima\_configs(seasonal=[0]):\
+def sarima_configs(seasonal=[0]):
  models = list()
 
-define config lists
-===================
+p_params = [0, 1, 2]
+ d_params = [0, 1]
+ q_params = [0, 1, 2]
+ t_params = ['n','c','t','ct']
+ P_params = [0, 1, 2]
+ D_params = [0, 1]
+ Q_params = [0, 1, 2]
+ m_params = seasonal
 
-p\_params = [0, 1, 2]\
- d\_params = [0, 1]\
- q\_params = [0, 1, 2]\
- t\_params = ['n','c','t','ct']\
- P\_params = [0, 1, 2]\
- D\_params = [0, 1]\
- Q\_params = [0, 1, 2]\
- m\_params = seasonal
-
-create config instances
-=======================
-
-for p in p\_params:\
- for d in d\_params:\
- for q in q\_params:\
- for t in t\_params:\
- for P in P\_params:\
- for D in D\_params:\
- for Q in Q\_params:\
- for m in m\_params:\
- cfg = [(p,d,q), (P,D,Q,m), t]\
- models.append(cfg)\
+for p in p_params:
+ for d in d_params:
+ for q in q_params:
+ for t in t_params:
+ for P in P_params:
+ for D in D_params:
+ for Q in Q_params:
+ for m in m_params:
+ cfg = [(p,d,q), (P,D,Q,m), t]
+ models.append(cfg)
  return models
 
 if **name** =='**main**':
-
-load dataset
-============
-
-series = read\_csv('monthly-shampoo-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-model configs
-=============
-
-cfg\_list = sarima\_configs()
-
-grid search
-===========
-
-scores = grid\_search(data, cfg\_list, n\_test)\
+n_test = 12
+cfg_list = sarima_configs()
+scores = grid_search(data, cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 13.8: Example of grid searching SARIMA models for the monthly
@@ -948,7 +687,7 @@ running the example a few times.
 
 ##### ...
 
-> Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 68.891\
+> Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 68.891
 >  Model[[(2, 1, 2), (2, 0, 0, 0),'ct']] 75.406
 
 13.5. Case Study 3: Seasonality 240
@@ -985,7 +724,7 @@ temperatures in
     this dataset, see Chapter 11 where it was introduced. You can download the dataset directly
     from here:
 
-- monthly-mean-temp.csv\^3
+- monthly-mean-temp.csv^3
 
 Save the file with the filenamemonthly-mean-temp.csvin your current
 working directory.
@@ -1010,7 +749,7 @@ Listing 13.10: Example of reducing the size of the dataset.
 
 Listing 13.11: Example of specifying some seasonal configurations.
 
-(\^3)
+(^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
 13.5. Case Study 3: Seasonality 241
@@ -1020,101 +759,50 @@ series forecasting
 
 problem is listed below.
 
-grid search sarima hyperparameters for monthly mean temp dataset
-================================================================
+from math import sqrt
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from statsmodels.tsa.statespace.sarimax import SARIMAX
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
 
-from math import sqrt\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from statsmodels.tsa.statespace.sarimax import SARIMAX\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv
-
-one-step sarima forecast
-========================
-
-def sarima\_forecast(history, config):\
+def sarima_forecast(history, config):
  order, sorder, trend = config
+model = SARIMAX(history, order=order, seasonal_order=sorder,
+trend=trend,
+ enforce_stationarity=False, enforce_invertibility=False)
+model_fit = model.fit(disp=False)
 
-define model
-============
-
-model = SARIMAX(history, order=order, seasonal\_order=sorder,
-trend=trend,\
- enforce\_stationarity=False, enforce\_invertibility=False)
-
-fit model
-=========
-
-model\_fit = model.fit(disp=False)
-
-make one step forecast
-======================
-
-yhat = model\_fit.predict(len(history), len(history))\
+yhat = model_fit.predict(len(history), len(history))
  return yhat[0]
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = sarima\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = sarima_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
 
 13.5. Case Study 3: Seasonality 242
@@ -1138,63 +826,42 @@ def score\_model(data, n\_test, cfg, debug=False):\
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of sarima configs to try
-=====================================
-
-def sarima\_configs(seasonal=[0]):\
+def sarima_configs(seasonal=[0]):
  models = list()
 
-define config lists
-===================
+p_params = [0, 1, 2]
+ d_params = [0, 1]
+ q_params = [0, 1, 2]
+ t_params = ['n','c','t','ct']
+ P_params = [0, 1, 2]
+ D_params = [0, 1]
+ Q_params = [0, 1, 2]
+ m_params = seasonal
 
-p\_params = [0, 1, 2]\
- d\_params = [0, 1]\
- q\_params = [0, 1, 2]\
- t\_params = ['n','c','t','ct']\
- P\_params = [0, 1, 2]\
- D\_params = [0, 1]\
- Q\_params = [0, 1, 2]\
- m\_params = seasonal
-
-create config instances
-=======================
-
-for p in p\_params:\
- for d in d\_params:\
- for q in q\_params:\
- for t in t\_params:\
- for P in P\_params:\
- for D in D\_params:\
- for Q in Q\_params:\
- for m in m\_params:
+for p in p_params:
+ for d in d_params:
+ for q in q_params:
+ for t in t_params:
+ for P in P_params:
+ for D in D_params:
+ for Q in Q_params:
+ for m in m_params:
 
 13.5. Case Study 3: Seasonality 243
 
@@ -1203,38 +870,16 @@ for p in p\_params:\
     return models
 
 if **name** =='**main**':
-
-load dataset
-============
-
-series = read\_csv('monthly-mean-temp.csv', header=0, index\_col=0)\
+series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
  data = series.values
 
-trim dataset to 5 years
-=======================
-
-data = data[-(5\*12):]
-
-data split
-==========
-
-n\_test = 12
-
-model configs
-=============
-
-cfg\_list = sarima\_configs(seasonal=[0, 12])
-
-grid search
-===========
-
-scores = grid\_search(data, cfg\_list, n\_test)\
+data = data[-(5*12):]
+n_test = 12
+cfg_list = sarima_configs(seasonal=[0, 12])
+scores = grid_search(data, cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 13.12: Example of grid searching SARIMA models for the monthly
@@ -1260,15 +905,15 @@ running the example a few times.
 
 ##### ...
 
-> Model[[(2, 1, 2), (2, 1, 0, 12),'t']] 4.599\
->  Model[[(2, 1, 2), (1, 1, 0, 12),'ct']] 2.477\
->  Model[[(2, 1, 2), (2, 0, 0, 12),'ct']] 2.548\
->  Model[[(2, 1, 2), (2, 0, 1, 12),'ct']] 2.893\
->  Model[[(2, 1, 2), (2, 1, 0, 12),'ct']] 5.404\
+> Model[[(2, 1, 2), (2, 1, 0, 12),'t']] 4.599
+>  Model[[(2, 1, 2), (1, 1, 0, 12),'ct']] 2.477
+>  Model[[(2, 1, 2), (2, 0, 0, 12),'ct']] 2.548
+>  Model[[(2, 1, 2), (2, 0, 1, 12),'ct']] 2.893
+>  Model[[(2, 1, 2), (2, 1, 0, 12),'ct']] 5.404
 >  done
 
-[(0, 0, 0), (1, 0, 1, 12),'n'] 1.5577613610905712\
- [(0, 0, 0), (1, 1, 0, 12),'n'] 1.6469530713847962\
+[(0, 0, 0), (1, 0, 1, 12),'n'] 1.5577613610905712
+ [(0, 0, 0), (1, 1, 0, 12),'n'] 1.6469530713847962
  [(0, 0, 0), (2, 0, 0, 12),'n'] 1.7314448163607488
 
 Listing 13.13: Example output from grid searching SARIMA models for the
@@ -1306,7 +951,7 @@ where it was introduced.
 
 You can download the dataset directly from here:
 
-- monthly-car-sales.csv\^4
+- monthly-car-sales.csv^4
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -1350,114 +995,62 @@ Listing 13.14: Example of specifying some seasonal configurations.
 
     # root mean squared error or rmse
 
-(\^4)
+(^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
 13.6. Case Study 4: Trend and Seasonality 245
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-split a univariate dataset into train/test sets
-===============================================
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = sarima\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = sarima_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
  scores = executor(tasks)
 
 13.6. Case Study 4: Trend and Seasonality 246
@@ -1470,67 +1063,39 @@ cfg\_list)\
     scores.sort(key=lambda tup: tup[1])
     return scores
 
-create a set of sarima configs to try
-=====================================
-
-def sarima\_configs(seasonal=[0]):\
+def sarima_configs(seasonal=[0]):
  models = list()
 
-define config lists
-===================
+p_params = [0, 1, 2]
+ d_params = [0, 1]
+ q_params = [0, 1, 2]
+ t_params = ['n','c','t','ct']
+ P_params = [0, 1, 2]
+ D_params = [0, 1]
+ Q_params = [0, 1, 2]
+ m_params = seasonal
 
-p\_params = [0, 1, 2]\
- d\_params = [0, 1]\
- q\_params = [0, 1, 2]\
- t\_params = ['n','c','t','ct']\
- P\_params = [0, 1, 2]\
- D\_params = [0, 1]\
- Q\_params = [0, 1, 2]\
- m\_params = seasonal
-
-create config instances
-=======================
-
-for p in p\_params:\
- for d in d\_params:\
- for q in q\_params:\
- for t in t\_params:\
- for P in P\_params:\
- for D in D\_params:\
- for Q in Q\_params:\
- for m in m\_params:\
- cfg = [(p,d,q), (P,D,Q,m), t]\
- models.append(cfg)\
+for p in p_params:
+ for d in d_params:
+ for q in q_params:
+ for t in t_params:
+ for P in P_params:
+ for D in D_params:
+ for Q in Q_params:
+ for m in m_params:
+ cfg = [(p,d,q), (P,D,Q,m), t]
+ models.append(cfg)
  return models
 
 if **name** =='**main**':
-
-load dataset
-============
-
-series = read\_csv('monthly-car-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-model configs
-=============
-
-cfg\_list = sarima\_configs(seasonal=[0,6,12])
-
-grid search
-===========
-
-scores = grid\_search(data, cfg\_list, n\_test)\
+n_test = 12
+cfg_list = sarima_configs(seasonal=[0,6,12])
+scores = grid_search(data, cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 13.15: Example of grid searching SARIMA models for the monthly

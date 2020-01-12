@@ -63,14 +63,14 @@ Smartphones using a Multiclass Hardware-Friendly Support Vector Machine.
 The dataset was
 
 made available and can be downloaded for free from the UCI Machine
-Learning Repository\^1.
+Learning Repository^1.
 
 Figure 22.1: Activity Recognition Experiment Using Smartphone Sensors.
 
     The data was collected from 30 subjects aged between 19 and 48 years old performing one
     of 6 standard activities while wearing a waist-mounted smartphone that recorded the movement
 
-(\^1)
+(^1)
 https://archive.ics.uci.edu/ml/datasets/human+activity+recognition+using+smartphones
 
 22.2. Activity Recognition Using Smartphones Dataset 445
@@ -81,7 +81,7 @@ the movement data was
 labeled manually from these videos. Below is an example video of a
 subject performing the
 
-activities while their movement data is being recorded\^2. The six
+activities while their movement data is being recorded^2. The six
 activities performed were as
 
 follows:
@@ -138,7 +138,7 @@ motion components.
 —A Public Domain Dataset for Human Activity Recognition Using
 Smartphones, 2013.
 
-(\^2) View on YouTube:https://www.youtube.com/watch?v=XOEN9W05\_4A
+(^2) View on YouTube:https://www.youtube.com/watch?v=XOEN9W05_4A
 
 22.3. Download the Dataset 446
 
@@ -175,7 +175,7 @@ size. A direct for
 
 downloading the dataset is provided below:
 
-- HARSmartphones.zip\^3
+- HARSmartphones.zip^3
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset. Inspecting the decompressed contents, you will notice a few
@@ -198,8 +198,8 @@ thetrainfolder shows a few
 
 important elements:
 
-(\^3)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR\_Smartphones.zip
+(^3)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
 22.4. Load the Dataset 447
 
@@ -258,10 +258,7 @@ single data file and
 specify that the file has no header and to separate columns using white
 space.
 
-load a csv file as a dataframe
-==============================
-
-dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
 
 Listing 22.1: Example of loading a file as aDataFrame.
 
@@ -270,20 +267,14 @@ this function
 
 is listed below.
 
-load one file from the har dataset
-==================================
+from pandas import read_csv
 
-from pandas import read\_csv
-
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-data = load\_file('HARDataset/train/Inertial
-Signals/total\_acc\_y\_train.txt')
+data = load_file('HARDataset/train/Inertial
+Signals/total_acc_y_train.txt')
 
 22.4. Load the Dataset 448
 
@@ -347,14 +338,11 @@ Listing 22.4: Example of a function for loading a group of files.
 
 22.4. Load the Dataset 449
 
-load the total acc data
-=======================
-
 filenames =
-['total\_acc\_x\_train.txt','total\_acc\_y\_train.txt','total\_acc\_z\_train.txt']\
- total\_acc = load\_group(filenames, prefix='HARDataset/train/Inertial
-Signals/')\
- print(total\_acc.shape)
+['total_acc_x_train.txt','total_acc_y_train.txt','total_acc_z_train.txt']
+ total_acc = load_group(filenames, prefix='HARDataset/train/Inertial
+Signals/')
+ print(total_acc.shape)
 
 Listing 22.5: Example of loading a group of accelerometer data files.
 
@@ -387,47 +375,25 @@ this behavior. It
 can be called for either thetraingroup or thetestgroup, passed as a
 string argument.
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset(group, prefix=''):\
+def load_dataset(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
 Listing 22.7: Example of a function for loading all data files for
@@ -435,23 +401,14 @@ either train or test.
 
 The complete example is listed below.
 
-load all train and test data from the har dataset
-=================================================
+from numpy import dstack
+ from pandas import read_csv
 
-from numpy import dstack\
- from pandas import read\_csv
-
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files, such as x, y, z data for a given variable
-===============================================================
-
-def load\_group(filenames, prefix=''):
+def load_group(filenames, prefix=''):
 
 22.5. Balance of Activity Classes 450
 
@@ -524,31 +481,15 @@ the rows by the class value, and calculating the size of each group
 
 are then summarized, including the count and the percentage.
 
-summarize the balance of classes in an output variable column
-=============================================================
-
-def class\_breakdown(data):
-
-convert the numpy array into a dataframe
-========================================
+def class_breakdown(data):
 
 df = DataFrame(data)
 
-group data by the class value and calculate the number of rows
-==============================================================
-
 counts = df.groupby(0).size()
 
-retrieve raw rows
-=================
-
 counts = counts.values
-
-summarize
-=========
-
-for i in range(len(counts)):\
- percent = counts[i] / len(df) \* 100\
+for i in range(len(counts)):
+ percent = counts[i] / len(df) * 100
  print('Class=%d, total=%d, percentage=%.3f' % (i+1, counts[i],
 percent))
 
@@ -562,66 +503,31 @@ breakdown on the
 
 combined dataset. The complete example is listed below.
 
-summarize class balance from the har dataset
-============================================
-
-from numpy import vstack\
- from pandas import read\_csv\
+from numpy import vstack
+ from pandas import read_csv
  from pandas import DataFrame
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-summarize the balance of classes in an output variable column
-=============================================================
-
-def class\_breakdown(data):
-
-convert the numpy array into a dataframe
-========================================
+def class_breakdown(data):
 
 df = DataFrame(data)
 
-group data by the class value and calculate the number of rows
-==============================================================
-
 counts = df.groupby(0).size()
 
-retrieve raw rows
-=================
-
 counts = counts.values
-
-summarize
-=========
-
-for i in range(len(counts)):\
- percent = counts[i] / len(df) \* 100\
+for i in range(len(counts)):
+ percent = counts[i] / len(df) * 100
  print('Class=%d, total=%d, percentage=%.3f' % (i+1, counts[i],
 percent))
 
-load train file
-===============
+trainy = load_file('HARDataset/train/y_train.txt')
 
-trainy = load\_file('HARDataset/train/y\_train.txt')
-
-summarize class breakdown
-=========================
-
-print('Train Dataset')\
- class\_breakdown(trainy)
-
-load test file
-==============
-
-testy = load\_file('HARDataset/test/y\_test.txt')
-
-summarize class breakdown
-=========================
+print('Train Dataset')
+ class_breakdown(trainy)
+testy = load_file('HARDataset/test/y_test.txt')
 
 22.6. Plot Time Series Per Subject 452
 
@@ -757,96 +663,57 @@ looking at.
 
 22.6. Plot Time Series Per Subject 454
 
-def plot\_subject(X, y):\
+def plot_subject(X, y):
  pyplot.figure()
 
-determine the total number of plots
-===================================
-
 n, off = X.shape[2] + 1, 0
-
-plot total acc
-==============
-
-for i in range(3):\
- pyplot.subplot(n, 1, off+1)\
- pyplot.plot(to\_series(X[:, :, off]))\
+for i in range(3):
+ pyplot.subplot(n, 1, off+1)
+ pyplot.plot(to_series(X[:, :, off]))
  pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
 
-turn off ticks to remove clutter
-================================
-
-pyplot.yticks([])\
- pyplot.xticks([])\
+pyplot.yticks([])
+ pyplot.xticks([])
  off += 1
-
-plot body acc
-=============
-
-for i in range(3):\
- pyplot.subplot(n, 1, off+1)\
- pyplot.plot(to\_series(X[:, :, off]))\
+for i in range(3):
+ pyplot.subplot(n, 1, off+1)
+ pyplot.plot(to_series(X[:, :, off]))
  pyplot.title('body acc'+str(i), y=0, loc='left', size=7)
 
-turn off ticks to remove clutter
-================================
-
-pyplot.yticks([])\
- pyplot.xticks([])\
+pyplot.yticks([])
+ pyplot.xticks([])
  off += 1
-
-plot body gyro
-==============
-
-for i in range(3):\
- pyplot.subplot(n, 1, off+1)\
- pyplot.plot(to\_series(X[:, :, off]))\
+for i in range(3):
+ pyplot.subplot(n, 1, off+1)
+ pyplot.plot(to_series(X[:, :, off]))
  pyplot.title('body gyro'+str(i), y=0, loc='left', size=7)
 
-turn off ticks to remove clutter
-================================
-
-pyplot.yticks([])\
- pyplot.xticks([])\
+pyplot.yticks([])
+ pyplot.xticks([])
  off += 1
 
-plot activities
-===============
-
-pyplot.subplot(n, 1, n)\
- pyplot.plot(y)\
+pyplot.subplot(n, 1, n)
+ pyplot.plot(y)
  pyplot.title('activity', y=0, loc='left', size=7)
 
-turn off ticks to remove clutter
-================================
-
-pyplot.yticks([])\
- pyplot.xticks([])\
+pyplot.yticks([])
+ pyplot.xticks([])
  pyplot.show()
 
 Listing 22.17: Example of a function to plot data for a subject.
 
 The complete example is listed below.
 
-plot all vars for one subject in the har dataset
-================================================
-
-from numpy import dstack\
- from numpy import unique\
- from pandas import read\_csv\
+from numpy import dstack
+ from numpy import unique
+ from pandas import read_csv
  from matplotlib import pyplot
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files, such as x, y, z data for a given variable
-===============================================================
-
-def load\_group(filenames, prefix=''):
+def load_group(filenames, prefix=''):
 
 22.6. Plot Time Series Per Subject 455
 
@@ -858,100 +725,50 @@ def load\_group(filenames, prefix=''):
     loaded = dstack(loaded)
     return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset(group, prefix=''):\
+def load_dataset(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-get all data for one subject
-============================
+def data_for_subject(X, y, sub_map, sub_id):
 
-def data\_for\_subject(X, y, sub\_map, sub\_id):
-
-get row indexes for the subject id
-==================================
-
-ix = [i for i in range(len(sub\_map)) if sub\_map[i]==sub\_id]
-
-return the selected samples
-===========================
+ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 
 return X[ix, :, :], y[ix]
 
-convert a series of windows to a 1D list
-========================================
-
-def to\_series(windows):\
- series = list()\
+def to_series(windows):
+ series = list()
  for window in windows:
 
-remove the overlap from the window
-==================================
-
-half = int(len(window) / 2) - 1\
- for value in window[-half:]:\
- series.append(value)\
+half = int(len(window) / 2) - 1
+ for value in window[-half:]:
+ series.append(value)
  return series
 
-plot the data for one subject
-=============================
-
-def plot\_subject(X, y):\
+def plot_subject(X, y):
  pyplot.figure()
 
-determine the total number of plots
-===================================
-
 n, off = X.shape[2] + 1, 0
-
-plot total acc
-==============
-
-for i in range(3):\
- pyplot.subplot(n, 1, off+1)\
- pyplot.plot(to\_series(X[:, :, off]))\
+for i in range(3):
+ pyplot.subplot(n, 1, off+1)
+ pyplot.plot(to_series(X[:, :, off]))
  pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
-
-turn off ticks to remove clutter
-================================
 
 22.6. Plot Time Series Per Subject 456
 
@@ -1132,138 +949,70 @@ variables.
 
 22.7. Plot Distribution Per Subject 460
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset(group, prefix=''):\
+def load_dataset(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-get all data for one subject
-============================
+def data_for_subject(X, y, sub_map, sub_id):
 
-def data\_for\_subject(X, y, sub\_map, sub\_id):
-
-get row indexes for the subject id
-==================================
-
-ix = [i for i in range(len(sub\_map)) if sub\_map[i]==sub\_id]
-
-return the selected samples
-===========================
+ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 
 return X[ix, :, :], y[ix]
 
-convert a series of windows to a 1D list
-========================================
-
-def to\_series(windows):\
- series = list()\
+def to_series(windows):
+ series = list()
  for window in windows:
 
-remove the overlap from the window
-==================================
-
-half = int(len(window) / 2) - 1\
- for value in window[-half:]:\
- series.append(value)\
+half = int(len(window) / 2) - 1
+ for value in window[-half:]:
+ series.append(value)
  return series
 
-plot histograms for multiple subjects
-=====================================
-
-def plot\_subject\_histograms(X, y, sub\_map, offset, n=10):\
+def plot_subject_histograms(X, y, sub_map, offset, n=10):
  pyplot.figure()
 
-get unique subjects
-===================
+subject_ids = unique(sub_map[:,0])
 
-subject\_ids = unique(sub\_map[:,0])
+for k in range(n):
+ sub_id = subject_ids[k]
 
-enumerate subjects
-==================
-
-for k in range(n):\
- sub\_id = subject\_ids[k]
-
-get data for one subject
-========================
-
-subX, \_ = data\_for\_subject(X, y, sub\_map, sub\_id)
-
-total acc
-=========
-
-for i in range(3):\
- ax = pyplot.subplot(n, 1, k+1)\
- ax.set\_xlim(-1,1)\
- ax.hist(to\_series(subX[:,:,offset+i]), bins=100)\
- pyplot.yticks([])\
- pyplot.xticks([-1,0,1])\
+subX, _ = data_for_subject(X, y, sub_map, sub_id)
+for i in range(3):
+ ax = pyplot.subplot(n, 1, k+1)
+ ax.set_xlim(-1,1)
+ ax.hist(to_series(subX[:,:,offset+i]), bins=100)
+ pyplot.yticks([])
+ pyplot.xticks([-1,0,1])
  pyplot.show()
 
 22.7. Plot Distribution Per Subject 461
 
-load training dataset
-=====================
+X, y = load_dataset('train','HARDataset/')
 
-X, y = load\_dataset('train','HARDataset/')
+sub_map = load_file('HARDataset/train/subject_train.txt')
 
-load mapping of rows to subjects
-================================
+plot_subject_histograms(X, y, sub_map, 0)
 
-sub\_map = load\_file('HARDataset/train/subject\_train.txt')
+plot_subject_histograms(X, y, sub_map, 3)
 
-plot total acceleration histograms for subjects
-===============================================
-
-plot\_subject\_histograms(X, y, sub\_map, 0)
-
-plot body acceleration histograms for subjects
-==============================================
-
-plot\_subject\_histograms(X, y, sub\_map, 3)
-
-plot gyroscopic histograms for subjects
-=======================================
-
-plot\_subject\_histograms(X, y, sub\_map, 6)
+plot_subject_histograms(X, y, sub_map, 6)
 
 Listing 22.23: Example of plotting histograms of total accelerometer
 data.
@@ -1403,113 +1152,58 @@ variables.
 
 22.8. Plot Distribution Per Activity 465
 
-load a list of files, such as x, y, z data for a given variable
-===============================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset(group, prefix=''):\
+def load_dataset(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-get all data for one subject
-============================
+def data_for_subject(X, y, sub_map, sub_id):
 
-def data\_for\_subject(X, y, sub\_map, sub\_id):
-
-get row indexes for the subject id
-==================================
-
-ix = [i for i in range(len(sub\_map)) if sub\_map[i]==sub\_id]
-
-return the selected samples
-===========================
+ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 
 return X[ix, :, :], y[ix]
 
-convert a series of windows to a 1D list
-========================================
-
-def to\_series(windows):\
- series = list()\
+def to_series(windows):
+ series = list()
  for window in windows:
 
-remove the overlap from the window
-==================================
-
-half = int(len(window) / 2) - 1\
- for value in window[-half:]:\
- series.append(value)\
+half = int(len(window) / 2) - 1
+ for value in window[-half:]:
+ series.append(value)
  return series
 
-group data by activity
-======================
-
-def data\_by\_activity(X, y, activities):
-
-group windows by activity
-=========================
+def data_by_activity(X, y, activities):
 
 return {a:X[y[:,0]==a, :, :] for a in activities}
 
-plot histograms for each activity for a subject
-===============================================
+def plot_activity_histograms(X, y, offset):
 
-def plot\_activity\_histograms(X, y, offset):
-
-get a list of unique activities for the subject
-===============================================
-
-activity\_ids = unique(y[:,0])
+activity_ids = unique(y[:,0])
 
 22.8. Plot Distribution Per Activity 466
 
@@ -1531,38 +1225,19 @@ activity\_ids = unique(y[:,0])
     pyplot.yticks([])
     pyplot.xticks([-1,0,1])
     pyplot.show()
+trainX, trainy = load_dataset('train', 'HARDataset/')
 
-load data
-=========
+sub_map = load_file('HARDataset/train/subject_train.txt')
+ train_subjects = unique(sub_map)
 
-trainX, trainy = load\_dataset('train', 'HARDataset/')
+sub_id = train_subjects[0]
+ subX, suby = data_for_subject(trainX, trainy, sub_map, sub_id)
 
-load mapping of rows to subjects
-================================
+plot_activity_histograms(subX, suby, 0)
 
-sub\_map = load\_file('HARDataset/train/subject\_train.txt')\
- train\_subjects = unique(sub\_map)
+plot_activity_histograms(subX, suby, 3)
 
-get the data for one subject
-============================
-
-sub\_id = train\_subjects[0]\
- subX, suby = data\_for\_subject(trainX, trainy, sub\_map, sub\_id)
-
-plot total acceleration histograms per activity for a subject
-=============================================================
-
-plot\_activity\_histograms(subX, suby, 0)
-
-plot body acceleration histograms per activity for a subject
-============================================================
-
-plot\_activity\_histograms(subX, suby, 3)
-
-plot gyroscopic histograms per activity for a subject
-=====================================================
-
-plot\_activity\_histograms(subX, suby, 6)
+plot_activity_histograms(subX, suby, 6)
 
 Listing 22.27: Example of plotting histograms per activity.
 
@@ -1673,170 +1348,87 @@ Listing 22.28: Example of a function for plotting activity duration.
 
 The complete example is listed below.
 
-plot durations of each activity by subject from the har dataset
-===============================================================
-
-from numpy import dstack\
- from numpy import unique\
- from pandas import read\_csv\
+from numpy import dstack
+ from numpy import unique
+ from pandas import read_csv
  from matplotlib import pyplot
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files, such as x, y, z data for a given variable
-===============================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset(group, prefix=''):\
+def load_dataset(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
-
-X = load\_group(filenames, filepath)
-
-load class output
-=================
+X = load_group(filenames, filepath)
 
 22.9. Plot Distribution of Activity Duration 471
 
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
-get all data for one subject
-============================
+def data_for_subject(X, y, sub_map, sub_id):
 
-def data\_for\_subject(X, y, sub\_map, sub\_id):
-
-get row indexes for the subject id
-==================================
-
-ix = [i for i in range(len(sub\_map)) if sub\_map[i]==sub\_id]
-
-return the selected samples
-===========================
+ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 
 return X[ix, :, :], y[ix]
 
-convert a series of windows to a 1D list
-========================================
-
-def to\_series(windows):\
- series = list()\
+def to_series(windows):
+ series = list()
  for window in windows:
 
-remove the overlap from the window
-==================================
-
-half = int(len(window) / 2) - 1\
- for value in window[-half:]:\
- series.append(value)\
+half = int(len(window) / 2) - 1
+ for value in window[-half:]:
+ series.append(value)
  return series
 
-group data by activity
-======================
-
-def data\_by\_activity(X, y, activities):
-
-group windows by activity
-=========================
+def data_by_activity(X, y, activities):
 
 return {a:X[y[:,0]==a, :, :] for a in activities}
 
-plot activity durations by subject
-==================================
+def plot_activity_durations_by_subject(X, y, sub_map):
 
-def plot\_activity\_durations\_by\_subject(X, y, sub\_map):
+subject_ids = unique(sub_map[:,0])
+ activity_ids = unique(y[:,0])
 
-get unique subjects and activities
-==================================
+activity_windows = {a:list() for a in activity_ids}
+ for sub_id in subject_ids:
 
-subject\_ids = unique(sub\_map[:,0])\
- activity\_ids = unique(y[:,0])
+_, subj_y = data_for_subject(X, y, sub_map, sub_id)
 
-enumerate subjects
-==================
+for a in activity_ids:
+ activity_windows[a].append(len(subj_y[subj_y[:,0]==a]))
 
-activity\_windows = {a:list() for a in activity\_ids}\
- for sub\_id in subject\_ids:
-
-get data for one subject
-========================
-
-\_, subj\_y = data\_for\_subject(X, y, sub\_map, sub\_id)
-
-count windows by activity
-=========================
-
-for a in activity\_ids:\
- activity\_windows[a].append(len(subj\_y[subj\_y[:,0]==a]))
-
-organize durations into a list of lists
-=======================================
-
-durations = [activity\_windows[a] for a in activity\_ids]\
- pyplot.boxplot(durations, labels=activity\_ids)\
+durations = [activity_windows[a] for a in activity_ids]
+ pyplot.boxplot(durations, labels=activity_ids)
  pyplot.show()
 
-load training dataset
-=====================
+X, y = load_dataset('train','HARDataset/')
 
-X, y = load\_dataset('train','HARDataset/')
-
-load mapping of rows to subjects
-================================
-
-sub\_map = load\_file('HARDataset/train/subject\_train.txt')
-
-plot durations
-==============
-
-plot\_activity\_durations\_by\_subject(X, y, sub\_map)
+sub_map = load_file('HARDataset/train/subject_train.txt')
+plot_activity_durations_by_subject(X, y, sub_map)
 
 Listing 22.29: Example of plotting activity durations.
 
@@ -1870,20 +1462,10 @@ Figure 22.10: Box plot of activity durations per subject on train set.
 We can create a similar box plot for the training data with the
 following additional lines.
 
-load test dataset
-=================
+X, y = load_dataset('test','HARDataset/')
 
-X, y = load\_dataset('test','HARDataset/')
-
-load mapping of rows to subjects
-================================
-
-sub\_map = load\_file('HARDataset/test/subject\_test.txt')
-
-plot durations
-==============
-
-plot\_activity\_durations\_by\_subject(X, y, sub\_map)
+sub_map = load_file('HARDataset/test/subject_test.txt')
+plot_activity_durations_by_subject(X, y, sub_map)
 
 Listing 22.30: Example of preparing the test dataset.
 
@@ -1963,7 +1545,7 @@ movement data.
 
 - Oversampling windows of under-represented activities.
 
-- Downsampling signal data to\^14 ,\^12 , 1, 2 or other fractions of a
+- Downsampling signal data to^14 ,^12 , 1, 2 or other fractions of a
 section.
 
 22.10.3 Predictive Modeling

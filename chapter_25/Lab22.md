@@ -47,7 +47,7 @@ This tutorial is divided into four parts; they are:
     information on this dataset, see Chapter 22. The data is provided as a single zip file that is
     about 58 megabytes in size. A direct for downloading the dataset is provided below:
 
-- HARSmartphones.zip\^1
+- HARSmartphones.zip^1
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
@@ -83,8 +83,8 @@ This tutorial is divided into four parts; they are:
 
 evaluation for deep learning models.
 
-(\^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR\_Smartphones.zip
+(^1)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
 25.3. LSTM Model 525
 
@@ -192,35 +192,18 @@ and evaluating the
 
 defined models.
 
-load the dataset, returns train and test X and y elements
-=========================================================
-
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')\
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
  print(trainX.shape, trainy.shape)
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')\
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
  print(testX.shape, testy.shape)
 
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
- print(trainX.shape, trainy.shape, testX.shape, testy.shape)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
+ print(trainX.shape, trainy.shape, testX.shape, testy.shape)
  return trainX, trainy, testX, testy
 
 Listing 25.4: Example of a function for loading the entire dataset.
@@ -386,97 +369,52 @@ worked example. The
 
 complete code listing is provided below.
 
-lstm model for the har dataset
-==============================
+from numpy import mean
+ from numpy import std
+ from numpy import dstack
+ from pandas import read_csv
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Dropout
+ from keras.layers import LSTM
+ from keras.utils import to_categorical
 
-from numpy import mean\
- from numpy import std\
- from numpy import dstack\
- from pandas import read\_csv\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Dropout\
- from keras.layers import LSTM\
- from keras.utils import to\_categorical
-
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files and return as a 3d numpy array
-===================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
-
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 25.3. LSTM Model 530
 
     testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
@@ -546,25 +484,25 @@ dataset.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### \>\#1: 90.058
+##### >#1: 90.058
 
-##### \>\#2: 85.918
+##### >#2: 85.918
 
-##### \>\#3: 90.974
+##### >#3: 90.974
 
-##### \>\#4: 89.515
+##### >#4: 89.515
 
-##### \>\#5: 90.159
+##### >#5: 90.159
 
-##### \>\#6: 91.110
+##### >#6: 91.110
 
-##### \>\#7: 89.718
+##### >#7: 89.718
 
-##### \>\#8: 90.295
+##### >#8: 90.295
 
-##### \>\#9: 89.447
+##### >#9: 89.447
 
-##### \>\#10: 90.024
+##### >#10: 90.024
 
 ##### [90.05768578215134, 85.91788259246692, 90.97387173396675, 89.51476077366813,
 
@@ -611,22 +549,19 @@ Listing 25.13: Example of reshaping the window data into subsequences.
 
 25.4. CNN-LSTM Model 532
 
-define cnn-lstm model
-=====================
-
-model = Sequential()\
- model.add(TimeDistributed(Conv1D(filters=64, kernel\_size=3,
-activation='relu'),\
- input\_shape=(None,n\_length,n\_features)))\
- model.add(TimeDistributed(Conv1D(filters=64, kernel\_size=3,
-activation='relu')))\
- model.add(TimeDistributed(Dropout(0.5)))\
- model.add(TimeDistributed(MaxPooling1D(pool\_size=2)))\
- model.add(TimeDistributed(Flatten()))\
- model.add(LSTM(100))\
- model.add(Dropout(0.5))\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))
+model = Sequential()
+ model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
+activation='relu'),
+ input_shape=(None,n_length,n_features)))
+ model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
+activation='relu')))
+ model.add(TimeDistributed(Dropout(0.5)))
+ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+ model.add(TimeDistributed(Flatten()))
+ model.add(LSTM(100))
+ model.add(Dropout(0.5))
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
 
 Listing 25.14: Example of defining a CNN-LSTM model.
 
@@ -637,57 +572,35 @@ The updated
 
 evaluatemodel()is listed below.
 
-fit and evaluate a model
-========================
-
-def evaluate\_model(trainX, trainy, testX, testy):
-
-define model
-============
-
-verbose, epochs, batch\_size = 0, 25, 64\
- n\_timesteps, n\_features, n\_outputs = trainX.shape[1],
+def evaluate_model(trainX, trainy, testX, testy):
+verbose, epochs, batch_size = 0, 25, 64
+ n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
 
-reshape data into time steps of sub-sequences
-=============================================
-
-n\_steps, n\_length = 4, 32\
- trainX = trainX.reshape((trainX.shape[0], n\_steps, n\_length,
-n\_features))\
- testX = testX.reshape((testX.shape[0], n\_steps, n\_length,
-n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(TimeDistributed(Conv1D(filters=64, kernel\_size=3,
-activation='relu'),\
- input\_shape=(None,n\_length,n\_features)))\
- model.add(TimeDistributed(Conv1D(filters=64, kernel\_size=3,
-activation='relu')))\
- model.add(TimeDistributed(Dropout(0.5)))\
- model.add(TimeDistributed(MaxPooling1D(pool\_size=2)))\
- model.add(TimeDistributed(Flatten()))\
- model.add(LSTM(100))\
- model.add(Dropout(0.5))\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+n_steps, n_length = 4, 32
+ trainX = trainX.reshape((trainX.shape[0], n_steps, n_length,
+n_features))
+ testX = testX.reshape((testX.shape[0], n_steps, n_length,
+n_features))
+model = Sequential()
+ model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
+activation='relu'),
+ input_shape=(None,n_length,n_features)))
+ model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
+activation='relu')))
+ model.add(TimeDistributed(Dropout(0.5)))
+ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+ model.add(TimeDistributed(Flatten()))
+ model.add(LSTM(100))
+ model.add(Dropout(0.5))
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
-verbose=0)\
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
+verbose=0)
  return accuracy
 
 Listing 25.15: Example of a function for defining, fitting and
@@ -698,114 +611,63 @@ previous section. The
 
 complete code listing is provided below.
 
-cnn lstm model for the har dataset
-==================================
-
-from numpy import mean\
- from numpy import std\
+from numpy import mean
+ from numpy import std
  from numpy import dstack
 
 25.4. CNN-LSTM Model 533
 
-from pandas import read\_csv\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import Dropout\
- from keras.layers import LSTM\
- from keras.layers import TimeDistributed\
- from keras.layers.convolutional import Conv1D\
- from keras.layers.convolutional import MaxPooling1D\
- from keras.utils import to\_categorical
+from pandas import read_csv
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import Dropout
+ from keras.layers import LSTM
+ from keras.layers import TimeDistributed
+ from keras.layers.convolutional import Conv1D
+ from keras.layers.convolutional import MaxPooling1D
+ from keras.utils import to_categorical
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files and return as a 3d numpy array
-===================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
-
-one hot encode y
-================
 
 25.4. CNN-LSTM Model 534
 
@@ -813,95 +675,54 @@ one hot encode y
     testy = to_categorical(testy)
     return trainX, trainy, testX, testy
 
-fit and evaluate a model
-========================
+def evaluate_model(trainX, trainy, testX, testy):
+verbose, epochs, batch_size = 0, 25, 64
+ n_features, n_outputs = trainX.shape[2], trainy.shape[1]
 
-def evaluate\_model(trainX, trainy, testX, testy):
-
-define model
-============
-
-verbose, epochs, batch\_size = 0, 25, 64\
- n\_features, n\_outputs = trainX.shape[2], trainy.shape[1]
-
-reshape data into time steps of sub-sequences
-=============================================
-
-n\_steps, n\_length = 4, 32\
- trainX = trainX.reshape((trainX.shape[0], n\_steps, n\_length,
-n\_features))\
- testX = testX.reshape((testX.shape[0], n\_steps, n\_length,
-n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(TimeDistributed(Conv1D(filters=64, kernel\_size=3,
-activation='relu'),\
- input\_shape=(None,n\_length,n\_features)))\
- model.add(TimeDistributed(Conv1D(filters=64, kernel\_size=3,
-activation='relu')))\
- model.add(TimeDistributed(Dropout(0.5)))\
- model.add(TimeDistributed(MaxPooling1D(pool\_size=2)))\
- model.add(TimeDistributed(Flatten()))\
- model.add(LSTM(100))\
- model.add(Dropout(0.5))\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+n_steps, n_length = 4, 32
+ trainX = trainX.reshape((trainX.shape[0], n_steps, n_length,
+n_features))
+ testX = testX.reshape((testX.shape[0], n_steps, n_length,
+n_features))
+model = Sequential()
+ model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
+activation='relu'),
+ input_shape=(None,n_length,n_features)))
+ model.add(TimeDistributed(Conv1D(filters=64, kernel_size=3,
+activation='relu')))
+ model.add(TimeDistributed(Dropout(0.5)))
+ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+ model.add(TimeDistributed(Flatten()))
+ model.add(LSTM(100))
+ model.add(Dropout(0.5))
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
-verbose=0)\
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
+verbose=0)
  return accuracy
 
-summarize scores
-================
-
-def summarize\_results(scores):\
- print(scores)\
- m, s = mean(scores), std(scores)\
+def summarize_results(scores):
+ print(scores)
+ m, s = mean(scores), std(scores)
  print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
-run an experiment
-=================
+def run_experiment(repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-def run\_experiment(repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-repeat experiment
-=================
-
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy)\
- score = score \* 100.0\
- print('\>\#%d: %.3f' % (r+1, score))\
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy)
+ score = score * 100.0
+ print('>#%d: %.3f' % (r+1, score))
  scores.append(score)
 
-summarize results
-=================
+summarize_results(scores)
 
-summarize\_results(scores)
-
-run the experiment
-==================
-
-run\_experiment()
+run_experiment()
 
 Listing 25.16: Example of evaluating a CNN-LSTM model for activity
 recognition.
@@ -915,25 +736,25 @@ recognition.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### \>\#1: 91.517
+##### >#1: 91.517
 
-##### \>\#2: 91.042
+##### >#2: 91.042
 
-##### \>\#3: 90.804
+##### >#3: 90.804
 
-##### \>\#4: 92.263
+##### >#4: 92.263
 
-##### \>\#5: 89.684
+##### >#5: 89.684
 
-##### \>\#6: 88.666
+##### >#6: 88.666
 
-##### \>\#7: 91.381
+##### >#7: 91.381
 
-##### \>\#8: 90.804
+##### >#8: 90.804
 
-##### \>\#9: 89.379
+##### >#9: 89.379
 
-##### \>\#10: 91.347
+##### >#10: 91.347
 
 ##### [91.51679674244994, 91.04173736002714, 90.80420766881574, 92.26331862911435,
 
@@ -1038,164 +859,84 @@ Listing 25.19: Example of defining the ConvLSTM model.
 
 25.5. ConvLSTM Model 537
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
-fit and evaluate a model
-========================
+def evaluate_model(trainX, trainy, testX, testy):
+verbose, epochs, batch_size = 0, 25, 64
+ n_features, n_outputs = trainX.shape[2], trainy.shape[1]
 
-def evaluate\_model(trainX, trainy, testX, testy):
-
-define model
-============
-
-verbose, epochs, batch\_size = 0, 25, 64\
- n\_features, n\_outputs = trainX.shape[2], trainy.shape[1]
-
-reshape into subsequences (samples, time steps, rows, cols, channels)
-=====================================================================
-
-n\_steps, n\_length = 4, 32\
- trainX = trainX.reshape((trainX.shape[0], n\_steps, 1, n\_length,
-n\_features))\
- testX = testX.reshape((testX.shape[0], n\_steps, 1, n\_length,
-n\_features))
-
-define model
-============
-
-model = Sequential()\
- model.add(ConvLSTM2D(filters=64, kernel\_size=(1,3),
-activation='relu',\
- input\_shape=(n\_steps, 1, n\_length, n\_features)))\
- model.add(Dropout(0.5))\
- model.add(Flatten())\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+n_steps, n_length = 4, 32
+ trainX = trainX.reshape((trainX.shape[0], n_steps, 1, n_length,
+n_features))
+ testX = testX.reshape((testX.shape[0], n_steps, 1, n_length,
+n_features))
+model = Sequential()
+ model.add(ConvLSTM2D(filters=64, kernel_size=(1,3),
+activation='relu',
+ input_shape=(n_steps, 1, n_length, n_features)))
+ model.add(Dropout(0.5))
+ model.add(Flatten())
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
 
 25.5. ConvLSTM Model 538
 
     return accuracy
 
-summarize scores
-================
-
-def summarize\_results(scores):\
- print(scores)\
- m, s = mean(scores), std(scores)\
+def summarize_results(scores):
+ print(scores)
+ m, s = mean(scores), std(scores)
  print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
-run an experiment
-=================
+def run_experiment(repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-def run\_experiment(repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-repeat experiment
-=================
-
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy)\
- score = score \* 100.0\
- print('\>\#%d: %.3f' % (r+1, score))\
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy)
+ score = score * 100.0
+ print('>#%d: %.3f' % (r+1, score))
  scores.append(score)
 
-summarize results
-=================
+summarize_results(scores)
 
-summarize\_results(scores)
-
-run the experiment
-==================
-
-run\_experiment()
+run_experiment()
 
 Listing 25.20: Example of evaluating a ConvLSTM model for activity
 recognition.
@@ -1217,25 +958,25 @@ results may vary. Consider
 
 running the example a few times.
 
-##### \>\#1: 90.092
+##### >#1: 90.092
 
-##### \>\#2: 91.619
+##### >#2: 91.619
 
-##### \>\#3: 92.128
+##### >#3: 92.128
 
-##### \>\#4: 90.533
+##### >#4: 90.533
 
-##### \>\#5: 89.243
+##### >#5: 89.243
 
-##### \>\#6: 90.940
+##### >#6: 90.940
 
-##### \>\#7: 92.026
+##### >#7: 92.026
 
-##### \>\#8: 91.008
+##### >#8: 91.008
 
-##### \>\#9: 90.499
+##### >#9: 90.499
 
-##### \>\#10: 89.922
+##### >#10: 89.922
 
 ##### [90.09161859518154, 91.61859518154056, 92.12758737699356, 90.53274516457415,
 

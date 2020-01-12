@@ -86,33 +86,20 @@ below implements
 the naive forecast strategy for a given offset from 1 to the length of
 the dataset.
 
-one-step naive forecast
-=======================
-
-def naive\_forecast(history, n):\
+def naive_forecast(history, n):
  return history[-n]
 
 Listing 11.1: Example of a function for making a persistence forecast.
 
 We can test this function out on a small contrived dataset.
 
-example of a one-step naive forecast
-====================================
-
-def naive\_forecast(history, n):\
+def naive_forecast(history, n):
  return history[-n]
-
-define dataset
-==============
-
-data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]\
+data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
  print(data)
 
-test naive forecast
-===================
-
-for i in range(1, len(data)+1):\
- print(naive\_forecast(data, i))
+for i in range(1, len(data)+1):
+ print(naive_forecast(data, i))
 
 Listing 11.2: Example of making a persistence forecast.
 
@@ -123,16 +110,16 @@ forecast for each offset
 
 in the historical dataset.
 
-[10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]\
- 100.0\
- 90.0\
- 80.0\
- 70.0\
- 60.0\
- 50.0\
- 40.0\
- 30.0\
- 20.0\
+[10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
+ 100.0
+ 90.0
+ 80.0
+ 70.0
+ 60.0
+ 50.0
+ 40.0
+ 30.0
+ 20.0
  10.0
 
 Listing 11.3: Example output from making a persistence forecast.
@@ -140,11 +127,7 @@ Listing 11.3: Example output from making a persistence forecast.
     We can now look at developing a function for the average forecast strategy. Averaging the
 
 lastnobservations is straight-forward; for example:
-
-mean forecast
-=============
-
-from numpy import mean\
+from numpy import mean
  result = mean(history[-n:])
 
 Listing 11.4: Example of averaging prior observations.
@@ -154,10 +137,7 @@ distribution of observations
 
 is non-Gaussian.
 
-median forecast
-===============
-
-from numpy import median\
+from numpy import median
  result = median(history[-n:])
 
 Listing 11.5: Example of calculating the median prior observations.
@@ -170,20 +150,11 @@ average as an integer, and a
 
 string that describe the way to calculate the average (meanormedian).
 
-one-step average forecast
-=========================
+def average_forecast(history, config):
+ n, avg_type = config
 
-def average\_forecast(history, config):\
- n, avg\_type = config
-
-mean of last n values
-=====================
-
-if avg\_type is 'mean':\
+if avg_type is 'mean':
  return mean(history[-n:])
-
-median of last n values
-=======================
 
 return median(history[-n:])
 
@@ -191,16 +162,10 @@ Listing 11.6: Example of a function for calculating an average forecast.
 
 The complete example on a small contrived dataset is listed below.
 
-example of an average forecast
-==============================
-
-from numpy import mean\
+from numpy import mean
  from numpy import median
 
-one-step average forecast
-=========================
-
-def average\_forecast(history, config):
+def average_forecast(history, config):
 
 11.3. Develop a Grid Search Framework 175
 
@@ -210,18 +175,11 @@ def average\_forecast(history, config):
     return mean(history[-n:])
     # median of last n values
     return median(history[-n:])
-
-define dataset
-==============
-
-data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]\
+data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
  print(data)
 
-test naive forecast
-===================
-
-for i in range(1, len(data)+1):\
- print(average\_forecast(data, (i, 'mean')))
+for i in range(1, len(data)+1):
+ print(average_forecast(data, (i, 'mean')))
 
 Listing 11.7: Example of making an average forecast.
 
@@ -230,16 +188,16 @@ value from contiguous
 
 subsets of prior observations from -1 to -10, inclusively.
 
-[10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]\
- 100.0\
- 95.0\
- 90.0\
- 85.0\
- 80.0\
- 75.0\
- 70.0\
- 65.0\
- 60.0\
+[10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
+ 100.0
+ 95.0
+ 90.0
+ 85.0
+ 80.0
+ 75.0
+ 70.0
+ 65.0
+ 60.0
  55.0
 
 Listing 11.8: Example output from making an average forecast.
@@ -267,27 +225,18 @@ beyond the end of the
 
 historical observations. The updated function is listed below.
 
-one-step average forecast
-=========================
-
-def average\_forecast(history, config):\
- n, offset, avg\_type = config\
- values = list()\
- if offset == 1:\
- values = history[-n:]\
+def average_forecast(history, config):
+ n, offset, avg_type = config
+ values = list()
+ if offset == 1:
+ values = history[-n:]
  else:
 
-skip bad configs
-================
-
-if n\*offset \> len(history):\
+if n*offset > len(history):
  raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
-try and collect n values using offset
-=====================================
-
-for i in range(1, n+1):\
- ix = i \* offset\
+for i in range(1, n+1):
+ ix = i * offset
  values.append(history[-ix])
 
 11.3. Develop a Grid Search Framework 176
@@ -307,66 +256,41 @@ seasonality.
 
 complete example is listed below.
 
-example of an average forecast for seasonal data
-================================================
-
-from numpy import mean\
+from numpy import mean
  from numpy import median
 
-one-step average forecast
-=========================
-
-def average\_forecast(history, config):\
- n, offset, avg\_type = config\
- values = list()\
- if offset == 1:\
- values = history[-n:]\
+def average_forecast(history, config):
+ n, offset, avg_type = config
+ values = list()
+ if offset == 1:
+ values = history[-n:]
  else:
 
-skip bad configs
-================
-
-if n\*offset \> len(history):\
+if n*offset > len(history):
  raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
-try and collect n values using offset
-=====================================
-
-for i in range(1, n+1):\
- ix = i \* offset\
+for i in range(1, n+1):
+ ix = i * offset
  values.append(history[-ix])
 
-mean of last n values
-=====================
-
-if avg\_type is 'mean':\
+if avg_type is 'mean':
  return mean(values)
 
-median of last n values
-=======================
-
 return median(values)
-
-define dataset
-==============
-
-data = [10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]\
+data = [10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]
  print(data)
 
-test naive forecast
-===================
-
-for i in [1, 2, 3]:\
- print(average\_forecast(data, (i, 3,'mean')))
+for i in [1, 2, 3]:
+ print(average_forecast(data, (i, 3,'mean')))
 
 Listing 11.10: Example of making an average forecast with seasonality.
 
 Running the example calculates the mean values of[10],[10, 10]and[10,
 10, 10].
 
-[10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]\
- 10.0\
- 10.0\
+[10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]
+ 10.0
+ 10.0
  10.0
 
 Listing 11.11: Example output from making an average forecast with
@@ -561,7 +485,7 @@ Listing 11.19: Example of running a Joblib executor.
     Listing 11.20: Example of wrapping the entry point into the script in a check for the main
     process.
 
-(\^1) Note, you may have to install Joblib:pip install joblib
+(^1) Note, you may have to install Joblib:pip install joblib
 
 11.3. Develop a Grid Search Framework 180
 
@@ -688,111 +612,56 @@ univariate time series
 
 11.3. Develop a Grid Search Framework 182
 
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = simple\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = simple_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
-
-sort configs by error, asc
-==========================
 
 scores.sort(key=lambda tup: tup[1])
 
@@ -854,9 +723,9 @@ infrastructure.
     test it out on a suite of standard univariate time series datasets. All datasets in this tutorial
 
 were drawn from the Time Series Dataset Library on the DataMarket
-website\^2. The results
+website^2. The results
 
-(\^2) https://datamarket.com/data/list/?q=provider:tsdl
+(^2) https://datamarket.com/data/list/?q=provider:tsdl
 
 11.4. Case Study 1: No Trend or Seasonality 184
 
@@ -870,7 +739,7 @@ in California, USA in
 
 1959. You can download the dataset directly from here:
 
-- daily-total-female-births.csv\^3
+- daily-total-female-births.csv^3
 
     Save the file with the filenamedaily-total-female-births.csvin your current working
     directory. We can load this dataset as a PandasSeriesusing the functionreadcsv()and
@@ -918,8 +787,8 @@ the remaining 165 as the
 
 test set.
 
-(\^3)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.\
+(^3)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
  csv
 
 11.4. Case Study 1: No Trend or Seasonality 185
@@ -943,130 +812,69 @@ example grid searching
 the daily female univariate time series forecasting problem is listed
 below.
 
-grid search simple forecast for daily female births
-===================================================
-
-from math import sqrt\
- from numpy import mean\
- from numpy import median\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv
+from math import sqrt
+ from numpy import mean
+ from numpy import median
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
 
 11.4. Case Study 1: No Trend or Seasonality 186
 
-one-step simple forecast
-========================
+def simple_forecast(history, config):
+ n, offset, avg_type = config
 
-def simple\_forecast(history, config):\
- n, offset, avg\_type = config
-
-persist value, ignore other config
-==================================
-
-if avg\_type == 'persist':\
+if avg_type == 'persist':
  return history[-n]
 
-collect values to average
-=========================
-
-values = list()\
- if offset == 1:\
- values = history[-n:]\
+values = list()
+ if offset == 1:
+ values = history[-n:]
  else:
 
-skip bad configs
-================
-
-if n\*offset \> len(history):\
+if n*offset > len(history):
  raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
-try and collect n values using offset
-=====================================
-
-for i in range(1, n+1):\
- ix = i \* offset\
+for i in range(1, n+1):
+ ix = i * offset
  values.append(history[-ix])
 
-check if we can average
-=======================
-
-if len(values) \< 2:\
+if len(values) < 2:
  raise Exception('Cannot calculate average')
 
-mean of last n values
-=====================
-
-if avg\_type == 'mean':\
+if avg_type == 'mean':
  return mean(values)
-
-median of last n values
-=======================
 
 return median(values)
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = simple\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = simple_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):
+def score_model(data, n_test, cfg, debug=False):
 
 11.4. Case Study 1: No Trend or Seasonality 187
 
@@ -1090,69 +898,38 @@ def score\_model(data, n\_test, cfg, debug=False):
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of simple configs to try
-=====================================
-
-def simple\_configs(max\_length, offsets=[1]):\
- configs = list()\
- for i in range(1, max\_length+1):\
- for o in offsets:\
- for t in ['persist', 'mean', 'median']:\
- cfg = [i, o, t]\
- configs.append(cfg)\
+def simple_configs(max_length, offsets=[1]):
+ configs = list()
+ for i in range(1, max_length+1):
+ for o in offsets:
+ for t in ['persist', 'mean', 'median']:
+ cfg = [i, o, t]
+ configs.append(cfg)
  return configs
 
 if **name** =='**main**':
-
-define dataset
-==============
-
-series = read\_csv('daily-total-female-births.csv', header=0,
-index\_col=0)\
+series = read_csv('daily-total-female-births.csv', header=0,
+index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 165
-
-model configs
-=============
-
-max\_length = len(data) - n\_test\
- cfg\_list = simple\_configs(max\_length)
-
-grid search
-===========
-
+n_test = 165
+max_length = len(data) - n_test
+ cfg_list = simple_configs(max_length)
 11.5. Case Study 2: Trend 188
 
     scores = grid_search(data, cfg_list, n_test)
@@ -1201,24 +978,17 @@ over a three-year
 
 period. You can download the dataset directly from here:
 
-- monthly-shampoo-sales.csv\^4
+- monthly-shampoo-sales.csv^4
 
     Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
     rectory. We can load this dataset as a PandasSeriesusing the function readcsv()and
     summarize the shape of the dataset.
 
-(\^4)
+(^4)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
 11.5. Case Study 2: Trend 189
-
-load
-====
-
-series = read\_csv('monthly-shampoo-sales.csv', header=0, index\_col=0)
-
-summarize shape
-===============
+series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 print(series.shape)
 
@@ -1227,39 +997,21 @@ Listing 11.33: Example of loading the monthly shampoo sales dataset.
     We can then create a line plot of the series and inspect it for systematic structures like
 
 trends and seasonality.
-
-plot
-====
-
-pyplot.plot(series)\
- pyplot.xticks([])\
+pyplot.plot(series)
+ pyplot.xticks([])
  pyplot.show()
 
 Listing 11.34: Example of plotting the monthly shampoo sales dataset.
 
 The complete example is listed below.
 
-load and plot monthly shampoo sales dataset
-===========================================
-
-from pandas import read\_csv\
+from pandas import read_csv
  from matplotlib import pyplot
-
-load
-====
-
-series = read\_csv('monthly-shampoo-sales.csv', header=0, index\_col=0)
-
-summarize shape
-===============
+series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 print(series.shape)
-
-plot
-====
-
-pyplot.plot(series)\
- pyplot.xticks([])\
+pyplot.plot(series)
+ pyplot.xticks([])
  pyplot.show()
 
 Listing 11.35: Example of loading and plotting the monthly shampoo sales
@@ -1293,36 +1045,24 @@ example grid searching
 the shampoo sales univariate time series forecasting problem is listed
 below.
 
-grid search simple forecast for monthly shampoo sales
-=====================================================
+from math import sqrt
+ from numpy import mean
+ from numpy import median
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
 
-from math import sqrt\
- from numpy import mean\
- from numpy import median\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv
+def simple_forecast(history, config):
+ n, offset, avg_type = config
 
-one-step simple forecast
-========================
-
-def simple\_forecast(history, config):\
- n, offset, avg\_type = config
-
-persist value, ignore other config
-==================================
-
-if avg\_type == 'persist':\
+if avg_type == 'persist':
  return history[-n]
 
-collect values to average
-=========================
-
-values = list()\
+values = list()
  if offset == 1:
 
 11.5. Case Study 2: Trend 191
@@ -1345,80 +1085,37 @@ values = list()\
     # median of last n values
     return median(values)
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = simple\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = simple_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
@@ -1435,75 +1132,41 @@ try:
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of simple configs to try
-=====================================
-
-def simple\_configs(max\_length, offsets=[1]):\
- configs = list()\
- for i in range(1, max\_length+1):\
- for o in offsets:\
- for t in ['persist', 'mean', 'median']:\
- cfg = [i, o, t]\
- configs.append(cfg)\
+def simple_configs(max_length, offsets=[1]):
+ configs = list()
+ for i in range(1, max_length+1):
+ for o in offsets:
+ for t in ['persist', 'mean', 'median']:
+ cfg = [i, o, t]
+ configs.append(cfg)
  return configs
 
 if **name** =='**main**':
-
-load dataset
-============
-
-series = read\_csv('monthly-shampoo-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-model configs
-=============
-
-max\_length = len(data) - n\_test\
- cfg\_list = simple\_configs(max\_length)
-
-grid search
-===========
-
-scores = grid\_search(data, cfg\_list, n\_test)\
+n_test = 12
+max_length = len(data) - n_test
+ cfg_list = simple_configs(max_length)
+scores = grid_search(data, cfg_list, n_test)
  print('done')
 
-list top 3 configs
-==================
-
-for cfg, error in scores[:3]:\
+for cfg, error in scores[:3]:
  print(cfg, error)
 
 Listing 11.37: Example of grid searching naive models for the monthly
@@ -1552,7 +1215,7 @@ temperatures in
     Nottingham Castle, England from 1920 to 1939 in degrees Fahrenheit. You can download the
     dataset directly from here:
 
-- monthly-mean-temp.csv\^5
+- monthly-mean-temp.csv^5
 
 Save the file with the filenamemonthly-mean-temp.csvin your current
 working directory.
@@ -1571,7 +1234,7 @@ Listing 11.39: Example of loading the monthly mean temperature dataset.
     We can then create a line plot of the series and inspect it for systematic structures like
     trends and seasonality.
 
-(\^5)
+(^5)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
 
 11.6. Case Study 3: Seasonality 194
@@ -1623,10 +1286,7 @@ observations) in order to speed up
 the model evaluation process and use the last year or 12 observations
 for the test set.
 
-trim dataset to 5 years
-=======================
-
-data = data[-(5\*12):]
+data = data[-(5*12):]
 
 Listing 11.43: Example of reducing the size of the dataset.
 
@@ -1636,11 +1296,7 @@ this as the seasonal period in the call to thesimpleconfigs()function
 when preparing the
 
 model configurations.
-
-model configs
-=============
-
-cfg\_list = simple\_configs(seasonal=[0, 12])
+cfg_list = simple_configs(seasonal=[0, 12])
 
 Listing 11.44: Example of specifying some seasonal configurations.
 
@@ -1650,118 +1306,63 @@ example grid searching
 the monthly mean temperature time series forecasting problem is listed
 below.
 
-grid search simple forecast for monthly mean temperature
-========================================================
-
-from math import sqrt\
- from numpy import mean\
- from numpy import median\
- from multiprocessing import cpu\_count
+from math import sqrt
+ from numpy import mean
+ from numpy import median
+ from multiprocessing import cpu_count
 
 11.6. Case Study 3: Seasonality 196
 
-from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv
+from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
 
-one-step simple forecast
-========================
+def simple_forecast(history, config):
+ n, offset, avg_type = config
 
-def simple\_forecast(history, config):\
- n, offset, avg\_type = config
-
-persist value, ignore other config
-==================================
-
-if avg\_type == 'persist':\
+if avg_type == 'persist':
  return history[-n]
 
-collect values to average
-=========================
-
-values = list()\
- if offset == 1:\
- values = history[-n:]\
+values = list()
+ if offset == 1:
+ values = history[-n:]
  else:
 
-skip bad configs
-================
-
-if n\*offset \> len(history):\
+if n*offset > len(history):
  raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
-try and collect n values using offset
-=====================================
-
-for i in range(1, n+1):\
- ix = i \* offset\
+for i in range(1, n+1):
+ ix = i * offset
  values.append(history[-ix])
 
-check if we can average
-=======================
-
-if len(values) \< 2:\
+if len(values) < 2:
  raise Exception('Cannot calculate average')
 
-mean of last n values
-=====================
-
-if avg\_type == 'mean':\
+if avg_type == 'mean':
  return mean(values)
-
-median of last n values
-=======================
 
 return median(values)
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = simple\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = simple_forecast(history, cfg)
 
 predictions.append(yhat)
-
-add actual observation to history for the next loop
-===================================================
 
 11.6. Case Study 3: Seasonality 197
 
@@ -1770,91 +1371,54 @@ add actual observation to history for the next loop
     error = measure_rmse(test, predictions)
     return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):\
+def score_model(data, n_test, cfg, debug=False):
  result = None
-
-convert config to a key
-=======================
 
 key = str(cfg)
 
-show all warnings and fail on exception if debugging
-====================================================
-
-if debug:\
- result = walk\_forward\_validation(data, n\_test, cfg)\
+if debug:
+ result = walk_forward_validation(data, n_test, cfg)
  else:
-
-one failure during model validation suggests an unstable config
-===============================================================
 
 try:
 
-never show warnings when grid searching, too noisy
-==================================================
-
-with catch\_warnings():\
- filterwarnings("ignore")\
- result = walk\_forward\_validation(data, n\_test, cfg)\
- except:\
+with catch_warnings():
+ filterwarnings("ignore")
+ result = walk_forward_validation(data, n_test, cfg)
+ except:
  error = None
 
-check for an interesting result
-===============================
-
-if result is not None:\
- print('\> Model[%s] %.3f' % (key, result))\
+if result is not None:
+ print('> Model[%s] %.3f' % (key, result))
  return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of simple configs to try
-=====================================
-
-def simple\_configs(max\_length, offsets=[1]):\
- configs = list()\
- for i in range(1, max\_length+1):\
- for o in offsets:\
- for t in ['persist', 'mean', 'median']:\
- cfg = [i, o, t]\
- configs.append(cfg)\
+def simple_configs(max_length, offsets=[1]):
+ configs = list()
+ for i in range(1, max_length+1):
+ for o in offsets:
+ for t in ['persist', 'mean', 'median']:
+ cfg = [i, o, t]
+ configs.append(cfg)
  return configs
 
 if **name** =='**main**':
-
-define dataset
-==============
-
-series = read\_csv('monthly-mean-temp.csv', header=0, index\_col=0)
+series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
 
 11.7. Case Study 4: Trend and Seasonality 198
 
@@ -1915,7 +1479,7 @@ Canada between
 
 11.7. Case Study 4: Trend and Seasonality 199
 
-- monthly-car-sales.csv\^6
+- monthly-car-sales.csv^6
 
 Save the file with the filenamemonthly-car-sales.csvin your current
 working directory.
@@ -1972,7 +1536,7 @@ as the test set.
     A line plot of the series is also created. We can see that there is an obvious trend and
     seasonal components.
 
-(\^6)
+(^6)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
 11.7. Case Study 4: Trend and Seasonality 200
@@ -1986,11 +1550,7 @@ as the seasonal period in the call to thesimpleconfigs()function when
 preparing the model
 
 configurations.
-
-model configs
-=============
-
-cfg\_list = simple\_configs(seasonal=[0,6,12])
+cfg_list = simple_configs(seasonal=[0,6,12])
 
 Listing 11.51: Example of specifying some seasonal configurations.
 
@@ -1999,130 +1559,69 @@ example grid searching
 
 the monthly car sales time series forecasting problem is listed below.
 
-grid search simple forecast for monthly car sales
-=================================================
-
-from math import sqrt\
- from numpy import mean\
- from numpy import median\
- from multiprocessing import cpu\_count\
- from joblib import Parallel\
- from joblib import delayed\
- from warnings import catch\_warnings\
- from warnings import filterwarnings\
- from sklearn.metrics import mean\_squared\_error\
- from pandas import read\_csv
+from math import sqrt
+ from numpy import mean
+ from numpy import median
+ from multiprocessing import cpu_count
+ from joblib import Parallel
+ from joblib import delayed
+ from warnings import catch_warnings
+ from warnings import filterwarnings
+ from sklearn.metrics import mean_squared_error
+ from pandas import read_csv
 
 11.7. Case Study 4: Trend and Seasonality 201
 
-one-step simple forecast
-========================
+def simple_forecast(history, config):
+ n, offset, avg_type = config
 
-def simple\_forecast(history, config):\
- n, offset, avg\_type = config
-
-persist value, ignore other config
-==================================
-
-if avg\_type == 'persist':\
+if avg_type == 'persist':
  return history[-n]
 
-collect values to average
-=========================
-
-values = list()\
- if offset == 1:\
- values = history[-n:]\
+values = list()
+ if offset == 1:
+ values = history[-n:]
  else:
 
-skip bad configs
-================
-
-if n\*offset \> len(history):\
+if n*offset > len(history):
  raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
-try and collect n values using offset
-=====================================
-
-for i in range(1, n+1):\
- ix = i \* offset\
+for i in range(1, n+1):
+ ix = i * offset
  values.append(history[-ix])
 
-check if we can average
-=======================
-
-if len(values) \< 2:\
+if len(values) < 2:
  raise Exception('Cannot calculate average')
 
-mean of last n values
-=====================
-
-if avg\_type == 'mean':\
+if avg_type == 'mean':
  return mean(values)
-
-median of last n values
-=======================
 
 return median(values)
 
-root mean squared error or rmse
-===============================
+def measure_rmse(actual, predicted):
+ return sqrt(mean_squared_error(actual, predicted))
 
-def measure\_rmse(actual, predicted):\
- return sqrt(mean\_squared\_error(actual, predicted))
+def train_test_split(data, n_test):
+ return data[:-n_test], data[-n_test:]
 
-split a univariate dataset into train/test sets
-===============================================
-
-def train\_test\_split(data, n\_test):\
- return data[:-n\_test], data[-n\_test:]
-
-walk-forward validation for univariate data
-===========================================
-
-def walk\_forward\_validation(data, n\_test, cfg):\
+def walk_forward_validation(data, n_test, cfg):
  predictions = list()
-
-split dataset
-=============
-
-train, test = train\_test\_split(data, n\_test)
-
-seed history with training dataset
-==================================
+train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
 
-step over each time-step in the test set
-========================================
-
 for i in range(len(test)):
 
-fit model and make forecast for history
-=======================================
-
-yhat = simple\_forecast(history, cfg)
-
-store forecast in list of predictions
-=====================================
+yhat = simple_forecast(history, cfg)
 
 predictions.append(yhat)
 
-add actual observation to history for the next loop
-===================================================
-
 history.append(test[i])
 
-estimate prediction error
-=========================
-
-error = measure\_rmse(test, predictions)\
+error = measure_rmse(test, predictions)
  return error
 
-score a model, return None on failure
-=====================================
-
-def score\_model(data, n\_test, cfg, debug=False):
+def score_model(data, n_test, cfg, debug=False):
 
 11.7. Case Study 4: Trend and Seasonality 202
 
@@ -2146,68 +1645,37 @@ def score\_model(data, n\_test, cfg, debug=False):
     print('> Model[%s] %.3f' % (key, result))
     return (key, result)
 
-grid search configs
-===================
-
-def grid\_search(data, cfg\_list, n\_test, parallel=True):\
- scores = None\
+def grid_search(data, cfg_list, n_test, parallel=True):
+ scores = None
  if parallel:
 
-execute configs in parallel
-===========================
-
-executor = Parallel(n\_jobs=cpu\_count(), backend='multiprocessing')\
- tasks = (delayed(score\_model)(data, n\_test, cfg) for cfg in
-cfg\_list)\
- scores = executor(tasks)\
- else:\
- scores = [score\_model(data, n\_test, cfg) for cfg in cfg\_list]
-
-remove empty results
-====================
+executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
+ tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+cfg_list)
+ scores = executor(tasks)
+ else:
+ scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
-sort configs by error, asc
-==========================
-
-scores.sort(key=lambda tup: tup[1])\
+scores.sort(key=lambda tup: tup[1])
  return scores
 
-create a set of simple configs to try
-=====================================
-
-def simple\_configs(max\_length, offsets=[1]):\
- configs = list()\
- for i in range(1, max\_length+1):\
- for o in offsets:\
- for t in ['persist', 'mean', 'median']:\
- cfg = [i, o, t]\
- configs.append(cfg)\
+def simple_configs(max_length, offsets=[1]):
+ configs = list()
+ for i in range(1, max_length+1):
+ for o in offsets:
+ for t in ['persist', 'mean', 'median']:
+ cfg = [i, o, t]
+ configs.append(cfg)
  return configs
 
 if **name** =='**main**':
-
-define dataset
-==============
-
-series = read\_csv('monthly-car-sales.csv', header=0, index\_col=0)\
+series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
  data = series.values
-
-data split
-==========
-
-n\_test = 12
-
-model configs
-=============
-
-max\_length = len(data) - n\_test\
- cfg\_list = simple\_configs(max\_length, offsets=[1,12])
-
-grid search
-===========
-
+n_test = 12
+max_length = len(data) - n_test
+ cfg_list = simple_configs(max_length, offsets=[1,12])
 11.8. Extensions 203
 
     scores = grid_search(data, cfg_list, n_test)

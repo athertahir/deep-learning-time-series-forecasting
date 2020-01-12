@@ -47,7 +47,7 @@ This tutorial is divided into three parts; they are:
     information on this dataset, see Chapter 22. The data is provided as a single zip file that is
     about 58 megabytes in size. A direct for downloading the dataset is provided below:
 
-- HARSmartphones.zip\^1
+- HARSmartphones.zip^1
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
@@ -85,8 +85,8 @@ following files:
     files can be loaded as a NumPy array. Theloadfile()function below loads a dataset given
     the file path to the file and returns the loaded data as a NumPy array.
 
-(\^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR\_Smartphones.zip
+(^1)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
 23.3. Modeling Feature Engineered Data 479
 
@@ -332,85 +332,39 @@ evaluating a suite of
 
 23.3. Modeling Feature Engineered Data 483
 
-def evaluate\_model(trainX, trainy, testX, testy, model):
-
-fit the model
-=============
-
+def evaluate_model(trainX, trainy, testX, testy, model):
 model.fit(trainX, trainy)
-
-make predictions
-================
 
 yhat = model.predict(testX)
 
-evaluate predictions
-====================
+accuracy = accuracy_score(testy, yhat)
+ return accuracy * 100.0
 
-accuracy = accuracy\_score(testy, yhat)\
- return accuracy \* 100.0
-
-evaluate a dict of models {name:object}, returns {name:score}
-=============================================================
-
-def evaluate\_models(trainX, trainy, testX, testy, models):\
- results = dict()\
+def evaluate_models(trainX, trainy, testX, testy, models):
+ results = dict()
  for name, model in models.items():
 
-evaluate the model
-==================
-
-results[name] = evaluate\_model(trainX, trainy, testX, testy, model)
-
-show process
-============
-
-print('\>%s: %.3f' % (name, results[name]))\
+results[name] = evaluate_model(trainX, trainy, testX, testy, model)
+print('>%s: %.3f' % (name, results[name]))
  return results
 
-print and plot the results
-==========================
+def summarize_results(results, maximize=True):
 
-def summarize\_results(results, maximize=True):
+mean_scores = [(k,v) for k,v in results.items()]
 
-create a list of (name, mean(scores)) tuples
-============================================
+mean_scores = sorted(mean_scores, key=lambda x: x[1])
 
-mean\_scores = [(k,v) for k,v in results.items()]
-
-sort tuples by mean score
-=========================
-
-mean\_scores = sorted(mean\_scores, key=lambda x: x[1])
-
-reverse for descending order (e.g. for accuracy)
-================================================
-
-if maximize:\
- mean\_scores = list(reversed(mean\_scores))\
- print()\
- for name, score in mean\_scores:\
+if maximize:
+ mean_scores = list(reversed(mean_scores))
+ print()
+ for name, score in mean_scores:
  print('Name=%s, Score=%.3f'% (name, score))
+trainX, trainy, testX, testy = load_dataset()
+models = define_models()
 
-load dataset
-============
+results = evaluate_models(trainX, trainy, testX, testy, models)
 
-trainX, trainy, testX, testy = load\_dataset()
-
-get model list
-==============
-
-models = define\_models()
-
-evaluate models
-===============
-
-results = evaluate\_models(trainX, trainy, testX, testy, models)
-
-summarize results
-=================
-
-summarize\_results(results)
+summarize_results(results)
 
 Listing 23.9: Example of evaluating machine learning models for activity
 recognition.
@@ -587,191 +541,97 @@ Listing 23.13: Example of a function for loading the raw dataset.
 
 Putting this all together, the complete example is listed below.
 
-spot check on raw data from the har dataset
-===========================================
-
-from numpy import dstack\
- from pandas import read\_csv\
- from sklearn.metrics import accuracy\_score\
- from sklearn.neighbors import KNeighborsClassifier\
- from sklearn.tree import DecisionTreeClassifier\
- from sklearn.svm import SVC\
- from sklearn.naive\_bayes import GaussianNB\
- from sklearn.ensemble import BaggingClassifier\
- from sklearn.ensemble import RandomForestClassifier\
- from sklearn.ensemble import ExtraTreesClassifier\
+from numpy import dstack
+ from pandas import read_csv
+ from sklearn.metrics import accuracy_score
+ from sklearn.neighbors import KNeighborsClassifier
+ from sklearn.tree import DecisionTreeClassifier
+ from sklearn.svm import SVC
+ from sklearn.naive_bayes import GaussianNB
+ from sklearn.ensemble import BaggingClassifier
+ from sklearn.ensemble import RandomForestClassifier
+ from sklearn.ensemble import ExtraTreesClassifier
  from sklearn.ensemble import GradientBoostingClassifier
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files into a 3D array of [samples, timesteps, features]
-======================================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
-
-X = load\_group(filenames, filepath)
-
-load class output
-=================
+X = load_group(filenames, filepath)
 
 23.4. Modeling Raw Data 487
 
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
-
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-flatten X
-=========
-
-trainX = trainX.reshape((trainX.shape[0], trainX.shape[1] \*
-trainX.shape[2]))\
- testX = testX.reshape((testX.shape[0], testX.shape[1] \*
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
+trainX = trainX.reshape((trainX.shape[0], trainX.shape[1] *
+trainX.shape[2]))
+ testX = testX.reshape((testX.shape[0], testX.shape[1] *
 testX.shape[2]))
-
-flatten y
-=========
-
-trainy, testy = trainy[:,0], testy[:,0]\
+trainy, testy = trainy[:,0], testy[:,0]
  return trainX, trainy, testX, testy
 
-create a dict of standard models to evaluate {name:object}
-==========================================================
+def define_models(models=dict()):
 
-def define\_models(models=dict()):
-
-nonlinear models
-================
-
-models['knn'] = KNeighborsClassifier(n\_neighbors=7)\
- models['cart'] = DecisionTreeClassifier()\
- models['svm'] = SVC()\
+models['knn'] = KNeighborsClassifier(n_neighbors=7)
+ models['cart'] = DecisionTreeClassifier()
+ models['svm'] = SVC()
  models['bayes'] = GaussianNB()
 
-ensemble models
-===============
-
-models['bag'] = BaggingClassifier(n\_estimators=100)\
- models['rf'] = RandomForestClassifier(n\_estimators=100)\
- models['et'] = ExtraTreesClassifier(n\_estimators=100)\
- models['gbm'] = GradientBoostingClassifier(n\_estimators=100)\
- print('Defined %d models'% len(models))\
+models['bag'] = BaggingClassifier(n_estimators=100)
+ models['rf'] = RandomForestClassifier(n_estimators=100)
+ models['et'] = ExtraTreesClassifier(n_estimators=100)
+ models['gbm'] = GradientBoostingClassifier(n_estimators=100)
+ print('Defined %d models'% len(models))
  return models
 
-evaluate a single model
-=======================
-
-def evaluate\_model(trainX, trainy, testX, testy, model):
-
-fit the model
-=============
-
+def evaluate_model(trainX, trainy, testX, testy, model):
 model.fit(trainX, trainy)
-
-make predictions
-================
 
 yhat = model.predict(testX)
 
-evaluate predictions
-====================
+accuracy = accuracy_score(testy, yhat)
+ return accuracy * 100.0
 
-accuracy = accuracy\_score(testy, yhat)\
- return accuracy \* 100.0
-
-evaluate a dict of models {name:object}, returns {name:score}
-=============================================================
-
-def evaluate\_models(trainX, trainy, testX, testy, models):\
- results = dict()\
+def evaluate_models(trainX, trainy, testX, testy, models):
+ results = dict()
  for name, model in models.items():
 
-evaluate the model
-==================
-
-results[name] = evaluate\_model(trainX, trainy, testX, testy, model)
-
-show process
-============
-
-print('\>%s: %.3f' % (name, results[name]))\
+results[name] = evaluate_model(trainX, trainy, testX, testy, model)
+print('>%s: %.3f' % (name, results[name]))
  return results
 
-print and plot the results
-==========================
+def summarize_results(results, maximize=True):
 
-def summarize\_results(results, maximize=True):
-
-create a list of (name, mean(scores)) tuples
-============================================
-
-mean\_scores = [(k,v) for k,v in results.items()]
-
-sort tuples by mean score
-=========================
+mean_scores = [(k,v) for k,v in results.items()]
 
 23.4. Modeling Raw Data 488
 
@@ -782,26 +642,12 @@ sort tuples by mean score
     print()
     for name, score in mean_scores:
     print('Name=%s, Score=%.3f'% (name, score))
+trainX, trainy, testX, testy = load_dataset()
+models = define_models()
 
-load dataset
-============
+results = evaluate_models(trainX, trainy, testX, testy, models)
 
-trainX, trainy, testX, testy = load\_dataset()
-
-get model list
-==============
-
-models = define\_models()
-
-evaluate models
-===============
-
-results = evaluate\_models(trainX, trainy, testX, testy, models)
-
-summarize results
-=================
-
-summarize\_results(results)
+summarize_results(results)
 
 Listing 23.14: Example of evaluating machine learning models for
 activity recognition on the
@@ -844,22 +690,22 @@ running the example a few times.
 
 Defined 8 models
 
-> knn: 61.893\
->  cart: 72.141\
->  svm: 76.960\
->  bayes: 72.480\
->  bag: 84.527\
->  rf: 84.662\
->  et: 86.902\
+> knn: 61.893
+>  cart: 72.141
+>  svm: 76.960
+>  bayes: 72.480
+>  bag: 84.527
+>  rf: 84.662
+>  et: 86.902
 >  gbm: 87.615
 
-Name=gbm, Score=87.615\
- Name=et, Score=86.902\
- Name=rf, Score=84.662\
- Name=bag, Score=84.527\
- Name=svm, Score=76.960\
- Name=bayes, Score=72.480\
- Name=cart, Score=72.141\
+Name=gbm, Score=87.615
+ Name=et, Score=86.902
+ Name=rf, Score=84.662
+ Name=bag, Score=84.527
+ Name=svm, Score=76.960
+ Name=bayes, Score=72.480
+ Name=cart, Score=72.141
  Name=knn, Score=61.893
 
 23.5. Extensions 489

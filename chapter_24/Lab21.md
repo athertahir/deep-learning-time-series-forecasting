@@ -47,7 +47,7 @@ This tutorial is divided into four parts; they are:
     information on this dataset, see Chapter 22. The data is provided as a single zip file that is
     about 58 megabytes in size. A direct for downloading the dataset is provided below:
 
-- HARSmartphones.zip\^1
+- HARSmartphones.zip^1
 
     Download the dataset and unzip all files into a new directory in your current working
     directory namedHARDataset.
@@ -84,8 +84,8 @@ This tutorial is divided into four parts; they are:
 
 evaluation for deep learning models.
 
-(\^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR\_Smartphones.zip
+(^1)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
 24.3. CNN for Activity Recognition 493
 
@@ -193,35 +193,18 @@ and evaluating the
 
 defined models.
 
-load the dataset, returns train and test X and y elements
-=========================================================
-
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')\
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
  print(trainX.shape, trainy.shape)
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')\
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
  print(testX.shape, testy.shape)
 
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
- print(trainX.shape, trainy.shape, testX.shape, testy.shape)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
+ print(trainX.shape, trainy.shape, testX.shape, testy.shape)
  return trainX, trainy, testX, testy
 
 Listing 24.4: Example of a function for loading the entire dataset.
@@ -269,7 +252,7 @@ Listing 24.5: Example of a model shape based on data shape.
     chance of learning features from the input data. CNNs learn very quickly, so the dropout layer
     is intended to help slow down the learning process and hopefully result in a better final model.
 
-The pooling layer reduces the learned features to\^14 their size,
+The pooling layer reduces the learned features to^14 their size,
 consolidating them to only the
 
     most essential elements. After the CNN and pooling, the learned features are flattened to one
@@ -388,30 +371,17 @@ Listing 24.9: Example of a function for summarizing model performance.
 
 24.3. CNN for Activity Recognition 497
 
-run an experiment
-=================
+def run_experiment(repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-def run\_experiment(repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-repeat experiment
-=================
-
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy)\
- score = score \* 100.0\
- print('\>\#%d: %.3f' % (r+1, score))\
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy)
+ score = score * 100.0
+ print('>#%d: %.3f' % (r+1, score))
  scores.append(score)
 
-summarize results
-=================
-
-summarize\_results(scores)
+summarize_results(scores)
 
 Listing 24.10: Example of a function for driving the experiment.
 
@@ -422,51 +392,33 @@ worked example. The
 
 complete code listing is provided below.
 
-cnn model for the har dataset
-=============================
+from numpy import mean
+ from numpy import std
+ from numpy import dstack
+ from pandas import read_csv
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import Dropout
+ from keras.layers.convolutional import Conv1D
+ from keras.layers.convolutional import MaxPooling1D
+ from keras.utils import to_categorical
 
-from numpy import mean\
- from numpy import std\
- from numpy import dstack\
- from pandas import read\_csv\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import Dropout\
- from keras.layers.convolutional import Conv1D\
- from keras.layers.convolutional import MaxPooling1D\
- from keras.utils import to\_categorical
-
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files and return as a 3d numpy array
-===================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
@@ -487,76 +439,42 @@ filenames = list()
     y = load_file(prefix + group +'/y_'+group+'.txt')
     return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
-fit and evaluate a model
-========================
-
-def evaluate\_model(trainX, trainy, testX, testy):\
- verbose, epochs, batch\_size = 0, 10, 32\
- n\_timesteps, n\_features, n\_outputs = trainX.shape[1],
-trainX.shape[2], trainy.shape[1]\
- model = Sequential()\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu'))\
- model.add(Dropout(0.5))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+def evaluate_model(trainX, trainy, testX, testy):
+ verbose, epochs, batch_size = 0, 10, 32
+ n_timesteps, n_features, n_outputs = trainX.shape[1],
+trainX.shape[2], trainy.shape[1]
+ model = Sequential()
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+ model.add(Dropout(0.5))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
-verbose=0)\
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
+verbose=0)
  return accuracy
 
-summarize scores
-================
-
-def summarize\_results(scores):\
- print(scores)\
- m, s = mean(scores), std(scores)\
+def summarize_results(scores):
+ print(scores)
+ m, s = mean(scores), std(scores)
  print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
-
-run an experiment
-=================
 
 24.4. Tuned CNN Model 499
 
@@ -593,25 +511,25 @@ dataset.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### \>\#1: 91.347
+##### >#1: 91.347
 
-##### \>\#2: 91.551
+##### >#2: 91.551
 
-##### \>\#3: 90.804
+##### >#3: 90.804
 
-##### \>\#4: 90.058
+##### >#4: 90.058
 
-##### \>\#5: 89.752
+##### >#5: 89.752
 
-##### \>\#6: 90.940
+##### >#6: 90.940
 
-##### \>\#7: 91.347
+##### >#7: 91.347
 
-##### \>\#8: 87.547
+##### >#8: 87.547
 
-##### \>\#9: 92.637
+##### >#9: 92.637
 
-##### \>\#10: 91.890
+##### >#10: 91.890
 
 ##### [91.34713267729894, 91.55072955548015, 90.80420766881574, 90.05768578215134,
 
@@ -697,112 +615,53 @@ Listing 24.13: Example of flattening the window data.
     loaded = dstack(loaded)
     return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
-plot a histogram of each variable in the dataset
-================================================
-
-def plot\_variable\_distributions(trainX):
-
-remove overlap
-==============
-
-cut = int(trainX.shape[1] / 2)\
+def plot_variable_distributions(trainX):
+cut = int(trainX.shape[1] / 2)
  longX = trainX[:, -cut:, :]
 
-flatten windows
-===============
-
-longX = longX.reshape((longX.shape[0] \* longX.shape[1],
-longX.shape[2]))\
- pyplot.figure()\
+longX = longX.reshape((longX.shape[0] * longX.shape[1],
+longX.shape[2]))
+ pyplot.figure()
  for i in range(longX.shape[1]):
-
-create figure
-=============
-
-ax = pyplot.subplot(longX.shape[1], 1, i+1)\
- ax.set\_xlim(-1, 1)
-
-create histogram
-================
+ax = pyplot.subplot(longX.shape[1], 1, i+1)
+ ax.set_xlim(-1, 1)
 
 pyplot.hist(longX[:, i], bins=100)
 
-simplify axis remove clutter
-============================
-
-pyplot.yticks([])\
- pyplot.xticks([-1,0,1])\
+pyplot.yticks([])
+ pyplot.xticks([-1,0,1])
  pyplot.show()
 
 24.4. Tuned CNN Model 502
@@ -888,41 +747,26 @@ this parameter
 
 to decide whether or not to perform the standardization.
 
-fit and evaluate a model
-========================
-
-def evaluate\_model(trainX, trainy, testX, testy, param):\
- verbose, epochs, batch\_size = 0, 10, 32\
- n\_timesteps, n\_features, n\_outputs = trainX.shape[1],
+def evaluate_model(trainX, trainy, testX, testy, param):
+ verbose, epochs, batch_size = 0, 10, 32
+ n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
-
-scale data
-==========
-
-trainX, testX = scale\_data(trainX, testX, param)\
- model = Sequential()\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu'))\
- model.add(Dropout(0.5))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+trainX, testX = scale_data(trainX, testX, param)
+ model = Sequential()
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+ model.add(Dropout(0.5))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
-verbose=0)\
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
+verbose=0)
  return accuracy
 
 Listing 24.16: Example of a function to evaluate a model with
@@ -938,30 +782,17 @@ True]for no standardization
 
 and standardization respectively.
 
-run an experiment
-=================
+def run_experiment(params, repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-def run\_experiment(params, repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-test each parameter
-===================
-
-all\_scores = list()\
+all_scores = list()
  for p in params:
 
-repeat experiment
-=================
-
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy, p)\
- score = score \* 100.0\
- print('\>p=%d \#%d: %.3f'% (p, r+1, score))\
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy, p)
+ score = score * 100.0
+ print('>p=%d #%d: %.3f'% (p, r+1, score))
  scores.append(score)
 
 24.4. Tuned CNN Model 505
@@ -1028,123 +859,57 @@ The complete code listing is provided below.
 
 24.4. Tuned CNN Model 506
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
-standardize data
-================
-
-def scale\_data(trainX, testX, standardize):
-
-remove overlap
-==============
-
-cut = int(trainX.shape[1] / 2)\
+def scale_data(trainX, testX, standardize):
+cut = int(trainX.shape[1] / 2)
  longX = trainX[:, -cut:, :]
 
-flatten windows
-===============
-
-longX = longX.reshape((longX.shape[0] \* longX.shape[1],
+longX = longX.reshape((longX.shape[0] * longX.shape[1],
 longX.shape[2]))
 
-flatten train and test
-======================
-
-flatTrainX = trainX.reshape((trainX.shape[0] \* trainX.shape[1],
-trainX.shape[2]))\
- flatTestX = testX.reshape((testX.shape[0] \* testX.shape[1],
+flatTrainX = trainX.reshape((trainX.shape[0] * trainX.shape[1],
+trainX.shape[2]))
+ flatTestX = testX.reshape((testX.shape[0] * testX.shape[1],
 testX.shape[2]))
-
-standardize
-===========
-
-if standardize:\
+if standardize:
  s = StandardScaler()
-
-fit on training data
-====================
 
 s.fit(longX)
 
-apply to training and test data
-===============================
-
-longX = s.transform(longX)\
- flatTrainX = s.transform(flatTrainX)\
+longX = s.transform(longX)
+ flatTrainX = s.transform(flatTrainX)
  flatTestX = s.transform(flatTestX)
-
-reshape
-=======
-
 flatTrainX = flatTrainX.reshape((trainX.shape))
 
 24.4. Tuned CNN Model 507
@@ -1152,102 +917,59 @@ flatTrainX = flatTrainX.reshape((trainX.shape))
     flatTestX = flatTestX.reshape((testX.shape))
     return flatTrainX, flatTestX
 
-fit and evaluate a model
-========================
-
-def evaluate\_model(trainX, trainy, testX, testy, param):\
- verbose, epochs, batch\_size = 0, 10, 32\
- n\_timesteps, n\_features, n\_outputs = trainX.shape[1],
+def evaluate_model(trainX, trainy, testX, testy, param):
+ verbose, epochs, batch_size = 0, 10, 32
+ n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
-
-scale data
-==========
-
-trainX, testX = scale\_data(trainX, testX, param)\
- model = Sequential()\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu'))\
- model.add(Dropout(0.5))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+trainX, testX = scale_data(trainX, testX, param)
+ model = Sequential()
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+ model.add(Dropout(0.5))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
-verbose=0)\
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
+verbose=0)
  return accuracy
 
-summarize scores
-================
-
-def summarize\_results(scores, params):\
+def summarize_results(scores, params):
  print(scores, params)
 
-summarize mean and standard deviation
-=====================================
-
-for i in range(len(scores)):\
- m, s = mean(scores[i]), std(scores[i])\
+for i in range(len(scores)):
+ m, s = mean(scores[i]), std(scores[i])
  print('Param=%s: %.3f%% (+/-%.3f)' % (params[i], m, s))
 
-boxplot of scores
-=================
+pyplot.boxplot(scores, labels=params)
+ pyplot.savefig('exp_cnn_standardize.png')
 
-pyplot.boxplot(scores, labels=params)\
- pyplot.savefig('exp\_cnn\_standardize.png')
+def run_experiment(params, repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-run an experiment
-=================
-
-def run\_experiment(params, repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-test each parameter
-===================
-
-all\_scores = list()\
+all_scores = list()
  for p in params:
 
-repeat experiment
-=================
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy, p)
+ score = score * 100.0
+ print('>p=%s #%d: %.3f'% (p, r+1, score))
+ scores.append(score)
+ all_scores.append(scores)
 
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy, p)\
- score = score \* 100.0\
- print('\>p=%s \#%d: %.3f'% (p, r+1, score))\
- scores.append(score)\
- all\_scores.append(scores)
+summarize_results(all_scores, params)
 
-summarize results
-=================
-
-summarize\_results(all\_scores, params)
-
-run the experiment
-==================
-
-n\_params = [False, True]
+n_params = [False, True]
 
 24.4. Tuned CNN Model 508
 
-run\_experiment(n\_params)
+run_experiment(n_params)
 
 Listing 24.19: Example of evaluating a CNN with and without data
 standardization.
@@ -1273,40 +995,40 @@ results may vary. Consider
 
 running the example a few times.
 
-> p=False \#1: 91.483\
->  p=False \#2: 91.245\
->  p=False \#3: 90.838\
->  p=False \#4: 89.243\
->  p=False \#5: 90.193\
->  p=False \#6: 90.465\
->  p=False \#7: 90.397\
->  p=False \#8: 90.567\
->  p=False \#9: 88.938\
->  p=False \#10: 91.144\
->  p=True \#1: 92.908\
->  p=True \#2: 90.940\
->  p=True \#3: 92.297\
->  p=True \#4: 91.822\
->  p=True \#5: 92.094\
->  p=True \#6: 91.313\
->  p=True \#7: 91.653\
->  p=True \#8: 89.141\
->  p=True \#9: 91.110\
->  p=True \#10: 91.890
+> p=False #1: 91.483
+>  p=False #2: 91.245
+>  p=False #3: 90.838
+>  p=False #4: 89.243
+>  p=False #5: 90.193
+>  p=False #6: 90.465
+>  p=False #7: 90.397
+>  p=False #8: 90.567
+>  p=False #9: 88.938
+>  p=False #10: 91.144
+>  p=True #1: 92.908
+>  p=True #2: 90.940
+>  p=True #3: 92.297
+>  p=True #4: 91.822
+>  p=True #5: 92.094
+>  p=True #6: 91.313
+>  p=True #7: 91.653
+>  p=True #8: 89.141
+>  p=True #9: 91.110
+>  p=True #10: 91.890
 
 [[91.48286392941975, 91.24533423820834, 90.83814048184594,
-89.24329826942655,\
+89.24329826942655,
  90.19341703427214, 90.46487953851374, 90.39701391245333,
-90.56667797760434,\
+90.56667797760434,
  88.93790295215473, 91.14353579911774], [92.90804207668816,
-90.93993892093654,\
+90.93993892093654,
  92.29725144214456, 91.82219205972176, 92.09365456396336,
-91.31319986426874,\
+91.31319986426874,
  91.65252799457076, 89.14149983033593, 91.10960298608755,
-91.89005768578215]] [False,\
+91.89005768578215]] [False,
  True]
 
-Param=False: 90.451% (+/-0.785)\
+Param=False: 90.451% (+/-0.785)
  Param=True: 91.517% (+/-0.965)
 
 Listing 24.20: Example output from evaluating a CNN with and without
@@ -1355,199 +1077,112 @@ The complete code example is listed below.
 
 24.4. Tuned CNN Model 510
 
-from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import Dropout\
- from keras.layers.convolutional import Conv1D\
- from keras.layers.convolutional import MaxPooling1D\
- from keras.utils import to\_categorical
+from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import Dropout
+ from keras.layers.convolutional import Conv1D
+ from keras.layers.convolutional import MaxPooling1D
+ from keras.utils import to_categorical
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files and return as a 3d numpy array
-===================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
 24.4. Tuned CNN Model 511
 
-fit and evaluate a model
-========================
-
-def evaluate\_model(trainX, trainy, testX, testy, n\_filters):\
- verbose, epochs, batch\_size = 0, 10, 32\
- n\_timesteps, n\_features, n\_outputs = trainX.shape[1],
-trainX.shape[2], trainy.shape[1]\
- model = Sequential()\
- model.add(Conv1D(filters=n\_filters, kernel\_size=3,
-activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=n\_filters, kernel\_size=3,
-activation='relu'))\
- model.add(Dropout(0.5))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+def evaluate_model(trainX, trainy, testX, testy, n_filters):
+ verbose, epochs, batch_size = 0, 10, 32
+ n_timesteps, n_features, n_outputs = trainX.shape[1],
+trainX.shape[2], trainy.shape[1]
+ model = Sequential()
+ model.add(Conv1D(filters=n_filters, kernel_size=3,
+activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=n_filters, kernel_size=3,
+activation='relu'))
+ model.add(Dropout(0.5))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
-verbose=0)\
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
+verbose=0)
  return accuracy
 
-summarize scores
-================
-
-def summarize\_results(scores, params):\
+def summarize_results(scores, params):
  print(scores, params)
 
-summarize mean and standard deviation
-=====================================
-
-for i in range(len(scores)):\
- m, s = mean(scores[i]), std(scores[i])\
+for i in range(len(scores)):
+ m, s = mean(scores[i]), std(scores[i])
  print('Param=%d: %.3f%% (+/-%.3f)' % (params[i], m, s))
 
-boxplot of scores
-=================
+pyplot.boxplot(scores, labels=params)
+ pyplot.savefig('exp_cnn_filters.png')
 
-pyplot.boxplot(scores, labels=params)\
- pyplot.savefig('exp\_cnn\_filters.png')
+def run_experiment(params, repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-run an experiment
-=================
-
-def run\_experiment(params, repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-test each parameter
-===================
-
-all\_scores = list()\
+all_scores = list()
  for p in params:
 
-repeat experiment
-=================
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy, p)
+ score = score * 100.0
+ print('>p=%d #%d: %.3f'% (p, r+1, score))
+ scores.append(score)
+ all_scores.append(scores)
 
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy, p)\
- score = score \* 100.0\
- print('\>p=%d \#%d: %.3f'% (p, r+1, score))\
- scores.append(score)\
- all\_scores.append(scores)
+summarize_results(all_scores, params)
 
-summarize results
-=================
-
-summarize\_results(all\_scores, params)
-
-run the experiment
-==================
-
-n\_params = [8, 16, 32, 64, 128, 256]\
- run\_experiment(n\_params)
+n_params = [8, 16, 32, 64, 128, 256]
+ run_experiment(n_params)
 
 Listing 24.22: Example of evaluating a CNN with different numbers of
 filter maps.
@@ -1616,198 +1251,111 @@ Listing 24.24: Example of a configuration for different sized kernels.
 
 24.4. Tuned CNN Model 514
 
-from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import Dropout\
- from keras.layers.convolutional import Conv1D\
- from keras.layers.convolutional import MaxPooling1D\
- from keras.utils import to\_categorical
+from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import Dropout
+ from keras.layers.convolutional import Conv1D
+ from keras.layers.convolutional import MaxPooling1D
+ from keras.utils import to_categorical
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files and return as a 3d numpy array
-===================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)\
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
  return trainX, trainy, testX, testy
 
 24.4. Tuned CNN Model 515
 
-fit and evaluate a model
-========================
-
-def evaluate\_model(trainX, trainy, testX, testy, n\_kernel):\
- verbose, epochs, batch\_size = 0, 15, 32\
- n\_timesteps, n\_features, n\_outputs = trainX.shape[1],
-trainX.shape[2], trainy.shape[1]\
- model = Sequential()\
- model.add(Conv1D(filters=64, kernel\_size=n\_kernel,
-activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=64, kernel\_size=n\_kernel,
-activation='relu'))\
- model.add(Dropout(0.5))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs, activation='softmax'))\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+def evaluate_model(trainX, trainy, testX, testy, n_kernel):
+ verbose, epochs, batch_size = 0, 15, 32
+ n_timesteps, n_features, n_outputs = trainX.shape[1],
+trainX.shape[2], trainy.shape[1]
+ model = Sequential()
+ model.add(Conv1D(filters=64, kernel_size=n_kernel,
+activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=64, kernel_size=n_kernel,
+activation='relu'))
+ model.add(Dropout(0.5))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs, activation='softmax'))
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
-model.fit(trainX, trainy, epochs=epochs, batch\_size=batch\_size,
+model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate(testX, testy, batch\_size=batch\_size,
-verbose=0)\
+_, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
+verbose=0)
  return accuracy
 
-summarize scores
-================
-
-def summarize\_results(scores, params):\
+def summarize_results(scores, params):
  print(scores, params)
 
-summarize mean and standard deviation
-=====================================
-
-for i in range(len(scores)):\
- m, s = mean(scores[i]), std(scores[i])\
+for i in range(len(scores)):
+ m, s = mean(scores[i]), std(scores[i])
  print('Param=%d: %.3f%% (+/-%.3f)' % (params[i], m, s))
 
-boxplot of scores
-=================
+pyplot.boxplot(scores, labels=params)
+ pyplot.savefig('exp_cnn_kernel.png')
 
-pyplot.boxplot(scores, labels=params)\
- pyplot.savefig('exp\_cnn\_kernel.png')
+def run_experiment(params, repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-run an experiment
-=================
-
-def run\_experiment(params, repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-test each parameter
-===================
-
-all\_scores = list()\
+all_scores = list()
  for p in params:
 
-repeat experiment
-=================
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy, p)
+ score = score * 100.0
+ print('>p=%d #%d: %.3f'% (p, r+1, score))
+ scores.append(score)
+ all_scores.append(scores)
 
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy, p)\
- score = score \* 100.0\
- print('\>p=%d \#%d: %.3f'% (p, r+1, score))\
- scores.append(score)\
- all\_scores.append(scores)
+summarize_results(all_scores, params)
 
-summarize results
-=================
-
-summarize\_results(all\_scores, params)
-
-run the experiment
-==================
-
-n\_params = [2, 3, 5, 7, 11]\
- run\_experiment(n\_params)
+n_params = [2, 3, 5, 7, 11]
+ run_experiment(n_params)
 
 Listing 24.25: Example of evaluating a CNN with different sized kernels.
 
@@ -1832,10 +1380,10 @@ running the example a few times.
 
 ##### ...
 
-Param=2: 90.176% (+/-0.724)\
- Param=3: 90.275% (+/-1.277)\
- Param=5: 91.853% (+/-1.249)\
- Param=7: 91.347% (+/-0.852)\
+Param=2: 90.176% (+/-0.724)
+ Param=3: 90.275% (+/-1.277)
+ Param=5: 91.853% (+/-1.249)
+ Param=7: 91.347% (+/-0.852)
  Param=11: 91.456% (+/-0.743)
 
 Listing 24.26: Example output from evaluating a CNN with different sized
@@ -1943,218 +1491,120 @@ the multi-headed 1D
 
 CNN is listed below.
 
-multi-headed cnn model for the har dataset
-==========================================
-
-from numpy import mean\
- from numpy import std\
- from numpy import dstack\
- from pandas import read\_csv\
- from keras.utils import to\_categorical\
- from keras.utils.vis\_utils import plot\_model
+from numpy import mean
+ from numpy import std
+ from numpy import dstack
+ from pandas import read_csv
+ from keras.utils import to_categorical
+ from keras.utils.vis_utils import plot_model
 
 24.5. Multi-headed CNN Model 519
 
-from keras.models import Model\
- from keras.layers import Input\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import Dropout\
- from keras.layers.convolutional import Conv1D\
- from keras.layers.convolutional import MaxPooling1D\
+from keras.models import Model
+ from keras.layers import Input
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import Dropout
+ from keras.layers.convolutional import Conv1D
+ from keras.layers.convolutional import MaxPooling1D
  from keras.layers.merge import concatenate
 
-load a single file as a numpy array
-===================================
-
-def load\_file(filepath):\
- dataframe = read\_csv(filepath, header=None, delim\_whitespace=True)\
+def load_file(filepath):
+ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
  return dataframe.values
 
-load a list of files and return as a 3d numpy array
-===================================================
-
-def load\_group(filenames, prefix=''):\
- loaded = list()\
- for name in filenames:\
- data = load\_file(prefix + name)\
+def load_group(filenames, prefix=''):
+ loaded = list()
+ for name in filenames:
+ data = load_file(prefix + name)
  loaded.append(data)
 
-stack group so that features are the 3rd dimension
-==================================================
-
-loaded = dstack(loaded)\
+loaded = dstack(loaded)
  return loaded
 
-load a dataset group, such as train or test
-===========================================
-
-def load\_dataset\_group(group, prefix=''):\
+def load_dataset_group(group, prefix=''):
  filepath = prefix + group + '/Inertial Signals/'
-
-load all 9 files as a single array
-==================================
 
 filenames = list()
 
-total acceleration
-==================
-
 filenames +=
-['total\_acc\_x\_'+group+'.txt','total\_acc\_y\_'+group+'.txt',\
- 'total\_acc\_z\_'+group+'.txt']
+['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
+ 'total_acc_z_'+group+'.txt']
 
-body acceleration
-=================
-
-filenames += ['body\_acc\_x\_'+group+'.txt',
-'body\_acc\_y\_'+group+'.txt',\
- 'body\_acc\_z\_'+group+'.txt']
-
-body gyroscope
-==============
-
+filenames += ['body_acc_x_'+group+'.txt',
+'body_acc_y_'+group+'.txt',
+ 'body_acc_z_'+group+'.txt']
 filenames +=
-['body\_gyro\_x\_'+group+'.txt','body\_gyro\_y\_'+group+'.txt',\
- 'body\_gyro\_z\_'+group+'.txt']
+['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
+ 'body_gyro_z_'+group+'.txt']
 
-load input data
-===============
+X = load_group(filenames, filepath)
 
-X = load\_group(filenames, filepath)
-
-load class output
-=================
-
-y = load\_file(prefix + group +'/y\_'+group+'.txt')\
+y = load_file(prefix + group +'/y_'+group+'.txt')
  return X, y
 
-load the dataset, returns train and test X and y elements
-=========================================================
+def load_dataset(prefix=''):
+trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
+testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
-def load\_dataset(prefix=''):
-
-load all train
-==============
-
-trainX, trainy = load\_dataset\_group('train', prefix + 'HARDataset/')
-
-load all test
-=============
-
-testX, testy = load\_dataset\_group('test', prefix + 'HARDataset/')
-
-zero-offset class values
-========================
-
-trainy = trainy - 1\
+trainy = trainy - 1
  testy = testy - 1
 
-one hot encode y
-================
-
-trainy = to\_categorical(trainy)\
- testy = to\_categorical(testy)
+trainy = to_categorical(trainy)
+ testy = to_categorical(testy)
 
 24.5. Multi-headed CNN Model 520
 
     return trainX, trainy, testX, testy
 
-fit and evaluate a model
-========================
-
-def evaluate\_model(trainX, trainy, testX, testy):\
- verbose, epochs, batch\_size = 0, 10, 32\
- n\_timesteps, n\_features, n\_outputs = trainX.shape[1],
+def evaluate_model(trainX, trainy, testX, testy):
+ verbose, epochs, batch_size = 0, 10, 32
+ n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
-
-head 1
-======
-
-inputs1 = Input(shape=(n\_timesteps,n\_features))\
- conv1 = Conv1D(filters=64, kernel\_size=3, activation='relu')(inputs1)\
- drop1 = Dropout(0.5)(conv1)\
- pool1 = MaxPooling1D(pool\_size=2)(drop1)\
+inputs1 = Input(shape=(n_timesteps,n_features))
+ conv1 = Conv1D(filters=64, kernel_size=3, activation='relu')(inputs1)
+ drop1 = Dropout(0.5)(conv1)
+ pool1 = MaxPooling1D(pool_size=2)(drop1)
  flat1 = Flatten()(pool1)
-
-head 2
-======
-
-inputs2 = Input(shape=(n\_timesteps,n\_features))\
- conv2 = Conv1D(filters=64, kernel\_size=5, activation='relu')(inputs2)\
- drop2 = Dropout(0.5)(conv2)\
- pool2 = MaxPooling1D(pool\_size=2)(drop2)\
+inputs2 = Input(shape=(n_timesteps,n_features))
+ conv2 = Conv1D(filters=64, kernel_size=5, activation='relu')(inputs2)
+ drop2 = Dropout(0.5)(conv2)
+ pool2 = MaxPooling1D(pool_size=2)(drop2)
  flat2 = Flatten()(pool2)
-
-head 3
-======
-
-inputs3 = Input(shape=(n\_timesteps,n\_features))\
- conv3 = Conv1D(filters=64, kernel\_size=11,
-activation='relu')(inputs3)\
- drop3 = Dropout(0.5)(conv3)\
- pool3 = MaxPooling1D(pool\_size=2)(drop3)\
+inputs3 = Input(shape=(n_timesteps,n_features))
+ conv3 = Conv1D(filters=64, kernel_size=11,
+activation='relu')(inputs3)
+ drop3 = Dropout(0.5)(conv3)
+ pool3 = MaxPooling1D(pool_size=2)(drop3)
  flat3 = Flatten()(pool3)
-
-merge
-=====
-
 merged = concatenate([flat1, flat2, flat3])
-
-interpretation
-==============
-
-dense1 = Dense(100, activation='relu')(merged)\
- outputs = Dense(n\_outputs, activation='softmax')(dense1)\
+dense1 = Dense(100, activation='relu')(merged)
+ outputs = Dense(n_outputs, activation='softmax')(dense1)
  model = Model(inputs=[inputs1, inputs2, inputs3], outputs=outputs)
 
-save a plot of the model
-========================
-
-plot\_model(model, show\_shapes=True, to\_file='multiheaded.png')\
- model.compile(loss='categorical\_crossentropy', optimizer='adam',
+plot_model(model, show_shapes=True, to_file='multiheaded.png')
+ model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
-
-fit network
-===========
-
 model.fit([trainX,trainX,trainX], trainy, epochs=epochs,
-batch\_size=batch\_size,\
+batch_size=batch_size,
  verbose=verbose)
-
-evaluate model
-==============
-
-\_, accuracy = model.evaluate([testX,testX,testX], testy,
-batch\_size=batch\_size, verbose=0)\
+_, accuracy = model.evaluate([testX,testX,testX], testy,
+batch_size=batch_size, verbose=0)
  return accuracy
 
-summarize scores
-================
-
-def summarize\_results(scores):\
- print(scores)\
- m, s = mean(scores), std(scores)\
+def summarize_results(scores):
+ print(scores)
+ m, s = mean(scores), std(scores)
  print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
-run an experiment
-=================
+def run_experiment(repeats=10):
+trainX, trainy, testX, testy = load_dataset()
 
-def run\_experiment(repeats=10):
-
-load data
-=========
-
-trainX, trainy, testX, testy = load\_dataset()
-
-repeat experiment
-=================
-
-scores = list()\
- for r in range(repeats):\
- score = evaluate\_model(trainX, trainy, testX, testy)\
- score = score \* 100.0\
- print('\>\#%d: %.3f' % (r+1, score))
+scores = list()
+ for r in range(repeats):
+ score = evaluate_model(trainX, trainy, testX, testy)
+ score = score * 100.0
+ print('>#%d: %.3f' % (r+1, score))
 
 24.6. Extensions 521
 
@@ -2181,25 +1631,25 @@ Listing 24.28: Example of evaluating a multi-headed CNN model.
     Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
     running the example a few times.
 
-##### \>\#1: 91.788
+##### >#1: 91.788
 
-##### \>\#2: 92.942
+##### >#2: 92.942
 
-##### \>\#3: 91.551
+##### >#3: 91.551
 
-##### \>\#4: 91.415
+##### >#4: 91.415
 
-##### \>\#5: 90.974
+##### >#5: 90.974
 
-##### \>\#6: 91.992
+##### >#6: 91.992
 
-##### \>\#7: 92.162
+##### >#7: 92.162
 
-##### \>\#8: 89.888
+##### >#8: 89.888
 
-##### \>\#9: 92.671
+##### >#9: 92.671
 
-##### \>\#10: 91.415
+##### >#10: 91.415
 
 ##### [91.78825924669155, 92.94197488971835, 91.55072955548015, 91.41499830335935,
 

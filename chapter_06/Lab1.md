@@ -45,22 +45,22 @@ supervised learning model,
 
 vector of observations:
 
+```
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-Listing 6.1: Example of a univariate time series.
+```
 
     A supervised learning algorithm requires that data is provided as a collection of samples,
 
 where each sample has an input component (X) and an output component
 (y).
 
+```
     X, y
     sample input, sample output
     sample input, sample output
     sample input, sample output
     ...
-
-Listing 6.2: Example of a general supervised learning learning problem.
+```
 
 The model will learn how to map inputs to outputs from the provided
 examples.
@@ -76,14 +76,13 @@ y=f(X) (6.1)
     univariate series can be expressed as a supervised learning problem with three time steps for
     input and one step as output, as follows:
 
+```
     X, y
     [1, 2, 3], [4]
     [2, 3, 4], [5]
     [3, 4, 5], [6]
     ...
-
-Listing 6.3: Example of a univariate time series converted to supervised
-learning.
+```
 
     For more on transforming your time series data into a supervised learning problem in general
     see Chapter 4. You can write code to perform this transform yourself and that is the general
@@ -95,15 +94,13 @@ sample has a specified
 
 number of time steps and the output is a single time step.
 
+```
     # split a univariate sequence into samples
     def split_sequence(sequence, n_steps):
     X, y = list(), list()
     for i in range(len(sequence)):
     # find the end of this pattern
     end_ix = i + n_steps
-
-6.2. Time Series to Supervised 44
-
     # check if we are beyond the sequence
     if end_ix > len(sequence)-1:
     break
@@ -113,8 +110,7 @@ number of time steps and the output is a single time step.
     y.append(seq_y)
     return array(X), array(y)
 
-Listing 6.4: Example of a function to split a univariate series into a
-supervised learning problem.
+```
 
     For specific examples for univariate, multivariate and multi-step time series, see Chapters 7,
     8 and 9. After you have transformed your data into a form suitable for training a supervised
@@ -130,14 +126,14 @@ series dataset.
 
 For example, our univariate time series may look as follows:
 
+```
     x1, x2, x3, y
     1, 2, 3, 4
     2, 3, 4, 5
     3, 4, 5, 6
     ...
 
-Listing 6.5: Example of a univariate time series in terms of rows and
-columns.
+```
 
     The dataset will be represented in Python using a NumPy array. The array will have two
     dimensions. The length of each dimension is referred to as the shape of the array. For example,
@@ -149,6 +145,7 @@ output data. If we have 7
     rows and 3 columns for the input data then the shape of the dataset would be[7, 3], or 7
     samples and 3 features. We can make this concrete by transforming our small contrived dataset.
 
+```
     # transform univariate time series to supervised learning problem
     from numpy import array
 
@@ -165,31 +162,14 @@ output data. If we have 7
     seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
     X.append(seq_x)
     y.append(seq_y)
-
-6.3. 3D Data Preparation Basics 45
-
     return array(X), array(y)
-
-define univariate time series
-=============================
-
-series = array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\
+series = array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
  print(series.shape)
-
-transform to a supervised learning problem
-==========================================
-
-X, y = split\_sequence(series, 3)\
+X, y = split_sequence(series, 3)
  print(X.shape, y.shape)
-
-show each sample
-================
-
-for i in range(len(X)):\
+for i in range(len(X)):
  print(X[i], y[i])
-
-Listing 6.6: Example of transforming a univariate time series into a
-supervised learning problem.
+```
 
     Running the example first prints the shape of the time series, in this case 10 time steps
 
@@ -210,22 +190,20 @@ aspects of each sample
 
 are printed, showing the expected breakdown of the problem.
 
+```
 (10,)
 
 (7, 3) (7,)
 
-[1 2 3] 4\
- [2 3 4] 5\
- [3 4 5] 6\
- [4 5 6] 7\
- [5 6 7] 8\
- [6 7 8] 9\
+[1 2 3] 4
+ [2 3 4] 5
+ [3 4 5] 6
+ [4 5 6] 7
+ [5 6 7] 8
+ [6 7 8] 9
  [7 8 9] 10
 
-Listing 6.7: Example output from transforming a univariate time series
-into a supervised learning
-
-problem.
+```
 
 Data in this form can be used directly to train a simple neural network,
 such as a Multilayer
@@ -262,23 +240,19 @@ confusing for beginners as
 
 intuitively we may expect the first layer defined in the model be the
 input layer, not the first
-
-6.3. 3D Data Preparation Basics 46
-
 hidden layer. For example, below is an example of a network with one
 hiddenLSTMlayer and
 
 oneDenseoutput layer.
 
-lstm without an input layer
-===========================
-
-...\
- model = Sequential()\
- model.add(LSTM(32))\
+```
+# lstm without an input layer
+...
+ model = Sequential()
+ model.add(LSTM(32))
  model.add(Dense(1))
 
-Listing 6.8: Example of defining an LSTM model without an input layer.
+```
 
 In this example, theLSTM()layer must specify the shape of the input
 data. The input to
@@ -335,15 +309,15 @@ features in your input
 
 data.
 
-lstm with an input layer
-========================
+```
+# lstm with an input layer
 
-...\
- model = Sequential()\
- model.add(LSTM(32, input\_shape=(3, 1)))\
+...
+ model = Sequential()
+ model.add(LSTM(32, input_shape=(3, 1)))
  model.add(Dense(1))
 
-Listing 6.9: Example of defining an LSTM model with an input layer.
+```
 
 This example maps onto our univariate time series from the previous
 section that we split into
@@ -376,14 +350,11 @@ enough data to support the new shape, which in this case it does as[7,
 
 functionally the same thing.
 
+```
 ...
-
-transform input from [samples, features] to [samples, timesteps, features]
-==========================================================================
-
 X = X.reshape((7, 3, 1))
 
-Listing 6.10: Example of reshaping 2D data to be 3D.
+```
 
 A short-cut in reshaping the array is to use the known shapes, such as
 the number of samples
@@ -402,73 +373,34 @@ reshape can therefore
 
 be written as:
 
+```
 ...
-
-transform input from [samples, features] to [samples, timesteps, features]
-==========================================================================
-
 X = X.reshape((X.shape[0], X.shape[1], 1))
 
-Listing 6.11: Example of reshaping 2D data to be 3D.
+```
 
     We can make this concept concrete with a worked example. The complete code listing is
 
 provided below.
 
-transform univariate 2d to 3d
-=============================
-
-from numpy import array
-
-split a univariate sequence into samples
-========================================
-
-def split\_sequence(sequence, n\_steps):\
- X, y = list(), list()\
+```from numpy import array
+def split_sequence(sequence, n_steps):
+ X, y = list(), list()
  for i in range(len(sequence)):
-
-find the end of this pattern
-============================
-
-end\_ix = i + n\_steps
-
-check if we are beyond the sequence
-===================================
-
-if end\_ix \> len(sequence)-1:\
+end_ix = i + n_steps
+if end_ix > len(sequence)-1:
  break
-
-gather input and output parts of the pattern
-============================================
-
-seq\_x, seq\_y = sequence[i:end\_ix], sequence[end\_ix]\
- X.append(seq\_x)\
- y.append(seq\_y)\
+seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+ X.append(seq_x)
+ y.append(seq_y)
  return array(X), array(y)
-
-define univariate time series
-=============================
-
-series = array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])\
+series = array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
  print(series.shape)
-
-transform to a supervised learning problem
-==========================================
-
-X, y = split\_sequence(series, 3)\
+X, y = split_sequence(series, 3)
  print(X.shape, y.shape)
-
-transform input from [samples, features] to [samples, timesteps, features]
-==========================================================================
-
-X = X.reshape((X.shape[0], X.shape[1], 1))\
+X = X.reshape((X.shape[0], X.shape[1], 1))
  print(X.shape)
-
-Listing 6.12: Example of transforming a univariate time series into a
-three-dimensional array.
-
-6.4. Data Preparation Example 48
-
+```
     Running the example first prints the shape of the univariate time series, in this case 10
     time steps. It then summarizes the shape if the input (X) and output (y) elements of each
     sample after the univariate series has been converted into a supervised learning problem, in
@@ -476,12 +408,12 @@ three-dimensional array.
     know are actually time steps. Finally, the input element of each sample is reshaped to be
     three-dimensional suitable for fitting an LSTM or CNN and now has the shape[7, 3, 1]or 7
     samples, 3 time steps, 1 feature.
-
+```
     (10,)
     (7, 3) (7,)
     (7, 3, 1)
 
-Listing 6.13: Example output from reshaping 2D data to be 3D.
+```
 
 ### 6.4 Data Preparation Example
 
@@ -512,34 +444,29 @@ steps:
 
 We can load this dataset as a PandasSeriesusing the functionreadcsv().
 
+```
+
     # load time series dataset
     series = read_csv('filename.csv', header=0, index_col=0)
 
-Listing 6.14: Example of loading a dataset as a PandasDataFrame.
-
-6.4. Data Preparation Example 49
+```
 
     For this example, we will mock loading by defining a new dataset in memory with 5,000
 
 time steps.
 
-example of defining a dataset
-=============================
 
+```
 from numpy import array
-
-define the dataset
-==================
-
-data = list()\
- n = 5000\
- for i in range(n):\
- data.append([i+1, (i+1)\*10])\
- data = array(data)\
- print(data[:5, :])\
+data = list()
+ n = 5000
+ for i in range(n):
+ data.append([i+1, (i+1)*10])
+ data = array(data)
+ print(data[:5, :])
  print(data.shape)
 
-Listing 6.15: Example of defining the dataset instead of loading it.
+```
 
 Running this piece both prints the first 5 rows of data and the shape of
 the loaded data. We
@@ -547,16 +474,16 @@ the loaded data. We
 can see we have 5,000 rows and 2 columns: a standard univariate time
 series dataset.
 
-[[ 1 10]\
- [ 2 20]\
- [ 3 30]\
- [ 4 40]\
- [ 5 50]]\
+```
+
+[[ 1 10]
+ [ 2 20]
+ [ 3 30]
+ [ 4 40]
+ [ 5 50]]
  (5000, 2)
 
-Listing 6.16: Example output from defining the dataset.
-
-6.4.2 Drop the Time Column
+```
 
 If your time series data is uniform over time and there is no missing
 values, we can drop the
@@ -569,36 +496,30 @@ values. Here, we just drop
 
 the first column:
 
-example of dropping the time dimension from the dataset
-=======================================================
 
+```
 from numpy import array
-
-define the dataset
-==================
-
-data = list()\
- n = 5000\
- for i in range(n):\
- data.append([i+1, (i+1)\*10])\
+data = list()
+ n = 5000
+ for i in range(n):
+ data.append([i+1, (i+1)*10])
  data = array(data)
-
-drop time
-=========
-
-data = data[:, 1]\
+data = data[:, 1]
  print(data.shape)
 
-Listing 6.17: Example of dropping the time column.
+
+```
 
 Running the example prints the shape of the dataset after the time
 column has been removed.
 
+
+```
+
 (5000,)
 
-Listing 6.18: Example output from dropping the time column.
 
-6.4. Data Preparation Example 50
+```
 
 6.4.3 Split Into Samples
 
@@ -613,6 +534,9 @@ model needs state
     across the sub-sequences and so on. In this example, we will split the 5,000 time steps into 25
     sub-sequences of 200 time steps each. Rather than using NumPy or Python tricks, we will do
     this the old fashioned way so you can see what is going on.
+
+
+```
 
     # example of splitting a univariate sequence into subsequences
     from numpy import array
@@ -635,7 +559,7 @@ model needs state
     samples.append(sample)
     print(len(samples))
 
-Listing 6.19: Example of splitting the series into samples.
+```
 
     We now have 25 subsequences of 200 time steps each.
     25
@@ -649,6 +573,10 @@ have 25
 
     samples, 200 time steps per sample, and 1 feature. First, we need to convert our list of arrays
     into a 2D NumPy array with the shape[25, 200].
+
+
+```
+
     # example of creating an array of subsequence
     from numpy import array
 
@@ -659,34 +587,15 @@ have 25
     data.append([i+1, (i+1)*10])
     data = array(data)
 
-6.4. Data Preparation Example 51
 
-drop time
-=========
-
+```
 data = data[:, 1]
-
-split into samples (e.g. 5000/200 = 25)
-=======================================
-
-samples = list()\
+samples = list()
  length = 200
-
-step over the 5,000 in jumps of 200
-===================================
-
 for i in range(0,n,length):
-
-grab from i to i + 200
-======================
-
-sample = data[i:i+length]\
+sample = data[i:i+length]
  samples.append(sample)
-
-convert list of arrays into 2d array
-====================================
-
-data = array(samples)\
+data = array(samples)
  print(data.shape)
 
 Listing 6.21: Example of printing the shape of the samples.
@@ -699,73 +608,39 @@ per sample.
 
 (25, 200)
 
-Listing 6.22: Example output from printing the shape of the samples.
+```
 
 Next, we can use thereshape()function to add one additional dimension
 for our single
 
 feature and use the existing columns as time steps instead.
 
-example of creating a 3d array of subsequences
-==============================================
-
-from numpy import array
-
-define the dataset
-==================
-
-data = list()\
- n = 5000\
- for i in range(n):\
- data.append([i+1, (i+1)\*10])\
+```from numpy import array
+data = list()
+ n = 5000
+ for i in range(n):
+ data.append([i+1, (i+1)*10])
  data = array(data)
-
-drop time
-=========
-
 data = data[:, 1]
-
-split into samples (e.g. 5000/200 = 25)
-=======================================
-
-samples = list()\
+samples = list()
  length = 200
-
-step over the 5,000 in jumps of 200
-===================================
-
 for i in range(0,n,length):
-
-grab from i to i + 200
-======================
-
-sample = data[i:i+length]\
+sample = data[i:i+length]
  samples.append(sample)
-
-convert list of arrays into 2d array
-====================================
-
 data = array(samples)
-
-reshape into [samples, timesteps, features]
-===========================================
-
-data = data.reshape((len(samples), length, 1))\
+data = data.reshape((len(samples), length, 1))
  print(data.shape)
-
-Listing 6.23: Example of reshaping the dataset into a 3D format.
+```
 
 And that is it. The data can now be used as an input (X) to an LSTM
 model, or even a
 
 CNN model.
 
+```
 (25, 200, 1)
+```
 
-6.5. Extensions 52
-
-Listing 6.24: Example output from reshaping the dataset into a 3D
-format.
 
 ### 6.5 Extensions
 

@@ -92,12 +92,12 @@ remainder = (
     repository^1. The dataset can be downloaded as a single 20 megabyte zip file. A direct download
     link is provided blow:
 
-(\^1)
+(^1)
 https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+consumption
 
 16.3. Load Dataset 324
 
-- householdpowerconsumption.zip\^2
+- householdpowerconsumption.zip^2
 
     Download the dataset and unzip it into your current working directory. You will now have
     the filehouseholdpowerconsumption.txtthat is about 127 megabytes in size and contains
@@ -151,8 +151,8 @@ missing values.
     - Specify that we would like our newdatetimecolumn to be the index for theDataFrame
     (indexcol=[’datetime’]).
 
-(\^2)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/household\_power\_consumption.\
+(^2)
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
  zip
 
 16.3. Load Dataset 325
@@ -161,19 +161,11 @@ Putting all of this together, we can now load the data and summarize the
 loaded shape and
 
 first few rows.
-
-load all data
-=============
-
-dataset = read\_csv('household\_power\_consumption.txt', sep=';',
-header=0, low\_memory=False,\
- infer\_datetime\_format=True, parse\_dates={'datetime':[0,1]},
-index\_col=['datetime'])
-
-summarize
-=========
-
-print(dataset.shape)\
+dataset = read_csv('household_power_consumption.txt', sep=';',
+header=0, low_memory=False,
+ infer_datetime_format=True, parse_dates={'datetime':[0,1]},
+index_col=['datetime'])
+print(dataset.shape)
  print(dataset.head())
 
 Listing 16.3: Example of loading and summarizing the dataset.
@@ -186,9 +178,6 @@ floating point values rather
 
 than mixed types, which is less efficient.
 
-mark all missing values
-=======================
-
 dataset.replace('?', nan, inplace=True)
 
 Listing 16.4: Example of replacing missing values withNaN.
@@ -198,12 +187,9 @@ sub-metering, using the
 
 calculation from the previous section.
 
-add a column for for the remainder of sub metering
-==================================================
-
-values = dataset.values.astype('float32')\
- dataset['sub\_metering\_4'] = (values[:,0] \* 1000 / 60) - (values[:,4]
-+ values[:,5] +\
+values = dataset.values.astype('float32')
+ dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4]
++ values[:,5] +
  values[:,6])
 
 Listing 16.5: Example of calculating the remaining sub-metered data.
@@ -214,10 +200,7 @@ this case we will just
 change the file extension to.csvand save the dataset
 ashouseholdpowerconsumption.csv.
 
-save updated dataset
-====================
-
-dataset.to\_csv('household\_power\_consumption.csv')
+dataset.to_csv('household_power_consumption.csv')
 
 Listing 16.6: Example of saving the dataset to a new file.
 
@@ -226,10 +209,7 @@ summarize the first
 
 five rows.
 
-load the new file
-=================
-
-dataset = read\_csv('household\_power\_consumption.csv', header=None)\
+dataset = read_csv('household_power_consumption.csv', header=None)
  print(dataset.head())
 
 Listing 16.7: Example of loading the newly saved data file
@@ -238,53 +218,30 @@ Listing 16.7: Example of loading the newly saved data file
 
 dataset is listed below.
 
-load and clean-up power usage data
-==================================
-
-from numpy import nan\
- from pandas import read\_csv
-
-load all data
-=============
-
-dataset = read\_csv('household\_power\_consumption.txt', sep=';',
-header=0, low\_memory=False,\
- infer\_datetime\_format=True, parse\_dates={'datetime':[0,1]},
-index\_col=['datetime'])
-
-summarize
-=========
-
+from numpy import nan
+ from pandas import read_csv
+dataset = read_csv('household_power_consumption.txt', sep=';',
+header=0, low_memory=False,
+ infer_datetime_format=True, parse_dates={'datetime':[0,1]},
+index_col=['datetime'])
 print(dataset.shape)
 
 16.3. Load Dataset 326
 
 print(dataset.head())
 
-mark all missing values
-=======================
-
 dataset.replace('?', nan, inplace=True)
 
-add a column for for the remainder of sub metering
-==================================================
-
-values = dataset.values.astype('float32')\
- dataset['sub\_metering\_4'] = (values[:,0] \* 1000 / 60) - (values[:,4]
-+ values[:,5] +\
+values = dataset.values.astype('float32')
+ dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4]
++ values[:,5] +
  values[:,6])
 
-save updated dataset
-====================
+dataset.to_csv('household_power_consumption.csv')
 
-dataset.to\_csv('household\_power\_consumption.csv')
-
-load the new dataset and summarize
-==================================
-
-dataset = read\_csv('household\_power\_consumption.csv', header=0,
-infer\_datetime\_format=True,\
- parse\_dates=['datetime'], index\_col=['datetime'])\
+dataset = read_csv('household_power_consumption.csv', header=0,
+infer_datetime_format=True,
+ parse_dates=['datetime'], index_col=['datetime'])
  print(dataset.head())
 
 Listing 16.8: Example of loading and preparing the power consumption
@@ -297,12 +254,12 @@ of the loaded data.
 
 (2075259, 7)
 
-Global\_active\_power ... Sub\_metering\_3\
- datetime ...\
- 2006-12-16 17:24:00 4.216 ... 17.0\
- 2006-12-16 17:25:00 5.360 ... 16.0\
- 2006-12-16 17:26:00 5.374 ... 17.0\
- 2006-12-16 17:27:00 5.388 ... 17.0\
+Global_active_power ... Sub_metering_3
+ datetime ...
+ 2006-12-16 17:24:00 4.216 ... 17.0
+ 2006-12-16 17:25:00 5.360 ... 16.0
+ 2006-12-16 17:26:00 5.374 ... 17.0
+ 2006-12-16 17:27:00 5.388 ... 17.0
  2006-12-16 17:28:00 3.666 ... 17.0
 
 Listing 16.9: Example of the loaded raw dataset.
@@ -315,12 +272,12 @@ and addition of the new
 
 sub-metered column.
 
-Global\_active\_power ... sub\_metering\_4\
- datetime ...\
- 2006-12-16 17:24:00 4.216 ... 52.266670\
- 2006-12-16 17:25:00 5.360 ... 72.333336\
- 2006-12-16 17:26:00 5.374 ... 70.566666\
- 2006-12-16 17:27:00 5.388 ... 71.800000\
+Global_active_power ... sub_metering_4
+ datetime ...
+ 2006-12-16 17:24:00 4.216 ... 52.266670
+ 2006-12-16 17:25:00 5.360 ... 72.333336
+ 2006-12-16 17:26:00 5.374 ... 70.566666
+ 2006-12-16 17:27:00 5.388 ... 71.800000
  2006-12-16 17:28:00 3.666 ... 43.100000
 
 Listing 16.10: Example of the prepared dataset.
@@ -333,13 +290,13 @@ correctly read asNaN,
 
 for example around row 190,499:
 
-...\
- 2007-04-28 00:20:00,0.492,0.208,236.240,2.200,0.000,0.000,0.0,8.2\
- 2007-04-28 00:21:00,,,,,,,,\
- 2007-04-28 00:22:00,,,,,,,,\
- 2007-04-28 00:23:00,,,,,,,,\
- 2007-04-28 00:24:00,,,,,,,,\
- 2007-04-28 00:25:00,,,,,,,,\
+...
+ 2007-04-28 00:20:00,0.492,0.208,236.240,2.200,0.000,0.000,0.0,8.2
+ 2007-04-28 00:21:00,,,,,,,,
+ 2007-04-28 00:22:00,,,,,,,,
+ 2007-04-28 00:23:00,,,,,,,,
+ 2007-04-28 00:24:00,,,,,,,,
+ 2007-04-28 00:25:00,,,,,,,,
  ...
 
 16.4. Patterns in Observations Over Time 327
@@ -408,45 +365,24 @@ so will remove it from
 
 the plot. The complete example is listed below.
 
-yearly line plots for power usage dataset
-=========================================
-
-from pandas import read\_csv\
+from pandas import read_csv
  from matplotlib import pyplot
 
-load the new file
-=================
+dataset = read_csv('household_power_consumption.csv', header=0,
+infer_datetime_format=True,
+ parse_dates=['datetime'], index_col=['datetime'])
 
-dataset = read\_csv('household\_power\_consumption.csv', header=0,
-infer\_datetime\_format=True,\
- parse\_dates=['datetime'], index\_col=['datetime'])
-
-plot active power for each year
-===============================
-
-years = [' 2007 ', ' 2008 ',' 2009 ',' 2010 ']\
- pyplot.figure()\
+years = [' 2007 ', ' 2008 ',' 2009 ',' 2010 ']
+ pyplot.figure()
  for i in range(len(years)):
-
-prepare subplot
-===============
 
 ax = pyplot.subplot(len(years), 1, i+1)
 
-determine the year to plot
-==========================
-
 year = years[i]
-
-get all observations for the year
-=================================
 
 result = dataset[str(year)]
 
-plot the active power for the year
-==================================
-
-pyplot.plot(result['Global\_active\_power'])
+pyplot.plot(result['Global_active_power'])
 
 16.4. Patterns in Observations Over Time 329
 
@@ -533,48 +469,24 @@ each day, and perhaps
 
 differences in days over a week. The complete example is listed below.
 
-daily line plots for power usage dataset
-========================================
-
-from pandas import read\_csv\
+from pandas import read_csv
  from matplotlib import pyplot
 
-load the new file
-=================
+dataset = read_csv('household_power_consumption.csv', header=0,
+infer_datetime_format=True,
+ parse_dates=['datetime'], index_col=['datetime'])
 
-dataset = read\_csv('household\_power\_consumption.csv', header=0,
-infer\_datetime\_format=True,\
- parse\_dates=['datetime'], index\_col=['datetime'])
-
-plot active power for each year
-===============================
-
-days = [x for x in range(1, 20)]\
- pyplot.figure()\
+days = [x for x in range(1, 20)]
+ pyplot.figure()
  for i in range(len(days)):
-
-prepare subplot
-===============
 
 ax = pyplot.subplot(len(days), 1, i+1)
 
-determine the day to plot
-=========================
-
 day ='2007-01-'+ str(days[i])
-
-get all observations for the day
-================================
 
 result = dataset[day]
 
-plot the active power for the day
-=================================
-
-pyplot.plot(result['Global\_active\_power'])
-
-add a title to the subplot
-==========================
+pyplot.plot(result['Global_active_power'])
 
 pyplot.title(day, y=0, loc='left', size=6)
 
@@ -666,50 +578,26 @@ at the distribution of
 active power consumption for the four full years of data. The complete
 example is listed below.
 
-yearly histogram plots for power usage dataset
-==============================================
-
-from pandas import read\_csv\
+from pandas import read_csv
  from matplotlib import pyplot
 
-load the new file
-=================
+dataset = read_csv('household_power_consumption.csv', header=0,
+infer_datetime_format=True,
+ parse_dates=['datetime'], index_col=['datetime'])
 
-dataset = read\_csv('household\_power\_consumption.csv', header=0,
-infer\_datetime\_format=True,\
- parse\_dates=['datetime'], index\_col=['datetime'])
-
-plot active power for each year
-===============================
-
-years = [' 2007 ', ' 2008 ',' 2009 ',' 2010 ']\
- pyplot.figure()\
+years = [' 2007 ', ' 2008 ',' 2009 ',' 2010 ']
+ pyplot.figure()
  for i in range(len(years)):
-
-prepare subplot
-===============
 
 ax = pyplot.subplot(len(years), 1, i+1)
 
-determine the year to plot
-==========================
-
 year = years[i]
-
-get all observations for the year
-=================================
 
 result = dataset[str(year)]
 
-plot the active power for the year
-==================================
+result['Global_active_power'].hist(bins=100)
 
-result['Global\_active\_power'].hist(bins=100)
-
-zoom in on the distribution
-===========================
-
-ax.set\_xlim(0, 5)
+ax.set_xlim(0, 5)
 
 16.5. Time Series Data Distributions 335
 

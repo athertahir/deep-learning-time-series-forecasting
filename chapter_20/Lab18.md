@@ -342,36 +342,17 @@ number of input time steps
 
 expected by the model.
 
-make a forecast
-===============
+def forecast(model, history, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-def forecast(model, history, n\_input):
+input_x = data[-n_input:, 0]
 
-flatten data
-============
+input_x = input_x.reshape((1, len(input_x), 1))
 
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+yhat = model.predict(input_x, verbose=0)
 
-retrieve last observations for input data
-=========================================
-
-input\_x = data[-n\_input:, 0]
-
-reshape into [1, n\_input, 1]
-=============================
-
-input\_x = input\_x.reshape((1, len(input\_x), 1))
-
-forecast the next week
-======================
-
-yhat = model.predict(input\_x, verbose=0)
-
-we only want the vector forecast
-================================
-
-yhat = yhat[0]\
+yhat = yhat[0]
  return yhat
 
 Listing 20.9: Example of a function for making a multi-step forecast
@@ -384,60 +365,30 @@ can tie all of this
 
 together. The complete example is listed below.
 
-univariate multi-step lstm for the power usage dataset
-======================================================
-
-from math import sqrt\
- from numpy import split\
- from numpy import array\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
- from matplotlib import pyplot\
- from keras.models import Sequential\
- from keras.layers import Dense\
+from math import sqrt
+ from numpy import split
+ from numpy import array
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
+ from matplotlib import pyplot
+ from keras.models import Sequential
+ from keras.layers import Dense
  from keras.layers import LSTM
 
-split a univariate dataset into train/test sets
-===============================================
-
-def split\_dataset(data):
-
-split into standard weeks
-=========================
+def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
-restructure into windows of weekly data
-=======================================
-
-train = array(split(train, len(train)/7))\
- test = array(split(test, len(test)/7))\
+train = array(split(train, len(train)/7))
+ test = array(split(test, len(test)/7))
  return train, test
 
-evaluate one or more weekly forecasts against expected values
-=============================================================
-
-def evaluate\_forecasts(actual, predicted):\
+def evaluate_forecasts(actual, predicted):
  scores = list()
 
-calculate an RMSE score for each day
-====================================
-
 for i in range(actual.shape[1]):
-
-calculate mse
-=============
-
-mse = mean\_squared\_error(actual[:, i], predicted[:, i])
-
-calculate rmse
-==============
-
+mse = mean_squared_error(actual[:, i], predicted[:, i])
 rmse = sqrt(mse)
-
-store
-=====
-
 scores.append(rmse)
 
 20.6. Univariate Input and Vector Output 401
@@ -450,95 +401,48 @@ scores.append(rmse)
     score = sqrt(s / (actual.shape[0] * actual.shape[1]))
     return score, scores
 
-summarize scores
-================
+def summarize_scores(name, score, scores):
+ s_scores = ','.join(['%.1f' % s for s in scores])
+ print('%s: [%.3f] %s'% (name, score, s_scores))
 
-def summarize\_scores(name, score, scores):\
- s\_scores = ','.join(['%.1f' % s for s in scores])\
- print('%s: [%.3f] %s'% (name, score, s\_scores))
+def to_supervised(train, n_input, n_out=7):
+data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
+ X, y = list(), list()
+ in_start = 0
 
-convert history into inputs and outputs
-=======================================
+for _ in range(len(data)):
 
-def to\_supervised(train, n\_input, n\_out=7):
+in_end = in_start + n_input
+ out_end = in_end + n_out
 
-flatten data
-============
+if out_end < len(data):
+ x_input = data[in_start:in_end, 0]
+ x_input = x_input.reshape((len(x_input), 1))
+ X.append(x_input)
+ y.append(data[in_end:out_end, 0])
 
-data = train.reshape((train.shape[0]\*train.shape[1], train.shape[2]))\
- X, y = list(), list()\
- in\_start = 0
-
-step over the entire history one time step at a time
-====================================================
-
-for \_ in range(len(data)):
-
-define the end of the input sequence
-====================================
-
-in\_end = in\_start + n\_input\
- out\_end = in\_end + n\_out
-
-ensure we have enough data for this instance
-============================================
-
-if out\_end \< len(data):\
- x\_input = data[in\_start:in\_end, 0]\
- x\_input = x\_input.reshape((len(x\_input), 1))\
- X.append(x\_input)\
- y.append(data[in\_end:out\_end, 0])
-
-move along one time step
-========================
-
-in\_start += 1\
+in_start += 1
  return array(X), array(y)
 
-train the model
-===============
+def build_model(train, n_input):
+train_x, train_y = to_supervised(train, n_input)
 
-def build\_model(train, n\_input):
-
-prepare data
-============
-
-train\_x, train\_y = to\_supervised(train, n\_input)
-
-define parameters
-=================
-
-verbose, epochs, batch\_size = 0, 70, 16\
- n\_timesteps, n\_features, n\_outputs = train\_x.shape[1],
-train\_x.shape[2], train\_y.shape[1]
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(200, activation='relu', input\_shape=(n\_timesteps,
-n\_features)))\
- model.add(Dense(100, activation='relu'))\
- model.add(Dense(n\_outputs))\
+verbose, epochs, batch_size = 0, 70, 16
+ n_timesteps, n_features, n_outputs = train_x.shape[1],
+train_x.shape[2], train_y.shape[1]
+model = Sequential()
+ model.add(LSTM(200, activation='relu', input_shape=(n_timesteps,
+n_features)))
+ model.add(Dense(100, activation='relu'))
+ model.add(Dense(n_outputs))
  model.compile(loss='mse', optimizer='adam')
-
-fit network
-===========
-
-model.fit(train\_x, train\_y, epochs=epochs, batch\_size=batch\_size,
-verbose=verbose)\
+model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
+verbose=verbose)
  return model
 
-make a forecast
-===============
-
-def forecast(model, history, n\_input):
-
-flatten data
-============
-
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+def forecast(model, history, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 20.6. Univariate Input and Vector Output 402
 
@@ -626,10 +530,7 @@ We can increase the number of prior days to use as input from seven to
 
 ninputvariable.
 
-evaluate model and get scores
-=============================
-
-n\_input = 14
+n_input = 14
 
 Listing 20.12: Example of changing the size of the input for making a
 forecast.
@@ -828,103 +729,50 @@ encoder-decoder LSTM model.
     test = array(split(test, len(test)/7))
     return train, test
 
-evaluate one or more weekly forecasts against expected values
-=============================================================
-
-def evaluate\_forecasts(actual, predicted):\
+def evaluate_forecasts(actual, predicted):
  scores = list()
 
-calculate an RMSE score for each day
-====================================
-
 for i in range(actual.shape[1]):
-
-calculate mse
-=============
-
-mse = mean\_squared\_error(actual[:, i], predicted[:, i])
-
-calculate rmse
-==============
-
+mse = mean_squared_error(actual[:, i], predicted[:, i])
 rmse = sqrt(mse)
-
-store
-=====
-
 scores.append(rmse)
 
-calculate overall RMSE
-======================
-
-s = 0\
- for row in range(actual.shape[0]):\
- for col in range(actual.shape[1]):\
- s += (actual[row, col] - predicted[row, col])\*\*2\
- score = sqrt(s / (actual.shape[0] \* actual.shape[1]))\
+s = 0
+ for row in range(actual.shape[0]):
+ for col in range(actual.shape[1]):
+ s += (actual[row, col] - predicted[row, col])**2
+ score = sqrt(s / (actual.shape[0] * actual.shape[1]))
  return score, scores
 
-summarize scores
-================
+def summarize_scores(name, score, scores):
+ s_scores = ','.join(['%.1f' % s for s in scores])
+ print('%s: [%.3f] %s'% (name, score, s_scores))
 
-def summarize\_scores(name, score, scores):\
- s\_scores = ','.join(['%.1f' % s for s in scores])\
- print('%s: [%.3f] %s'% (name, score, s\_scores))
+def to_supervised(train, n_input, n_out=7):
+data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
+ X, y = list(), list()
+ in_start = 0
 
-convert history into inputs and outputs
-=======================================
+for _ in range(len(data)):
 
-def to\_supervised(train, n\_input, n\_out=7):
+in_end = in_start + n_input
+ out_end = in_end + n_out
 
-flatten data
-============
+if out_end < len(data):
+ x_input = data[in_start:in_end, 0]
+ x_input = x_input.reshape((len(x_input), 1))
+ X.append(x_input)
+ y.append(data[in_end:out_end, 0])
 
-data = train.reshape((train.shape[0]\*train.shape[1], train.shape[2]))\
- X, y = list(), list()\
- in\_start = 0
-
-step over the entire history one time step at a time
-====================================================
-
-for \_ in range(len(data)):
-
-define the end of the input sequence
-====================================
-
-in\_end = in\_start + n\_input\
- out\_end = in\_end + n\_out
-
-ensure we have enough data for this instance
-============================================
-
-if out\_end \< len(data):\
- x\_input = data[in\_start:in\_end, 0]\
- x\_input = x\_input.reshape((len(x\_input), 1))\
- X.append(x\_input)\
- y.append(data[in\_end:out\_end, 0])
-
-move along one time step
-========================
-
-in\_start += 1\
+in_start += 1
  return array(X), array(y)
 
-train the model
-===============
+def build_model(train, n_input):
+train_x, train_y = to_supervised(train, n_input)
 
-def build\_model(train, n\_input):
-
-prepare data
-============
-
-train\_x, train\_y = to\_supervised(train, n\_input)
-
-define parameters
-=================
-
-verbose, epochs, batch\_size = 0, 20, 16\
- n\_timesteps, n\_features, n\_outputs = train\_x.shape[1],
-train\_x.shape[2], train\_y.shape[1]
+verbose, epochs, batch_size = 0, 20, 16
+ n_timesteps, n_features, n_outputs = train_x.shape[1],
+train_x.shape[2], train_y.shape[1]
 
 20.7. Encoder-Decoder LSTM With Univariate Input 408
 
@@ -942,98 +790,45 @@ train\_x.shape[2], train\_y.shape[1]
     model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbose)
     return model
 
-make a forecast
-===============
+def forecast(model, history, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-def forecast(model, history, n\_input):
+input_x = data[-n_input:, 0]
 
-flatten data
-============
+input_x = input_x.reshape((1, len(input_x), 1))
 
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+yhat = model.predict(input_x, verbose=0)
 
-retrieve last observations for input data
-=========================================
-
-input\_x = data[-n\_input:, 0]
-
-reshape into [1, n\_input, 1]
-=============================
-
-input\_x = input\_x.reshape((1, len(input\_x), 1))
-
-forecast the next week
-======================
-
-yhat = model.predict(input\_x, verbose=0)
-
-we only want the vector forecast
-================================
-
-yhat = yhat[0]\
+yhat = yhat[0]
  return yhat
 
-evaluate a single model
-=======================
-
-def evaluate\_model(train, test, n\_input):
-
-fit model
-=========
-
-model = build\_model(train, n\_input)
-
-history is a list of weekly data
-================================
+def evaluate_model(train, test, n_input):
+model = build_model(train, n_input)
 
 history = [x for x in train]
 
-walk-forward validation over each week
-======================================
-
-predictions = list()\
+predictions = list()
  for i in range(len(test)):
 
-predict the week
-================
+yhat_sequence = forecast(model, history, n_input)
 
-yhat\_sequence = forecast(model, history, n\_input)
-
-store the predictions
-=====================
-
-predictions.append(yhat\_sequence)
-
-get real observation and add to history for predicting the next week
-====================================================================
+predictions.append(yhat_sequence)
 
 history.append(test[i, :])
 
-evaluate predictions days for each week
-=======================================
-
-predictions = array(predictions)\
- score, scores = evaluate\_forecasts(test[:, :, 0], predictions)\
+predictions = array(predictions)
+ score, scores = evaluate_forecasts(test[:, :, 0], predictions)
  return score, scores
 
-load the new file
-=================
+dataset = read_csv('household_power_consumption_days.csv',
+header=0,
+ infer_datetime_format=True, parse_dates=['datetime'],
+index_col=['datetime'])
 
-dataset = read\_csv('household\_power\_consumption\_days.csv',
-header=0,\
- infer\_datetime\_format=True, parse\_dates=['datetime'],
-index\_col=['datetime'])
+train, test = split_dataset(dataset.values)
 
-split into train and test
-=========================
-
-train, test = split\_dataset(dataset.values)
-
-evaluate model and get scores
-=============================
-
-n\_input = 14
+n_input = 14
 
 20.7. Encoder-Decoder LSTM With Univariate Input 409
 
@@ -1105,10 +900,7 @@ one total daily power
 
 consumed. It requires a single line change:
 
-use all variables for input samples
-===================================
-
-X.append(data[in\_start:in\_end, :])
+X.append(data[in_start:in_end, :])
 
 Listing 20.22: Example of preparing data with all input variables.
 
@@ -1116,40 +908,21 @@ The completetosupervised()function with this change is listed below.
 
 20.8. Encoder-Decoder LSTM With Multivariate Input 411
 
-convert history into inputs and outputs
-=======================================
+def to_supervised(train, n_input, n_out=7):
+data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
+ X, y = list(), list()
+ in_start = 0
 
-def to\_supervised(train, n\_input, n\_out=7):
+for _ in range(len(data)):
 
-flatten data
-============
+in_end = in_start + n_input
+ out_end = in_end + n_out
 
-data = train.reshape((train.shape[0]\*train.shape[1], train.shape[2]))\
- X, y = list(), list()\
- in\_start = 0
+if out_end < len(data):
+ X.append(data[in_start:in_end, :])
+ y.append(data[in_end:out_end, 0])
 
-step over the entire history one time step at a time
-====================================================
-
-for \_ in range(len(data)):
-
-define the end of the input sequence
-====================================
-
-in\_end = in\_start + n\_input\
- out\_end = in\_end + n\_out
-
-ensure we have enough data for this instance
-============================================
-
-if out\_end \< len(data):\
- X.append(data[in\_start:in\_end, :])\
- y.append(data[in\_end:out\_end, 0])
-
-move along one time step
-========================
-
-in\_start += 1\
+in_start += 1
  return array(X), array(y)
 
 Listing 20.23: Example of a function for creating overlapping windows of
@@ -1160,49 +933,24 @@ model to use all eight
 
 features from the prior time steps. Again, another small change:
 
-retrieve last observations for input data
-=========================================
+input_x = data[-n_input:, :]
 
-input\_x = data[-n\_input:, :]
-
-reshape into [1, n\_input, n]
-=============================
-
-input\_x = input\_x.reshape((1, input\_x.shape[0], input\_x.shape[1]))
+input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
 Listing 20.24: Example of using all variables as input when making a
 forecast.
 
-make a forecast
-===============
+def forecast(model, history, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-def forecast(model, history, n\_input):
+input_x = data[-n_input:, :]
 
-flatten data
-============
+input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+yhat = model.predict(input_x, verbose=0)
 
-retrieve last observations for input data
-=========================================
-
-input\_x = data[-n\_input:, :]
-
-reshape into [1, n\_input, n]
-=============================
-
-input\_x = input\_x.reshape((1, input\_x.shape[0], input\_x.shape[1]))
-
-forecast the next week
-======================
-
-yhat = model.predict(input\_x, verbose=0)
-
-we only want the vector forecast
-================================
-
-yhat = yhat[0]\
+yhat = yhat[0]
  return yhat
 
 Listing 20.25: Example of a function for making a multi-step forecast
@@ -1217,111 +965,59 @@ the amount of input
 
 data. The complete example is listed below.
 
-multivariate multi-step encoder-decoder lstm for the power usage dataset
-========================================================================
-
-from math import sqrt\
+from math import sqrt
  from numpy import split
 
 20.8. Encoder-Decoder LSTM With Multivariate Input 412
 
-from numpy import array\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
- from matplotlib import pyplot\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import LSTM\
- from keras.layers import RepeatVector\
+from numpy import array
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
+ from matplotlib import pyplot
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import LSTM
+ from keras.layers import RepeatVector
  from keras.layers import TimeDistributed
 
-split a univariate dataset into train/test sets
-===============================================
-
-def split\_dataset(data):
-
-split into standard weeks
-=========================
+def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
-restructure into windows of weekly data
-=======================================
-
-train = array(split(train, len(train)/7))\
- test = array(split(test, len(test)/7))\
+train = array(split(train, len(train)/7))
+ test = array(split(test, len(test)/7))
  return train, test
 
-evaluate one or more weekly forecasts against expected values
-=============================================================
-
-def evaluate\_forecasts(actual, predicted):\
+def evaluate_forecasts(actual, predicted):
  scores = list()
 
-calculate an RMSE score for each day
-====================================
-
 for i in range(actual.shape[1]):
-
-calculate mse
-=============
-
-mse = mean\_squared\_error(actual[:, i], predicted[:, i])
-
-calculate rmse
-==============
-
+mse = mean_squared_error(actual[:, i], predicted[:, i])
 rmse = sqrt(mse)
-
-store
-=====
-
 scores.append(rmse)
 
-calculate overall RMSE
-======================
-
-s = 0\
- for row in range(actual.shape[0]):\
- for col in range(actual.shape[1]):\
- s += (actual[row, col] - predicted[row, col])\*\*2\
- score = sqrt(s / (actual.shape[0] \* actual.shape[1]))\
+s = 0
+ for row in range(actual.shape[0]):
+ for col in range(actual.shape[1]):
+ s += (actual[row, col] - predicted[row, col])**2
+ score = sqrt(s / (actual.shape[0] * actual.shape[1]))
  return score, scores
 
-summarize scores
-================
+def summarize_scores(name, score, scores):
+ s_scores = ','.join(['%.1f' % s for s in scores])
+ print('%s: [%.3f] %s'% (name, score, s_scores))
 
-def summarize\_scores(name, score, scores):\
- s\_scores = ','.join(['%.1f' % s for s in scores])\
- print('%s: [%.3f] %s'% (name, score, s\_scores))
+def to_supervised(train, n_input, n_out=7):
+data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
+ X, y = list(), list()
+ in_start = 0
 
-convert history into inputs and outputs
-=======================================
+for _ in range(len(data)):
 
-def to\_supervised(train, n\_input, n\_out=7):
+in_end = in_start + n_input
+ out_end = in_end + n_out
 
-flatten data
-============
-
-data = train.reshape((train.shape[0]\*train.shape[1], train.shape[2]))\
- X, y = list(), list()\
- in\_start = 0
-
-step over the entire history one time step at a time
-====================================================
-
-for \_ in range(len(data)):
-
-define the end of the input sequence
-====================================
-
-in\_end = in\_start + n\_input\
- out\_end = in\_end + n\_out
-
-ensure we have enough data for this instance
-============================================
-
-if out\_end \< len(data):
+if out_end < len(data):
 
 20.8. Encoder-Decoder LSTM With Multivariate Input 413
 
@@ -1331,112 +1027,50 @@ if out\_end \< len(data):
     in_start += 1
     return array(X), array(y)
 
-train the model
-===============
+def build_model(train, n_input):
+train_x, train_y = to_supervised(train, n_input)
 
-def build\_model(train, n\_input):
+verbose, epochs, batch_size = 0, 50, 16
+ n_timesteps, n_features, n_outputs = train_x.shape[1],
+train_x.shape[2], train_y.shape[1]
 
-prepare data
-============
-
-train\_x, train\_y = to\_supervised(train, n\_input)
-
-define parameters
-=================
-
-verbose, epochs, batch\_size = 0, 50, 16\
- n\_timesteps, n\_features, n\_outputs = train\_x.shape[1],
-train\_x.shape[2], train\_y.shape[1]
-
-reshape output into [samples, timesteps, features]
-==================================================
-
-train\_y = train\_y.reshape((train\_y.shape[0], train\_y.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(LSTM(200, activation='relu', input\_shape=(n\_timesteps,
-n\_features)))\
- model.add(RepeatVector(n\_outputs))\
- model.add(LSTM(200, activation='relu', return\_sequences=True))\
- model.add(TimeDistributed(Dense(100, activation='relu')))\
- model.add(TimeDistributed(Dense(1)))\
+train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
+model = Sequential()
+ model.add(LSTM(200, activation='relu', input_shape=(n_timesteps,
+n_features)))
+ model.add(RepeatVector(n_outputs))
+ model.add(LSTM(200, activation='relu', return_sequences=True))
+ model.add(TimeDistributed(Dense(100, activation='relu')))
+ model.add(TimeDistributed(Dense(1)))
  model.compile(loss='mse', optimizer='adam')
-
-fit network
-===========
-
-model.fit(train\_x, train\_y, epochs=epochs, batch\_size=batch\_size,
-verbose=verbose)\
+model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
+verbose=verbose)
  return model
 
-make a forecast
-===============
+def forecast(model, history, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-def forecast(model, history, n\_input):
+input_x = data[-n_input:, :]
 
-flatten data
-============
+input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+yhat = model.predict(input_x, verbose=0)
 
-retrieve last observations for input data
-=========================================
-
-input\_x = data[-n\_input:, :]
-
-reshape into [1, n\_input, n]
-=============================
-
-input\_x = input\_x.reshape((1, input\_x.shape[0], input\_x.shape[1]))
-
-forecast the next week
-======================
-
-yhat = model.predict(input\_x, verbose=0)
-
-we only want the vector forecast
-================================
-
-yhat = yhat[0]\
+yhat = yhat[0]
  return yhat
 
-evaluate a single model
-=======================
-
-def evaluate\_model(train, test, n\_input):
-
-fit model
-=========
-
-model = build\_model(train, n\_input)
-
-history is a list of weekly data
-================================
+def evaluate_model(train, test, n_input):
+model = build_model(train, n_input)
 
 history = [x for x in train]
 
-walk-forward validation over each week
-======================================
-
-predictions = list()\
+predictions = list()
  for i in range(len(test)):
 
-predict the week
-================
+yhat_sequence = forecast(model, history, n_input)
 
-yhat\_sequence = forecast(model, history, n\_input)
-
-store the predictions
-=====================
-
-predictions.append(yhat\_sequence)
-
-get real observation and add to history for predicting the next week
-====================================================================
+predictions.append(yhat_sequence)
 
 20.8. Encoder-Decoder LSTM With Multivariate Input 414
 
@@ -1446,35 +1080,19 @@ get real observation and add to history for predicting the next week
     score, scores = evaluate_forecasts(test[:, :, 0], predictions)
     return score, scores
 
-load the new file
-=================
+dataset = read_csv('household_power_consumption_days.csv',
+header=0,
+ infer_datetime_format=True, parse_dates=['datetime'],
+index_col=['datetime'])
 
-dataset = read\_csv('household\_power\_consumption\_days.csv',
-header=0,\
- infer\_datetime\_format=True, parse\_dates=['datetime'],
-index\_col=['datetime'])
+train, test = split_dataset(dataset.values)
 
-split into train and test
-=========================
+n_input = 14
+ score, scores = evaluate_model(train, test, n_input)
 
-train, test = split\_dataset(dataset.values)
-
-evaluate model and get scores
-=============================
-
-n\_input = 14\
- score, scores = evaluate\_model(train, test, n\_input)
-
-summarize scores
-================
-
-summarize\_scores('lstm', score, scores)
-
-plot scores
-===========
-
-days = ['sun','mon', 'tue','wed','thr', 'fri','sat']\
- pyplot.plot(days, scores, marker='o', label='lstm')\
+summarize_scores('lstm', score, scores)
+days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
+ pyplot.plot(days, scores, marker='o', label='lstm')
  pyplot.show()
 
 Listing 20.26: Example of evaluating a multivariate Encoder-Decoder LSTM
@@ -1547,7 +1165,7 @@ feature maps per convolutional
 layer and read the input sequences with a kernel size of three time
 steps. The max pooling
 
-layer simplifies the feature maps by keeping\^14 of the values with the
+layer simplifies the feature maps by keeping^14 of the values with the
 largest (max) signal. The
 
 distilled feature maps after the pooling layer are then flattened into
@@ -1555,13 +1173,10 @@ one long vector that can
 
 then be used as input to the decoding process.
 
-define cnn input model
-======================
-
-model.add(Conv1D(filters=64, kernel\_size=3, activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu'))\
- model.add(MaxPooling1D(pool\_size=2))\
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+ model.add(MaxPooling1D(pool_size=2))
  model.add(Flatten())
 
 Listing 20.28: Example of defining the CNN encoder model.
@@ -1574,48 +1189,27 @@ changes is listed
 
 below.
 
-train the model
-===============
+def build_model(train, n_input):
+train_x, train_y = to_supervised(train, n_input)
 
-def build\_model(train, n\_input):
+verbose, epochs, batch_size = 0, 20, 16
+ n_timesteps, n_features, n_outputs = train_x.shape[1],
+train_x.shape[2], train_y.shape[1]
 
-prepare data
-============
-
-train\_x, train\_y = to\_supervised(train, n\_input)
-
-define parameters
-=================
-
-verbose, epochs, batch\_size = 0, 20, 16\
- n\_timesteps, n\_features, n\_outputs = train\_x.shape[1],
-train\_x.shape[2], train\_y.shape[1]
-
-reshape output into [samples, timesteps, features]
-==================================================
-
-train\_y = train\_y.reshape((train\_y.shape[0], train\_y.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu'))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(RepeatVector(n\_outputs))\
- model.add(LSTM(200, activation='relu', return\_sequences=True))\
- model.add(TimeDistributed(Dense(100, activation='relu')))\
- model.add(TimeDistributed(Dense(1)))\
+train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
+model = Sequential()
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(RepeatVector(n_outputs))
+ model.add(LSTM(200, activation='relu', return_sequences=True))
+ model.add(TimeDistributed(Dense(100, activation='relu')))
+ model.add(TimeDistributed(Dense(1)))
  model.compile(loss='mse', optimizer='adam')
-
-fit network
-===========
-
-model.fit(train\_x, train\_y, epochs=epochs, batch\_size=batch\_size,
-verbose=verbose)\
+model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
+verbose=verbose)
  return model
 
 Listing 20.29: Example of a function for defining and fitting a CNN
@@ -1628,112 +1222,60 @@ encoder. The complete
 
 code listing is provided below.
 
-univariate multi-step encoder-decoder cnn-lstm for the power usage dataset
-==========================================================================
-
-from math import sqrt\
- from numpy import split\
- from numpy import array\
- from pandas import read\_csv
+from math import sqrt
+ from numpy import split
+ from numpy import array
+ from pandas import read_csv
 
 20.9. CNN-LSTM Encoder-Decoder With Univariate Input 417
 
-from sklearn.metrics import mean\_squared\_error\
- from matplotlib import pyplot\
- from keras.models import Sequential\
- from keras.layers import Dense\
- from keras.layers import Flatten\
- from keras.layers import LSTM\
- from keras.layers import RepeatVector\
- from keras.layers import TimeDistributed\
- from keras.layers.convolutional import Conv1D\
+from sklearn.metrics import mean_squared_error
+ from matplotlib import pyplot
+ from keras.models import Sequential
+ from keras.layers import Dense
+ from keras.layers import Flatten
+ from keras.layers import LSTM
+ from keras.layers import RepeatVector
+ from keras.layers import TimeDistributed
+ from keras.layers.convolutional import Conv1D
  from keras.layers.convolutional import MaxPooling1D
 
-split a univariate dataset into train/test sets
-===============================================
-
-def split\_dataset(data):
-
-split into standard weeks
-=========================
+def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
-restructure into windows of weekly data
-=======================================
-
-train = array(split(train, len(train)/7))\
- test = array(split(test, len(test)/7))\
+train = array(split(train, len(train)/7))
+ test = array(split(test, len(test)/7))
  return train, test
 
-evaluate one or more weekly forecasts against expected values
-=============================================================
-
-def evaluate\_forecasts(actual, predicted):\
+def evaluate_forecasts(actual, predicted):
  scores = list()
 
-calculate an RMSE score for each day
-====================================
-
 for i in range(actual.shape[1]):
-
-calculate mse
-=============
-
-mse = mean\_squared\_error(actual[:, i], predicted[:, i])
-
-calculate rmse
-==============
-
+mse = mean_squared_error(actual[:, i], predicted[:, i])
 rmse = sqrt(mse)
-
-store
-=====
-
 scores.append(rmse)
 
-calculate overall RMSE
-======================
-
-s = 0\
- for row in range(actual.shape[0]):\
- for col in range(actual.shape[1]):\
- s += (actual[row, col] - predicted[row, col])\*\*2\
- score = sqrt(s / (actual.shape[0] \* actual.shape[1]))\
+s = 0
+ for row in range(actual.shape[0]):
+ for col in range(actual.shape[1]):
+ s += (actual[row, col] - predicted[row, col])**2
+ score = sqrt(s / (actual.shape[0] * actual.shape[1]))
  return score, scores
 
-summarize scores
-================
+def summarize_scores(name, score, scores):
+ s_scores = ','.join(['%.1f' % s for s in scores])
+ print('%s: [%.3f] %s'% (name, score, s_scores))
 
-def summarize\_scores(name, score, scores):\
- s\_scores = ','.join(['%.1f' % s for s in scores])\
- print('%s: [%.3f] %s'% (name, score, s\_scores))
+def to_supervised(train, n_input, n_out=7):
+data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
+ X, y = list(), list()
+ in_start = 0
 
-convert history into inputs and outputs
-=======================================
+for _ in range(len(data)):
 
-def to\_supervised(train, n\_input, n\_out=7):
-
-flatten data
-============
-
-data = train.reshape((train.shape[0]\*train.shape[1], train.shape[2]))\
- X, y = list(), list()\
- in\_start = 0
-
-step over the entire history one time step at a time
-====================================================
-
-for \_ in range(len(data)):
-
-define the end of the input sequence
-====================================
-
-in\_end = in\_start + n\_input\
- out\_end = in\_end + n\_out
-
-ensure we have enough data for this instance
-============================================
+in_end = in_start + n_input
+ out_end = in_end + n_out
 
 20.9. CNN-LSTM Encoder-Decoder With Univariate Input 418
 
@@ -1746,99 +1288,46 @@ ensure we have enough data for this instance
     in_start += 1
     return array(X), array(y)
 
-train the model
-===============
+def build_model(train, n_input):
+train_x, train_y = to_supervised(train, n_input)
 
-def build\_model(train, n\_input):
+verbose, epochs, batch_size = 0, 20, 16
+ n_timesteps, n_features, n_outputs = train_x.shape[1],
+train_x.shape[2], train_y.shape[1]
 
-prepare data
-============
-
-train\_x, train\_y = to\_supervised(train, n\_input)
-
-define parameters
-=================
-
-verbose, epochs, batch\_size = 0, 20, 16\
- n\_timesteps, n\_features, n\_outputs = train\_x.shape[1],
-train\_x.shape[2], train\_y.shape[1]
-
-reshape output into [samples, timesteps, features]
-==================================================
-
-train\_y = train\_y.reshape((train\_y.shape[0], train\_y.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu',\
- input\_shape=(n\_timesteps,n\_features)))\
- model.add(Conv1D(filters=64, kernel\_size=3, activation='relu'))\
- model.add(MaxPooling1D(pool\_size=2))\
- model.add(Flatten())\
- model.add(RepeatVector(n\_outputs))\
- model.add(LSTM(200, activation='relu', return\_sequences=True))\
- model.add(TimeDistributed(Dense(100, activation='relu')))\
- model.add(TimeDistributed(Dense(1)))\
+train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
+model = Sequential()
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+ input_shape=(n_timesteps,n_features)))
+ model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+ model.add(MaxPooling1D(pool_size=2))
+ model.add(Flatten())
+ model.add(RepeatVector(n_outputs))
+ model.add(LSTM(200, activation='relu', return_sequences=True))
+ model.add(TimeDistributed(Dense(100, activation='relu')))
+ model.add(TimeDistributed(Dense(1)))
  model.compile(loss='mse', optimizer='adam')
-
-fit network
-===========
-
-model.fit(train\_x, train\_y, epochs=epochs, batch\_size=batch\_size,
-verbose=verbose)\
+model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
+verbose=verbose)
  return model
 
-make a forecast
-===============
+def forecast(model, history, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-def forecast(model, history, n\_input):
+input_x = data[-n_input:, 0]
 
-flatten data
-============
+input_x = input_x.reshape((1, len(input_x), 1))
 
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+yhat = model.predict(input_x, verbose=0)
 
-retrieve last observations for input data
-=========================================
-
-input\_x = data[-n\_input:, 0]
-
-reshape into [1, n\_input, 1]
-=============================
-
-input\_x = input\_x.reshape((1, len(input\_x), 1))
-
-forecast the next week
-======================
-
-yhat = model.predict(input\_x, verbose=0)
-
-we only want the vector forecast
-================================
-
-yhat = yhat[0]\
+yhat = yhat[0]
  return yhat
 
-evaluate a single model
-=======================
-
-def evaluate\_model(train, test, n\_input):
-
-fit model
-=========
-
-model = build\_model(train, n\_input)
-
-history is a list of weekly data
-================================
+def evaluate_model(train, test, n_input):
+model = build_model(train, n_input)
 
 history = [x for x in train]
-
-walk-forward validation over each week
-======================================
 
 20.9. CNN-LSTM Encoder-Decoder With Univariate Input 419
 
@@ -1855,35 +1344,19 @@ walk-forward validation over each week
     score, scores = evaluate_forecasts(test[:, :, 0], predictions)
     return score, scores
 
-load the new file
-=================
+dataset = read_csv('household_power_consumption_days.csv',
+header=0,
+ infer_datetime_format=True, parse_dates=['datetime'],
+index_col=['datetime'])
 
-dataset = read\_csv('household\_power\_consumption\_days.csv',
-header=0,\
- infer\_datetime\_format=True, parse\_dates=['datetime'],
-index\_col=['datetime'])
+train, test = split_dataset(dataset.values)
 
-split into train and test
-=========================
+n_input = 14
+ score, scores = evaluate_model(train, test, n_input)
 
-train, test = split\_dataset(dataset.values)
-
-evaluate model and get scores
-=============================
-
-n\_input = 14\
- score, scores = evaluate\_model(train, test, n\_input)
-
-summarize scores
-================
-
-summarize\_scores('lstm', score, scores)
-
-plot scores
-===========
-
-days = ['sun','mon', 'tue','wed','thr', 'fri','sat']\
- pyplot.plot(days, scores, marker='o', label='lstm')\
+summarize_scores('lstm', score, scores)
+days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
+ pyplot.plot(days, scores, marker='o', label='lstm')
  pyplot.show()
 
 Listing 20.30: Example of evaluating a univariate CNN Encoder-Decoder
@@ -1982,11 +1455,8 @@ training dataset
 into the expected structure of[samples, timesteps, rows, cols,
 channels].
 
-reshape into subsequences [samples, timesteps, rows, cols, channels]
-====================================================================
-
-train\_x = train\_x.reshape((train\_x.shape[0], n\_steps, 1, n\_length,
-n\_features))
+train_x = train_x.reshape((train_x.shape[0], n_steps, 1, n_length,
+n_features))
 
 Listing 20.32: Example of preparing data for theConvLSTM2Dencoder model.
 
@@ -1994,11 +1464,8 @@ Listing 20.32: Example of preparing data for theConvLSTM2Dencoder model.
 
 ready for decoding.
 
-define convlstm input model
-===========================
-
-model.add(ConvLSTM2D(filters=64, kernel\_size=(1,3), activation='relu',\
- input\_shape=(n\_steps, 1, n\_length, n\_features)))\
+model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu',
+ input_shape=(n_steps, 1, n_length, n_features)))
  model.add(Flatten())
 
 Listing 20.33: Example of defining theConvLSTM2Dencoder model.
@@ -2011,41 +1478,21 @@ and training is the
 
 same. Thebuildmodel()function with these changes is listed below.
 
-train the model
-===============
+def build_model(train, n_steps, n_length, n_input):
+train_x, train_y = to_supervised(train, n_input)
 
-def build\_model(train, n\_steps, n\_length, n\_input):
+verbose, epochs, batch_size = 0, 20, 16
+ n_timesteps, n_features, n_outputs = train_x.shape[1],
+train_x.shape[2], train_y.shape[1]
 
-prepare data
-============
+train_x = train_x.reshape((train_x.shape[0], n_steps, 1, n_length,
+n_features))
 
-train\_x, train\_y = to\_supervised(train, n\_input)
-
-define parameters
-=================
-
-verbose, epochs, batch\_size = 0, 20, 16\
- n\_timesteps, n\_features, n\_outputs = train\_x.shape[1],
-train\_x.shape[2], train\_y.shape[1]
-
-reshape into subsequences [samples, timesteps, rows, cols, channels]
-====================================================================
-
-train\_x = train\_x.reshape((train\_x.shape[0], n\_steps, 1, n\_length,
-n\_features))
-
-reshape output into [samples, timesteps, features]
-==================================================
-
-train\_y = train\_y.reshape((train\_y.shape[0], train\_y.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(ConvLSTM2D(filters=64, kernel\_size=(1,3),
-activation='relu',\
- input\_shape=(n\_steps, 1, n\_length, n\_features)))
+train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
+model = Sequential()
+ model.add(ConvLSTM2D(filters=64, kernel_size=(1,3),
+activation='relu',
+ input_shape=(n_steps, 1, n_length, n_features)))
 
 20.10. ConvLSTM Encoder-Decoder With Univariate Input 422
 
@@ -2069,10 +1516,7 @@ LSTM model.
 preparation of a single sample in theforecast()function when making a
 prediction.
 
-reshape into [samples, timesteps, rows, cols, channels]
-=======================================================
-
-input\_x = input\_x.reshape((1, n\_steps, 1, n\_length, 1))
+input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 
 Listing 20.35: Example of preparing input data for theConvLSTM2Dmodel
 when making a
@@ -2084,36 +1528,17 @@ subsequences is
 
 provided below.
 
-make a forecast
-===============
+def forecast(model, history, n_steps, n_length, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-def forecast(model, history, n\_steps, n\_length, n\_input):
+input_x = data[-n_input:, 0]
 
-flatten data
-============
+input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+yhat = model.predict(input_x, verbose=0)
 
-retrieve last observations for input data
-=========================================
-
-input\_x = data[-n\_input:, 0]
-
-reshape into [samples, timesteps, rows, cols, channels]
-=======================================================
-
-input\_x = input\_x.reshape((1, n\_steps, 1, n\_length, 1))
-
-forecast the next week
-======================
-
-yhat = model.predict(input\_x, verbose=0)
-
-we only want the vector forecast
-================================
-
-yhat = yhat[0]\
+yhat = yhat[0]
  return yhat
 
 Listing 20.36: Example of a function for making a forecast with the
@@ -2129,236 +1554,119 @@ complete code example
 
 is listed below.
 
-univariate multi-step encoder-decoder convlstm for the power usage dataset
-==========================================================================
-
-from math import sqrt\
- from numpy import split\
- from numpy import array\
- from pandas import read\_csv\
- from sklearn.metrics import mean\_squared\_error\
- from matplotlib import pyplot\
- from keras.models import Sequential\
- from keras.layers import Dense\
+from math import sqrt
+ from numpy import split
+ from numpy import array
+ from pandas import read_csv
+ from sklearn.metrics import mean_squared_error
+ from matplotlib import pyplot
+ from keras.models import Sequential
+ from keras.layers import Dense
  from keras.layers import Flatten
 
 20.10. ConvLSTM Encoder-Decoder With Univariate Input 423
 
-from keras.layers import LSTM\
- from keras.layers import RepeatVector\
- from keras.layers import TimeDistributed\
+from keras.layers import LSTM
+ from keras.layers import RepeatVector
+ from keras.layers import TimeDistributed
  from keras.layers import ConvLSTM2D
 
-split a univariate dataset into train/test sets
-===============================================
-
-def split\_dataset(data):
-
-split into standard weeks
-=========================
+def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
-restructure into windows of weekly data
-=======================================
-
-train = array(split(train, len(train)/7))\
- test = array(split(test, len(test)/7))\
+train = array(split(train, len(train)/7))
+ test = array(split(test, len(test)/7))
  return train, test
 
-evaluate one or more weekly forecasts against expected values
-=============================================================
-
-def evaluate\_forecasts(actual, predicted):\
+def evaluate_forecasts(actual, predicted):
  scores = list()
 
-calculate an RMSE score for each day
-====================================
-
 for i in range(actual.shape[1]):
-
-calculate mse
-=============
-
-mse = mean\_squared\_error(actual[:, i], predicted[:, i])
-
-calculate rmse
-==============
-
+mse = mean_squared_error(actual[:, i], predicted[:, i])
 rmse = sqrt(mse)
-
-store
-=====
-
 scores.append(rmse)
 
-calculate overall RMSE
-======================
-
-s = 0\
- for row in range(actual.shape[0]):\
- for col in range(actual.shape[1]):\
- s += (actual[row, col] - predicted[row, col])\*\*2\
- score = sqrt(s / (actual.shape[0] \* actual.shape[1]))\
+s = 0
+ for row in range(actual.shape[0]):
+ for col in range(actual.shape[1]):
+ s += (actual[row, col] - predicted[row, col])**2
+ score = sqrt(s / (actual.shape[0] * actual.shape[1]))
  return score, scores
 
-summarize scores
-================
+def summarize_scores(name, score, scores):
+ s_scores = ','.join(['%.1f' % s for s in scores])
+ print('%s: [%.3f] %s'% (name, score, s_scores))
 
-def summarize\_scores(name, score, scores):\
- s\_scores = ','.join(['%.1f' % s for s in scores])\
- print('%s: [%.3f] %s'% (name, score, s\_scores))
+def to_supervised(train, n_input, n_out=7):
+data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
+ X, y = list(), list()
+ in_start = 0
 
-convert history into inputs and outputs
-=======================================
+for _ in range(len(data)):
 
-def to\_supervised(train, n\_input, n\_out=7):
+in_end = in_start + n_input
+ out_end = in_end + n_out
 
-flatten data
-============
-
-data = train.reshape((train.shape[0]\*train.shape[1], train.shape[2]))\
- X, y = list(), list()\
- in\_start = 0
-
-step over the entire history one time step at a time
-====================================================
-
-for \_ in range(len(data)):
-
-define the end of the input sequence
-====================================
-
-in\_end = in\_start + n\_input\
- out\_end = in\_end + n\_out
-
-ensure we have enough data for this instance
-============================================
-
-if out\_end \< len(data):\
- x\_input = data[in\_start:in\_end, 0]\
- x\_input = x\_input.reshape((len(x\_input), 1))\
- X.append(x\_input)\
- y.append(data[in\_end:out\_end, 0])
-
-move along one time step
-========================
+if out_end < len(data):
+ x_input = data[in_start:in_end, 0]
+ x_input = x_input.reshape((len(x_input), 1))
+ X.append(x_input)
+ y.append(data[in_end:out_end, 0])
 
 20.10. ConvLSTM Encoder-Decoder With Univariate Input 424
 
     in_start += 1
     return array(X), array(y)
 
-train the model
-===============
+def build_model(train, n_steps, n_length, n_input):
+train_x, train_y = to_supervised(train, n_input)
 
-def build\_model(train, n\_steps, n\_length, n\_input):
+verbose, epochs, batch_size = 0, 20, 16
+ n_features, n_outputs = train_x.shape[2], train_y.shape[1]
 
-prepare data
-============
+train_x = train_x.reshape((train_x.shape[0], n_steps, 1, n_length,
+n_features))
 
-train\_x, train\_y = to\_supervised(train, n\_input)
-
-define parameters
-=================
-
-verbose, epochs, batch\_size = 0, 20, 16\
- n\_features, n\_outputs = train\_x.shape[2], train\_y.shape[1]
-
-reshape into subsequences [samples, timesteps, rows, cols, channels]
-====================================================================
-
-train\_x = train\_x.reshape((train\_x.shape[0], n\_steps, 1, n\_length,
-n\_features))
-
-reshape output into [samples, timesteps, features]
-==================================================
-
-train\_y = train\_y.reshape((train\_y.shape[0], train\_y.shape[1], 1))
-
-define model
-============
-
-model = Sequential()\
- model.add(ConvLSTM2D(filters=64, kernel\_size=(1,3),
-activation='relu',\
- input\_shape=(n\_steps, 1, n\_length, n\_features)))\
- model.add(Flatten())\
- model.add(RepeatVector(n\_outputs))\
- model.add(LSTM(200, activation='relu', return\_sequences=True))\
- model.add(TimeDistributed(Dense(100, activation='relu')))\
- model.add(TimeDistributed(Dense(1)))\
+train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
+model = Sequential()
+ model.add(ConvLSTM2D(filters=64, kernel_size=(1,3),
+activation='relu',
+ input_shape=(n_steps, 1, n_length, n_features)))
+ model.add(Flatten())
+ model.add(RepeatVector(n_outputs))
+ model.add(LSTM(200, activation='relu', return_sequences=True))
+ model.add(TimeDistributed(Dense(100, activation='relu')))
+ model.add(TimeDistributed(Dense(1)))
  model.compile(loss='mse', optimizer='adam')
-
-fit network
-===========
-
-model.fit(train\_x, train\_y, epochs=epochs, batch\_size=batch\_size,
-verbose=verbose)\
+model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
+verbose=verbose)
  return model
 
-make a forecast
-===============
+def forecast(model, history, n_steps, n_length, n_input):
+data = array(history)
+ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
-def forecast(model, history, n\_steps, n\_length, n\_input):
+input_x = data[-n_input:, 0]
 
-flatten data
-============
+input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 
-data = array(history)\
- data = data.reshape((data.shape[0]\*data.shape[1], data.shape[2]))
+yhat = model.predict(input_x, verbose=0)
 
-retrieve last observations for input data
-=========================================
-
-input\_x = data[-n\_input:, 0]
-
-reshape into [samples, timesteps, rows, cols, channels]
-=======================================================
-
-input\_x = input\_x.reshape((1, n\_steps, 1, n\_length, 1))
-
-forecast the next week
-======================
-
-yhat = model.predict(input\_x, verbose=0)
-
-we only want the vector forecast
-================================
-
-yhat = yhat[0]\
+yhat = yhat[0]
  return yhat
 
-evaluate a single model
-=======================
-
-def evaluate\_model(train, test, n\_steps, n\_length, n\_input):
-
-fit model
-=========
-
-model = build\_model(train, n\_steps, n\_length, n\_input)
-
-history is a list of weekly data
-================================
+def evaluate_model(train, test, n_steps, n_length, n_input):
+model = build_model(train, n_steps, n_length, n_input)
 
 history = [x for x in train]
 
-walk-forward validation over each week
-======================================
-
-predictions = list()\
+predictions = list()
  for i in range(len(test)):
 
-predict the week
-================
+yhat_sequence = forecast(model, history, n_steps, n_length, n_input)
 
-yhat\_sequence = forecast(model, history, n\_steps, n\_length, n\_input)
-
-store the predictions
-=====================
-
-predictions.append(yhat\_sequence)
+predictions.append(yhat_sequence)
 
 20.10. ConvLSTM Encoder-Decoder With Univariate Input 425
 
@@ -2369,41 +1677,22 @@ predictions.append(yhat\_sequence)
     score, scores = evaluate_forecasts(test[:, :, 0], predictions)
     return score, scores
 
-load the new file
-=================
+dataset = read_csv('household_power_consumption_days.csv',
+header=0,
+ infer_datetime_format=True, parse_dates=['datetime'],
+index_col=['datetime'])
 
-dataset = read\_csv('household\_power\_consumption\_days.csv',
-header=0,\
- infer\_datetime\_format=True, parse\_dates=['datetime'],
-index\_col=['datetime'])
+train, test = split_dataset(dataset.values)
 
-split into train and test
-=========================
+n_steps, n_length = 2, 7
 
-train, test = split\_dataset(dataset.values)
+n_input = n_length * n_steps
+ score, scores = evaluate_model(train, test, n_steps, n_length,
+n_input)
 
-define the number of subsequences and the length of subsequences
-================================================================
-
-n\_steps, n\_length = 2, 7
-
-define the total days to use as input
-=====================================
-
-n\_input = n\_length \* n\_steps\
- score, scores = evaluate\_model(train, test, n\_steps, n\_length,
-n\_input)
-
-summarize scores
-================
-
-summarize\_scores('lstm', score, scores)
-
-plot scores
-===========
-
-days = ['sun','mon', 'tue','wed','thr', 'fri','sat']\
- pyplot.plot(days, scores, marker='o', label='lstm')\
+summarize_scores('lstm', score, scores)
+days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
+ pyplot.plot(days, scores, marker='o', label='lstm')
  pyplot.show()
 
 Listing 20.37: Example of evaluating a univariate ConvLSTM
