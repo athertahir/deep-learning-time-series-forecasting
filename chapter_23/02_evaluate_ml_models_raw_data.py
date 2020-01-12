@@ -66,10 +66,10 @@ def define_models(models=dict()):
 	models['svm'] = SVC()
 	models['bayes'] = GaussianNB()
 	# ensemble models
-	models['bag'] = BaggingClassifier(n_estimators=100)
-	models['rf'] = RandomForestClassifier(n_estimators=100)
-	models['et'] = ExtraTreesClassifier(n_estimators=100)
-	models['gbm'] = GradientBoostingClassifier(n_estimators=100)
+	models['bag'] = BaggingClassifier(n_estimators=10)
+	models['rf'] = RandomForestClassifier(n_estimators=10)
+	models['et'] = ExtraTreesClassifier(n_estimators=10)
+	models['gbm'] = GradientBoostingClassifier(n_estimators=10)
 	print('Defined %d models' % len(models))
 	return models
 

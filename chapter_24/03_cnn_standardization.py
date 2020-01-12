@@ -90,7 +90,7 @@ def scale_data(trainX, testX, standardize):
 
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy, param):
-	verbose, epochs, batch_size = 0, 10, 32
+	verbose, epochs, batch_size = 0, 3, 32
 	n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 	# scale data
 	trainX, testX = scale_data(trainX, testX, param)
@@ -121,7 +121,7 @@ def summarize_results(scores, params):
 	pyplot.savefig('exp_cnn_standardize.png')
 
 # run an experiment
-def run_experiment(params, repeats=10):
+def run_experiment(params, repeats=3):
 	# load data
 	trainX, trainy, testX, testy = load_dataset()
 	# test each parameter
