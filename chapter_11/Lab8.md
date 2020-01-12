@@ -774,7 +774,7 @@ births dataset
 
 seasonality.
 
-![](./images/-.png)
+![](./images/202-8.png)
 
 We can now grid search naive models for the dataset. The complete
 example grid searching
@@ -1001,7 +1001,7 @@ obvious seasonality.
 
 11.5. Case Study 2: Trend 190
 
-![](./images/-.png)
+![](./images/207-9.png)
 
 We can now grid search naive models for the dataset. The complete
 example grid searching
@@ -1236,7 +1236,7 @@ years, or 240 observations.
 
 11.6. Case Study 3: Seasonality 195
 
-![](./images/-.png)
+![](./images/212-10.png)
 
 We will trim the dataset to the last five years of data (60
 observations) in order to speed up
@@ -1491,7 +1491,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.cs
 
 11.7. Case Study 4: Trend and Seasonality 200
 
-![](./images/-.png)
+![](./images/217-11.png)
 
 The period of the seasonal component could be six months or 12 months.
 We will try both

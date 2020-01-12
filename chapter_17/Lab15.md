@@ -683,15 +683,12 @@ is the forecast error for
     more relevant. Reviewing all strategies on the same plot suggests possible combinations of the
     strategies that may result in even better performance.
 
-![](./images/-.png)
-Power Forecasting.
+![](./images/371-25.png)
 
 #### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
-
-17.7. Further Reading 355
 
     - Additional Naive Strategy. Propose, develop, and evaluate one more naive strategy
     for forecasting the next week of power consumption.

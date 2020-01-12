@@ -683,9 +683,7 @@ data is flatter than the
     body data, which is more pointed. We could explore using a power transform on the data to
     make the distributions more Gaussian, although this is left as an exercise.
 
-24.4. Tuned CNN Model 503
-
-![](./images/-.png)
+![](./images/520-56.png)
 
     The data is sufficiently Gaussian-like to explore whether a standardization transform will
     help the model extract salient signal from the raw observations. The function below named
@@ -1024,12 +1022,8 @@ is quite different from
 the distribution of results without standardization. This is likely a
 real effect.
 
-24.4. Tuned CNN Model 509
 
-![](./images/-.png)
-standardization.
-
-24.4.2 Number of Filters
+![](./images/526-57.png)
 
     Now that we have an experimental framework, we can explore varying other hyperparameters
     of the model. An important hyperparameter for the CNN is the number of filter maps. We can
@@ -1195,10 +1189,7 @@ and 256 filter maps.
 
 Perhaps 32 would be a more stable configuration.
 
-24.4. Tuned CNN Model 513
-
-![](./images/-.png)
-filter maps.
+![](./images/530-58.png)
 
 24.4.3 Size of Kernel
 
@@ -1368,8 +1359,7 @@ size of 7 provides a good
 
 balance between good performance and low variance.
 
-![](./images/-.png)
-kernel sizes.
+![](./images/533-59.png)
 
     This is just the beginning of tuning the model, although we have focused on perhaps the
 
@@ -1451,7 +1441,7 @@ installed. If this is a
 
 problem, you can comment out this line.
 
-![](./images/-.png)
+![](./images/535-60.png)
 
 Other aspects of the model could be varied across the heads, such as the
 number of filters or
@@ -1467,9 +1457,6 @@ from numpy import mean
  from pandas import read_csv
  from keras.utils import to_categorical
  from keras.utils.vis_utils import plot_model
-
-24.5. Multi-headed CNN Model 519
-
 from keras.models import Model
  from keras.layers import Input
  from keras.layers import Dense

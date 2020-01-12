@@ -783,8 +783,8 @@ of 10-to-30 models.
 
 14.5. Convolutional Neural Network Model 263
 
-![](./images/-.png)
-Forecasting Car Sales.
+![](./images/280-12.png)
+
 
 ### Convolutional Neural Network Model
 
@@ -1070,10 +1070,8 @@ largest error that are not
 
 outliers) is still limited at an RMSE of 1,650 sales.
 
-14.6. Recurrent Neural Network Models 269
+![](./images/286-13.png)
 
-    ![](./images/-.png)
-    Sales.
 
 ### Recurrent Neural Network Models
 
@@ -1408,10 +1406,7 @@ a bad fit for autoregressive-type sequence prediction problems.
     A box and whisker plot is also created summarizing the distribution of RMSE scores. Even
     the base case for the model did not achieve the performance of a naive model.
 
-    ![](./images/-.png)
-    Forecasting Car Sales.
-
-14.6.2 CNN LSTM
+![](./images/292-14.png)
 
 We have seen that the CNN model is capable of automatically learning and
 extracting features
@@ -1742,8 +1737,7 @@ cnn-lstm: 1626.735 RMSE (+/- 279.850)
     A box and whisker plot is also created summarizing the distribution of RMSE scores. The
     plot shows one single outlier of very poor performance just below 3,000 sales.
 
-![](./images/-.png)
-Sales.
+![](./images/298-15.png)
 
 14.6.3 ConvLSTM
 
@@ -2041,10 +2035,8 @@ convlstm: 1660.840 RMSE (+/- 248.826)
 A box and whisker plot is also created, summarizing the distribution of
 RMSE scores.
 
-14.7. Extensions 287
+![](./images/304-16.png)
 
-![](./images/-.png)
-Sales.
 
 ### Extensions
 

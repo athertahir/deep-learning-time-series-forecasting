@@ -679,8 +679,8 @@ the shape of the
 
 inputs and outputs of each layer.
 
-![](./images/-.png)
-Forecasting.
+![](./images/81-2.png)
+
 
     This model requires input to be provided as a list of two elements, where each element in
 
@@ -1053,10 +1053,8 @@ where each output submodel will forecast a single time step.
     To make the model architecture clear, the schematic below clearly shows the three separate
     output layers of the model and the input and output shapes of each layer.
 
-![](./images/-.png)
-Forecasting.
+![](./images/88-3.png)
 
-7.3. Multivariate MLP Models 72
 
     When training the model, it will require three separate output arrays per sample. We can
     achieve this by converting the output training data that has the shape[7, 3]to three arrays

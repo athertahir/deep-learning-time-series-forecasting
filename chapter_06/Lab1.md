@@ -383,7 +383,8 @@ X = X.reshape((X.shape[0], X.shape[1], 1))
 
 provided below.
 
-```from numpy import array
+```
+from numpy import array
 def split_sequence(sequence, n_steps):
  X, y = list(), list()
  for i in range(len(sequence)):
@@ -562,10 +563,11 @@ model needs state
 ```
 
     We now have 25 subsequences of 200 time steps each.
+
+```
     25
 
 ```
-6.4.4 Reshape Subsequences
 
 The LSTM needs data with the format of[samples, timesteps, features]. We
 have 25
@@ -598,12 +600,14 @@ data = array(samples)
  print(data.shape)
 
 ```
+
 Running this piece, you should see that we have 25 rows and 200 columns.
 Interpreted in a
 
 machine learning context, this dataset has 25 samples and 200 features
 per sample.
 
+```
 (25, 200)
 
 ```
@@ -613,7 +617,9 @@ for our single
 
 feature and use the existing columns as time steps instead.
 
-```from numpy import array
+```
+
+from numpy import array
 data = list()
  n = 5000
  for i in range(n):
@@ -631,9 +637,7 @@ data = data.reshape((len(samples), length, 1))
 ```
 
 And that is it. The data can now be used as an input (X) to an LSTM
-model, or even a
-
-CNN model.
+model, or even a CNN model.
 
 ```
 (25, 200, 1)

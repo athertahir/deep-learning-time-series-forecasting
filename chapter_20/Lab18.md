@@ -507,10 +507,7 @@ Saturday at the end of the
 
 standard week is the hardest day to forecast.
 
-![](./images/-.png)
-Output and 7-day
-
-Inputs.
+![](./images/420-34.png)
 
 We can increase the number of prior days to use as input from seven to
 14 by changing the
@@ -556,10 +553,7 @@ such as an ensemble of the two approaches or perhaps a single model
 
 model) that reads the training data in different ways.
 
-![](./images/-.png)
-Output and 14-day
-
-Inputs.
+![](./images/421-35.png)
 
 #### Encoder-Decoder LSTM With Univariate Input
 
@@ -838,12 +832,7 @@ kilowatts.
     A line plot of the per-day RMSE is also created showing a similar pattern in error as was
     seen in the previous section.
 
-20.8. Encoder-Decoder LSTM With Multivariate Input 410
-
-![](./images/-.png)
-LSTM with 14-day
-
-Inputs.
+![](./images/427-36.png)
 
 #### Encoder-Decoder LSTM With Multivariate Input
 
@@ -1096,14 +1085,9 @@ multi-step forecasting.
 
 A line plot of the per-day RMSE is also created.
 
-20.9. CNN-LSTM Encoder-Decoder With Univariate Input 415
+![](./images/432-37.png)
 
-    ![](./images/-.png)
-    Inputs.
-
-#### CNN-LSTM Encoder-Decoder With Univariate In-
-
-#### put
+#### CNN-LSTM Encoder-Decoder With Univariate In-put
 
 A convolutional neural network, or CNN, can be used as the encoder in an
 encoder-decoder
@@ -1355,15 +1339,9 @@ for multi-step forecasting.
 
 A line plot of the per-day RMSE is also created.
 
-20.10. ConvLSTM Encoder-Decoder With Univariate Input 420
+![](./images/437-38.png)
 
-    ![](./images/-.png)
-
-14-day Inputs.
-
-####0 ConvLSTM Encoder-Decoder With Univariate In-
-
-#### put
+####  ConvLSTM Encoder-Decoder With Univariate In-put
 
 A further extension of the CNN-LSTM approach is to perform the
 convolutions of the CNN (e.g.
@@ -1680,17 +1658,11 @@ lstm: [367.929] 416.3, 379.7, 334.7, 362.3, 374.7, 284.8, 406.7
 
 ```
 
-model for multi-step forecasting.
-
 A line plot of the per-day RMSE is also created.
 
-20.11. Extensions 426
+![](./images/443-39.png)
 
-    ![](./images/-.png)
-
-14-day Inputs.
-
-####1Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1712,7 +1684,7 @@ If you explore any of these extensions, I’d love to know.
 
 20.12. Further Reading 427
 
-####2Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1738,7 +1710,7 @@ go deeper.
     - Keras Recurrent Layers API.
     https://keras.io/layers/recurrent/
 
-####3Summary
+#### Summary
 
     In this tutorial, you discovered how to develop long short-term memory recurrent neural networks
     for multi-step time series forecasting of household power consumption. Specifically, you learned:

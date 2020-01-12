@@ -337,10 +337,7 @@ time series is to create
     to see the wave of a seasonal effect in theGlobalactivepowerand some other variates. There
     is some spiky usage that may match up with a specific period, such as weekends.
 
-16.4. Patterns in Observations Over Time 328
-
-![](./images/-.png)
-Dataset.
+![](./images/345-18.png)
 
 Let’s zoom in and focus on theGlobalactivepower, oractive powerfor
 short. We can
@@ -394,7 +391,7 @@ gross patterns across
     the edges of the plots. These may show an annual seasonal pattern in consumption. We can
     also see a few patches of missing data in at least the first, third, and fourth plots.
 
-![](./images/-.png)
+![](./images/346-19.png)
 
     We can continue to zoom in on consumption and look at active power for each of the 12
     months of 2007. This might help tease out gross structures across the months, such as daily
@@ -443,9 +440,7 @@ see that there are
     represent vacation periods where the home was unoccupied and where power consumption was
     minimal.
 
-16.4. Patterns in Observations Over Time 331
-
-![](./images/-.png)
+![](./images/348-20.png)
 
 Finally, we can zoom in one more level and take a closer look at power
 consumption at the
@@ -500,7 +495,7 @@ and the weather that it
 brings, will be an important factor in modeling this data, as would be
 expected.
 
-![](./images/-.png)
+![](./images/349-21.png)
 
 #### Time Series Data Distributions
 
@@ -549,10 +544,8 @@ as the sub-metered power
     are all skewed distributions down towards small watt-hour or kilowatt values. We can also see
     that distribution of voltage data is strongly Gaussian.
 
-16.5. Time Series Data Distributions 334
+![](./images/351-22.png)
 
-![](./images/-.png)
-Dataset.
 
     The distribution of active power appears to be bi-modal, meaning it looks like it has two
 
@@ -611,16 +604,13 @@ hour may be helpful in
 
 developing a predictive model.
 
-![](./images/-.png)
+![](./images/352-23.png)
 
     It is possible that the identified groups may vary over the seasons of the year. We can
     investigate this by looking at the distribution for active power for each month in a year. The
     complete example is listed below.
 
     # monthly histogram plots for power usage dataset
-
-16.5. Time Series Data Distributions 336
-
     from pandas import read_csv
     from matplotlib import pyplot
     # load the new file
@@ -659,10 +649,7 @@ down in the warmer northern
     prominent tail toward larger kilowatt values for the cooler months of December through to
     March.
 
-16.6. Ideas on Modeling 337
-
-![](./images/-.png)
-Year.
+![](./images/354-24.png)
 
 #### Ideas on Modeling
 

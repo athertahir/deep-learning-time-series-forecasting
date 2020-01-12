@@ -109,7 +109,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.c
     last year, or 12 observations, as the test set. A line plot is created. The dataset has an obvious
     trend and seasonal component. The period of the seasonal component is 12 months.
 
-![](./images/-.png)
+![](./images/309-17.png)
 
     In this tutorial, we will introduce the tools for grid searching, but we will not optimize the
     model hyperparameters for this problem. Instead, we will demonstrate how to grid search the

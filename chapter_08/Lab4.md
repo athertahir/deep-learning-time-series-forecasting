@@ -700,8 +700,7 @@ inputs and outputs of each layer.
 
 8.3. Multivariate CNN Models 99
 
-![](./images/-.png)
-Forecasting.
+![](./images/116-4.png)
 
 This model requires input to be provided as a list of two elements where
 each element in the
@@ -1124,10 +1123,7 @@ model.
     To make the model architecture clear, the schematic below clearly shows the three separate
     output layers of the model and the input and output shapes of each layer.
 
-![](./images/-.png)
-Forecasting.
-
-8.3. Multivariate CNN Models 107
+![](./images/123-5.png)
 
     When training the model, it will require three separate output arrays per sample. We can
     achieve this by converting the output training data that has the shape[7, 3]to three arrays

@@ -65,7 +65,7 @@ The dataset was
 made available and can be downloaded for free from the UCI Machine
 Learning Repository^1.
 
-![](./images/-.png)
+![](./images/461-45.png)
 
     The data was collected from 30 subjects aged between 19 and 48 years old performing one
     of 6 standard activities while wearing a waist-mounted smartphone that recorded the movement
@@ -829,7 +829,7 @@ what activities may have been performed or their order.
     the nine variables. It is very likely that only a subset of these traces are required to develop a
     predictive model.
 
-![](./images/-.png)
+![](./images/474-46.png)
 
     We can re-run the example for another subject by making one small change, e.g. choose the
     identifier of the second subject in the training dataset.
@@ -840,9 +840,7 @@ what activities may have been performed or their order.
     The plot for the second subject shows similar behavior with no surprises. The double
     sequence of activities does appear more regular than the first subject.
 
-22.7. Plot Distribution Per Subject 458
-
-![](./images/-.png)
+![](./images/475-47.png)
 
 #### Plot Distribution Per Subject
 
@@ -1014,11 +1012,9 @@ subjects, at least for this
 
 data.
 
-![](./images/-.png)
+![](./images/478-48.png)
 
     The second figure shows histograms for the body acceleration with very different results.
-
-22.7. Plot Distribution Per Subject 462
 
 We can see all data clustered around 0.0 across axis within a subject
 and across subjects.
@@ -1029,7 +1025,7 @@ strong consistency across
     subjects may aid in modeling, and may suggest that the differences across subjects in the total
     acceleration data may not be as helpful.
 
-![](./images/-.png)
+![](./images/479-49.png)
 
 Finally, a figure is generated summarizing the distribution the
 gyroscopic data for the first
@@ -1040,9 +1036,7 @@ each axis across each
     subject centered on 0.0. The distributions are a little wider and show fatter tails, but this is an
     encouraging finding for modeling movement data across subjects.
 
-22.8. Plot Distribution Per Activity 463
-
-![](./images/-.png)
+![](./images/480-50.png)
 
 #### Plot Distribution Per Activity
 
@@ -1236,9 +1230,8 @@ look multi-modal (i.e.
 
 multiple peaks).
 
-22.8. Plot Distribution Per Activity 467
 
-![](./images/-.png)
+![](./images/484-51.png)
 
     The second figure summarizes the body acceleration distributions per activity. We can
 
@@ -1259,9 +1252,8 @@ the key to discriminating
 
 the activities.
 
-22.8. Plot Distribution Per Activity 468
 
-![](./images/-.png)
+![](./images/485-52.png)
 
 The final figure summarizes the gyroscopic data per activity for the
 first subject. We can see
@@ -1272,9 +1264,7 @@ showing perhaps fat-tailed
 Gaussian-like distributions instead of bimodal distributions for the
 in-motion activities.
 
-22.9. Plot Distribution of Activity Duration 469
-
-![](./images/-.png)
+![](./images/486-53.png)
 
     All of these plots were created for the first subject, and we would expect to see similar
     distributions and relationships for the movement data across activities for other subjects.
@@ -1428,7 +1418,7 @@ in-motion activities is
 
 generally worse.
 
-![](./images/-.png)
+![](./images/489-54.png)
 
 We can create a similar box plot for the training data with the
 following additional lines.
@@ -1446,14 +1436,12 @@ reasonably representative
 
 of the whole dataset.
 
-22.10. Approach to Modeling 473
-
-![](./images/-.png)
+![](./images/490-55.png)
 
     Now that we have explored the dataset, we can suggest some ideas for how it may be
     modeled.
 
-####0Approach to Modeling
+#### Approach to Modeling
 
     In this section, we summarize some approaches to modeling the activity recognition dataset.
 
@@ -1551,7 +1539,7 @@ to explore include:
 
 - Hybrids of CNNs and LSTMs such as the CNN-LSTM and the ConvLSTM.
 
-####1Model Evaluation
+#### Model Evaluation
 
 The evaluation of the model in the original paper involved using a
 train/test split of the data by
@@ -1571,7 +1559,7 @@ summarized, which may offer
     predict than others, such as those for stationary activities versus those activities that involve
     motion.
 
-####2Extensions
+#### Extensions
 
 This section lists some ideas for extending the tutorial that you may
 wish to explore.
@@ -1624,7 +1612,7 @@ go deeper.
     - Activity Recognition Experiment Using Smartphone Sensors, YouTube.
     https://www.youtube.com/watch?v=XOEN9W05_4A
 
-####4 Summary
+####  Summary
 
 In this tutorial, you discovered the Activity Recognition Using
 Smartphones Dataset for time

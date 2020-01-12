@@ -89,10 +89,6 @@ of active energy).
     specifically the walk-forward validation method used to fit a CNN model and make a forecast.
     The development of the new walk-forward validation framework follows in the next subsection.
 
-19.4. Model Evaluation 369
-
-19.4.1 Walk-Forward Validation
-
     Models will be evaluated using a scheme called walk-forward validation. This is where a model
     is required to make a one week prediction, then the actual data for that week is made available
     to the model so that it can be used as the basis for making a prediction on the subsequent week.
@@ -493,8 +489,6 @@ in_start += 1
 def build_model(train, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
-19.6. Univariate CNN Model 376
-
     verbose, epochs, batch_size = 0, 20, 4
     n_timesteps, n_features, n_outputs = train_x.shape[1], train_x.shape[2], train_y.shape[1]
     # define model
@@ -580,10 +574,7 @@ less than 465 kilowatts achieved by a naive model.
     are easier days to forecast than the other days and that perhaps Saturday at the end of the
     standard week is the hardest day to forecast.
 
-19.6. Univariate CNN Model 378
-
-![](./images/-.png)
-Inputs.
+![](./images/395-29.png)
 
 We can increase the number of prior days to use as input from seven to
 14 by changing the
@@ -622,10 +613,7 @@ such as an ensemble of the two approaches or perhaps a single model
 
 model) that reads the training data in different ways.
 
-19.7. Multi-channel CNN Model 379
-
-![](./images/-.png)
-Inputs.
+![](./images/396-30.png)
 
 #### Multi-channel CNN Model
 
@@ -650,8 +638,6 @@ model as a separate channel
     The completetosupervised()function with this change is listed below.
     # convert history into inputs and outputs
     def to_supervised(train, n_input, n_out=7):
-
-19.7. Multi-channel CNN Model 380
 
     # flatten data
     data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
@@ -925,10 +911,7 @@ compare the performance
 for a model that uses seven or even 21 days of input data to see if
 further gains can be made.
 
-19.8. Multi-headed CNN Model 385
-
-![](./images/-.png)
-14-day Inputs.
+![](./images/402-31.png)
 
 #### Multi-headed CNN Model
 
@@ -1051,7 +1034,7 @@ installed. If this is a
 
 problem, you can comment out this line.
 
-![](./images/-.png)
+![](./images/404-32.png)
 
     Next, we can update the preparation of input samples when making a prediction for the
 
@@ -1280,10 +1263,7 @@ be interesting to
 explore alternate methods in the architecture for merging the output of
 each submodel.
 
-19.9. Extensions 392
-
-![](./images/-.png)
-Inputs.
+![](./images/409-33.png)
 
 #### Extensions
 
@@ -1309,9 +1289,7 @@ wish to explore.
 
 If you explore any of these extensions, I’d love to know.
 
-19.10. Further Reading 393
-
-####0Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
@@ -1334,7 +1312,7 @@ go deeper.
     - Keras Pooling Layers API.
     https://keras.io/layers/pooling/
 
-####1Summary
+#### Summary
 
     In this tutorial, you discovered how to develop 1D convolutional neural networks for multi-step
     time series forecasting. Specifically, you learned:
