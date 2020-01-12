@@ -700,7 +700,7 @@ data is flatter than the
 
 24.4. Tuned CNN Model 503
 
-Figure 24.1: Histograms of each variable in the training data set.
+![](./images/-.png)
 
     The data is sufficiently Gaussian-like to explore whether a standardization transform will
     help the model extract salient signal from the raw observations. The function below named
@@ -1048,7 +1048,7 @@ real effect.
 
 24.4. Tuned CNN Model 509
 
-Figure 24.2: Box and whisker plot of 1D CNN with and without
+![](./images/-.png)
 standardization.
 
 24.4.2 Number of Filters
@@ -1222,7 +1222,7 @@ Perhaps 32 would be a more stable configuration.
 
 24.4. Tuned CNN Model 513
 
-Figure 24.3: Box and whisker plot of 1D CNN with different numbers of
+![](./images/-.png)
 filter maps.
 
 24.4.3 Size of Kernel
@@ -1397,7 +1397,7 @@ size of 7 provides a good
 
 balance between good performance and low variance.
 
-Figure 24.4: Box and whisker plot of 1D CNN with different numbers of
+![](./images/-.png)
 kernel sizes.
 
     This is just the beginning of tuning the model, although we have focused on perhaps the
@@ -1481,7 +1481,7 @@ installed. If this is a
 
 problem, you can comment out this line.
 
-Figure 24.5: Plot of the Multi-headed 1D Convolutional Neural Network.
+![](./images/-.png)
 
 Other aspects of the model could be varied across the heads, such as the
 number of filters or

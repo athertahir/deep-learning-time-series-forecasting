@@ -351,7 +351,7 @@ Listing 16.12: Example of creating line plots from the prepared dataset.
 
 16.4. Patterns in Observations Over Time 328
 
-Figure 16.1: Line Plots of Each Variable in the Power Consumption
+![](./images/-.png)
 Dataset.
 
 Let’s zoom in and focus on theGlobalactivepower, oractive powerfor
@@ -407,7 +407,7 @@ gross patterns across
     the edges of the plots. These may show an annual seasonal pattern in consumption. We can
     also see a few patches of missing data in at least the first, third, and fourth plots.
 
-Figure 16.2: Line Plots of Active Power for Most Years.
+![](./images/-.png)
 
     We can continue to zoom in on consumption and look at active power for each of the 12
     months of 2007. This might help tease out gross structures across the months, such as daily
@@ -459,7 +459,7 @@ see that there are
 
 16.4. Patterns in Observations Over Time 331
 
-Figure 16.3: Line Plots for Active Power for All Months in One Year.
+![](./images/-.png)
 
 Finally, we can zoom in one more level and take a closer look at power
 consumption at the
@@ -515,7 +515,7 @@ and the weather that it
 brings, will be an important factor in modeling this data, as would be
 expected.
 
-Figure 16.4: Line Plots for Active Power for 20 Days in One Month.
+![](./images/-.png)
 
 #### 16.5 Time Series Data Distributions
 
@@ -567,7 +567,7 @@ as the sub-metered power
 
 16.5. Time Series Data Distributions 334
 
-Figure 16.5: Histogram plots for Each Variable in the Power Consumption
+![](./images/-.png)
 Dataset.
 
     The distribution of active power appears to be bi-modal, meaning it looks like it has two
@@ -628,7 +628,7 @@ hour may be helpful in
 
 developing a predictive model.
 
-Figure 16.6: Histogram Plots of Active Power for Most Years.
+![](./images/-.png)
 
     It is possible that the identified groups may vary over the seasons of the year. We can
     investigate this by looking at the distribution for active power for each month in a year. The
@@ -679,7 +679,7 @@ down in the warmer northern
 
 16.6. Ideas on Modeling 337
 
-Figure 16.7: Histogram Plots for Active Power for All Months in One
+![](./images/-.png)
 Year.
 
 #### 16.6 Ideas on Modeling

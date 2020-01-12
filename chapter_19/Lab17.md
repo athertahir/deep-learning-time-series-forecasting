@@ -596,7 +596,7 @@ multi-step forecasting.
 
 19.6. Univariate CNN Model 378
 
-Figure 19.1: Line Plot of RMSE per Day for Univariate CNN with 7-day
+![](./images/-.png)
 Inputs.
 
 We can increase the number of prior days to use as input from seven to
@@ -640,7 +640,7 @@ model) that reads the training data in different ways.
 
 19.7. Multi-channel CNN Model 379
 
-Figure 19.2: Line Plot of RMSE per Day for Univariate CNN with 14-day
+![](./images/-.png)
 Inputs.
 
 #### 19.7 Multi-channel CNN Model
@@ -951,7 +951,7 @@ further gains can be made.
 
 19.8. Multi-headed CNN Model 385
 
-Figure 19.3: Line Plot of RMSE per Day for a Multi-channel CNN with
+![](./images/-.png)
 14-day Inputs.
 
 #### 19.8 Multi-headed CNN Model
@@ -1078,7 +1078,7 @@ installed. If this is a
 
 problem, you can comment out this line.
 
-Figure 19.4: Structure of the Multi Headed Convolutional Neural Network.
+![](./images/-.png)
 
     Next, we can update the preparation of input samples when making a prediction for the
 
@@ -1313,7 +1313,7 @@ each submodel.
 
 19.9. Extensions 392
 
-Figure 19.5: Line Plot of RMSE per Day for a Multi-head CNN with 14-day
+![](./images/-.png)
 Inputs.
 
 #### 19.9 Extensions

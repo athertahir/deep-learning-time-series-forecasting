@@ -804,7 +804,7 @@ births dataset
 
 seasonality.
 
-Figure 11.1: Line Plot of the Daily Female Births Dataset.
+![](./images/-.png)
 
 We can now grid search naive models for the dataset. The complete
 example grid searching
@@ -1037,7 +1037,7 @@ obvious seasonality.
 
 11.5. Case Study 2: Trend 190
 
-Figure 11.2: Line Plot of the Monthly Shampoo Sales Dataset.
+![](./images/-.png)
 
 We can now grid search naive models for the dataset. The complete
 example grid searching
@@ -1278,7 +1278,7 @@ years, or 240 observations.
 
 11.6. Case Study 3: Seasonality 195
 
-Figure 11.3: Line Plot of the Monthly Mean Temperatures Dataset.
+![](./images/-.png)
 
 We will trim the dataset to the last five years of data (60
 observations) in order to speed up
@@ -1541,7 +1541,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.cs
 
 11.7. Case Study 4: Trend and Seasonality 200
 
-Figure 11.4: Line Plot of the Monthly Car Sales Dataset.
+![](./images/-.png)
 
 The period of the seasonal component could be six months or 12 months.
 We will try both

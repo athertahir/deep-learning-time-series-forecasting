@@ -729,7 +729,7 @@ inputs and outputs of each layer.
 
 8.3. Multivariate CNN Models 99
 
-Figure 8.1: Plot of Multi-headed 1D CNN for Multivariate Time Series
+![](./images/-.png)
 Forecasting.
 
 This model requires input to be provided as a list of two elements where
@@ -1172,7 +1172,7 @@ Listing 8.48: Example of connecting the input and output models.
     To make the model architecture clear, the schematic below clearly shows the three separate
     output layers of the model and the input and output shapes of each layer.
 
-Figure 8.2: Plot of Multi-output 1D CNN for Multivariate Time Series
+![](./images/-.png)
 Forecasting.
 
 8.3. Multivariate CNN Models 107

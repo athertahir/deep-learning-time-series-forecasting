@@ -520,7 +520,7 @@ Saturday at the end of the
 
 standard week is the hardest day to forecast.
 
-Figure 20.1: Line Plot of RMSE per Day for Univariate LSTM with Vector
+![](./images/-.png)
 Output and 7-day
 
 Inputs.
@@ -571,7 +571,7 @@ such as an ensemble of the two approaches or perhaps a single model
 
 model) that reads the training data in different ways.
 
-Figure 20.2: Line Plot of RMSE per Day for Univariate LSTM with Vector
+![](./images/-.png)
 Output and 14-day
 
 Inputs.
@@ -863,7 +863,7 @@ kilowatts.
 
 20.8. Encoder-Decoder LSTM With Multivariate Input 410
 
-Figure 20.3: Line Plot of RMSE per Day for Univariate Encoder-Decoder
+![](./images/-.png)
 LSTM with 14-day
 
 Inputs.
@@ -1127,7 +1127,7 @@ A line plot of the per-day RMSE is also created.
 
 20.9. CNN-LSTM Encoder-Decoder With Univariate Input 415
 
-    Figure 20.4: Line Plot of RMSE per Day for Multivariate Encoder-Decoder LSTM with 14-day
+    ![](./images/-.png)
     Inputs.
 
 #### 20.9 CNN-LSTM Encoder-Decoder With Univariate In-
@@ -1391,7 +1391,7 @@ A line plot of the per-day RMSE is also created.
 
 20.10. ConvLSTM Encoder-Decoder With Univariate Input 420
 
-    Figure 20.5: Line Plot of RMSE per Day for Univariate Encoder-Decoder CNN-LSTM with
+    ![](./images/-.png)
 
 14-day Inputs.
 
@@ -1727,7 +1727,7 @@ A line plot of the per-day RMSE is also created.
 
 20.11. Extensions 426
 
-    Figure 20.6: Line Plot of RMSE per Day for Univariate Encoder-Decoder ConvLSTM with
+    ![](./images/-.png)
 
 14-day Inputs.
 

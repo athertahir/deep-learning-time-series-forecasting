@@ -65,7 +65,7 @@ The dataset was
 made available and can be downloaded for free from the UCI Machine
 Learning Repository^1.
 
-Figure 22.1: Activity Recognition Experiment Using Smartphone Sensors.
+![](./images/-.png)
 
     The data was collected from 30 subjects aged between 19 and 48 years old performing one
     of 6 standard activities while wearing a waist-mounted smartphone that recorded the movement
@@ -848,7 +848,7 @@ what activities may have been performed or their order.
     the nine variables. It is very likely that only a subset of these traces are required to develop a
     predictive model.
 
-Figure 22.2: Line plot for all variables for a single subject.
+![](./images/-.png)
 
     We can re-run the example for another subject by making one small change, e.g. choose the
     identifier of the second subject in the training dataset.
@@ -862,7 +862,7 @@ Listing 22.20: Example of changing the subject data to plot.
 
 22.7. Plot Distribution Per Subject 458
 
-Figure 22.3: Line plot for all variables for a second single subject.
+![](./images/-.png)
 
 #### 22.7 Plot Distribution Per Subject
 
@@ -1037,7 +1037,7 @@ subjects, at least for this
 
 data.
 
-Figure 22.4: Histograms of the total acceleration data for 10 subjects.
+![](./images/-.png)
 
     The second figure shows histograms for the body acceleration with very different results.
 
@@ -1052,7 +1052,7 @@ strong consistency across
     subjects may aid in modeling, and may suggest that the differences across subjects in the total
     acceleration data may not be as helpful.
 
-Figure 22.5: Histograms of the body acceleration data for 10 subjects.
+![](./images/-.png)
 
 Finally, a figure is generated summarizing the distribution the
 gyroscopic data for the first
@@ -1065,7 +1065,7 @@ each axis across each
 
 22.8. Plot Distribution Per Activity 463
 
-Figure 22.6: Histograms of the body gyroscope data for 10 subjects.
+![](./images/-.png)
 
 #### 22.8 Plot Distribution Per Activity
 
@@ -1265,7 +1265,7 @@ multiple peaks).
 
 22.8. Plot Distribution Per Activity 467
 
-Figure 22.7: Histograms of the total acceleration data by activity.
+![](./images/-.png)
 
     The second figure summarizes the body acceleration distributions per activity. We can
 
@@ -1288,7 +1288,7 @@ the activities.
 
 22.8. Plot Distribution Per Activity 468
 
-Figure 22.8: Histograms of the body acceleration data by activity.
+![](./images/-.png)
 
 The final figure summarizes the gyroscopic data per activity for the
 first subject. We can see
@@ -1301,7 +1301,7 @@ in-motion activities.
 
 22.9. Plot Distribution of Activity Duration 469
 
-Figure 22.9: Histograms of the body gyroscope data by activity.
+![](./images/-.png)
 
     All of these plots were created for the first subject, and we would expect to see similar
     distributions and relationships for the movement data across activities for other subjects.
@@ -1457,7 +1457,7 @@ in-motion activities is
 
 generally worse.
 
-Figure 22.10: Box plot of activity durations per subject on train set.
+![](./images/-.png)
 
 We can create a similar box plot for the training data with the
 following additional lines.
@@ -1478,7 +1478,7 @@ of the whole dataset.
 
 22.10. Approach to Modeling 473
 
-Figure 22.11: Boxplot of activity durations per subject on test set.
+![](./images/-.png)
 
     Now that we have explored the dataset, we can suggest some ideas for how it may be
     modeled.

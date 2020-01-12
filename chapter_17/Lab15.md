@@ -708,7 +708,7 @@ forecast methods.
     more relevant. Reviewing all strategies on the same plot suggests possible combinations of the
     strategies that may result in even better performance.
 
-Figure 17.1: Line Plot Comparing Naive Forecast Strategies for Household
+![](./images/-.png)
 Power Forecasting.
 
 #### 17.6 Extensions

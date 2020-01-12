@@ -234,7 +234,7 @@ familiar autoregression
     pattern. We might also see some significant lag observations at one year out. Further investigation
     may suggest a seasonal autocorrelation component, which would not be a surprising finding.
 
-Figure 18.1: ACF and PACF plots for the univariate series of power
+![](./images/-.png)
 consumption.
 
     We can zoom in the plot and change the number of lag observations from 365 to 50.
@@ -266,7 +266,7 @@ autoregression model
 
 with seven lag observations used as input.
 
-Figure 18.2: Zoomed in ACF and PACF plots for the univariate series of
+![](./images/-.png)
 power consumption.
 
 #### 18.6 Develop an Autoregressive Model
@@ -467,7 +467,7 @@ kilowatts. This model has
     Saturday (lead time +7) is the most challenging to forecast. We can also see that the remaining
     lead times all have a similar error in the mid- to high-300 kilowatt range.
 
-Figure 18.3: Line plot of ARIMA forecast error for each forecasted lead
+![](./images/-.png)
 times.
 
 #### 18.7 Extensions

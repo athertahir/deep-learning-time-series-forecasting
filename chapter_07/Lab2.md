@@ -711,7 +711,7 @@ the shape of the
 
 inputs and outputs of each layer.
 
-Figure 7.1: Plot of Multi-headed MLP for Multivariate Time Series
+![](./images/-.png)
 Forecasting.
 
     This model requires input to be provided as a list of two elements, where each element in
@@ -1107,7 +1107,7 @@ Listing 7.53: Example of connecting input and output models.
     To make the model architecture clear, the schematic below clearly shows the three separate
     output layers of the model and the input and output shapes of each layer.
 
-Figure 7.2: Plot of Multi-output MLP for Multivariate Time Series
+![](./images/-.png)
 Forecasting.
 
 7.3. Multivariate MLP Models 72

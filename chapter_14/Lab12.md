@@ -808,7 +808,7 @@ of 10-to-30 models.
 
 14.5. Convolutional Neural Network Model 263
 
-Figure 14.1: Box and Whisker Plot of Multilayer Perceptron RMSE
+![](./images/-.png)
 Forecasting Car Sales.
 
 ### 14.5 Convolutional Neural Network Model
@@ -1105,7 +1105,7 @@ outliers) is still limited at an RMSE of 1,650 sales.
 
 14.6. Recurrent Neural Network Models 269
 
-    Figure 14.2: Box and Whisker Plot of Convolutional Neural Network RMSE Forecasting Car
+    ![](./images/-.png)
     Sales.
 
 ### 14.6 Recurrent Neural Network Models
@@ -1450,7 +1450,7 @@ car sales.
     A box and whisker plot is also created summarizing the distribution of RMSE scores. Even
     the base case for the model did not achieve the performance of a naive model.
 
-    Figure 14.3: Box and Whisker Plot of Long Short-Term Memory Neural Network RMSE
+    ![](./images/-.png)
     Forecasting Car Sales.
 
 14.6.2 CNN LSTM
@@ -1793,7 +1793,7 @@ monthly car sales.
     A box and whisker plot is also created summarizing the distribution of RMSE scores. The
     plot shows one single outlier of very poor performance just below 3,000 sales.
 
-Figure 14.4: Box and Whisker Plot of CNN-LSTM RMSE Forecasting Car
+![](./images/-.png)
 Sales.
 
 14.6.3 ConvLSTM
@@ -2103,7 +2103,7 @@ RMSE scores.
 
 14.7. Extensions 287
 
-Figure 14.5: Box and Whisker Plot of ConvLSTM RMSE Forecasting Car
+![](./images/-.png)
 Sales.
 
 ### 14.7 Extensions
