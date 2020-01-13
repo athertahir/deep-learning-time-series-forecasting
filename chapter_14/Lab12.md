@@ -1,3 +1,4 @@
+<img align="right" width="110" height="110" src="../logo.png">
 
 ### How to Develop MLPs, CNNs and LSTMs for Univariate Forecasting
 
@@ -34,8 +35,6 @@ This tutorial is divided into five parts; they are:
 3.  Multilayer Perceptron Model
 4.  Convolutional Neural Network Model
 5.  Recurrent Neural Network Models
-
-
 
 ### Time Series Problem
 

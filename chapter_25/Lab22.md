@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop LSTMs for Human Activity Recognition
 
 Human activity recognition is the problem of classifying sequences of accelerometer data
@@ -34,8 +36,6 @@ This tutorial is divided into four parts; they are:
 2.  LSTM Model
 3.  CNN-LSTM Model
 4.  ConvLSTM Model
-
-
 
 #### Activity Recognition Using Smartphones Dataset
 

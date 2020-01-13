@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop ARIMA Models for Multi-step Energy Usage Forecasting
 
 Given the rise of smart electricity meters and the wide adoption of electricity generation
@@ -29,8 +31,6 @@ This tutorial is divided into five parts; they are:
 3.  Model Evaluation
 4.  Autocorrelation Analysis
 5.  Develop an Autoregressive Model
-
-
 
 #### Problem Description
 

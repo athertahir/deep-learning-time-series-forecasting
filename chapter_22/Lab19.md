@@ -34,8 +34,6 @@ This tutorial is divided into 10 parts; they are:
 2.  Download the Dataset
 3.  Load the Dataset
 
-
-
 4.  Balance of Activity Classes
 5.  Plot Time Series Per Subject
 6.  Plot Distribution Per Subject

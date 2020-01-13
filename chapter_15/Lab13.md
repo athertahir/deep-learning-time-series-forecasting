@@ -32,8 +32,6 @@ This tutorial is divided into five parts; they are:
 4.  Convolutional Neural Network Model
 5.  Long Short-Term Memory Network Model
 
-
-
 ### Time Series Problem
 
 In this tutorial we will focus on one dataset and use it as the context

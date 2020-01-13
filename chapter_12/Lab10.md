@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop ETS Models for Univariate Forecasting
 
 Exponential smoothing is a time series forecasting method for univariate data that can be
@@ -32,8 +34,6 @@ This tutorial is divided into five parts; they are:
 3.  Case Study 2: Trend
 4.  Case Study 3: Seasonality
 5.  Case Study 4: Trend and Seasonality
-
-
 
 ### Develop a Grid Search Framework
 

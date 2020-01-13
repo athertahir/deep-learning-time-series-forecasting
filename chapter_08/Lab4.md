@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop CNNs for Time Series Forecasting
 
 Convolutional Neural Network models, or CNNs for short, can be applied

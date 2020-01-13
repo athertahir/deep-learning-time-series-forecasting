@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop LSTMs for Time Series Forecasting
 
 Long Short-Term Memory networks, or LSTMs for short, can be applied to
@@ -32,8 +34,6 @@ goal. This tutorial is divided into four parts; they are:
 2.  Multivariate LSTM Models
 3.  Multi-step LSTM Models
 4.  Multivariate Multi-step LSTM Models
-
-
 
 ### Univariate LSTM Models
 

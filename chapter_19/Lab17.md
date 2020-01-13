@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop CNNs for Multi-step Energy Usage Forecasting
 
 Given the rise of smart electricity meters and the wide adoption of electricity generation

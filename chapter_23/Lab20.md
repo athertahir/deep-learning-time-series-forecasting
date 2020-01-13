@@ -1,4 +1,6 @@
 
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop ML Models for Human Activity Recognition
 
 Human activity recognition is the problem of classifying sequences of accelerometer data
@@ -34,8 +36,6 @@ This tutorial is divided into three parts; they are:
 1.  Activity Recognition Using Smartphones Dataset
 2.  Modeling Feature Engineered Data
 3.  Modeling Raw Data
-
-
 
 #### Activity Recognition Using Smartphones Dataset
 

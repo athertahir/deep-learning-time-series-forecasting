@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 # How to Setup a Workstation for Deep Learning
 
 It can be difficult to install a Python machine learning environment on some platforms. Python

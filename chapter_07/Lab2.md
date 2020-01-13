@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop MLPs for Time Series Forecasting
 
 Multilayer Perceptrons, or MLPs for short, can be applied to time series

@@ -1,3 +1,7 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop CNNs for Human Activity Recognition
 
 Human activity recognition is the problem of classifying sequences of accelerometer data
@@ -34,8 +38,6 @@ This tutorial is divided into four parts; they are:
 2.  CNN for Activity Recognition
 3.  Tuned CNN Model
 4.  Multi-headed CNN Model
-
-
 
 #### Activity Recognition Using Smartphones Dataset
 

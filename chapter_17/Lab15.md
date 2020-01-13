@@ -1,3 +1,4 @@
+<img align="right" width="110" height="110" src="../logo.png">
 
 ### How to Develop Naive Models for Multi-step Energy Usage Forecasting
 
@@ -28,8 +29,6 @@ This tutorial is divided into four parts; they are:
 2.  Load and Prepare Dataset
 3.  Model Evaluation
 4.  Develop Naive Forecast Models
-
-
 
 #### Problem Description
 

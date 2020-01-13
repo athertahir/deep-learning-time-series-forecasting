@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Develop Simple Methods for Univariate Forecasting
 
 Simple forecasting methods include naively using the last observation as the prediction or an

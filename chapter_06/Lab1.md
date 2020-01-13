@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="../logo.png">
+
 ### How to Prepare Time Series Data for CNNs and LSTMs
 
 Time series data must be transformed before it can be used to fit a
