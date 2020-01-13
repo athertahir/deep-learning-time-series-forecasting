@@ -500,7 +500,7 @@ autoregression model.
 - How to develop and evaluate an autocorrelation model used to make
 one-week forecasts.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop Convolutional Neural Network models for
 forecasting the household power usage problem.

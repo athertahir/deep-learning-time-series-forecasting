@@ -103,7 +103,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.cs
 5.  Summarize Performance
 6.  Worked Example
 
-##### Train-Test Split
+#### Train-Test Split
 
 The first step is to split the loaded series into train and test sets.
 We will use the first eight
@@ -119,7 +119,7 @@ return data[:-n_test], data[-n_test:]
 
 ```
 
-##### Series as Supervised Learning
+#### Series as Supervised Learning
 
 Next, we need to be able to frame the univariate series of observations as a supervised learning
 problem so that we can train neural network models (covered in Chapter 4). A supervised
@@ -181,7 +181,7 @@ return agg.values
 Note, this is a more generic way of transforming a time series dataset into samples than the
 specialized methods presented in Chapters 7, 8, and 9.
 
-##### Walk-Forward Validation
+#### Walk-Forward Validation
 
 Time series forecasting models can be evaluated on a test set using
 walk-forward validation.
@@ -272,7 +272,7 @@ return error
 ```
 
 
-##### Repeat Evaluation
+#### Repeat Evaluation
 
 Neural network models are stochastic. This means that, given the same model configuration
 and the same training dataset, a different internal set of weights will result each time the model
@@ -301,7 +301,7 @@ return scores
 
 ```
 
-##### Summarize Performance
+#### Summarize Performance
 
 Finally, we need to summarize the performance of a model from the multiple repeats. We
 
@@ -324,7 +324,7 @@ pyplot.show()
 
 ```
 
-##### Worked Example
+#### Worked Example
 
 Now that we have defined the elements of the test harness, we can tie them all together and
 define a simple persistence model. Specifically, we will calculate the median of a subset of
@@ -1080,7 +1080,7 @@ them.
 - ConvLSTM: A combination of CNNs and LSTMs where the LSTM units read input
 data using the convolutional process of a CNN.
 
-##### LSTM
+#### LSTM
 
 The LSTM neural network can be used for univariate time series
 forecasting. As an RNN, it
@@ -1704,7 +1704,7 @@ plot shows one single outlier of very poor performance just below 3,000 sales.
 
 ![](./images/298-15.png)
 
-##### ConvLSTM
+#### ConvLSTM
 
 It is possible to perform a convolutional operation as part of the read of the input sequence
 
@@ -2069,7 +2069,7 @@ networks for time series forecasting.
 models for time series forecasting.
 
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop a framework to grid
 search deep learning

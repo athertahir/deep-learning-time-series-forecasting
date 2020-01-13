@@ -1132,7 +1132,7 @@ This section provides more resources on the topic if you are looking to
 go deeper.
 
 
-##### Books
+#### Books
 
 - Chapter 8 ARIMA models,Forecasting: principles and practice, 2013.
 https://amzn.to/2xlJsfV
@@ -1140,7 +1140,7 @@ https://amzn.to/2xlJsfV
 - Chapter 7, Non-stationary Models,Introductory Time Series with R, 2009.
 https://amzn.to/2smB9LR
 
-##### APIs
+#### APIs
 
 - Statsmodels Time Series Analysis by State Space Methods.
 http://www.statsmodels.org/dev/statespace.html
@@ -1157,7 +1157,7 @@ SARIMAXResults.html
 http://www.statsmodels.org/dev/examples/notebooks/generated/statespace_sarimax_
 stata.html
 
-##### Articles
+#### Articles
 
 - Autoregressive integrated moving average, Wikipedia.
 https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
@@ -1179,7 +1179,7 @@ data for births.
 - How to grid search SARIMA model hyperparameters for monthly time series data for
 shampoo sales, car sales and temperature.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop deep learning
 models for univariate time

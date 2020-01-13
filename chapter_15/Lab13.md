@@ -144,7 +144,7 @@ section is divided into the following parts:
 Note, much of this framework was presented already in Chapter 14. Some elements are
 duplicated here given the changes needed to adapt it for grid searching model hyperparameters.
 
-##### Train-Test Split
+#### Train-Test Split
 
 The first step is to split the loaded series into train and test sets.
 We will use the first 11
@@ -160,7 +160,7 @@ return data[:-n_test], data[-n_test:]
 
 ```
 
-##### Series as Supervised Learning
+#### Series as Supervised Learning
 
 Next, we need to be able to frame the univariate series of observations as a supervised learning
 problem so that we can train neural network models. A supervised learning framing of a series
@@ -225,7 +225,7 @@ return agg.values
 Note, this is a more generic way of transforming a time series dataset into samples than the
 specialized methods presented in Chapters 7, 8, and 9.
 
-##### Walk-Forward Validation
+#### Walk-Forward Validation
 
 Time series forecasting models can be evaluated on a test set using
 walk-forward validation.
@@ -318,7 +318,7 @@ return error
 
 ```
 
-##### Repeat Evaluation
+#### Repeat Evaluation
 
 Neural network models are stochastic. This means that, given the same model configuration and
 the same training dataset, a different internal set of weights will result each time the model is
@@ -352,7 +352,7 @@ return (key, result)
 
 ```
 
-##### Grid Search
+#### Grid Search
 
 We now have all the pieces of the framework. All that is left is a
 function to drive the search. We
@@ -373,7 +373,7 @@ return scores
 
 ```
 
-##### Worked Example
+#### Worked Example
 
 Now that we have defined the elements of the test harness, we can tie them all together and
 define a simple persistence model. We do not need to fit a model so themodelfit()function
@@ -1605,7 +1605,7 @@ passengers univariate time series forecasting problem.
 - How to adapt the framework to grid search hyperparameters for convolutional and long
 short-term memory neural networks.
 
-##### Next
+#### Next
 
 This is the final lesson of this part, the next part will focus how to
 systematically work through

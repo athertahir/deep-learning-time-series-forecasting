@@ -86,7 +86,7 @@ evaluation for deep learning models.
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
 
-##### Load Data
+#### Load Data
 
 The first step is to load the raw dataset into memory. There are three
 main signal types in the
@@ -201,7 +201,7 @@ print(trainX.shape, trainy.shape, testX.shape, testy.shape)
 return trainX, trainy, testX, testy
 
 ```
-##### Fit and Evaluate Model
+#### Fit and Evaluate Model
 
 Now that we have the data loaded into memory ready for modeling, we can
 define, fit, and
@@ -311,7 +311,7 @@ return accuracy
 There is nothing special about the network structure or chosen hyperparameters; they are
 just a starting point for this problem.
 
-##### Summarize Results
+#### Summarize Results
 
 We cannot judge the skill of the model from a single evaluation. The
 reason for this is that
@@ -369,7 +369,7 @@ summarize_results(scores)
 
 ```
 
-##### Complete Example
+#### Complete Example
 
 Now that we have all of the pieces, we can tie them together into a
 worked example. The complete code
@@ -536,7 +536,7 @@ problem. We will look at three main areas:
 2.  Number of Filters
 3.  Size of Kernel
 
-##### Data Preparation
+#### Data Preparation
 
 In the previous section, we did not perform any data preparation. We used the data as-is. Each
 of the main sets of data (body acceleration, body gyroscopic, and total acceleration) have been
@@ -1171,7 +1171,7 @@ Perhaps 32 would be a more stable configuration.
 
 ![](./images/530-58.png)
 
-##### Size of Kernel
+#### Size of Kernel
 
 The size of the kernel is another important hyperparameter of the 1D CNN
 to tune. The kernel
@@ -1648,7 +1648,7 @@ maps, and kernel sizes.
 - How to develop a sophisticated multi-headed one-dimensional convolutional neural network
 model that provides an ensemble-like result.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop Recurrent Neural Network models for
 predicting human activities from a stream of smartphone accelerometer data.

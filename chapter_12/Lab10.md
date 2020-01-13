@@ -1184,7 +1184,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-##### Books
+#### Books
 
 - Chapter 7 Exponential smoothing,Forecasting: principles and practice, 2013.
 https://amzn.to/2xlJsfV
@@ -1195,14 +1195,14 @@ https://www.itl.nist.gov/div898/handbook/
 - Practical Time Series Forecasting with R, 2016.
 https://amzn.to/2LGKzKm
 
-##### APIs
+#### APIs
 
 - statsmodels.tsa.holtwinters.ExponentialSmoothingAPI.
 
 - statsmodels.tsa.holtwinters.HoltWintersResultsAPI.
 
 
-##### Articles
+#### Articles
 
 - Exponential smoothing, Wikipedia.
 https://en.wikipedia.org/wiki/Exponential_smoothing
@@ -1223,7 +1223,7 @@ data for births.
 - How to grid search ETS model hyperparameters for monthly time series data for shampoo
 sales, car sales and temperature.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop autoregressive models for univariate time
 series forecasting problems.

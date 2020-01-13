@@ -64,7 +64,7 @@ for the raw data version. This section is divided into five parts; they are:
 4.  Summarize Results
 5.  Complete Example
 
-##### Load Dataset
+#### Load Dataset
 
 The first step is to load the train and test input (X) and output (y)
 data. Specifically, the
@@ -134,7 +134,7 @@ We can call this function to load all of the required data; for example:
 trainX, trainy, testX, testy = load_dataset()
 
 ```
-##### Define Models
+#### Define Models
 
 Next, we can define a list of machine learning models to evaluate on this problem. We will
 evaluate the models using default configurations. We are not looking for optimal configurations
@@ -187,7 +187,7 @@ return models
 This function is quite extensible and you can easily update to define any machine learning
 models or model configurations you wish.
 
-##### Evaluate Models
+#### Evaluate Models
 
 The next step is to evaluate the defined models in the loaded dataset.
 This step is divided into
@@ -234,7 +234,7 @@ return results
 
 ```
 
-##### Summarize Results
+#### Summarize Results
 
 The final step is to summarize the findings. We can sort all of the
 results by the classification
@@ -258,7 +258,7 @@ print('Name=%s, Score=%.3f'% (name, score))
 
 ```
 
-##### Complete Example
+#### Complete Example
 
 We know that we have all of the pieces in place. The complete example of
 evaluating a suite of
@@ -758,7 +758,7 @@ activity recognition dataset.
 - How to define reasonable lower and upper bounds on the expected performance of more
 sophisticated algorithms capable of feature learning, such as deep learning methods.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop Convolutional
 Neural Network models for

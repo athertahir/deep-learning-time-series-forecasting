@@ -178,7 +178,7 @@ household power dataset. This section is divided into four parts; they are:
 3.  Train and Test Sets
 4.  Walk-Forward Validation
 
-##### Problem Framing
+#### Problem Framing
 
 There are many ways to harness and explore the household power
 consumption dataset. In
@@ -225,7 +225,7 @@ Running the example creates a new daily total power consumption dataset and save
 result into a separate file namedhouseholdpowerconsumptiondays.csv. We can use this as
 the dataset for fitting and evaluating predictive models for the chosen framing of the problem.
 
-##### Evaluation Metric
+#### Evaluation Metric
 
 A forecast will be comprised of seven values, one for each day of the
 week ahead. It is common
@@ -276,7 +276,7 @@ return score, scores
 Running the function will first return the overall RMSE regardless of day, then an array of
 RMSE scores for each day.
 
-##### Train and Test Sets
+#### Train and Test Sets
 
 We will use the first three years of data for training predictive models
 and the final year for
@@ -376,7 +376,7 @@ bounds on the standard weeks for each set.
 ```
 
 
-##### Walk-Forward Validation
+#### Walk-Forward Validation
 
 Models will be evaluated using a scheme called walk-forward validation. This is where a model
 is required to make a one week prediction, then the actual data for that week is made available
@@ -448,7 +448,7 @@ prediction problem; they are:
 For more information on simple forecast strategies generally, see
 Chapter 5.
 
-##### Daily Persistence Forecast
+#### Daily Persistence Forecast
 
 The first naive forecast that we will develop is a daily persistence
 model. This model takes
@@ -468,7 +468,7 @@ forecast = [value for _ in range(7)]
 return forecast
 
 ```
-##### Weekly Persistent Forecast
+#### Weekly Persistent Forecast
 
 Another good naive forecast when forecasting a standard week is to use
 the entire prior week
@@ -485,7 +485,7 @@ return last_week[:, 0]
 
 ```
 
-##### Weekly One-Year-Ago Persistent Forecast
+#### Weekly One-Year-Ago Persistent Forecast
 
 Similar to the idea of using last week to forecast next week is the idea of using the same week
 last year to predict next week. That is, use the week of observations from 52 weeks ago as the
@@ -503,7 +503,7 @@ return last_week[:, 0]
 
 ```
 
-##### Naive Model Comparison
+#### Naive Model Comparison
 
 We can compare each of the forecast strategies using the test harness
 developed in the previous
@@ -725,7 +725,7 @@ test harness for evaluating forecasting models.
 - How to develop and evaluate and compare the performance a suite of naive persistence
 forecasting methods.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop autoregressive models for forecasting the
 household power usage problem.

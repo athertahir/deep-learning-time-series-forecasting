@@ -1658,7 +1658,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-##### Datasets
+#### Datasets
 
 - Time Series Dataset Library, DataMarket.
 https://datamarket.com/data/list/?q=provider:tsdl
@@ -1675,7 +1675,7 @@ https://datamarket.com/data/set/22li/mean-monthly-air-temperature-deg-f-nottingh
 - Monthly Car Sales Dataset, DataMarket.
 https://datamarket.com/data/set/22n4/monthly-car-sales-in-quebec-1960-1968
 
-##### APIs
+#### APIs
 
 - numpy.meanAPI.
 https://docs.scipy.org/doc/numpy/reference/generated/numpy.mean.html
@@ -1693,7 +1693,7 @@ https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
 - Joblib: running Python functions as pipeline jobs.
 https://pythonhosted.org/joblib/
 
-##### Articles
+#### Articles
 
 - Forecasting, Wikipedia.
 https://en.wikipedia.org/wiki/Forecasting

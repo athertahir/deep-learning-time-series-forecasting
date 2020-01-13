@@ -435,7 +435,7 @@ steps:
 3.  Split Into Samples
 4.  Reshape Subsequences
 
-##### Load the Data
+#### Load the Data
 
 We can load this dataset as a PandasSeriesusing the functionreadcsv().
 
@@ -511,7 +511,7 @@ column has been removed.
 
 ```
 
-##### Split Into Samples
+#### Split Into Samples
 
 LSTMs need to process samples where each sample is a single sequence of observations. In this
 case, 5,000 time steps is too long; LSTMs work better with 200-to-400 time steps. Therefore, we
@@ -671,7 +671,7 @@ suitable for CNNs and LSTMs.
 - How to step through a worked example of splitting a very long time series into subsequences
 ready for training a CNN or LSTM model.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop Multilayer Perceptron models for time series
 forecasting.

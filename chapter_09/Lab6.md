@@ -1417,7 +1417,6 @@ time steps and prints the input and output components of each.
 
 Now that we know how to prepare data for multi-step forecasting, let’s
 look at some LSTM
-
 models that can learn this mapping.
 
 #### Vector Output Model
@@ -2053,18 +2052,15 @@ print(X[i], y[i])
 ```
 
 Running the example first prints the shape of the prepared training dataset. We can see
-
 that both the input (X) and output (Y) elements of the dataset are three
 dimensional for the
-
 number of samples, time steps, and variables or parallel time series
 respectively. The input and
-
 output elements of each series are then printed side by side so that we
 can confirm that the
-
 data was prepared as we expected.
 
+```
 (5, 3, 3) (5, 2, 3)
 
 [[10 15 25]
@@ -2090,11 +2086,8 @@ data was prepared as we expected.
 
 ```
 
-samples.
-
 We can use either the Vector Output or Encoder-Decoder LSTM to model
 this problem. In
-
 this case, we will use the Encoder-Decoder model. The complete example
 is listed below.
 
@@ -2159,25 +2152,23 @@ print(yhat)
 
 Running the example fits the model and predicts the values for each of
 the three time steps
-
 for the next two time steps beyond the end of the dataset. We would
 expect the values for these
-
 series and time steps to be as follows:
 
+```
 90, 95, 185
 100, 105, 205
 
 ```
+
 We can see that the model forecast gets reasonably close to the expected
 values.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
+results may vary. Consider running the example a few times.
 
-running the example a few times.
-
-
+```
 [[[ 91.86044 97.77231 189.66768 ]
 
 [103.299355 109.18123 212.6863 ]]]

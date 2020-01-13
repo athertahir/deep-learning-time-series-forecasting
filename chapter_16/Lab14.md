@@ -650,7 +650,7 @@ with the data; they are:
 2.  Data Preparation
 3.  Modeling Methods
 
-##### Problem Framing
+#### Problem Framing
 
 There does not appear to be a seminal publication for the dataset to
 demonstrate the intended
@@ -682,7 +682,7 @@ consumption in turn, at scale, could aid in a utility company forecasting demand
 
 widely studied and important problem.
 
-##### Data Preparation
+#### Data Preparation
 
 There is a lot of flexibility in preparing this data for modeling. The
 specific data preparation
@@ -715,7 +715,7 @@ to a degree for weekly data. More general features may include:
 - Indicating the season, which may lead to the type or amount environmental control systems
 being used.
 
-##### Modeling Methods
+#### Modeling Methods
 
 There are perhaps four classes of methods that might be interesting to
 explore on this problem;
@@ -728,7 +728,7 @@ they are:
 4.  Deep Learning Methods.
 
 
-##### Naive Methods
+#### Naive Methods
 
 Naive methods would include methods that make very simple, but often very effective assump-
 tions. Some examples include:
@@ -814,7 +814,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-##### APIs
+#### APIs
 
 - pandas.readcsvAPI.
 https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
@@ -822,7 +822,7 @@ https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
 - matplotlib.pyplotAPI.
 https://matplotlib.org/api/pyplot_api.html
 
-##### Articles
+#### Articles
 
 - Household Power Consumption Dataset, UCI Machine Learning Repository.
 https://archive.ics.uci.edu/ml/datasets/individual+household+electric+power+
@@ -849,7 +849,7 @@ and histogram for the data distributions.
 prediction problem, ways the data may be prepared, and modeling methods that may be
 used.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop robust naive models for forecasting the
 household power usage problem.

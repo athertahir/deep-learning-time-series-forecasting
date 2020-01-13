@@ -65,7 +65,7 @@ two parts; they are:
 1.  Data Preparation
 2.  CNN Model
 
-##### Data Preparation
+#### Data Preparation
 
 Before a univariate series can be modeled, it must be prepared. The CNN model will learn a
 function that maps a sequence of past observations as input to an output observation. As such,
@@ -153,7 +153,7 @@ three input time steps and one output time step.
 Now that we know how to prepare a univariate series for modeling, let’s look at developing
 a CNN model that can learn the mapping of inputs to outputs.
 
-##### CNN Model
+#### CNN Model
 
 A one-dimensional CNN is a CNN model that has a convolutional hidden
 layer that operates
@@ -304,7 +304,7 @@ they are:
 
 Let’s take a look at each in turn.
 
-##### Multiple Input Series
+#### Multiple Input Series
 
 A problem may have two or more parallel input time series and an output
 time series that is
@@ -810,7 +810,7 @@ running the example a few times.
 For an example of CNN models developed for a multivariate time series classification problem,
 see Chapter 24.
 
-##### Multiple Parallel Series
+#### Multiple Parallel Series
 
 An alternate time series problem is the case where there are multiple
 parallel time series and a
@@ -1231,7 +1231,7 @@ we will demonstrate the
 case of developing a multi-step forecast model using a vector model. Before we look at the
 specifics of the model, let’s first look at the preparation of data for multi-step forecasting.
 
-##### Data Preparation
+#### Data Preparation
 
 As with one-step forecasting, a time series used for multi-step time
 series forecasting must be
@@ -1328,7 +1328,7 @@ the input and output components of each.
 Now that we know how to prepare data for multi-step forecasting, let’s look at a 1D CNN
 model that can learn this mapping.
 
-##### Vector Output Model
+#### Vector Output Model
 
 The 1D CNN can output a vector directly that can be interpreted as a
 multi-step forecast. This
@@ -1464,7 +1464,7 @@ Perhaps the biggest stumbling block is in the preparation of data, so this is wh
 focus our attention.
 
 
-##### Multiple Input Multi-step Output
+#### Multiple Input Multi-step Output
 
 There are those multivariate time series forecasting problems where the
 output series is separate
@@ -1687,7 +1687,7 @@ running the example a few times.
 
 ```
 
-##### Multiple Parallel Input and Multi-step Output
+#### Multiple Parallel Input and Multi-step Output
 
 A problem with parallel time series may require the prediction of
 multiple time steps of each
@@ -1956,7 +1956,7 @@ If you explore any of these extensions, I’d love to know.
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-##### Books
+#### Books
 
 - Deep Learning, 2016.
 https://amzn.to/2MQyLVZ
@@ -1964,7 +1964,7 @@ https://amzn.to/2MQyLVZ
 - Deep Learning with Python, 2017.
 https://amzn.to/2vMRiMe
 
-##### Papers
+#### Papers
 
 - Backpropagation Applied to Handwritten Zip Code Recognition, 1989.
 https://ieeexplore.ieee.org/document/6795724/
@@ -1975,7 +1975,7 @@ https://ieeexplore.ieee.org/document/726791/
 - Very Deep Convolutional Networks for Large-Scale Image Recognition, 2014.
 https://arxiv.org/abs/1409.1556
 
-##### APIs
+#### APIs
 
 - Keras: The Python Deep Learning library.
 https://keras.io/
@@ -2012,7 +2012,7 @@ time series forecasting problems. Specifically, you learned:
 
 - How to develop CNN models for multi-step time series forecasting.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop Recurrent Neural
 Network models for time

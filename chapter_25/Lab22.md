@@ -85,7 +85,7 @@ evaluation for deep learning models.
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
 
 
-##### Load Data
+#### Load Data
 
 The first step is to load the raw dataset into memory. There are three
 main signal types in the
@@ -200,7 +200,7 @@ print(trainX.shape, trainy.shape, testX.shape, testy.shape)
 return trainX, trainy, testX, testy
 
 ```
-##### Fit and Evaluate Model
+#### Fit and Evaluate Model
 
 Now that we have the data loaded into memory ready for modeling, we can
 define, fit, and
@@ -289,7 +289,7 @@ return accuracy
 There is nothing special about the network structure or chosen hyperparameters, they are
 just a starting point for this problem.
 
-##### Summarize Results
+#### Summarize Results
 
 We cannot judge the skill of the model from a single evaluation. The
 reason for this is that
@@ -345,7 +345,7 @@ summarize_results(scores)
 
 ```
 
-##### Complete Example
+#### Complete Example
 
 Now that we have all of the pieces, we can tie them together into a
 worked example. 

@@ -62,7 +62,7 @@ predict the next value in the sequence. This section is divided into two parts; 
 1.  Data Preparation
 2.  MLP Model
 
-##### Data Preparation
+#### Data Preparation
 
 Before a univariate series can be modeled, it must be prepared. The MLP model will learn a
 function that maps a sequence of past observations as input to an output observation. As such,
@@ -155,7 +155,7 @@ look at developing
 an MLP model that can learn the mapping of inputs to outputs.
 
 
-##### MLP Model
+#### MLP Model
 
 A simple MLP model has a single hidden layer of nodes, and an output
 layer used to make a
@@ -285,7 +285,7 @@ multivariate time series data;
 
 Let’s take a look at each in turn.
 
-##### Multiple Input Series
+#### Multiple Input Series
 
 A problem may have two or more parallel input time series and an output
 time series that is
@@ -818,7 +818,7 @@ running the example a few times.
 
 ```
 
-##### Multiple Parallel Series
+#### Multiple Parallel Series
 
 An alternate time series problem is the case where there are multiple
 parallel time series and a
@@ -1206,7 +1206,7 @@ differences in the way the training data is prepared. In this section, we will d
 case of developing a multi-step forecast model using a vector model. Before we look at the
 specifics of the model, let’s first look at the preparation of data for multi-step forecasting.
 
-##### Data Preparation
+#### Data Preparation
 
 As with one-step forecasting, a time series used for multi-step time
 series forecasting must be
@@ -1303,7 +1303,7 @@ the input and output components of each.
 Now that we know how to prepare data for multi-step forecasting, let’s look at an MLP
 model that can learn this mapping.
 
-##### Vector Output Model
+#### Vector Output Model
 
 The MLP can output a vector directly that can be interpreted as a
 multi-step forecast. This
@@ -1410,7 +1410,7 @@ specifically:
 Perhaps the biggest stumbling block is in the preparation of data, so this is where we will
 focus our attention.
 
-##### Multiple Input Multi-step Output
+#### Multiple Input Multi-step Output
 
 There are those multivariate time series forecasting problems where the
 output series is separate
@@ -1897,7 +1897,7 @@ you learned:
 
 - How to develop MLP models for multi-step time series forecasting.
 
-##### Next
+#### Next
 
 In the next lesson, you will discover how to develop Convolutional
 Neural Network models for
