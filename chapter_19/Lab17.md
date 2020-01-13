@@ -32,9 +32,6 @@ This tutorial is divided into seven parts; they are:
 3.  Model Evaluation
 4.  CNNs for Multi-step Forecasting
 5.  Univariate CNN Model
-
-
-
 6.  Multi-channel CNN Model
 7.  Multi-headed CNN Model
 
@@ -91,6 +88,9 @@ to the model so that it can be used as the basis for making a prediction on the 
 This is both realistic for how the model may be used in practice and beneficial to the models,
 allowing them to make use of the best available data. We can demonstrate this below with
 separation of input data and output/predicted data.
+
+```
+
 Input, Predict
 [Week1] Week2
 [Week1 + Week2] Week3
@@ -98,6 +98,7 @@ Input, Predict
 ...
 
 ```
+
 The walk-forward validation approach to evaluating predictive models on this dataset is
 provided below, namedevaluatemodel(). The train and test datasets in standard-week format
 are provided to the function as arguments. An additional argument,ninput, is provided that
@@ -108,10 +109,8 @@ week, calledforecast(). These will be covered in subsequent sections.
 We are working with neural networks and as such they are generally slow to train but fast to
 evaluate. This means that the preferred usage of the models is to build them once on historical
 data and to use them to forecast each step of the walk-forward validation. The models are static
-
 (i.e. not updated) during their evaluation. This is different to other
 models that are faster to
-
 train, where a model may be re-fit or updated each step of the walk-forward validation as new
 data is made available. With sufficient resources, it is possible to use neural networks this way,
 but we will not in this tutorial. The completeevaluatemodel() function is listed below.
@@ -191,14 +190,12 @@ prediction problem.
 
 A model is considered skillful if it achieves performance better than a
 naive model, which is an
-
 overall RMSE of about 465 kilowatts across a seven day forecast (for more details of the naive
 model, see Chapter 17). We will not focus on the tuning of these models to achieve optimal
 performance; instead we will sill stop short at skillful models as compared to a naive forecast.
 
 The chosen structures and hyperparameters are chosen with a little trial
 and error. Given the
-
 stochastic nature of the models, it is good practice to evaluate a given model multiple times
 and report the mean performance on a test dataset. In the interest of brevity and keeping the
 code simple, we will instead present single-runs of models in this tutorial.
@@ -242,10 +239,8 @@ seven time steps with one feature for the seven days of total daily power consum
 dataset has 159 weeks of data, so the shape of the training dataset would be:[159, 7, 1].
 This is a good start. The data in this format would use the prior standard week to predict
 the next standard week. A problem is that 159 instances is not a lot for a neural network. A
-
 way to create a lot more training data is to change the problem during
 training to predict the
-
 next seven days given the prior seven days, regardless of the standard week. This only impacts
 the training data, the test problem remains the same: predict the daily power consumption for
 the next standard week given the prior standard week. This will require a little preparation
@@ -258,9 +253,11 @@ time series sequences.
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 ```
+
 We then need to iterate over the time steps and divide the data into overlapping windows;
 each iteration moves along one time step and predicts the subsequent seven days. For example:
 
+```
 
 Input, Output
 [d01, d02, d03, d04, d05, d06, d07], [d08, d09, d10, d11, d12, d13, d14]
@@ -268,15 +265,13 @@ Input, Output
 ...
 
 ```
+
 We can do this by keeping track of start and end indexes for the inputs and outputs as we
 iterate across the length of the flattened data in terms of time steps. We can also do this in a
-
 way where the number of inputs and outputs are parameterized (e.g.
 ninput,nout) so that
-
 you can experiment with different values or adapt it for your own
 problem. Below is a function
-
 namedtosupervised() that takes a list of weeks (history) and the number of time steps to
 use as inputs and outputs and returns the data in the overlapping moving window format.
 
@@ -326,7 +321,7 @@ and fit the model for 20 epochs with a batch size of 4. The small batch size and
 nature of the algorithm means that the same model will learn a slightly different mapping of
 inputs to outputs each time it is trained. This means results may vary when the model is
 evaluated. You can try running the model multiple times and calculating an average of model
-performance. Thebuildmodel()below prepares the training data, defines the model, and fits
+performance. The buildmodel()below prepares the training data, defines the model, and fits
 the model on the training data, returning the fit model ready for making predictions.
 
 ```
@@ -426,11 +421,8 @@ return yhat
 ```
 
 That’s it; we now have everything we need to make multi-step time series forecasts with
-
 a CNN model on the daily total power consumed univariate dataset. We can
-tie all of this
-
-together. The complete example is listed below.
+tie all of this together. The complete example is listed below.
 
 ```
 
@@ -602,9 +594,7 @@ of the input size and perhaps the kernel size of the model may result in
 better performance.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -887,25 +877,19 @@ pyplot.show()
 ```
 
 Running the example fits and evaluates the model, printing the overall RMSE across all
-
 seven days, and the per-day RMSE for each lead time. We can see that in
 this case, the use of
-
 all eight input variables does result in another small drop in the
 overall RMSE score.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
 cnn: [385.711] 422.2, 363.5, 349.8, 393.1, 357.1, 318.8, 474.3
 
 ```
-
-forecasting.
 
 For the daily RMSE scores, we do see that some are better and some are worse than the
 
@@ -1264,17 +1248,12 @@ cnn: [396.116] 414.5, 385.5, 377.2, 412.1, 371.1, 380.6, 428.1
 
 ```
 
-forecasting.
-
 We can also see a different, more pronounced profile for the daily RMSE
 scores where perhaps
-
 Mon-Tue and Thu-Fri are easier for the model to predict than the other
 forecast days. These
-
 results may be useful when combined with another forecast model. It may
 be interesting to
-
 explore alternate methods in the architecture for merging the output of
 each submodel.
 

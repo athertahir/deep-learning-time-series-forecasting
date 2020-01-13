@@ -929,20 +929,15 @@ run_experiment()
 
 As with the prior experiments, running the model prints the performance
 of the model each
-
 time it is fit and evaluated. A summary of the final model performance
 is presented at the end
-
 of the run. We can see that the model does consistently perform well on
 the problem achieving
-
 an accuracy of about 90%, perhaps with fewer resources than the larger
 CNN-LSTM model.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 

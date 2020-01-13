@@ -255,9 +255,7 @@ prediction. We can see
 that the model predicts the next value in the sequence.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 
 ```
@@ -1615,9 +1613,7 @@ sequence beyond the dataset. We would expect the next two steps to
 be[185, 205].
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 [[186.53822 208.41725]]

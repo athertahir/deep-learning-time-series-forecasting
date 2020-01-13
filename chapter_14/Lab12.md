@@ -1712,9 +1712,7 @@ suggesting that the chosen configuration may not be as stable as the
 standalone CNN model.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -1876,11 +1874,10 @@ config = [3, 12, 256, 3, 200, 200, 100]
 
 ```
 
-We can tie all of this together. The complete code ```
-
-for one-step forecasting of the monthly car sales dataset is listed
+We can tie all of this together. The complete code for one-step forecasting of the monthly car sales dataset is listed
 below.
 
+```
 from math import sqrt
 from numpy import array
 from numpy import mean
@@ -1997,22 +1994,16 @@ summarize_scores('convlstm', scores)
 
 Running the example prints the RMSE for each repeated evaluation of the
 model. The final
-
 averaged RMSE is reported at the end of about 1,660, which is lower than
 the naive model, but
-
 still higher than a SARIMA model. It is a result that is perhaps on par
 with the CNN-LSTM
-
 model. The standard deviation of this score is also very large,
 suggesting that the chosen
-
 configuration may not be as stable as the standalone CNN model.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 

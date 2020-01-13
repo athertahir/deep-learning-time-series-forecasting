@@ -30,9 +30,6 @@ This tutorial is divided into nine parts; they are:
 3.  Model Evaluation
 4.  LSTMs for Multi-step Forecasting
 5.  Univariate Input and Vector Output
-
-
-
 6.  Encoder-Decoder LSTM With Univariate Input
 7.  Encoder-Decoder LSTM With Multivariate Input
 8.  CNN-LSTM Encoder-Decoder With Univariate Input
@@ -256,7 +253,7 @@ will learn a slightly different mapping of inputs to outputs each time
 it is trained. This means
 
 results may vary when the model is evaluated. You can try running the model multiple times
-and calculate an average of model performance. Thebuildmodel()below prepares the training
+and calculate an average of model performance. The buildmodel()below prepares the training
 data, defines the model, and fits the model on the training data, returning the fit model ready
 for making predictions.
 
@@ -502,25 +499,22 @@ running the example a few times.
 
 ```
 
-
 lstm: [399.456] 419.4, 422.1, 384.5, 395.1, 403.9, 317.7, 441.5
 
 ```
 
 A plot of the daily RMSE is also created. The plot shows that perhaps
 Tuesdays and Fridays
-
 are easier days to forecast than the other days and that perhaps
 Saturday at the end of the
-
 standard week is the hardest day to forecast.
 
 ![](./images/420-34.png)
 
 We can increase the number of prior days to use as input from seven to
-14 by changing the
+14 by changing the ninputvariable.
 
-ninputvariable.
+```
 
 n_input = 14
 
@@ -531,17 +525,12 @@ performance of the model.
 
 In this case, we can see a further drop in the overall RMSE to about 370
 kilowatts, suggesting
-
 that further tuning of the input size and perhaps the number of nodes in
-the model may result
-
-in better performance.
+the model may result in better performance.
 
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -549,14 +538,10 @@ lstm: [370.028] 387.4, 377.9, 334.0, 371.2, 367.1, 330.4, 415.1
 
 ```
 
-forecasting.
-
 Comparing the per-day RMSE scores we see some are better and some are
 worse than using
-
 seven-day inputs. This may suggest benefit in using the two different
 sized inputs in some way,
-
 such as an ensemble of the two approaches or perhaps a single model
 (e.g. a multi-headed
 
@@ -1069,23 +1054,17 @@ pyplot.show()
 
 ```
 
-forecasting.
-
 Running the example fits the model and summarizes the performance on the test dataset.
 
 Experimentation found that this model appears less stable than the
 univariate case and may
-
 be related to the differing scales of the input eight variables. We can
 see that in this case, the
-
 model is skillful, achieving an overall RMSE score of about 376
 kilowatts.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -1149,7 +1128,7 @@ model.add(Flatten())
 The decoder is the same as was defined in previous sections. The only
 other change is to set
 
-the number of training epochs to 20. Thebuildmodel() function with these
+the number of training epochs to 20. The buildmodel() function with these
 changes is listed
 
 below.
@@ -1335,9 +1314,7 @@ is skillful, achieving an
 overall RMSE score of about 372 kilowatts.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -1355,7 +1332,6 @@ A line plot of the per-day RMSE is also created.
 
 A further extension of the CNN-LSTM approach is to perform the
 convolutions of the CNN (e.g.
-
 how the CNN reads the input sequence data) as part of the LSTM for each time step. This
 combination is called a Convolutional LSTM, or ConvLSTM for short, and like the CNN-LSTM
 is also used for spatiotemporal data. Unlike an LSTM that reads the data in directly in order
@@ -1366,25 +1342,17 @@ supports the ConvLSTM model for 2D data. It can be configured for 1D multivariat
 series forecasting. TheConvLSTM2Dclass, by default, expects input data to have the shape:
 [samples, timesteps, rows, cols, channels].
 Where each time step of data is defined as an image of (rows×columns) data points. We are
-
 working with a one-dimensional sequence of total power consumption,
 which we can interpret
-
 as one row with 14 columns, if we assume that we are using two weeks of data as input. For
 the ConvLSTM, this would be a single read: that is, the LSTM would read one time step of 14
-
-
 days and perform a convolution across those time steps.
-
 This is not ideal. Instead, we can split the 14 days into two subsequences with a length of
-
 seven days. The ConvLSTM can then read across the two time steps and
 perform the CNN
-
 process on the seven days of data within each. For this chosen framing
 of the problem, the
-
-input for theConvLSTM2Dwould therefore be:[n, 2, 1, 7, 1]. Or:
+input for theConvLSTM2D would therefore be:[n, 2, 1, 7, 1]. Or:
 
 - Samples:n, for the number of examples in the training dataset.
 
@@ -1398,36 +1366,34 @@ into.
 - Channels: 1, for the single feature that we are working with as input.
 
 You can explore other configurations, such as providing 21 days of input split into three
-
 subsequences of seven days, and/or providing all eight features or
 channels as input. We can
-
 now prepare the data for theConvLSTM2Dmodel. First, we must reshape the
 training dataset
-
 into the expected structure of[samples, timesteps, rows, cols,
 channels].
+
+```
 
 train_x = train_x.reshape((train_x.shape[0], n_steps, 1, n_length,
 n_features))
 
 ```
-We can then define the encoder as a ConvLSTM hidden layer followed by a flatten layer
+We can then define the encoder as a ConvLSTM hidden layer followed by a flatten layer ready for decoding.
 
-ready for decoding.
+```
 
 model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu',
 input_shape=(n_steps, 1, n_length, n_features)))
 model.add(Flatten())
 
 ```
+
 We will also parameterize the number of subsequences (nsteps) and the
 length of each
-
 subsequence (nlength) and pass them as arguments. The rest of the model
 and training is the
-
-same. Thebuildmodel() function with these changes is listed below.
+same. The buildmodel() function with these changes is listed below.
 
 ```
 
@@ -1659,9 +1625,7 @@ is skillful, achieving an
 overall RMSE score of about 367 kilowatts.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 

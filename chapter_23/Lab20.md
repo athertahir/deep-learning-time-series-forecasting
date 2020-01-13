@@ -372,9 +372,7 @@ accuracy on the test set. This is a great result, exceeding the reported
 original paper.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -638,37 +636,26 @@ raw dataset.
 
 Running the example first loads the dataset. Next the eight defined
 models are evaluated in
-
 turn. The final results suggest that ensembles of decision trees perform
 the best on the raw
-
 data. Gradient Boosting and Extra Trees perform the best with about 87%
 and 86% accuracy,
-
 about seven points below the best performing models on the
 feature-engineered version of
-
 the dataset. It is encouraging that the Extra Trees ensemble method
 performed well on both
-
 datasets; it suggests it and similar tree ensemble methods may be suited
 to the problem, at
-
 least in this simplified framing. We can also see the drop of SVM to
 about 72% accuracy. The
-
 good performance of ensembles of decision trees may suggest the need for
 feature selection and
-
 the ensemble methods ability to select those features that are most
 relevant to predicting the
-
 associated activity.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 

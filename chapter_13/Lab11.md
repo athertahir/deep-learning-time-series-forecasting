@@ -461,9 +461,7 @@ configurations and their
 error are reported at the end of the run.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 
 ```
@@ -645,19 +643,14 @@ print(cfg, error)
 
 Running the example may take a while on modern hardware. Model
 configurations and the
-
 RMSE are printed as the models are evaluated. The top three model
 configurations and their
-
 error are reported at the end of the run. A truncated example of the
 results from running the
-
 hyperparameter grid search are listed below.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 

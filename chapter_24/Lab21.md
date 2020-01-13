@@ -319,6 +319,7 @@ summarize the performance of
 the model across each of those runs. For example, we can callevaluatemodel()a total of 10
 times. This will result in a population of model evaluation scores that must be summarized.
 
+```
 # repeat experiment
 scores = list()
 for r in range(repeats):
@@ -333,9 +334,9 @@ deviation of the performance. The mean gives the average accuracy of the model o
 
 whereas the standard deviation gives the average variance of the
 accuracy from the mean. The
-
 functionsummarizeresults()below summarizes the results of a run.
 
+```
 # summarize scores
 def summarize_results(scores):
 print(scores)
@@ -348,6 +349,7 @@ into a main function for the experiment, calledrunexperiment(), listed below. By
 the model is evaluated 10 times before the performance of the model is reported.
 
 
+```
 def run_experiment(repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
@@ -536,6 +538,7 @@ problem. We will look at three main areas:
 In the previous section, we did not perform any data preparation. We used the data as-is. Each
 of the main sets of data (body acceleration, body gyroscopic, and total acceleration) have been
 scaled to the range -1, 1. It is not clear if the data was scaled per-subject or across all subjects.
+
 One possible transform that may result in an improvement is to standardize the observations
 prior to fitting a model.
 Standardization refers to shifting the distribution of each variable such that it has a mean of
@@ -545,14 +548,14 @@ each variable in the training dataset. A minor difficulty in this is that the da
 into windows of 128 time steps, with a 50% overlap. Therefore, in order to get a fair idea of the
 data distribution, we must first remove the duplicated observations (the overlap), then remove
 the windowing of the data.
-We can do this using NumPy, first slicing the array and only keeping the second half of each
 
+We can do this using NumPy, first slicing the array and only keeping the second half of each
 window, then flattening the windows into a long vector for each
 variable. This is quick and dirty
-
 and does mean that we lose the data in the first half of the first
 window.
 
+```
 # remove overlap
 cut = int(trainX.shape[1] / 2)
 longX = trainX[:, -cut:, :]
@@ -682,6 +685,7 @@ training data (e.g. to find the mean and standard deviation for each variable), 
 the train and test sets. The standardization is optional, so we can apply the process and compare
 the results to the same code path without the standardization in a controlled experiment.
 
+```
 # standardize data
 def scale_data(trainX, testX, standardize):
 # remove overlap
@@ -790,7 +794,8 @@ These updates will allow us to directly compare the results of a model fit as be
 model fit on the dataset after it has been standardized. It is also a generic change that will
 allow us to evaluate and compare the results of other sets of parameters in the following sections.
 
-The complete code ```
+
+```
 # cnn model with standardization for the har dataset
 from numpy import mean
 from numpy import std
@@ -951,9 +956,7 @@ previous section) to about
 91.5% accuracy.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -1309,21 +1312,15 @@ run_experiment(n_params)
 ```
 Running the example tests each kernel size in turn. The results are
 summarized at the end
-
-
 of the run. We can see a general increase in model performance with the
 increase in kernel
-
 size. The results suggest a kernel size of 5 might be good with a mean
 skill of about 91.8%, but
-
 perhaps a size of 7 or 11 may also be just as good with a smaller
 standard deviation.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
