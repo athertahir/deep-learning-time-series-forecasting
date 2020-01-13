@@ -83,6 +83,8 @@ activities performed were as
 
 follows:
 
+```
+
 1.  Walking
 2.  Walking Upstairs
 3.  Walking Downstairs
@@ -261,6 +263,8 @@ this function
 
 is listed below.
 
+```
+
 from pandas import read_csv
 
 def load_file(filepath):
@@ -293,6 +297,8 @@ Once we have loaded each file as a NumPy array, we can combine or stack all thre
 together. We can use thedstack()NumPy function to ensure that each array is stacked in
 such a way that the features are separated in the third dimension, as we would prefer. The
 functionloadgroup()implements this behavior for a list of file names and is listed below.
+
+```
 # load a list of files, such as x, y, z data for a given variable
 def load_group(filenames, prefix=''):
 loaded = list()
@@ -306,6 +312,8 @@ return loaded
 ```
 We can demonstrate this function by loading all of the total acceleration files. The complete
 example is listed below.
+
+```
 
 # load group of files from the har dataset
 from numpy import dstack
@@ -386,6 +394,8 @@ return X, y
 ```
 
 The complete example is listed below.
+
+```
 
 from numpy import dstack
 from pandas import read_csv
@@ -483,6 +493,8 @@ to ensure they have a similar breakdown, then compare the result to the
 breakdown on the
 
 combined dataset. The complete example is listed below.
+
+```
 
 from numpy import vstack
 from pandas import read_csv
@@ -674,6 +686,8 @@ pyplot.show()
 
 ```
 The complete example is listed below.
+
+```
 
 from numpy import dstack
 from numpy import unique
@@ -1088,6 +1102,8 @@ plot_activity_histograms(subX, suby, 6)
 variables.
 
 The complete example is listed below.
+
+```
 # plot histograms per activity for a subject from the har dataset
 from numpy import dstack
 from numpy import unique
@@ -1285,6 +1301,8 @@ pyplot.show()
 
 ```
 The complete example is listed below.
+
+```
 
 from numpy import dstack
 from numpy import unique

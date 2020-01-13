@@ -72,6 +72,8 @@ laundry, and climate control. These are not all the circuits in the household. T
 watt-hours can be calculated from the active energy by first converting the active energy to
 watt-hours then subtracting the other sub-metered active energy in watt-hours, as follows:
 
+```
+
 remainder = (
 
 globalactpwr× 1000
@@ -207,6 +209,8 @@ Tying all of this together, the complete example of loading, cleaning-up, and sa
 
 dataset is listed below.
 
+```
+
 from numpy import nan
 from pandas import read_csv
 dataset = read_csv('household_power_consumption.txt', sep=';',
@@ -297,6 +301,8 @@ time series is to create
 
 line plots. We can start off by creating a separate line plot for each of the eight variables. The
 complete example is listed below.
+
+```
 # line plots for power usage dataset
 from pandas import read_csv
 from matplotlib import pyplot
@@ -344,6 +350,8 @@ so will remove it from
 
 the plot. The complete example is listed below.
 
+```
+
 from pandas import read_csv
 from matplotlib import pyplot
 
@@ -389,6 +397,8 @@ also see a few patches of missing data in at least the first, third, and fourth 
 We can continue to zoom in on consumption and look at active power for each of the 12
 months of 2007. This might help tease out gross structures across the months, such as daily
 and weekly patterns. The complete example is listed below.
+
+```
 
 # monthly line plots for power usage dataset
 
@@ -441,6 +451,8 @@ daily level. We would expect there to be some pattern to consumption
 each day, and perhaps
 
 differences in days over a week. The complete example is listed below.
+
+```
 
 from pandas import read_csv
 from matplotlib import pyplot
@@ -502,6 +514,8 @@ histograms. We can start-off by
 creating a histogram for each variable in the time series. The complete
 example is listed below.
 
+```
+
 
 # histogram plots for power usage dataset
 from pandas import read_csv
@@ -543,6 +557,8 @@ at the distribution of
 
 active power consumption for the four full years of data. The complete
 example is listed below.
+
+```
 
 from pandas import read_csv
 from matplotlib import pyplot
@@ -597,6 +613,8 @@ developing a predictive model.
 It is possible that the identified groups may vary over the seasons of the year. We can
 investigate this by looking at the distribution for active power for each month in a year. The
 complete example is listed below.
+
+```
 
 # monthly histogram plots for power usage dataset
 from pandas import read_csv

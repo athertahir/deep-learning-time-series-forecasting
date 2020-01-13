@@ -512,6 +512,8 @@ and batch size can be specified to define how often the weights are updated with
 Themodelfit() function for fitting an MLP model on the training dataset
 is listed below.
 
+```
+
 The function expects the config to be a list with the following
 configuration hyperparameters:
 
@@ -603,6 +605,8 @@ model is being trained using batch gradient descent instead of mini-batch gradie
 is often used for small datasets and means that weight updates and gradient calculations are
 performed at the end of each epoch, instead of multiple times within each epoch. The complete
 code example is listed below.
+
+```
 # evaluate mlp for monthly car sales dataset
 from math import sqrt
 from numpy import array
@@ -815,6 +819,8 @@ train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 Themodelfit() function for fitting the CNN model on the training dataset
 is listed below.
 
+```
+
 The model takes the following five configuration parameters as a list:
 
 - ninput: The number of lag observations to use as input to the model.
@@ -891,11 +897,15 @@ For details on how, see Chapter 15.
 
 This can be specified as a list as follows:
 
+```
+
 # define config
 config = [36, 256, 3, 100, 100]
 
 ```
 Tying all of this together, the complete example is listed below.
+
+```
 
 # evaluate cnn for monthly car sales dataset
 from math import sqrt
@@ -1229,6 +1239,8 @@ config = [36, 50, 100, 100, 12]
 ```
 Tying all of this together, the complete example is listed below.
 
+```
+
 from math import sqrt
 from numpy import array
 from numpy import mean
@@ -1449,7 +1461,9 @@ model.add(Dense(n_nodes, activation='relu'))
 model.add(Dense(1))
 
 ```
-The completemodelfit() function is listed below. The model expects a list
+The completemodelfit() function is listed below.
+
+``` The model expects a list
 of seven
 
 hyperparameters; they are:
@@ -1510,6 +1524,8 @@ x_input = array(history[-n_input:]).reshape((1, n_seq, n_steps, 1))
 ```
 The updatedmodelpredict() function is listed below.
 
+```
+
 # forecast with a pre-fit model
 def model_predict(model, history, config):
 # unpack config
@@ -1550,6 +1566,8 @@ config = [3, 12, 64, 3, 100, 200, 100]
 The complete example of evaluating the CNN-LSTM model for forecasting the univariate
 
 monthly car sales is listed below.
+
+```
 
 from math import sqrt
 from numpy import array
@@ -1767,6 +1785,8 @@ dataset.
 are updated.
 
 Themodelfit() function that implements all of this is listed below.
+
+```
 def model_fit(train, config):
 n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
 config

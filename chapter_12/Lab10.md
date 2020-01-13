@@ -70,21 +70,19 @@ plicative. Modeling the seasonal component can be disabled by setting it toNone.
 - seasonalperiods: The number of time steps in a seasonal period, e.g. 12 for 12 months
 in a yearly seasonal structure.
 
-- useboxcox: Whether or not to perform a power transform of the series (True/False) or
-specify the lambda for the transform.
+- useboxcox: Whether or not to perform a power transform of the series (True/False) or specify the lambda for the transform.
 
 If you know enough about your problem to specify one or more of these parameters, then
-
 you should specify them. If not, you can try grid searching these
 parameters. We can start-off
-
 by defining a function that will fit a model with a given configuration and make a one-step
 forecast. Theexpsmoothingforecast()below implements this behavior. The function takes
 an array or list of contiguous prior observations and a list of configuration parameters used to
 configure the model. The configuration parameters in order are: the trend type, the dampening
 type, the seasonality type, the seasonal period, whether or not to use a Box-Cox transform, and
-
 whether or not to remove the bias when fitting the model.
+
+```
 
 # one-step Holt Winter's Exponential Smoothing forecast
 def exp_smoothing_forecast(history, config):
@@ -101,14 +99,15 @@ yhat = model_fit.predict(len(history), len(history))
 return yhat[0]
 
 ```
+
 In this tutorial, we will use the grid searching framework developed in Chapter 11 for tuning
 and evaluating naive forecasting methods. One important modification to the framework is the
 function used to perform the walk-forward validation of the model namedwalkforwardvalidation().
 
 This function must be updated to call the function for making an ETS
-forecast. The updated
+forecast. The updated version of the function is listed below.
 
-version of the function is listed below.
+```
 
 # walk-forward validation for univariate data
 def walk_forward_validation(data, n_test, cfg):
@@ -134,11 +133,13 @@ return error
 We’re nearly done. The only thing left to do is to define a list of model configurations to try
 for a dataset. We can define this generically. The only parameter we may want to specify is the
 periodicity of the seasonal component in the series, if one exists. By default, we will assume no
-seasonal component. Theexpsmoothingconfigs() function below will create a list of model
+seasonal component. The expsmoothingconfigs() function below will create a list of model
 configurations to evaluate. An optional list of seasonal periods can be specified, and you could
 even change the function to specify other elements that you may know about your time series.
 In theory, there are 72 possible model configurations to evaluate, but in practice, many will not
 be valid and will result in an error that we will trap and ignore.
+
+```
 # create a set of exponential smoothing configs to try
 def exp_smoothing_configs(seasonal=[None]):
 models = list()
@@ -174,6 +175,8 @@ sure all the pieces work
 
 together by testing it on a contrived 10-step dataset. The complete
 example is listed below.
+
+```
 
 from math import sqrt
 from multiprocessing import cpu_count
@@ -301,6 +304,7 @@ Running the example first prints the contrived time series dataset. Next, the mo
 configurations and their errors are reported as they are evaluated. Finally, the configurations
 and the error for the top three configurations are reported.
 
+```
 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
 
 > Model[[None, False, None, None, True, True]] 1.380
@@ -316,16 +320,14 @@ done
 ```
 
 We do not report the model parameters optimized by the model itself. It is assumed that
-
 you can achieve the same result again by specifying the broader
 hyperparameters and allow
-
 the library to find the same internal parameters. You can access these internal parameters
 by refitting a standalone model with the same configuration and printing the contents of the
 paramsattribute on the model fit; for example:
+
+```
 # access model parameters
-
-
 print(model_fit.params)
 
 ```
@@ -339,7 +341,6 @@ dataset, and perhaps an SARIMA or something else would be more appropriate in so
 
 Thedaily female birthsdataset summarizes the daily total female births
 in California, USA in
-
 1959. For more information on this dataset, see Chapter 11 where it was
 introduced. You can
 
@@ -351,6 +352,8 @@ Save the file with the filenamedaily-total-female-births.csvin your current work
 directory. The dataset has one year, or 365 observations. We will use the first 200 for training
 and the remaining 165 as the test set. The complete example grid searching the daily female
 univariate time series forecasting problem is listed below.
+
+```
 
 # grid search ets models for daily female births
 from math import sqrt
@@ -379,11 +382,6 @@ return yhat[0]
 # root mean squared error or rmse
 def measure_rmse(actual, predicted):
 return sqrt(mean_squared_error(actual, predicted))
-
-(^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
-csv
-
 
 def train_test_split(data, n_test):
 return data[:-n_test], data[-n_test:]
@@ -483,23 +481,17 @@ print(cfg, error)
 ```
 
 Running the example may take a few minutes as fitting each ETS model can take about a
-
 minute on modern hardware. Model configurations and the RMSE are printed
 as the models
-
 are evaluated. The top three model configurations and their error are
 reported at the end of the
-
 run. A truncated example of the results from running the hyperparameter
-grid search are listed
-
-below.
+grid search are listed below.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
+results may vary. Consider running the example a few times.
 
-running the example a few times.
-
+```
 ...
 
 > Model[['mul', False, None, None, True, False]] 6.985
@@ -541,7 +533,6 @@ and grid searched models.
 
 Themonthly shampoo salesdataset summarizes the monthly sales of shampoo
 over a three-year
-
 period. For more information on this dataset, see Chapter 11 where it was introduced. You can
 download the dataset directly from here:
 
@@ -551,6 +542,8 @@ Save the file with the filenamemonthly-shampoo-sales.csvin your current working 
 rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
 and the remaining 12 as the test set. The complete example grid searching the shampoo sales
 univariate time series forecasting problem is listed below.
+
+```
 # grid search ets models for monthly shampoo sales
 from math import sqrt
 from multiprocessing import cpu_count
@@ -682,19 +675,16 @@ print(cfg, error)
 
 Running the example is fast given there are a small number of
 observations. Model configura-
-
 tions and the RMSE are printed as the models are evaluated. The top
 three model configurations
-
 and their error are reported at the end of the run. A truncated example
-of the results from
-
-running the hyperparameter grid search are listed below.
+of the results from running the hyperparameter grid search are listed below.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
-
 running the example a few times.
+
+```
 
 ...
 
@@ -711,14 +701,11 @@ running the example a few times.
 
 ```
 
-dataset.
 
 We can see that the best result was an RMSE of about 83.74 sales. A
 naive model achieved
-
 an RMSE of 95.69 sales on this dataset, meaning that the best performing
 ETS model is skillful
-
 on this problem. We can unpack the configuration of the best performing
 model as follows:
 
@@ -739,7 +726,6 @@ model as follows:
 
 Themonthly mean temperaturesdataset summarizes the monthly average air
 temperatures in
-
 Nottingham Castle, England from 1920 to 1939 in degrees Fahrenheit. For more information on
 this dataset, see Chapter 11 where it was introduced. You can download the dataset directly
 from here:
@@ -751,24 +737,32 @@ working directory.
 
 The dataset has 20 years, or 240 observations. We will trim the dataset
 to the last five years of
-
 data (60 observations) in order to speed up the model evaluation process and use the last year
 or 12 observations for the test set.
+
+```
 
 # trim dataset to 5 years
 data = data[-(5*12):]
 
 ```
+
 The period of the seasonal component is about one year, or 12 observations. We will use this
-as the seasonal period in the call to theexpsmoothingconfigs() function when preparing
+as the seasonal period in the call to the expsmoothingconfigs() function when preparing
 the model configurations.
+
+
+```
 
 # model configs
 cfg_list = exp_smoothing_configs(seasonal=[0, 12])
 
 ```
+
 The complete example grid searching the monthly mean temperature time series forecasting
 problem is listed below.
+
+```
 
 # grid search ets hyperparameters for monthly mean temp dataset
 from math import sqrt
@@ -901,18 +895,17 @@ print(cfg, error)
 
 Running the example is relatively slow given the large amount of data.
 Model configurations
-
 and the RMSE are printed as the models are evaluated. The top three
 model configurations
-
 and their error are reported at the end of the run. A truncated example
 of the results from
-
 running the hyperparameter grid search are listed below.
 
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
+
+```
 
 > Model[['mul', True, None, 12, False, False]] 4.593
 > Model[['mul', False,'add', 12, True, True]] 4.230
@@ -959,25 +952,21 @@ working directory.
 
 The dataset has 9 years, or 108 observations. We will use the last year
 or 12 observations as
-
 the test set. The period of the seasonal component could be six months or 12 months. We
-
 will try both as the seasonal period in the call to
-theexpsmoothingconfigs() function when
-
+the expsmoothingconfigs() function when
 preparing the model configurations.
 
-(^4)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
 
-
+```
 cfg_list = exp_smoothing_configs(seasonal=[0,6,12])
 
 ```
-The complete example grid searching the monthly car sales time series
-forecasting problem
 
-is listed below.
+The complete example grid searching the monthly car sales time series
+forecasting problem is listed below.
+
+```
 
 from math import sqrt
 from multiprocessing import cpu_count
@@ -1116,9 +1105,9 @@ hyperparameter grid search are listed below.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
-
 running the example a few times.
 
+```
 ...
 
 > Model[['mul', True,'add', 6, False, False]] 3745.142
@@ -1135,23 +1124,18 @@ done
 
 ```
 
-dataset.
-
 We can see that the best result was an RMSE of about 1,672 sales. A
 naive model achieved
-
 an RMSE of 1841.15 sales on this problem, suggesting that the best
-performing ETS model is
-
-skillful. We can unpack the configuration of the best performing model
+performing ETS model is skillful. We can unpack the configuration of the best performing model
 as follows:
+
 
 - Trend: Additive
 
 - Damped: False
 
 - Seasonal: Additive
-
 
 - Seasonal Periods: 12
 

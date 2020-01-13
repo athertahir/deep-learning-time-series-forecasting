@@ -80,6 +80,8 @@ pyplot.show()
 ```
 We can tie all of this together; the complete example is listed below.
 
+```
+
 from pandas import read_csv
 from matplotlib import pyplot
 series = read_csv('monthly-airline-passengers.csv', header=0,
@@ -363,6 +365,8 @@ and the number of observations to use as the test set and perform the search. On
 
 are calculated for each config, the list of configurations is sorted in ascending order so that the
 best scores are listed first. The complete function is listed below.
+
+```
 # grid search configs
 def grid_search(data, cfg_list, n_test):
 # evaluate configs
@@ -579,6 +583,8 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 ```
 The complete implementation of themodelfit() function is listed below.
 
+```
+
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -651,7 +657,9 @@ yhat = model.predict(x_input, verbose=0)
 
 ```
 
-The complete implementation of themodelpredict() function is listed below. Next, we
+The complete implementation of themodelpredict() function is listed below.
+
+``` Next, we
 must define the range of values to try for each hyperparameter. We can define amodelconfigs()
 function that creates a list of the different combinations of parameters to try. We will define
 a small subset of configurations to try as an example, including a differencing of 12 months,
@@ -691,6 +699,8 @@ return configs
 
 We now have all of the pieces needed to grid search MLP models for a univariate time series
 forecasting problem. The complete example is listed below.
+
+```
 
 # grid search mlps for monthly airline passengers dataset
 from math import sqrt
@@ -855,6 +865,8 @@ can see that the best RMSE of 18.98 was achieved with a configuration of[12, 100
 
 A truncated example output of the grid search is listed below.
 
+```
+
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
@@ -887,6 +899,8 @@ univariate time series with a CNN, see Chapter 8. Much the same set of hyperpara
 be searched as with the MLP model, except the number of nodes in the hidden layer can be
 replaced by the number of filter maps and kernel size in the convolutional layers. The chosen
 set of hyperparameters to grid search in the CNN model are as follows:
+
+```
 
 - ninput: The number of prior inputs to use as input for the model (e.g.
 12 months).
@@ -935,6 +949,8 @@ n_features))
 
 ```
 The complete implementation of themodelfit() function is listed below.
+
+```
 def model_fit(train, config):
 n_input, n_filters, n_kernel, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -1001,6 +1017,8 @@ reasonable amount of
 
 time. The completemodelconfigs() function is listed below.
 
+```
+
 def model_configs():
 
 n_input = [12]
@@ -1028,6 +1046,8 @@ hyperparameters of a convolutional
 
 neural network for univariate time series forecasting. The complete
 example is listed below.
+
+```
 
 from math import sqrt
 from numpy import array
@@ -1201,6 +1221,8 @@ configuration as:
 
 A truncated example output of the grid search is listed below.
 
+```
+
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
@@ -1271,6 +1293,8 @@ n_features))
 
 ```
 The complete implementation of themodelfit() function is listed below.
+
+```
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -1304,6 +1328,8 @@ x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 ```
 
 The completemodelpredict() function is listed below.
+
+```
 
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config
@@ -1352,6 +1378,8 @@ return configs
 
 We now have everything we need to grid search hyperparameters for the LSTM model for
 univariate time series forecasting. The complete example is listed below.
+
+```
 
 # grid search lstm for monthly airline passengers dataset
 from math import sqrt
@@ -1523,6 +1551,8 @@ as input. We can unpack this configuration as:
 - ndiff: 12
 
 A truncated example output of the grid search is listed below.
+
+```
 
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider

@@ -262,6 +262,8 @@ will be used given that we are learning a multiclass classification
 problem. The definition of the
 
 model is listed below.
+
+```
 # define the CNN model
 model = Sequential()
 model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
@@ -567,6 +569,8 @@ longX = longX.reshape((longX.shape[0] * longX.shape[1], longX.shape[2]))
 ```
 The complete example of loading the data, flattening it, and plotting a histogram for each
 of the nine variables is listed below.
+
+```
 
 # plot distributions for the har dataset
 from numpy import dstack
@@ -1022,6 +1026,8 @@ also update thesummarizeresults() function to save the box plot asexpcnnfilters.
 
 The complete code example is listed below.
 
+```
+
 # cnn model with filters for the har dataset
 from numpy import mean
 from numpy import std
@@ -1181,6 +1187,8 @@ projected onto the feature map (via the convolutional process). A large kernel s
 rigorous reading of the data, but may result in a more generalized snapshot of the input. We
 can use the same experimental setup and test a suite of different kernel sizes in addition to the
 default of three time steps. The full list of values is as follows:
+
+```
 # define configuration
 n_params = [2, 3, 5, 7, 11]
 
@@ -1359,7 +1367,9 @@ concatenated within the model and interpreted by a fully-connected layer before 
 made.
 We can implement a multi-headed 1D CNN using the Keras functional API. The updated
 
-version of theevaluatemodel() function is listed below that creates a
+version of theevaluatemodel() function is listed below.
+
+```that creates a
 three-headed 1D CNN
 
 model. We can see that each head of the model is the same structure, although the kernel size
@@ -1425,6 +1435,8 @@ even the preparation of the data itself. The complete code example with
 the multi-headed 1D
 
 CNN is listed below.
+
+```
 
 from numpy import mean
 from numpy import std

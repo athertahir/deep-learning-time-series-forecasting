@@ -245,6 +245,8 @@ problem. The definition of the
 
 model is listed below.
 
+```
+
 # define the lstm model
 model = Sequential()
 model.add(LSTM(100, input_shape=(n_timesteps,n_features)))
@@ -266,6 +268,8 @@ sequence data when fitting an LSTM. Here we do shuffle the windows of input data
 training (the default). In this problem, we are interested in harnessing the LSTMs ability to
 learn and extract features across the time steps in a window, not across windows. The complete
 evaluatemodel() function is listed below.
+
+```
 
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
@@ -547,6 +551,8 @@ The updated
 
 evaluatemodel()is listed below.
 
+```
+
 def evaluate_model(trainX, trainy, testX, testy):
 verbose, epochs, batch_size = 0, 25, 64
 n_timesteps, n_features, n_outputs = trainX.shape[1],
@@ -794,6 +800,8 @@ model.add(Dense(n_outputs, activation='softmax'))
 ```
 We can then evaluate the model as we did the LSTM and CNN-LSTM models before it.
 The complete example is listed below.
+
+```
 
 # convlstm model for the har dataset
 from numpy import mean

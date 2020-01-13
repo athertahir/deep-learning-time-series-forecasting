@@ -88,6 +88,8 @@ forecast. The
 updated version of the function is listed below.
 
 ```
+
+```
 # walk-forward validation for univariate data
 def walk_forward_validation(data, n_test, cfg):
 predictions = list()
@@ -162,6 +164,8 @@ provided as a list or NumPy array. We can make sure all the pieces work
 together by testing it
 
 on a contrived 10-step dataset. The complete example is listed below.
+
+```
 
 from math import sqrt
 from multiprocessing import cpu_count
@@ -333,6 +337,8 @@ searching the daily female
 
 univariate time series forecasting problem is listed below.
 
+```
+
 from math import sqrt
 from multiprocessing import cpu_count
 from joblib import Parallel
@@ -498,6 +504,8 @@ is skillful on this
 problem. We can unpack the configuration of the best performing model as
 follows:
 
+```
+
 - Order: (1, 0, 2)
 
 
@@ -523,6 +531,8 @@ Save the file with the filenamemonthly-shampoo-sales.csvin your current working 
 rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
 and the remaining 12 as the test set. The complete example grid searching the shampoo sales
 univariate time series forecasting problem is listed below.
+
+```
 
 # grid search sarima hyperparameters for monthly shampoo sales dataset
 from math import sqrt
@@ -690,6 +700,8 @@ an RMSE of 95.69 sales on this dataset, meaning that the best performing SARIMA 
 is skillful on this problem. We can unpack the configuration of the best performing model as
 follows:
 
+```
+
 - Trend Order: (0, 1, 2)
 
 - Seasonal Order: (2, 0, 2, 0)
@@ -736,6 +748,8 @@ The complete example grid searching the monthly mean temperature time
 series forecasting
 
 problem is listed below.
+
+```
 
 from math import sqrt
 from multiprocessing import cpu_count
@@ -904,6 +918,8 @@ model is not skillful on
 this problem. We can unpack the configuration of the best performing
 model as follows:
 
+```
+
 - Trend Order: (0, 0, 0)
 
 - Seasonal Order: (1, 0, 1, 12)
@@ -940,6 +956,8 @@ cfg_list = sarima_configs(seasonal=[0,6,12])
 ```
 The complete example grid searching the monthly car sales time series forecasting problem
 is listed below.
+
+```
 
 # grid search sarima hyperparameters for monthly car sales dataset
 from math import sqrt
@@ -1102,6 +1120,8 @@ done
 We can see that the best result was an RMSE of about 1,551.84 sales. A naive model achieved
 an RMSE of 1,841.15 sales on this problem, suggesting that the best performing SARIMA model
 is skillful. We can unpack the configuration of the best performing model as follows:
+
+```
 
 - Trend Order: (0, 0, 0)
 

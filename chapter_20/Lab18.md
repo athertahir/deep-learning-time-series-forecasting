@@ -349,6 +349,8 @@ can tie all of this
 
 together. The complete example is listed below.
 
+```
+
 from math import sqrt
 from numpy import split
 from numpy import array
@@ -665,6 +667,8 @@ return model
 ```
 
 The complete example with the encoder-decoder model is listed below.
+
+```
 # univariate multi-step encoder-decoder lstm for the power usage dataset
 from math import sqrt
 from numpy import split
@@ -856,6 +860,8 @@ X.append(data[in_start:in_end, :])
 ```
 The completetosupervised() function with this change is listed below.
 
+```
+
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
@@ -910,6 +916,8 @@ the number of training epochs from 20 to 50 given the 8-fold increase in
 the amount of input
 
 data. The complete example is listed below.
+
+```
 
 from math import sqrt
 from numpy import split
@@ -1396,6 +1404,8 @@ and training is the
 
 same. Thebuildmodel() function with these changes is listed below.
 
+```
+
 def build_model(train, n_steps, n_length, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
@@ -1467,6 +1477,8 @@ time series forecasting where a ConvLSTM is used as the encoder. The
 complete code example
 
 is listed below.
+
+```
 
 from math import sqrt
 from numpy import split

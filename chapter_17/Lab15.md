@@ -133,6 +133,8 @@ dataset.to_csv('household_power_consumption.csv')
 ```
 Tying all of this together, the complete example of loading, cleaning-up, and saving the
 dataset is listed below.
+
+```
 # load and clean-up the power usage dataset
 from numpy import nan
 from numpy import isnan
@@ -205,6 +207,8 @@ function on the PandasDataFrame. Calling this function with the argument‘D’a
 loaded data indexed by date-time to be grouped by day (see all offset aliases). We can then
 calculate the sum of all observations for each day and create a new dataset of daily power
 consumption data for each of the eight variables. The complete example is listed below.
+
+```
 
 # resample minute data to total for each day for the power usage dataset
 from pandas import read_csv
@@ -336,6 +340,8 @@ We can test this function out by loading the daily dataset and printing the firs
 rows of data from both the train and test sets to confirm they match the expectations above.
 
 The complete code example is listed below.
+
+```
 
 # split the power usage dataset into standard weeks
 from numpy import split
@@ -540,6 +546,8 @@ pyplot.plot(days, scores, marker='o', label=name)
 ```
 Tying all of this together, the complete example evaluating the three naive forecast strategies
 is listed below.
+
+```
 
 
 from math import sqrt

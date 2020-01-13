@@ -118,6 +118,8 @@ train, where a model may be re-fit or updated each step of the walk-forward vali
 data is made available. With sufficient resources, it is possible to use neural networks this way,
 but we will not in this tutorial. The completeevaluatemodel() function is listed below.
 
+```
+
 # evaluate a single model
 def evaluate_model(train, test, n_input):
 # fit model
@@ -419,6 +421,8 @@ tie all of this
 
 together. The complete example is listed below.
 
+```
+
 from math import sqrt
 from numpy import split
 from numpy import array
@@ -627,6 +631,8 @@ X.append(data[in_start:in_end, :])
 
 ```
 The completetosupervised() function with this change is listed below.
+
+```
 # convert history into inputs and outputs
 def to_supervised(train, n_input, n_out=7):
 
@@ -660,7 +666,9 @@ input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
 ```
 
-The completeforecast()with this change is listed below:
+The completeforecast()with this change is listed below.
+
+```
 
 def forecast(model, history, n_input):
 data = array(history)
@@ -727,6 +735,8 @@ return model
 
 We now have all of the elements required to develop a multi-channel CNN for multivariate
 input data to make multi-step time series forecasts. The complete example is listed below.
+
+```
 # multichannel multi-step cnn for the power usage dataset
 from math import sqrt
 from numpy import split
@@ -964,6 +974,8 @@ of 3D arrays, where each
 prepare the training
 
 dataset in this format as follows:
+
+```
 # define list of input data
 input_data = [train_x[:,:,i].reshape((train_x.shape[0],n_timesteps,1)) for i in
 range(n_features)]
@@ -971,6 +983,8 @@ range(n_features)]
 ```
 
 The updatedbuildmodel() function with these changes is listed below.
+
+```
 # train the model
 def build_model(train, n_input):
 # prepare data
@@ -1034,6 +1048,8 @@ range(input_x.shape[1])]
 ```
 
 Theforecast() function with this change is listed below.
+
+```
 
 def forecast(model, history, n_input):
 data = array(history)

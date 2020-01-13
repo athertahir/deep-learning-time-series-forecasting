@@ -160,7 +160,9 @@ plot_pacf(series, ax=axis, lags=lags)
 pyplot.show()
 
 ```
-The complete example is listed below. We would expect that the power consumed tomorrow
+The complete example is listed below.
+
+``` We would expect that the power consumed tomorrow
 and in the coming week will be dependent upon the power consumed in the prior days. As such,
 
 we would expect to see a strong autocorrelation signal in the ACF and
@@ -319,6 +321,8 @@ return yhat
 
 This function can be used directly in the test harness described previously. The complete
 example is listed below.
+
+```
 
 
 from math import sqrt

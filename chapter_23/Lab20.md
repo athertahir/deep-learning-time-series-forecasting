@@ -264,6 +264,8 @@ We know that we have all of the pieces in place. The complete example of
 evaluating a suite of
 
 eight machine learning models on the feature-engineered version of the dataset is listed below.
+
+```
 # spot check ml algorithms on engineered-features from the har dataset
 from pandas import read_csv
 from sklearn.metrics import accuracy_score
@@ -517,6 +519,8 @@ return trainX, trainy, testX, testy
 
 ```
 Putting this all together, the complete example is listed below.
+
+```
 
 from numpy import dstack
 from pandas import read_csv
