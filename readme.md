@@ -1,3 +1,5 @@
+<img align="right" width="110" height="110" src="./logo.png">
+
 # Deep Learning for Time Series Forecasting
 
 ### Overview
