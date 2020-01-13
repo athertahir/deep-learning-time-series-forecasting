@@ -126,7 +126,7 @@ we can see 2-3 days worth of missing data around28/4/2007.
 ```
 
 We can start-off by loading the data file as a PandasDataFrameand summarize the loaded
-data. We can use thereadcsv()function to load the data. It is easy to load the data with this
+data. We can use thereadcsv() function to load the data. It is easy to load the data with this
 function, but a little tricky to load it correctly. Specifically, we need to do a few custom things:
 
 - Specify the separate between columns as a semicolon (sep=‘;’)

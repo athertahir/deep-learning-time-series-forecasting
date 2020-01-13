@@ -73,7 +73,7 @@ provided blow:
 
 Download the dataset and unzip it into your current working directory. You will now have
 the filehouseholdpowerconsumption.txtthat is about 127 megabytes in size and contains
-all of the observations. We can use thereadcsv()function to load the data and combine the
+all of the observations. We can use thereadcsv() function to load the data and combine the
 first two columns into a single date-time column that we can use as an index.
 # load all data
 dataset = read_csv('household_power_consumption.txt', sep=';', header=0, low_memory=False,
@@ -318,7 +318,7 @@ weeks for training a predictive model.
 The function splitdataset()below splits the daily data into train and test sets and
 organizes each into standard weeks. Specific row offsets are used to split the data using
 knowledge of the dataset. The split datasets are then organized into weekly data using the
-NumPysplit()function.
+NumPysplit() function.
 
 
 # split a univariate dataset into train/test sets
@@ -455,7 +455,7 @@ model. This model takes
 
 the active power from the last day prior to the forecast period (e.g. Saturday) and uses it
 as the value of the power for each day in the forecast period (Sunday to Saturday). The
-dailypersistence()function below implements the daily persistence forecast strategy.
+dailypersistence() function below implements the daily persistence forecast strategy.
 
 # daily persistence model
 def daily_persistence(history):
@@ -474,7 +474,7 @@ Another good naive forecast when forecasting a standard week is to use
 the entire prior week
 
 as the forecast for the week ahead. It is based on the idea that next week will be very similar
-to this week. Theweeklypersistence()function below implements the weekly persistence
+to this week. Theweeklypersistence() function below implements the weekly persistence
 forecast strategy.
 
 # weekly persistence model
@@ -491,7 +491,7 @@ Similar to the idea of using last week to forecast next week is the idea of usin
 last year to predict next week. That is, use the week of observations from 52 weeks ago as the
 forecast, based on the idea that next week will be similar to the same week one year ago. The
 
-weekoneyearagopersistence()function below implements the week one year
+weekoneyearagopersistence() function below implements the week one year
 ago forecast
 
 strategy.

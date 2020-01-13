@@ -128,7 +128,7 @@ the model learn from and generalize across. Each sample must have both an input 
 and an output component. The input component will be some number of prior observations,
 such as three years or 36 time steps. The output component will be the total sales in the next
 month because we are interested in developing a model to make one-step forecasts.
-We can implement this using theshift()function on the PandasDataFrame. It allows us
+We can implement this using theshift() function on the PandasDataFrame. It allows us
 to shift a column down (forward in time) or back (backward in time). We can take the series as
 a column of data, then create multiple copies of the column, shifted forward or backward in
 time in order to create the samples with the input and output elements we require. When a
@@ -155,7 +155,7 @@ Nan, 1
 We can see that on the second row, the value 1 is provided as input as an observation at the
 prior time step, and 2 is the next value in the series that can be predicted, or learned by the
 model to be predicted when 1 is presented as input. Rows withNaNvalues can be removed. The
-seriestosupervised()function below implements this behavior, allowing you to specify the
+seriestosupervised() function below implements this behavior, allowing you to specify the
 number of lag observations to use in the input and the number to use in the output for each
 sample. It will also remove rows that haveNaNvalues as they cannot be used to train or test a
 model.
@@ -195,10 +195,10 @@ the model. Simpler models can be refit with the observation prior to making the 
 prediction. More complex models, such as neural networks, are not refit given the much greater
 computational cost. Nevertheless, the true observation for the time step can then be used as
 part of the input for making the prediction on the next time step. First, the dataset is split into
-train and test sets. We will call thetraintestsplit()function to perform this split and
+train and test sets. We will call thetraintestsplit() function to perform this split and
 pass in the pre-specified number of observations to use as the test data.
 A model will be fit once on the training dataset for a given configuration. We will define a
-genericmodelfit()function to perform this operation that can be filled in for the given type
+genericmodelfit() function to perform this operation that can be filled in for the given type
 of neural network that we may be interested in later. The function takes the training dataset
 and the model configuration and returns the fit model ready for making predictions.
 
@@ -243,7 +243,7 @@ def measure_rmse(actual, predicted):
 return sqrt(mean_squared_error(actual, predicted))
 
 ```
-The completewalkforwardvalidation()function that ties all of this together is listed
+The completewalkforwardvalidation() function that ties all of this together is listed
 below. It takes the dataset, the number of observations to use as the test set, and the
 configuration for the model, and returns the RMSE for the model performance on the test set.
 
@@ -289,7 +289,7 @@ walk-forward validation and report the error as the average error across
 each evaluation. This is
 
 not always possible for large neural networks and may only make sense for small networks that
-can be fit in minutes or hours. Therepeatevaluate()function below implements this and
+can be fit in minutes or hours. Therepeatevaluate() function below implements this and
 allows the number of repeats to be specified as an optional parameter that defaults to 30 and
 returns a list of model performance scores: in this case, RMSE values.
 
@@ -329,7 +329,7 @@ pyplot.show()
 Now that we have defined the elements of the test harness, we can tie them all together and
 define a simple persistence model. Specifically, we will calculate the median of a subset of
 prior observations relative to the time to be forecasted. We do not need to fit a model so the
-modelfit()function will be implemented to simply returnNone.
+modelfit() function will be implemented to simply returnNone.
 
 def model_fit(train, config):
 return None
@@ -344,7 +344,7 @@ observation 12 months ago (-12) relative to the time to be forecasted.
 config = [12, 24, 36]
 
 ```
-Themodelpredict()function can be implemented to use this configuration
+Themodelpredict() function can be implemented to use this configuration
 to collect the
 
 observations, then return the median of those observations.
@@ -467,7 +467,7 @@ simple feedforward neural network model that should be evaluated before more ela
 are considered. MLPs can be used for time series forecasting by taking multiple observations at
 prior time steps, called lag observations, and using them as input features and predicting one or
 more time steps from those observations. This is exactly the framing of the problem provided by
-theseriestosupervised()function in the previous section. The training dataset is therefore
+theseriestosupervised() function in the previous section. The training dataset is therefore
 a list of samples, where each sample has some number of observations from months prior to the
 time being forecasted, and the forecast is the next month in the sequence. For example:
 
@@ -509,7 +509,7 @@ model.compile(loss='mse', optimizer='adam')
 The model will be fit for some number of training epochs (exposures to the training data)
 and batch size can be specified to define how often the weights are updated within each epoch.
 
-Themodelfit()function for fitting an MLP model on the training dataset
+Themodelfit() function for fitting an MLP model on the training dataset
 is listed below.
 
 The function expects the config to be a list with the following
@@ -550,15 +550,15 @@ yhat = model.predict(x_input, verbose=0)
 
 ```
 In order to make a prediction beyond the limit of known data, this requires that the lastn
-known observations are taken as an array and used as input. Thepredict()function expects
+known observations are taken as an array and used as input. Thepredict() function expects
 one or more samples of inputs when making a prediction, so providing a single sample requires
 the array to have the shape[1, ninput], whereninputis the number of time steps that the
 
 
-model expects as input. Similarly, thepredict()function returns an array of predictions, one
+model expects as input. Similarly, thepredict() function returns an array of predictions, one
 for each sample provided as input. In the case of one prediction, there will be an array with one
 
-value. Themodelpredict()function below implements this behavior, taking
+value. Themodelpredict() function below implements this behavior, taking
 the model, the
 
 prior observations, and model configuration as arguments, formulating an input sample and
@@ -812,7 +812,7 @@ the required three-dimensional shape of the input data will be[nsamples, ninput,
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
 ```
-Themodelfit()function for fitting the CNN model on the training dataset
+Themodelfit() function for fitting the CNN model on the training dataset
 is listed below.
 
 The model takes the following five configuration parameters as a list:
@@ -861,7 +861,7 @@ specify the number of features observed at each time step, which in this case is
 when making a single one-step prediction, the shape of the input array
 must be: [1, ninput,
 
-1]. Themodelpredict()function below implements this behavior.
+1]. Themodelpredict() function below implements this behavior.
 
 # forecast with a pre-fit model
 def model_predict(model, history, config):
@@ -1124,7 +1124,7 @@ adjusted = value - value[-12]
 This can be performed systematically for the entire training dataset. It also means that the
 first year of observations must be discarded as we have no prior year of data to difference them
 
-with. Thedifference()function below will difference a provided dataset
+with. Thedifference() function below will difference a provided dataset
 with a provided
 
 offset, called the difference order, e.g. 12 for one year of months prior.
@@ -1136,7 +1136,7 @@ return [data[i] - data[i - interval] for i in range(interval, len(data))]
 
 We can make the difference order a hyperparameter to the model and only perform the
 
-operation if a value other than zero is provided. Themodelfit()function
+operation if a value other than zero is provided. Themodelfit() function
 for fitting an LSTM
 
 model is provided below. The model expects a list of five model
@@ -1186,7 +1186,7 @@ subtracted after the
 model has made a forecast. We must also difference the historical data
 prior to formulating the
 
-single input used to make a prediction. Themodelpredict()function below
+single input used to make a prediction. Themodelpredict() function below
 implements this
 
 behavior.
@@ -1449,7 +1449,7 @@ model.add(Dense(n_nodes, activation='relu'))
 model.add(Dense(1))
 
 ```
-The completemodelfit()function is listed below. The model expects a list
+The completemodelfit() function is listed below. The model expects a list
 of seven
 
 hyperparameters; they are:
@@ -1508,7 +1508,7 @@ given number of time steps.
 x_input = array(history[-n_input:]).reshape((1, n_seq, n_steps, 1))
 
 ```
-The updatedmodelpredict()function is listed below.
+The updatedmodelpredict() function is listed below.
 
 # forecast with a pre-fit model
 def model_predict(model, history, config):
@@ -1766,7 +1766,7 @@ dataset.
 - nbatch: The number of samples within an epoch after which the weights
 are updated.
 
-Themodelfit()function that implements all of this is listed below.
+Themodelfit() function that implements all of this is listed below.
 def model_fit(train, config):
 n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
 config
@@ -1799,7 +1799,7 @@ x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 
 ```
 
-Themodelpredict()function for making a single one-step prediction is
+Themodelpredict() function for making a single one-step prediction is
 listed below.
 
 def model_predict(model, history, config):

@@ -116,7 +116,7 @@ models that are faster to
 
 train, where a model may be re-fit or updated each step of the walk-forward validation as new
 data is made available. With sufficient resources, it is possible to use neural networks this way,
-but we will not in this tutorial. The completeevaluatemodel()function is listed below.
+but we will not in this tutorial. The completeevaluatemodel() function is listed below.
 
 # evaluate a single model
 def evaluate_model(train, test, n_input):
@@ -389,7 +389,7 @@ yhat = model.predict(input_x, verbose=0)
 yhat = yhat[0]
 
 ```
-Theforecast()function below implements this and takes as arguments the
+Theforecast() function below implements this and takes as arguments the
 model fit on
 
 the training dataset, the history of data observed so far, and the
@@ -626,7 +626,7 @@ of the eight features, not just the one total daily power consumed. It requires 
 X.append(data[in_start:in_end, :])
 
 ```
-The completetosupervised()function with this change is listed below.
+The completetosupervised() function with this change is listed below.
 # convert history into inputs and outputs
 def to_supervised(train, n_input, n_out=7):
 
@@ -696,7 +696,7 @@ two convolutional layers with 32 filter maps followed by pooling, then another c
 layer with 16 feature maps and pooling. The fully connected layer that interprets the features
 is increased to 100 nodes and the model is fit for 70 epochs with a batch size of 16 samples.
 
-The updatedbuildmodel()function that defines and fits the model on the
+The updatedbuildmodel() function that defines and fits the model on the
 training dataset is
 
 listed below.
@@ -970,7 +970,7 @@ range(n_features)]
 
 ```
 
-The updatedbuildmodel()function with these changes is listed below.
+The updatedbuildmodel() function with these changes is listed below.
 # train the model
 def build_model(train, n_input):
 # prepare data
@@ -1033,7 +1033,7 @@ range(input_x.shape[1])]
 
 ```
 
-Theforecast()function with this change is listed below.
+Theforecast() function with this change is listed below.
 
 def forecast(model, history, n_input):
 data = array(history)

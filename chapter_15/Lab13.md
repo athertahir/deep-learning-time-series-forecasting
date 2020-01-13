@@ -199,7 +199,7 @@ Nan, 1
 We can see that on the second row, the value 1 is provided as input as an observation at the
 prior time step, and 2 is the next value in the series that can be predicted, or learned by the
 model to be predicted when 1 is presented as input. Rows withNaNvalues can be removed. The
-seriestosupervised()function below implements this behavior, allowing you to specify the
+seriestosupervised() function below implements this behavior, allowing you to specify the
 number of lag observations to use in the input and the number to use in the output for each
 sample. It will also remove rows that haveNaNvalues as they cannot be used to train or test a
 model.
@@ -244,7 +244,7 @@ part of the input for making the prediction on the next time step.
 First, the dataset is split into train and test sets. We will call thetraintestsplit()
 function to perform this split and pass in the pre-specified number of observations to use as the
 test data. A model will be fit once on the training dataset for a given configuration. We will
-define a genericmodelfit()function to perform this operation that can be filled in for the
+define a genericmodelfit() function to perform this operation that can be filled in for the
 given type of neural network that we may be interested in later. The function takes the training
 dataset and the model configuration and returns the fit model ready for making predictions.
 
@@ -288,7 +288,7 @@ return sqrt(mean_squared_error(actual, predicted))
 
 ```
 
-The completewalkforwardvalidation()function that ties all of this together is listed
+The completewalkforwardvalidation() function that ties all of this together is listed
 below. It takes the dataset, the number of observations to use as the test set, and the
 configuration for the model, and returns the RMSE for the model performance on the test set.
 
@@ -335,7 +335,7 @@ walk-forward validation and report the error as the average error across
 each evaluation. This is
 
 not always possible for large neural networks and may only make sense for small networks that
-can be fit in minutes or hours. Therepeatevaluate()function below implements this and
+can be fit in minutes or hours. Therepeatevaluate() function below implements this and
 allows the number of repeats to be specified as an optional parameter that defaults to 10 and
 returns the mean RMSE score from all repeats.
 
@@ -357,7 +357,7 @@ return (key, result)
 We now have all the pieces of the framework. All that is left is a
 function to drive the search. We
 
-can define agridsearch()function that takes the dataset, a list of configurations to search,
+can define agridsearch() function that takes the dataset, a list of configurations to search,
 and the number of observations to use as the test set and perform the search. Once mean scores
 
 
@@ -376,7 +376,7 @@ return scores
 #### Worked Example
 
 Now that we have defined the elements of the test harness, we can tie them all together and
-define a simple persistence model. We do not need to fit a model so themodelfit()function
+define a simple persistence model. We do not need to fit a model so themodelfit() function
 
 will be implemented to simply returnNone.
 
@@ -392,7 +392,7 @@ observation 12 months ago (-12) relative to the time to be forecasted.
 cfg_list = [1, 6, 12, 24, 36]
 
 ```
-Themodelpredict()function can be implemented to use this configuration
+Themodelpredict() function can be implemented to use this configuration
 to persist the
 
 value at the negative relative offset.
@@ -532,7 +532,7 @@ can make a problem easier to model. Recall that differencing is the transform of
 that a value of a prior observation is subtracted from the current observation, removing trend
 or seasonality structure. We will add support for differencing to the grid search test harness,
 just in case it adds value to your specific problem. It does add value for the internal airline
-passengers dataset. Thedifference()function below will calculate the difference of a given
+passengers dataset. Thedifference() function below will calculate the difference of a given
 order for the dataset.
 
 # difference dataset
@@ -577,7 +577,7 @@ model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 
 ```
-The complete implementation of themodelfit()function is listed below.
+The complete implementation of themodelfit() function is listed below.
 
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
@@ -651,7 +651,7 @@ yhat = model.predict(x_input, verbose=0)
 
 ```
 
-The complete implementation of themodelpredict()function is listed below. Next, we
+The complete implementation of themodelpredict() function is listed below. Next, we
 must define the range of values to try for each hyperparameter. We can define amodelconfigs()
 function that creates a list of the different combinations of parameters to try. We will define
 a small subset of configurations to try as an example, including a differencing of 12 months,
@@ -664,7 +664,7 @@ review learning curve diagnostic plots, and use information about the domain to 
 values of the hyperparameters to grid search.
 
 You are also encouraged to repeat the grid search to narrow in on ranges of values that
-appear to show better performance. An implementation of themodelconfigs()function is
+appear to show better performance. An implementation of themodelconfigs() function is
 listed below.
 
 # create a list of configs to try
@@ -934,7 +934,7 @@ train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
 ```
-The complete implementation of themodelfit()function is listed below.
+The complete implementation of themodelfit() function is listed below.
 def model_fit(train, config):
 n_input, n_filters, n_kernel, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -971,7 +971,7 @@ three-dimensional shape.
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 ```
-The complete implementation of themodelpredict()function is listed
+The complete implementation of themodelpredict() function is listed
 below.
 
 def model_predict(model, history, config):
@@ -999,7 +999,7 @@ combined into a list. We will
 try a small number of configurations to ensure the example executes in a
 reasonable amount of
 
-time. The completemodelconfigs()function is listed below.
+time. The completemodelconfigs() function is listed below.
 
 def model_configs():
 
@@ -1270,7 +1270,7 @@ train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
 ```
-The complete implementation of themodelfit()function is listed below.
+The complete implementation of themodelfit() function is listed below.
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -1303,7 +1303,7 @@ x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 ```
 
-The completemodelpredict()function is listed below.
+The completemodelpredict() function is listed below.
 
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config

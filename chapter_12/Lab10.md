@@ -134,7 +134,7 @@ return error
 We’re nearly done. The only thing left to do is to define a list of model configurations to try
 for a dataset. We can define this generically. The only parameter we may want to specify is the
 periodicity of the seasonal component in the series, if one exists. By default, we will assume no
-seasonal component. Theexpsmoothingconfigs()function below will create a list of model
+seasonal component. Theexpsmoothingconfigs() function below will create a list of model
 configurations to evaluate. An optional list of seasonal periods can be specified, and you could
 even change the function to specify other elements that you may know about your time series.
 In theory, there are 72 possible model configurations to evaluate, but in practice, many will not
@@ -760,7 +760,7 @@ data = data[-(5*12):]
 
 ```
 The period of the seasonal component is about one year, or 12 observations. We will use this
-as the seasonal period in the call to theexpsmoothingconfigs()function when preparing
+as the seasonal period in the call to theexpsmoothingconfigs() function when preparing
 the model configurations.
 
 # model configs
@@ -963,7 +963,7 @@ or 12 observations as
 the test set. The period of the seasonal component could be six months or 12 months. We
 
 will try both as the seasonal period in the call to
-theexpsmoothingconfigs()function when
+theexpsmoothingconfigs() function when
 
 preparing the model configurations.
 

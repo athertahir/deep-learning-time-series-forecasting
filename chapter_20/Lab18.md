@@ -319,7 +319,7 @@ yhat = yhat[0]
 
 ```
 
-Theforecast()function below implements this and takes as arguments the
+Theforecast() function below implements this and takes as arguments the
 model fit on
 
 the training dataset, the history of data observed so far, and the
@@ -638,7 +638,7 @@ instead of the two-dimensional structure of[samples, features]used in the previo
 train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 
 ```
-We can tie all of this together into the updatedbuildmodel()function
+We can tie all of this together into the updatedbuildmodel() function
 listed below.
 
 # train the model
@@ -854,7 +854,7 @@ consumed. It requires a single line change:
 X.append(data[in_start:in_end, :])
 
 ```
-The completetosupervised()function with this change is listed below.
+The completetosupervised() function with this change is listed below.
 
 
 def to_supervised(train, n_input, n_out=7):
@@ -1118,7 +1118,7 @@ model.add(Flatten())
 The decoder is the same as was defined in previous sections. The only
 other change is to set
 
-the number of training epochs to 20. Thebuildmodel()function with these
+the number of training epochs to 20. Thebuildmodel() function with these
 changes is listed
 
 below.
@@ -1394,7 +1394,7 @@ length of each
 subsequence (nlength) and pass them as arguments. The rest of the model
 and training is the
 
-same. Thebuildmodel()function with these changes is listed below.
+same. Thebuildmodel() function with these changes is listed below.
 
 def build_model(train, n_steps, n_length, n_input):
 train_x, train_y = to_supervised(train, n_input)
@@ -1429,7 +1429,7 @@ LSTM model.
 
 This model expects five-dimensional data as input. Therefore, we must also update the
 
-preparation of a single sample in theforecast()function when making a
+preparation of a single sample in theforecast() function when making a
 prediction.
 
 input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
@@ -1438,7 +1438,7 @@ input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 
 prediction.
 
-Theforecast()function with this change and with the parameterized
+Theforecast() function with this change and with the parameterized
 subsequences is
 
 provided below.

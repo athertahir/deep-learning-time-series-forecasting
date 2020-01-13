@@ -287,7 +287,7 @@ Next, it would be useful to load a group of files, such as all of the body accel
 files as a single group. Ideally, when working with multivariate time series data, it is useful to
 have the data structured in the format:[samples, timesteps, features]. This is helpful for
 analysis and is the expectation of deep learning models such as convolutional neural networks
-and recurrent neural networks. We can achieve this by calling the aboveloadfile()function
+and recurrent neural networks. We can achieve this by calling the aboveloadfile() function
 multiple times, once for each file in a group.
 Once we have loaded each file as a NumPy array, we can combine or stack all three arrays
 together. We can use thedstack()NumPy function to ensure that each array is stacked in
@@ -356,7 +356,7 @@ function can build a list of
 all 9 data files to load, load them as one NumPy array with 9 features,
 then load the data file
 
-containing the output class. Theloaddataset()function below implements
+containing the output class. Theloaddataset() function below implements
 this behavior. It
 
 can be called for either thetraingroup or thetestgroup, passed as a
@@ -573,7 +573,7 @@ trainX, trainy = load_dataset('train', 'HARDataset/')
 ```
 
 Next, we can load thesubjecttrain.txtin thetraindirectory that provides a mapping
-of rows to the subject to which it belongs. We can load this file using theloadfile()function.
+of rows to the subject to which it belongs. We can load this file using theloadfile() function.
 Once loaded, we can also use theunique()NumPy function to retrieve a list of the unique
 subjects in the training dataset.
 
@@ -590,7 +590,7 @@ We can do this by finding all of the row numbers that belong to a given
 subject and use those
 
 row numbers to select the samples from the loaded `X` and `y` data from the training dataset. The
-dataforsubject()function below implements this behavior. It will take the loaded training
+dataforsubject() function below implements this behavior. It will take the loaded training
 data, the loaded mapping of row number to subjects, and the subject identification number for
 the subject that we are interested in, and will return the `X` and `y` data for only that subject.
 # get all data for one subject
@@ -607,7 +607,7 @@ with overlap. We can write a function to remove this overlap and squash
 the windows down
 
 for a given variable into one long sequence that can be plotted directly as a line plot. The
-toseries()function below implements this behavior for a given variable, e.g. array of windows.
+toseries() function below implements this behavior for a given variable, e.g. array of windows.
 
 # convert a series of windows to a 1D list
 def to_series(windows):
@@ -625,7 +625,7 @@ subject in turn and a final plot for the activity level. Each series will have t
 time steps (length of x-axis), therefore, it may be useful to create a subplot for each variable and
 align all plots vertically so we can compare the movement on each variable. Theplotsubject()
 function below implements this behavior for the `X` and `y` data for a single subject. The function
-assumes the same order of the variables (3rd axis) as was loaded in theloaddataset()function.
+assumes the same order of the variables (3rd axis) as was loaded in theloaddataset() function.
 
 A crude title is also added to each plot so we don’t get easily confused
 about what we are
@@ -842,7 +842,7 @@ We can check for this by plotting and comparing the histograms of the movement d
 subjects. A useful approach would be to create one plot per subject and plot all three axis of a
 given data (e.g. total acceleration), then repeat this for multiple subjects. The plots can be
 modified to use the same axis and aligned horizontally so that the distributions for each variable
-across subjects can be compared. Theplotsubjecthistograms()function below implements
+across subjects can be compared. Theplotsubjecthistograms() function below implements
 this behavior. The function takes the loaded dataset and mapping of rows to subjects as well as
 a maximum number of subjects to plot, fixed at 10 by default.
 
@@ -1036,7 +1036,7 @@ We can review this by creating a histogram plot per activity, with the three axi
 given data type on each plot. Again, the plots can be arranged horizontally to compare the
 distribution of each data axis by activity. We would expect to see differences in the distributions
 across activities down the plots. First, we must group the traces for a subject by activity. The
-databyactivity()function below implements this behavior.
+databyactivity() function below implements this behavior.
 # group data by activity
 def data_by_activity(X, y, activities):
 # group windows by activity

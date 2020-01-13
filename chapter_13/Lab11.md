@@ -114,7 +114,7 @@ return error
 We’re nearly done. The only thing left to do is to define a list of model configurations to
 try for a dataset. We can define this generically. The only parameter we may want to specify
 is the periodicity of the seasonal component in the series, if one exists. By default, we will
-assume no seasonal component. Thesarimaconfigs()function below will create a list of
+assume no seasonal component. Thesarimaconfigs() function below will create a list of
 model configurations to evaluate.
 The configurations assume each of the AR, MA, and I components for trend and seasonality
 are low order, e.g. off (0) or in[1,2]. You may want to extend these ranges if you believe the
@@ -721,7 +721,7 @@ data = data[-(5*12):]
 
 ```
 The period of the seasonal component is about one year, or 12 observations. We will use
-this as the seasonal period in the call to thesarimaconfigs()function when preparing the
+this as the seasonal period in the call to thesarimaconfigs() function when preparing the
 model configurations.
 
 # model configs
@@ -932,7 +932,7 @@ The dataset has 9 years, or 108 observations. We will use the last year
 or 12 observations as the
 
 test set. The period of the seasonal component could be six months or 12 months. We will try
-both as the seasonal period in the call to thesarimaconfigs()function when preparing the
+both as the seasonal period in the call to thesarimaconfigs() function when preparing the
 model configurations.
 # model configs
 cfg_list = sarima_configs(seasonal=[0,6,12])

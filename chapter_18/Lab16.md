@@ -107,7 +107,7 @@ going into the math, this is the intuition for the partial autocorrelation. We c
 correlation and partial autocorrelation plots using theplotacf()andplotpacf()Statsmodels
 functions respectively.
 In order to calculate and plot the autocorrelation, we must convert the data into a univariate
-time series. Specifically, the observed daily total power consumed. Thetoseries()function
+time series. Specifically, the observed daily total power consumed. Thetoseries() function
 below will take the multivariate data divided into weekly windows and will return a single
 univariate time series.
 
@@ -267,7 +267,7 @@ classes. For more information on developing SARIMAX models with the Statsmodels 
 see Chapter 13. We will use the ARIMA implementation as it allows for easy expandability into
 differencing and moving average. First, the history data comprised of weeks of prior observations
 must be converted into a univariate time series of daily power consumption. We can use the
-toseries()function developed in the previous section.
+toseries() function developed in the previous section.
 
 # convert history into a univariate series
 series = to_series(history)
@@ -290,7 +290,7 @@ model_fit = model.fit(disp=False)
 
 ```
 Now that the model has been fit, we can make a prediction. A prediction can be made by
-calling thepredict()function and passing it either an interval of dates or indices relative to
+calling thepredict() function and passing it either an interval of dates or indices relative to
 the training data. We will use indices starting with the first time step beyond the training data
 and extending it six more days, giving a total of a seven day forecast period beyond the training
 dataset.

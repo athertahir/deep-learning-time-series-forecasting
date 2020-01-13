@@ -32,9 +32,6 @@ This tutorial is divided into six parts; they are:
 1.  Simple Forecasting Strategies
 2.  Develop a Grid Search Framework
 3.  Case Study 1: No Trend or Seasonality
-
-
-
 4.  Case Study 2: Trend
 5.  Case Study 3: Seasonality
 6.  Case Study 4: Trend and Seasonality
@@ -46,20 +43,15 @@ testing more complex models.
 
 Simple forecast strategies are those that assume little or nothing about
 the nature of the forecast
-
 problem and are fast to implement and calculate. The results can be used
 as a baseline in
-
 performance and used as a point of a comparison. If a model can perform
 better than the
-
 performance of a simple forecast strategy, then it can be said to be
 skillful. There are two main
-
 themes to simple forecast strategies; they are:
 
 - Naive, or using observations values directly.
-
 - Average, or using a statistic calculated on previous observations.
 
 For more information on simple forecasting strategies, see Chapter 5.
@@ -68,27 +60,27 @@ For more information on simple forecasting strategies, see Chapter 5.
 
 In this section, we will develop a framework for grid searching the two
 simple forecast strategies
-
 described in the previous section, namely the naive and average
 strategies. We can start off by
-
 implementing a naive forecast strategy. For a given dataset of
 historical observations, we can
-
 persist any value in that history, that is from the previous observation
 at index -1 to the first
-
-observation in the history at-(len(data)). Thenaiveforecast()function
+observation in the history at-(len(data)). Thenaiveforecast() function
 below implements
-
 the naive forecast strategy for a given offset from 1 to the length of
 the dataset.
+
+```
 
 def naive_forecast(history, n):
 return history[-n]
 
 ```
+
 We can test this function out on a small contrived dataset.
+
+```
 
 def naive_forecast(history, n):
 return history[-n]
@@ -101,9 +93,9 @@ print(naive_forecast(data, i))
 ```
 
 Running the example first prints the contrived dataset, then the naive
-forecast for each offset
+forecast for each offset in the historical dataset.
 
-in the historical dataset.
+```
 
 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
 100.0
@@ -118,29 +110,33 @@ in the historical dataset.
 10.0
 
 ```
-We can now look at developing a function for the average forecast strategy. Averaging the
 
+We can now look at developing a function for the average forecast strategy. Averaging the
 lastnobservations is straight-forward; for example:
+
+```
 from numpy import mean
 result = mean(history[-n:])
 
 ```
-We may also want to test out the median in those cases where the
-distribution of observations
 
-is non-Gaussian.
+We may also want to test out the median in those cases where the
+distribution of observations is non-Gaussian.
+
+```
 
 from numpy import median
 result = median(history[-n:])
 
 ```
-Theaverageforecast()function below implements this taking the historical
-data and a
 
+The averageforecast() function below implements this taking the historical
+data and a
 config array or tuple that specifies the number of prior values to
 average as an integer, and a
-
 string that describe the way to calculate the average (meanormedian).
+
+```
 
 def average_forecast(history, config):
 n, avg_type = config
@@ -151,7 +147,10 @@ return mean(history[-n:])
 return median(history[-n:])
 
 ```
+
 The complete example on a small contrived dataset is listed below.
+
+```
 
 from numpy import mean
 from numpy import median
@@ -172,10 +171,12 @@ for i in range(1, len(data)+1):
 print(average_forecast(data, (i, 'mean')))
 
 ```
+
 Running the example forecasts the next value in the series as the mean
 value from contiguous
-
 subsets of prior observations from -1 to -10, inclusively.
+
+```
 
 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
 100.0
@@ -190,28 +191,24 @@ subsets of prior observations from -1 to -10, inclusively.
 55.0
 
 ```
+
 We can update the function to support averaging over seasonal data,
 respecting the seasonal
-
 offset. An offset argument can be added to the function that when not
 set to 1 will determine
-
 the number of prior observations backwards to count before collecting
 values from which to
-
 include in the average. For example, if n=1 and offset=3, then the
 average is calculated from
-
 the single value atn×offsetor 1×3 =−3. Ifn= 2 andoffset= 3, then the
 average is
-
 calculated from the values at 1×3 or -3 and 2×3 or -6. We can also add
 some protection to
-
 raise an exception when a seasonal configuration (n×offset) extends
 beyond the end of the
-
 historical observations. The updated function is listed below.
+
+```
 
 def average_forecast(history, config):
 n, offset, avg_type = config
@@ -236,11 +233,9 @@ return median(values)
 
 ```
 
-seasonality.
+We can test out this function on a small contrived dataset with a seasonal cycle. The complete example is listed below.
 
-We can test out this function on a small contrived dataset with a seasonal cycle. The
-
-complete example is listed below.
+```
 
 from numpy import mean
 from numpy import median
@@ -270,8 +265,11 @@ for i in [1, 2, 3]:
 print(average_forecast(data, (i, 3,'mean')))
 
 ```
+
 Running the example calculates the mean values of[10],[10, 10]and[10,
 10, 10].
+
+```
 
 [10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]
 10.0
@@ -281,17 +279,16 @@ Running the example calculates the mean values of[10],[10, 10]and[10,
 ```
 
 It is possible to combine both the naive and the average forecast strategies together into
-
 the same function. There is a little overlap between the methods,
 specifically the n-offset into
-
 the history that is used to either persist values or determine the
 number of values to average.
 
-
 It is helpful to have both strategies supported by one function so that we can test a suite of
 configurations for both strategies at once as part of a broader grid search of simple models. The
-simpleforecast()function below combines both strategies into a single function.
+simpleforecast() function below combines both strategies into a single function.
+
+```
 
 # one-step simple forecast
 def simple_forecast(history, config):
@@ -330,7 +327,7 @@ test sets and evaluating
 
 one-step forecasts. We can split a list or NumPy array of data using a slice given a specified
 size of the split, e.g. the number of time steps to use from the data in the test set. The
-traintestsplit()function below implements this for a provided dataset and a specified
+traintestsplit() function below implements this for a provided dataset and a specified
 number of time steps to use in the test set.
 
 # split a univariate dataset into train/test sets
@@ -342,7 +339,7 @@ return data[:-n_test], data[-n_test:]
 After forecasts have been made for each step in the test dataset, they need to be compared
 to the test set in order to calculate an error score. There are many popular error scores for
 time series forecasting. In this case, we will use root mean squared error (RMSE), but you can
-change this to your preferred measure, e.g. MAPE, MAE, etc. Themeasurermse()function
+change this to your preferred measure, e.g. MAPE, MAE, etc. Themeasurermse() function
 below will calculate the RMSE given a list of actual (the test set) and predicted values.
 
 # root mean squared error or rmse
@@ -354,13 +351,13 @@ return sqrt(mean_squared_error(actual, predicted))
 We can now implement the walk-forward validation scheme. This is a standard approach to
 evaluating a time series forecasting model that respects the temporal ordering of observations.
 First, a provided univariate time series dataset is split into train and test sets using the
-traintestsplit()function. Then the number of observations in the test set are enumerated.
+traintestsplit() function. Then the number of observations in the test set are enumerated.
 For each we fit a model on all of the history and make a one step forecast. The true observation for
 the time step is then added to the history, and the process is repeated. Thesimpleforecast()
 function is called in order to fit a model and make a prediction. Finally, an error score is calculated
-by comparing all one-step forecasts to the actual test set by calling themeasurermse()function.
+by comparing all one-step forecasts to the actual test set by calling themeasurermse() function.
 
-Thewalkforwardvalidation()function below implements this, taking a
+Thewalkforwardvalidation() function below implements this, taking a
 univariate time
 
 series, a number of time steps to use in the test set, and an array of model configuration.
@@ -386,7 +383,7 @@ return error
 ```
 
 If you are interested in making multi-step predictions, you can change the call topredict()in
-thesimpleforecast()function and also change the calculation of error in themeasurermse()
+thesimpleforecast() function and also change the calculation of error in themeasurermse()
 function. We can callwalkforwardvalidation()repeatedly with different lists of model
 configurations. One possible issue is that some combinations of model configurations may not
 be called for the model and will throw an exception.
@@ -398,7 +395,7 @@ We can also
 add debugging support to disable these protections in the case we want to see what is really
 going on. Finally, if an error does occur, we can return aNoneresult; otherwise, we can print
 some information about the skill of each model evaluated. This is helpful when a large number
-of models are evaluated. Thescoremodel()function below implements this and returns a
+of models are evaluated. Thescoremodel() function below implements this and returns a
 tuple of (key and result), where the key is a string version of the tested model configuration.
 # score a model, return None on failure
 def score_model(data, n_test, cfg, debug=False):
@@ -426,7 +423,7 @@ return (key, result)
 
 ```
 Next, we need a loop to test a list of different model configurations. This is the main
-function that drives the grid search process and will call thescoremodel()function for each
+function that drives the grid search process and will call thescoremodel() function for each
 model configuration. We can dramatically speed up the grid search process by evaluating model
 configurations in parallel. One way to do that is to use the Joblib library^1. We can define a
 Parallel object with the number of cores to use and set it to the number of scores detected in
@@ -438,7 +435,7 @@ executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
 
 ```
 We can then create a list of tasks to execute in parallel, which will be one call to the
-scoremodel()function for each model configuration we have.
+scoremodel() function for each model configuration we have.
 # define list of tasks
 tasks = (delayed(score_model)(data, n_test, cfg) for cfg in cfg_list)
 
@@ -448,7 +445,7 @@ Finally, we can use the Parallel object to execute the list of tasks in parallel
 scores = executor(tasks)
 
 ```
-On some systems, such as windows that do not support thefork()function, it is necessary
+On some systems, such as windows that do not support thefork() function, it is necessary
 to add a check to ensure that the entry point of the script is only executed by the main process
 and not child processes.
 ...
@@ -477,7 +474,7 @@ scores = [r for r in scores if r[1] != None]
 ```
 
 We can then sort all tuples in the list by the score in ascending order (best are first), then
-return this list of scores for review. Thegridsearch()function below implements this behavior
+return this list of scores for review. Thegridsearch() function below implements this behavior
 given a univariate time series dataset, a list of model configurations (list of lists), and the
 number of time steps to use in the test set. An optional parallel argument allows the evaluation
 of models across all cores to be tuned on or off, and is on by default.
@@ -502,7 +499,7 @@ We’re nearly done. The only thing left to do is to define a list of model conf
 for a dataset. We can define this generically. The only parameter we may want to specify is
 the periodicity of the seasonal component in the series (offset), if one exists. By default, we
 
-will assume no seasonal component. Thesimpleconfigs()function below will
+will assume no seasonal component. Thesimpleconfigs() function below will
 create a list
 
 of model configurations to evaluate. The function only requires the maximum length of the
@@ -1225,7 +1222,7 @@ data = data[-(5*12):]
 ```
 The period of the seasonal component is about one year, or 12 observations. We will use
 
-this as the seasonal period in the call to thesimpleconfigs()function
+this as the seasonal period in the call to thesimpleconfigs() function
 when preparing the
 
 model configurations.
@@ -1467,7 +1464,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.cs
 The period of the seasonal component could be six months or 12 months.
 We will try both
 
-as the seasonal period in the call to thesimpleconfigs()function when
+as the seasonal period in the call to thesimpleconfigs() function when
 preparing the model
 
 configurations.

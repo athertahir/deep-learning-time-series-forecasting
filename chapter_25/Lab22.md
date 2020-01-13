@@ -111,7 +111,7 @@ and file naming conventions. The input data is in CSV format where
 columns are separated by
 
 whitespace. Each of these files can be loaded as a NumPy array.
-Theloadfile()function
+Theloadfile() function
 
 below loads a dataset given the file path to the file and returns the loaded data as a NumPy
 array.
@@ -124,7 +124,7 @@ return dataframe.values
 We can then load all data for a given group (train or test) into a single three-dimensional
 NumPy array, where the dimensions of the array are[samples, timesteps, features]. To
 make this clearer, there are 128 time steps and nine features, where the number of samples is the
-number of rows in any given raw signal data file. Theloadgroup()function below implements
+number of rows in any given raw signal data file. Theloadgroup() function below implements
 this behavior. Thedstack()NumPy function allows us to stack each of the loaded 3D arrays
 into a single 3D array where the variables are separated on the third dimension (features).
 # load a list of files into a 3D array of [samples, timesteps, features]
@@ -141,7 +141,7 @@ return loaded
 We can use this function to load all input signal data for a given
 group, such as train or test.
 
-Theloaddatasetgroup()function below loads all input signal data and the
+Theloaddatasetgroup() function below loads all input signal data and the
 output data for
 
 a single group using the consistent naming conventions between the train and test directories.
@@ -177,7 +177,7 @@ integers so that the data is
 suitable for fitting a neural network multiclass classification model.
 We can do this by calling
 
-thetocategorical()Keras function. Theloaddataset()function below
+thetocategorical()Keras function. Theloaddataset() function below
 implements this
 
 behavior and returns the train and test `X` and `y` elements ready for fitting
@@ -265,7 +265,7 @@ accuracy of the fit model on the test dataset is returned. Note, it is common to
 sequence data when fitting an LSTM. Here we do shuffle the windows of input data during
 training (the default). In this problem, we are interested in harnessing the LSTMs ability to
 learn and extract features across the time steps in a window, not across windows. The complete
-evaluatemodel()function is listed below.
+evaluatemodel() function is listed below.
 
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):

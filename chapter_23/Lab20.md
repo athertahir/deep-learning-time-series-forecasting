@@ -80,7 +80,7 @@ following files:
 - HARDataset/test/ytest.txt
 
 The input data is in CSV format where columns are separated via whitespace. Each of these
-files can be loaded as a NumPy array. Theloadfile()function below loads a dataset given
+files can be loaded as a NumPy array. Theloadfile() function below loads a dataset given
 the file path to the file and returns the loaded data as a NumPy array.
 
 (^1)
@@ -94,7 +94,7 @@ return dataframe.values
 
 ```
 We can call this function to load the `X` and `y` files for a given train or test set group, given
-the similarity in directory layout and filenames. Theloaddatasetgroup()function below
+the similarity in directory layout and filenames. Theloaddatasetgroup() function below
 
 will load both of these files for a group and return the `X` and `y` elements as
 NumPy arrays.
@@ -164,7 +164,7 @@ Ensemble Algorithms:
 - Gradient Boosting Machine
 
 We will define the models and store them in a dictionary that maps the model object to a
-short name that will help in analyzing the results. Thedefinemodels()function below defines
+short name that will help in analyzing the results. Thedefinemodels() function below defines
 the eight models that we will evaluate.
 
 # create a dict of standard models to evaluate {name:object}
@@ -196,7 +196,7 @@ the evaluation of a single model and the evaluation of all of the models. We wil
 single model by first fitting it on the training dataset, making a prediction on the test dataset,
 and then evaluating the prediction using a metric. In this case we will use classification accuracy
 that will capture the performance (or error) of a model given the balance observations across
-the six activities (or classes). Theevaluatemodel()function below implements this behavior,
+the six activities (or classes). Theevaluatemodel() function below implements this behavior,
 evaluating a given model and returning the classification accuracy as a percentage.
 
 
@@ -212,10 +212,10 @@ return accuracy * 100.0
 
 ```
 
-We can now call theevaluatemodel()function repeatedly for each of the
+We can now call theevaluatemodel() function repeatedly for each of the
 defined model.
 
-Theevaluatemodels()function below implements this behavior, taking the
+Theevaluatemodels() function below implements this behavior, taking the
 dictionary of
 
 defined models, and returns a dictionary of model names mapped to their classification accuracy.
@@ -241,7 +241,7 @@ results by the classification
 
 accuracy in descending order because we are interested in maximizing accuracy. The results
 of the evaluated models can then be printed, clearly showing the relative rank of each of the
-evaluated models. Thesummarizeresults()function below implements this behavior.
+evaluated models. Thesummarizeresults() function below implements this behavior.
 
 # print and plot the results
 def summarize_results(results, maximize=True):
@@ -437,7 +437,7 @@ where the dimensions of the array are[samples, timesteps, features]. To
 make this clearer,
 
 there are 128 time steps and nine features, where the number of samples is the number of rows
-in any given raw signal data file. Theloadgroup()function below implements this behavior.
+in any given raw signal data file. Theloadgroup() function below implements this behavior.
 
 
 Thedstack()NumPy function allows us to stack each of the loaded 3D
@@ -458,7 +458,7 @@ return loaded
 We can use this function to load all input signal data for a given
 group, such as train or test.
 
-Theloaddatasetgroup()function below loads all input signal data and the
+Theloaddatasetgroup() function below loads all input signal data and the
 output data for
 
 a single group using the consistent naming conventions between the
@@ -493,7 +493,7 @@ we must flatten the windows and features into one long vector. We can do
 this with the NumPy
 
 reshape function and convert the three dimensions of[samples, timesteps, features]into
-the two dimensions of[samples, timesteps × features]. Theloaddataset()function
+the two dimensions of[samples, timesteps × features]. Theloaddataset() function
 below implements this behavior and returns the train and test `X` and `y` elements ready for
 fitting and evaluating the defined models.
 

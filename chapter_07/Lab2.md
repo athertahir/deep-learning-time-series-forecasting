@@ -84,7 +84,7 @@ X, y
 
 ```
 
-Thesplitsequence()function below implements this behavior and will split a given
+The splitsequence() function below implements this behavior and will split a given
 univariate sequence into multiple samples where each sample has a specified number of time
 steps and the output is a single time step.
 
@@ -182,7 +182,7 @@ feature instead of separate time steps.
 
 We almost always have multiple samples, therefore, the model will expect the input
 component of training data to have the dimensions or shape: [samples, features]. Our
-splitsequence()function in the previous section outputs theXwith the shape[samples,
+splitsequence() function in the previous section outputs theXwith the shape[samples,
 features]ready to use for modeling. The model is fit using the efficient Adam version of
 stochastic gradient descent and optimized using the mean squared error, or‘mse’, loss function.
 Once the model is defined, we can fit it on the training dataset.
@@ -864,7 +864,7 @@ Output:
 
 ```
 
-Thesplitsequences()function below will split multiple parallel time
+The splitsequences() function below will split multiple parallel time
 series with rows for
 time steps and one series per column into the required input/output
 shape.
@@ -1232,7 +1232,7 @@ Output:
 [40, 50]
 
 ```
-Thesplitsequence()function below implements this behavior and will split a given
+The splitsequence() function below implements this behavior and will split a given
 univariate time series into samples with a specified number of input and output time steps.
 
 # split a univariate sequence into samples
@@ -1449,7 +1449,7 @@ Output:
 
 ```
 
-Thesplitsequences()function below implements this behavior.
+The splitsequences() function below implements this behavior.
 def split_sequences(sequences, n_steps_in, n_steps_out):
 X, y = list(), list()
 for i in range(len(sequences)):
@@ -1631,7 +1631,7 @@ Output:
 
 ```
 
-Thesplitsequences()function below implements this behavior.
+The splitsequences() function below implements this behavior.
 
 # split a multivariate sequence into samples
 def split_sequences(sequences, n_steps_in, n_steps_out):

@@ -82,7 +82,7 @@ X, y
 For more on transforming your time series data into a supervised learning problem in general
 see Chapter 4. You can write code to perform this transform yourself and that is the general
 approach I teach and recommend for greater understanding of your data and control over the
-transformation process. Thesplitsequence()function below implements this behavior and
+transformation process. The splitsequence() function below implements this behavior and
 
 will split a given univariate sequence into multiple samples where each
 sample has a specified
@@ -336,7 +336,7 @@ the input element of our time series, we can reshape it into[7, 3, 1]by
 providing a tuple to
 
 
-thereshape()function specifying the desired new shape of(7, 3, 1). The
+thereshape() function specifying the desired new shape of(7, 3, 1). The
 array must have
 
 enough data to support the new shape, which in this case it does as[7,
@@ -596,7 +596,7 @@ per sample.
 
 ```
 
-Next, we can use thereshape()function to add one additional dimension
+Next, we can use thereshape() function to add one additional dimension
 for our single
 feature and use the existing columns as time steps instead.
 

@@ -112,7 +112,7 @@ and file naming conventions. The input data is in CSV format where
 columns are separated by
 
 whitespace. Each of these files can be loaded as a NumPy array.
-Theloadfile()function
+Theloadfile() function
 
 below loads a dataset given the file path to the file and returns the loaded data as a NumPy
 array.
@@ -125,7 +125,7 @@ return dataframe.values
 We can then load all data for a given group (train or test) into a single three-dimensional
 NumPy array, where the dimensions of the array are[samples, timesteps, features]. To
 make this clearer, there are 128 time steps and nine features, where the number of samples is the
-number of rows in any given raw signal data file. Theloadgroup()function below implements
+number of rows in any given raw signal data file. Theloadgroup() function below implements
 this behavior. Thedstack()NumPy function allows us to stack each of the loaded 3D arrays
 into a single 3D array where the variables are separated on the third dimension (features).
 # load a list of files into a 3D array of [samples, timesteps, features]
@@ -142,7 +142,7 @@ return loaded
 We can use this function to load all input signal data for a given
 group, such as train or test.
 
-Theloaddatasetgroup()function below loads all input signal data and the
+Theloaddatasetgroup() function below loads all input signal data and the
 output data for
 
 a single group using the consistent naming conventions between the train and test directories.
@@ -178,7 +178,7 @@ integers so that the data is
 suitable for fitting a neural network multiclass classification model.
 We can do this by calling
 
-thetocategorical()Keras function. Theloaddataset()function below
+thetocategorical()Keras function. Theloaddataset() function below
 implements this
 
 behavior and returns the train and test `X` and `y` elements ready for fitting
@@ -282,7 +282,7 @@ will be used, where 32 windows of data will be exposed to the model
 before the weights of the
 
 model are updated. Once the model is fit, it is evaluated on the test dataset and the accuracy
-of the fit model on the test dataset is returned. The completeevaluatemodel()function is
+of the fit model on the test dataset is returned. The completeevaluatemodel() function is
 listed below.
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
@@ -712,7 +712,7 @@ flatTestX = flatTestX.reshape((testX.shape))
 return flatTrainX, flatTestX
 
 ```
-We can update theevaluatemodel()function to take a parameter, then use
+We can update theevaluatemodel() function to take a parameter, then use
 this parameter
 
 to decide whether or not to perform the standardization.
@@ -1018,7 +1018,7 @@ n_params = [8, 16, 32, 64, 128, 256]
 ```
 We can use the same code from the previous section and update theevaluatemodel()
 function to use the provided parameter as the number of filters in theConv1Dlayers. We can
-also update thesummarizeresults()function to save the box plot asexpcnnfilters.png.
+also update thesummarizeresults() function to save the box plot asexpcnnfilters.png.
 
 The complete code example is listed below.
 
@@ -1359,7 +1359,7 @@ concatenated within the model and interpreted by a fully-connected layer before 
 made.
 We can implement a multi-headed 1D CNN using the Keras functional API. The updated
 
-version of theevaluatemodel()function is listed below that creates a
+version of theevaluatemodel() function is listed below that creates a
 three-headed 1D CNN
 
 model. We can see that each head of the model is the same structure, although the kernel size

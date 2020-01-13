@@ -185,7 +185,7 @@ The shape of the input for each sample is specified in the input shape argument 
 definition of first hidden layer. We almost always have multiple samples, therefore, the model
 will expect the input component of training data to have the dimensions
 or shape:[samples,
-timesteps, features]. Oursplitsequence()function in the previous section
+timesteps, features]. Oursplitsequence() function in the previous section
 outputs theX
 with the shape[samples, timesteps], so we easily reshape it to have an
 additional dimension
