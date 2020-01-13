@@ -180,6 +180,8 @@ variables, specifically in the shape[159, 7, 8]. The first step is to
 flatten the data so that we
 
 have eight time series sequences.
+
+```
 # flatten data
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
@@ -201,7 +203,7 @@ ninput,nout) so that
 you can experiment with different values or adapt it for your own
 problem. Below is a function
 
-namedtosupervised()that takes a list of weeks (history) and the number of time steps to
+namedtosupervised() that takes a list of weeks (history) and the number of time steps to
 use as inputs and outputs and returns the data in the overlapping moving window format.
 
 
@@ -257,6 +259,8 @@ results may vary when the model is evaluated. You can try running the model mult
 and calculate an average of model performance. Thebuildmodel()below prepares the training
 data, defines the model, and fits the model on the training data, returning the fit model ready
 for making predictions.
+
+```
 # train the model
 def build_model(train, n_input):
 # prepare data
@@ -303,17 +307,23 @@ data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 Next, we need to retrieve the last seven days of daily total power consumed (feature index
 0). We will parameterize this as we did for the training data so that the number of prior days
 used as input by the model can be modified in the future.
+
+```
 # retrieve last observations for input data
 input_x = data[-n_input:, 0]
 
 ```
 Next, we reshape the input into the expected three-dimensional structure.
+
+```
 # reshape into [1, n_input, 1]
 input_x = input_x.reshape((1, len(input_x), 1))
 
 ```
 We then make a prediction using the fit model and the input data and retrieve the vector of
 seven days of output.
+
+```
 # forecast the next week
 yhat = model.predict(input_x, verbose=0)
 # we only want the vector forecast
@@ -593,6 +603,8 @@ We will use a simple encoder-decoder architecture that is easy to implement in K
 that has a lot of similarity to the architecture of an LSTM autoencoder. First, the internal
 representation of the input sequence is repeated multiple times, once for each time step in the
 output sequence. This sequence of vectors will be presented to the LSTM decoder.
+
+```
 # repeat encodering
 model.add(RepeatVector(7))
 

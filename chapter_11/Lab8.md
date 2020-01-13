@@ -361,6 +361,8 @@ Thewalkforwardvalidation() function below implements this, taking a
 univariate time
 
 series, a number of time steps to use in the test set, and an array of model configuration.
+
+```
 # walk-forward validation for univariate data
 def walk_forward_validation(data, n_test, cfg):
 predictions = list()
@@ -397,6 +399,8 @@ going on. Finally, if an error does occur, we can return aNoneresult; otherwise,
 some information about the skill of each model evaluated. This is helpful when a large number
 of models are evaluated. Thescoremodel() function below implements this and returns a
 tuple of (key and result), where the key is a string version of the tested model configuration.
+
+```
 # score a model, return None on failure
 def score_model(data, n_test, cfg, debug=False):
 result = None
@@ -422,13 +426,15 @@ print('> Model[%s] %.3f' % (key, result))
 return (key, result)
 
 ```
+
 Next, we need a loop to test a list of different model configurations. This is the main
 function that drives the grid search process and will call thescoremodel() function for each
 model configuration. We can dramatically speed up the grid search process by evaluating model
 configurations in parallel. One way to do that is to use the Joblib library^1. We can define a
 Parallel object with the number of cores to use and set it to the number of scores detected in
-
 your hardware.
+
+```
 
 # define executor
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
@@ -436,11 +442,15 @@ executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
 ```
 We can then create a list of tasks to execute in parallel, which will be one call to the
 scoremodel() function for each model configuration we have.
+
+```
 # define list of tasks
 tasks = (delayed(score_model)(data, n_test, cfg) for cfg in cfg_list)
 
 ```
 Finally, we can use the Parallel object to execute the list of tasks in parallel.
+
+```
 # execute list of tasks
 scores = executor(tasks)
 
@@ -459,6 +469,8 @@ if __name__ =='__main__':
 
 That’s it. We can also provide a non-parallel version of evaluating all model configurations
 in case we want to debug something.
+
+```
 # execute list of tasks sequentially
 scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
@@ -468,6 +480,8 @@ The result of evaluating a list of configurations will be a list of tuples, each
 that summarizes a specific model configuration and the error of the model evaluated with that
 configuration as either the RMSE orNoneif there was an error. We can filter out all scores set
 toNone.
+
+```
 # order scores
 scores = [r for r in scores if r[1] != None]
 
@@ -478,6 +492,8 @@ return this list of scores for review. Thegridsearch() function below implements
 given a univariate time series dataset, a list of model configurations (list of lists), and the
 number of time steps to use in the test set. An optional parallel argument allows the evaluation
 of models across all cores to be tuned on or off, and is on by default.
+
+```
 # grid search configs
 def grid_search(data, cfg_list, n_test, parallel=True):
 scores = None
@@ -505,6 +521,8 @@ create a list
 of model configurations to evaluate. The function only requires the maximum length of the
 historical data as an argument and optionally the periodicity of any seasonal component, which
 is defaulted to 1 (no seasonal component).
+
+```
 # create a set of simple configs to try
 def simple_configs(max_length, offsets=[1]):
 configs = list()
@@ -1161,6 +1179,8 @@ We can load this dataset as a PandasSeriesusing the functionreadcsv()and
 summarize
 
 the shape of the dataset.
+
+```
 # load
 series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
 # summarize shape

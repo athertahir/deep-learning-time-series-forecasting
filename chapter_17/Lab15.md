@@ -97,7 +97,7 @@ dataset = dataset.astype('float32')
 
 We also need to fill in the missing values now that they have been marked. A very simple
 approach would be to copy the observation from the same time the day before. We can implement
-this in a function namedfillmissing()that will take the NumPy array of the data and copy
+this in a function namedfillmissing() that will take the NumPy array of the data and copy
 values from exactly 24 hours ago.
 
 ```
@@ -541,6 +541,8 @@ train, test = split_dataset(dataset.values)
 ```
 Each of the strategies can be stored in a dictionary against a unique name. This name can
 be used in printing and in creating a plot of the scores.
+
+```
 # define the names and functions for the models we wish to evaluate
 models = dict()
 models['daily'] = daily_persistence
@@ -551,6 +553,8 @@ models['week-oya'] = week_one_year_ago_persistence
 
 We can then enumerate each of the strategies, evaluating it using walk-forward validation,
 printing the scores, and adding the scores to a line plot for visual comparison.
+
+```
 # evaluate each model
 days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
 for name, func in models.items():

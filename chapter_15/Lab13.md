@@ -258,7 +258,7 @@ return None
 Each time step of the test dataset is enumerated. A prediction is made
 using the fit model.
 
-Again, we will define a generic function namedmodelpredict()that takes
+Again, we will define a generic function namedmodelpredict() that takes
 the fit model, the
 history, and the model configuration and makes a single one-step
 prediction.
@@ -410,6 +410,8 @@ history[-offset]
 ```
 The complete example of using the framework with a simple persistence model is listed
 below.
+
+```
 # grid search persistence models for monthly airline passengers dataset
 from math import sqrt
 from numpy import mean

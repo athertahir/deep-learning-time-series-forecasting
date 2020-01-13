@@ -579,6 +579,8 @@ in the observations
 
 as a line plot unless the overlap is removed. We can start off by loading the training dataset
 using the functions developed above.
+
+```
 # load data
 trainX, trainy = load_dataset('train', 'HARDataset/')
 
@@ -589,6 +591,7 @@ of rows to the subject to which it belongs. We can load this file using theloadf
 Once loaded, we can also use theunique()NumPy function to retrieve a list of the unique
 subjects in the training dataset.
 
+```
 # load subject mapping
 sub_map = load_file('HARDataset/train/subject_train.txt')
 train_subjects = unique(sub_map)
@@ -600,11 +603,12 @@ Next, we need a way to retrieve all of the rows for a single subject, e.g. subje
 
 We can do this by finding all of the row numbers that belong to a given
 subject and use those
-
 row numbers to select the samples from the loaded `X` and `y` data from the training dataset. The
 dataforsubject() function below implements this behavior. It will take the loaded training
 data, the loaded mapping of row number to subjects, and the subject identification number for
 the subject that we are interested in, and will return the `X` and `y` data for only that subject.
+
+```
 # get all data for one subject
 def data_for_subject(X, y, sub_map, sub_id):
 # get row indexes for the subject id
@@ -832,6 +836,8 @@ predictive model.
 
 We can re-run the example for another subject by making one small change, e.g. choose the
 identifier of the second subject in the training dataset.
+
+```
 # get the data for one subject
 sub_id = train_subjects[1]
 
@@ -900,6 +906,8 @@ For a given call, a plot is created for each subject and the three variables for
 are plotted as histograms with 100 bins, to help to make the distribution obvious. Each plot
 shares the same axis, which is fixed at the bounds of -1 and 1. The complete example is listed
 below.
+
+```
 # plot histograms for multiple subjects from the har dataset
 from numpy import unique
 from numpy import dstack
@@ -1051,6 +1059,8 @@ given data type on each plot. Again, the plots can be arranged horizontally to c
 distribution of each data axis by activity. We would expect to see differences in the distributions
 across activities down the plots. First, we must group the traces for a subject by activity. The
 databyactivity() function below implements this behavior.
+
+```
 # group data by activity
 def data_by_activity(X, y, activities):
 # group windows by activity
@@ -1091,6 +1101,8 @@ pyplot.show()
 As in the previous section, the addition of anoffsetargument allows the same function
 to be called for each of the 3 groups of variables to plot at a time: total acceleration, body
 acceleration and gyroscopic with offsets 0, 3 and 6 respectively.
+
+```
 # plot total acceleration histograms per activity for a subject
 plot_activity_histograms(subX, suby, 0)
 # plot body acceleration histograms per activity for a subject

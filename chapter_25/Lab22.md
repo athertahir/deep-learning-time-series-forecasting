@@ -115,6 +115,8 @@ Theloadfile() function
 
 below loads a dataset given the file path to the file and returns the loaded data as a NumPy
 array.
+
+```
 # load a single file as a numpy array
 def load_file(filepath):
 dataframe = read_csv(filepath, header=None, delim_whitespace=True)
@@ -127,6 +129,8 @@ make this clearer, there are 128 time steps and nine features, where the number 
 number of rows in any given raw signal data file. Theloadgroup() function below implements
 this behavior. Thedstack()NumPy function allows us to stack each of the loaded 3D arrays
 into a single 3D array where the variables are separated on the third dimension (features).
+
+```
 # load a list of files into a 3D array of [samples, timesteps, features]
 def load_group(filenames, prefix=''):
 loaded = list()
@@ -145,6 +149,8 @@ Theloaddatasetgroup() function below loads all input signal data and the
 output data for
 
 a single group using the consistent naming conventions between the train and test directories.
+
+```
 # load a dataset group, such as train or test
 def load_dataset_group(group, prefix=''):
 filepath = prefix + group + '/Inertial Signals/'
@@ -206,7 +212,7 @@ Now that we have the data loaded into memory ready for modeling, we can
 define, fit, and
 
 evaluate an LSTM model. We can define a function
-namedevaluatemodel()that takes the
+namedevaluatemodel() that takes the
 
 train and test dataset, fits a model on the training dataset, evaluates
 it on the test dataset, and
@@ -307,6 +313,8 @@ summarize the performance of
 
 the model across each of those runs. For example, we can callevaluatemodel()a total of 10
 times. This will result in a population of model evaluation scores that must be summarized.
+
+```
 # repeat experiment
 scores = list()
 for r in range(repeats):
@@ -323,6 +331,8 @@ whereas the standard deviation gives the average variance of the
 accuracy from the mean. The
 
 functionsummarizeresults()below summarizes the results of a run.
+
+```
 # summarize scores
 def summarize_results(scores):
 print(scores)
@@ -333,6 +343,8 @@ print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 We can bundle up the repeated evaluation, gathering of results, and summarization of results
 into a main function for the experiment, calledrunexperiment(), listed below. By default,
 the model is evaluated 10 times before the performance of the model is reported.
+
+```
 # run an experiment
 def run_experiment(repeats=10):
 # load data

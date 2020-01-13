@@ -431,7 +431,7 @@ not have values in the input time series at prior time steps. In turn,
 the choice of the size of
 the number of input time steps will have an important effect on how much
 of the training data
-is used. We can define a function namedsplitsequences()that will take a
+is used. We can define a function namedsplitsequences() that will take a
 dataset as we
 have defined it with rows for time steps and columns for parallel series
 and return input/outputsamples.

@@ -448,6 +448,8 @@ Thedstack()NumPy function allows us to stack each of the loaded 3D
 arrays into a single 3D
 
 array where the variables are separated on the third dimension (features).
+
+```
 # load a list of files into a 3D array of [samples, timesteps, features]
 def load_group(filenames, prefix=''):
 loaded = list()

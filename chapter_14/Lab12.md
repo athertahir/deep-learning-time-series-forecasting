@@ -113,6 +113,8 @@ The traintestsplit()
 
 function below will split the series taking the raw observations and the number of observations
 to use in the test set as arguments.
+
+```
 # split a univariate dataset into train/test sets
 def train_test_split(data, n_test):
 return data[:-n_test], data[-n_test:]
@@ -212,7 +214,7 @@ return None
 Each time step of the test dataset is enumerated. A prediction is made
 using the fit model.
 
-Again, we will define a generic function namedmodelpredict()that takes
+Again, we will define a generic function namedmodelpredict() that takes
 the fit model, the
 
 history, and the model configuration and makes a single one-step
@@ -547,6 +549,8 @@ return model
 
 Making a prediction with a fit MLP model is as straightforward as calling thepredict()
 function and passing in one sample worth of input values required to make the prediction.
+
+```
 # make a prediction
 yhat = model.predict(x_input, verbose=0)
 
@@ -803,6 +807,8 @@ weighted input features
 
 into those that are most salient, reducing the input size by 1/4. The pooled inputs are flattened
 to one long vector before being interpreted and used to make a one-step prediction.
+
+```
 # define pooling and output layers
 model.add(MaxPooling1D(pool_size=2))
 model.add(Flatten())
@@ -814,6 +820,8 @@ has multiple input time steps, the same as the MLP in the previous section. One 
 that the CNN can support multiple features or types of observations at each time step, which are
 interpreted as channels of an image. We only have a single feature at each time step, therefore
 the required three-dimensional shape of the input data will be[nsamples, ninput, 1].
+
+```
 # reshape training data
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
@@ -1142,6 +1150,8 @@ with. Thedifference() function below will difference a provided dataset
 with a provided
 
 offset, called the difference order, e.g. 12 for one year of months prior.
+
+```
 # difference dataset
 def difference(data, interval):
 return [data[i] - data[i - interval] for i in range(interval, len(data))]

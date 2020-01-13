@@ -8,10 +8,8 @@ algorithms, convolutional neural networks are capable of automatically learning 
 sequence data, support multiple-variate data, and can directly output a vector for multi-step
 forecasting. As such, one-dimensional CNNs have been demonstrated to perform well and even
 achieve state-of-the-art results on challenging sequence prediction problems. In this tutorial,
-
 you will discover how to develop 1D convolutional neural networks for
 multi-step time series
-
 forecasting. After completing this tutorial, you will know:
 
 - How to develop a CNN for multi-step time series forecasting model for
@@ -145,6 +143,8 @@ return score, scores
 Once we have the evaluation for a model, we can summarize the performance. The function
 below, namedsummarizescores(), will display the performance of a model as a single line for
 easy comparison with other models.
+
+```
 # summarize scores
 def summarize_scores(name, score, scores):
 s_scores = ','.join(['%.1f' % s for s in scores])
@@ -252,6 +252,8 @@ the next standard week given the prior standard week. This will require a little
 of the training data. The training data is provided in standard weeks with eight variables,
 specifically in the shape[159, 7, 8]. The first step is to flatten the data so that we have eight
 time series sequences.
+
+```
 # flatten data
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
@@ -275,7 +277,7 @@ ninput,nout) so that
 you can experiment with different values or adapt it for your own
 problem. Below is a function
 
-namedtosupervised()that takes a list of weeks (history) and the number of time steps to
+namedtosupervised() that takes a list of weeks (history) and the number of time steps to
 use as inputs and outputs and returns the data in the overlapping moving window format.
 
 ```
@@ -721,6 +723,8 @@ The updatedbuildmodel() function that defines and fits the model on the
 training dataset is
 
 listed below.
+
+```
 # train the model
 def build_model(train, n_input):
 # prepare data

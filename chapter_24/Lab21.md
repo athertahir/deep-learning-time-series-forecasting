@@ -116,6 +116,8 @@ Theloadfile() function
 
 below loads a dataset given the file path to the file and returns the loaded data as a NumPy
 array.
+
+```
 # load a single file as a numpy array
 def load_file(filepath):
 dataframe = read_csv(filepath, header=None, delim_whitespace=True)
@@ -128,6 +130,8 @@ make this clearer, there are 128 time steps and nine features, where the number 
 number of rows in any given raw signal data file. Theloadgroup() function below implements
 this behavior. Thedstack()NumPy function allows us to stack each of the loaded 3D arrays
 into a single 3D array where the variables are separated on the third dimension (features).
+
+```
 # load a list of files into a 3D array of [samples, timesteps, features]
 def load_group(filenames, prefix=''):
 loaded = list()
@@ -139,13 +143,15 @@ loaded = dstack(loaded)
 return loaded
 
 ```
+
 We can use this function to load all input signal data for a given
 group, such as train or test.
 
-Theloaddatasetgroup() function below loads all input signal data and the
+The loaddatasetgroup() function below loads all input signal data and the
 output data for
-
 a single group using the consistent naming conventions between the train and test directories.
+
+```
 # load a dataset group, such as train or test
 def load_dataset_group(group, prefix=''):
 filepath = prefix + group + '/Inertial Signals/'
@@ -171,21 +177,18 @@ return X, y
 ```
 
 Finally, we can load each of the train and test datasets. The output data is defined as an
-
 integer for the class number. We must one hot encode these class
 integers so that the data is
-
 suitable for fitting a neural network multiclass classification model.
 We can do this by calling
-
-thetocategorical()Keras function. Theloaddataset() function below
+thetocategorical() Keras function. The loaddataset() function below
 implements this
-
 behavior and returns the train and test `X` and `y` elements ready for fitting
 and evaluating the
-
 defined models.
 
+
+```
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 print(trainX.shape, trainy.shape)
@@ -201,41 +204,34 @@ print(trainX.shape, trainy.shape, testX.shape, testy.shape)
 return trainX, trainy, testX, testy
 
 ```
+
 #### Fit and Evaluate Model
 
 Now that we have the data loaded into memory ready for modeling, we can
 define, fit, and
-
 evaluate a 1D CNN model. We can define a function
-namedevaluatemodel()that takes the
-
+namedevaluatemodel() that takes the
 train and test dataset, fits a model on the training dataset, evaluates
 it on the test dataset, and
-
 returns an estimate of the model’s performance. First, we must define
 the CNN model using
-
 the Keras deep learning library. The model requires a three-dimensional
-input with[samples,
-
-timesteps, features].
+input with[samples, timesteps, features].
 
 This is exactly how we have loaded the data, where one sample is one window of the time
-
 series data, each window has 128 time steps, and a time step has nine
 variables or features. The
-
-
 output for the model will be a six-element vector containing the probability of a given window
 belonging to each of the six activity types. These input and output dimensions are required
-
 when fitting the model, and we can extract them from the provided
 training dataset.
 
+```
 # define data shape
 n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
 ```
+
 The model is defined as a Sequential Keras model, for simplicity. We will define the model
 as having two 1D CNN layers, followed by a dropout layer for regularization, then a pooling
 layer. It is common to define CNN layers in groups of two in order to give the model a good
@@ -244,24 +240,18 @@ is intended to help slow down the learning process and hopefully result in a bet
 
 The pooling layer reduces the learned features to^14 their size,
 consolidating them to only the
-
 most essential elements. After the CNN and pooling, the learned features are flattened to one
 long vector and pass through a fully connected layer before the output layer used to make a
 prediction. The fully connected layer ideally provides a buffer between the learned features and
 the output with the intent of interpreting the learned features before making a prediction.
 For this model, we will use a standard configuration of 64 parallel feature maps and a kernel
 size of 3. The feature maps are the number of times the input is processed or interpreted,
-
 whereas the kernel size is the number of input time steps considered as
 the input sequence is
-
 read or processed onto the feature maps. The efficient Adam version of stochastic gradient
 descent will be used to optimize the network, and the categorical cross entropy loss function
-
 will be used given that we are learning a multiclass classification
-problem. The definition of the
-
-model is listed below.
+problem. The definition of the model is listed below.
 
 ```
 # define the CNN model
@@ -277,15 +267,16 @@ model.add(Dense(n_outputs, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 ```
+
 The model is fit for a fixed number of epochs, in this case 10, and a
 batch size of 32 samples
-
 will be used, where 32 windows of data will be exposed to the model
 before the weights of the
-
 model are updated. Once the model is fit, it is evaluated on the test dataset and the accuracy
 of the fit model on the test dataset is returned. The completeevaluatemodel() function is
 listed below.
+
+```
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
 verbose, epochs, batch_size = 0, 10, 32
@@ -749,7 +740,7 @@ return accuracy
 
 standardization.
 
-We can also update therunexperiment()to repeat the experiment 10 times
+We can also update therunexperiment() to repeat the experiment 10 times
 for each param-
 
 eter; in this case, only two parameters will be evaluated[False,
@@ -780,6 +771,8 @@ summarize_results(all_scores, params)
 This will result in two samples of results that can be compared. We will update the
 summarizeresults() function to summarize the sample of results for each configuration
 parameter and to create a box plot to compare each sample of results.
+
+```
 # summarize scores
 def summarize_results(scores, params):
 print(scores, params)
@@ -1383,6 +1376,8 @@ three-headed 1D CNN
 model. We can see that each head of the model is the same structure, although the kernel size
 is varied. The three heads then feed into a single merge layer before being interpreted prior to
 making a prediction.
+
+```
 # fit and evaluate a model
 def evaluate_model(trainX, trainy, testX, testy):
 verbose, epochs, batch_size = 0, 10, 32

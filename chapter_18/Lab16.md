@@ -314,7 +314,7 @@ yhat = model_fit.predict(len(series), len(series)+6)
 
 ```
 
-We can wrap all of this up into a function below namedarimaforecast()that takes the
+We can wrap all of this up into a function below namedarimaforecast() that takes the
 history and returns a one week forecast.
 
 ```

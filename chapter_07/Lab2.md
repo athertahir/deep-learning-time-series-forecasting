@@ -400,7 +400,7 @@ the choice of the size of
 the number of input time steps will have an important effect on how much
 of the training data
 
-is used. We can define a function namedsplitsequences()that will take a
+is used. We can define a function namedsplitsequences() that will take a
 dataset as we
 
 have defined it with rows for time steps and columns for parallel series
@@ -964,6 +964,8 @@ case of multivariate
 input, we must flatten the three dimensional structure of the input data samples to a two
 dimensional structure of[samples, features], where lag observations are treated as features
 by the model.
+
+```
 # flatten input
 n_input = X.shape[1] * X.shape[2]
 X = X.reshape((X.shape[0], n_input))
@@ -973,12 +975,15 @@ X = X.reshape((X.shape[0], n_input))
 The model output will be a vector, with one element for each of the three different time
 series.
 
+```
 # determine the number of outputs
 n_output = y.shape[1]
 
 ```
 We can now define our model, using the flattened vector length for the input layer and the
 number of time series as the vector length when making a prediction.
+
+```
 # define model
 model = Sequential()
 model.add(Dense(100, activation='relu', input_dim=n_input))
@@ -989,16 +994,22 @@ model.compile(optimizer='adam', loss='mse')
 We can predict the next value in each of the three parallel series by providing an input of
 three time steps for each series.
 
+```
 70, 75, 145
 80, 85, 165
 90, 95, 185
 
 ```
+
 The shape of the input for making a single prediction must be 1 sample, 3 time steps and 3
 features, or[1, 3, 3]. Again, we can flatten this to[1, 6]to meet the expectations of the
 model. We would expect the vector output to be:
 
+```
 [100, 105, 205]
+
+```
+
 
 ```
 # demonstrate prediction
@@ -1071,6 +1082,8 @@ multi-output MLP model. It may offer more flexibility or better performance depe
 specifics of the problem that is being modeled. This type of model can be defined in Keras
 using the Keras functional API. First, we can define the input model as an MLP with an input
 layer that expects flattened feature vectors.
+
+```
 # define model
 visible = Input(shape=(n_input,))
 dense = Dense(100, activation='relu')(visible)
@@ -1089,6 +1102,8 @@ output3 = Dense(1)(dense)
 
 ```
 We can then tie the input and output layers together into a single model.
+
+```
 # tie together
 model = Model(inputs=visible, outputs=[output1, output2, output3])
 model.compile(optimizer='adam', loss='mse')
@@ -1112,12 +1127,17 @@ y3 = y[:, 2].reshape((y.shape[0], 1))
 ```
 
 These arrays can be provided to the model during training.
+
+```
 # fit model
 model.fit(X, [y1,y2,y3], epochs=2000, verbose=0)
 
 ```
+
 Tying all of this together, the complete example is listed below.
 
+
+```
 # multivariate output mlp example
 from numpy import array
 from numpy import hstack
@@ -1432,6 +1452,9 @@ series. For example, consider our multivariate time series from a prior section:
 
 We may use three prior time steps of each of the two input time series to predict two time
 steps of the output time series.
+
+
+```
 Input:
 
 10, 15
@@ -1439,8 +1462,6 @@ Input:
 20, 25
 
 30, 35
-
-```
 
 Output:
 
@@ -1450,6 +1471,9 @@ Output:
 ```
 
 The splitsequences() function below implements this behavior.
+
+
+```
 def split_sequences(sequences, n_steps_in, n_steps_out):
 X, y = list(), list()
 for i in range(len(sequences)):
@@ -1467,6 +1491,9 @@ return array(X), array(y)
 
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
+
+
+```
 from numpy import array
 from numpy import hstack
 def split_sequences(sequences, n_steps_in, n_steps_out):
