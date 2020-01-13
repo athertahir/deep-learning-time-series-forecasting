@@ -467,7 +467,7 @@ configurations and their
 
 error are reported at the end of the run.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -663,7 +663,7 @@ results from running the
 
 hyperparameter grid search are listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -873,7 +873,7 @@ results from running the
 
 hyperparameter grid search are listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1080,7 +1080,7 @@ results from running the
 
 hyperparameter grid search are listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 

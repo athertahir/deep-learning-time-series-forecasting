@@ -66,13 +66,16 @@ function that maps a sequence of past observations as input to an output observa
 the sequence of observations must be transformed into multiple examples from which the LSTM
 can learn. Consider a given univariate sequence:
 
+```
 [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
 ```
+
 We can divide the sequence into multiple input/output patterns called samples, where three
 time steps are used as input and one time step is used as output for the one-step prediction
 that is being learned.
 
+```
 X, y
 10, 20, 30, 40
 20, 30, 40, 50
@@ -81,11 +84,11 @@ X, y
 
 ```
 
-Thesplitsequence()function below implements this behavior and will split a given
+The splitsequence() function below implements this behavior and will split a given
 univariate sequence into multiple samples where each sample has a specified number of time
 steps and the output is a single time step.
 
-
+```
 def split_sequence(sequence, n_steps):
  X, y = list(), list()
  for i in range(len(sequence)):
@@ -134,9 +137,9 @@ for i in range(len(X)):
 ```
 
 Running the example splits the univariate series into six samples where each sample has
-
 three input time steps and one output time step.
 
+```
 [10 20 30] 40
  [20 30 40] 50
  [30 40 50] 60
@@ -196,24 +199,23 @@ In this case, we define a model with 50 LSTM units in the hidden layer and an ou
 that predicts a single numerical value. The model is fit using the efficient Adam version of
 stochastic gradient descent and optimized using the mean squared error, or‘mse’loss function.
 Once the model is defined, we can fit it on the training dataset.
+
+```
 # fit model
 model.fit(X, y, epochs=200, verbose=0)
 
 ```
 
 After the model is fit, we can use it to make a prediction. We can predict the next value
-
 in the sequence by providing the input:[70, 80, 90]. And expecting the
 model to predict
-
 something like: [100]. The model expects the input shape to be
 three-dimensional with
-
 [samples, timesteps, features], therefore, we must reshape the single
 input sample before
-
 making the prediction.
 
+```
 x_input = array([70, 80, 90])
  x_input = x_input.reshape((1, n_steps, n_features))
  yhat = model.predict(x_input, verbose=0)
@@ -222,9 +224,9 @@ x_input = array([70, 80, 90])
 
 We can tie all of this together and demonstrate how to develop a Vanilla
 LSTM for univariate
-
 time series forecasting and make a single prediction.
 
+```
 from numpy import array
  from keras.models import Sequential
  from keras.layers import LSTM
@@ -273,9 +275,10 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a prediction. We can see
 that the model predicts the next value in the sequence.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[102.09213]]
 
 ```
@@ -288,10 +291,11 @@ default will produce a two-dimensional output as an interpretation from the end 
 
 We can address this by having the LSTM output a value for each time step
 in the input data by
-
 setting thereturnsequences=Trueargument on the layer. This allows us to have 3D output
 from hidden LSTM layer as input to the next. We can therefore define a Stacked LSTM as
 follows.
+
+```
 # define model
 model = Sequential()
 model.add(LSTM(50, activation='relu', return_sequences=True, input_shape=(n_steps,
@@ -303,6 +307,7 @@ model.compile(optimizer='adam', loss='mse')
 ```
 We can tie this together; the complete code example is listed below.
 
+```
 # univariate stacked lstm example
 from numpy import array
 from keras.models import Sequential
@@ -355,9 +360,10 @@ print(yhat)
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[102.47341]]
 
 ```
@@ -370,9 +376,9 @@ is called a Bidirectional LSTM. We can implement a Bidirectional LSTM for univar
 series forecasting by wrapping the first hidden layer in a wrapper layer called Bidirectional.
 
 An example of defining a Bidirectional LSTM to read input both forward
-and backward is as
+and backward is as follows.
 
-follows.
+```
 # define model
 model = Sequential()
 model.add(Bidirectional(LSTM(50, activation='relu'), input_shape=(n_steps, n_features)))
@@ -381,10 +387,9 @@ model.compile(optimizer='adam', loss='mse')
 
 ```
 
-The complete example of the Bidirectional LSTM for univariate time series forecasting is
+The complete example of the Bidirectional LSTM for univariate time series forecasting is listed below.
 
-listed below.
-
+```
 from numpy import array
  from keras.models import Sequential
  from keras.layers import LSTM
@@ -432,11 +437,11 @@ x_input = array([70, 80, 90])
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
-
 running the example a few times.
 
+```
 [[101.48093]]
 
 ```
@@ -446,10 +451,8 @@ running the example a few times.
 
 A convolutional neural network, or CNN for short, is a type of neural
 network developed for
-
 working with two-dimensional image data. The CNN can be very effective
 at automatically
-
 extracting and learning features from one-dimensional sequence data such as univariate time
 series data. A CNN model can be used in a hybrid model with an LSTM backend where the
 CNN is used to interpret subsequences of input that together are provided as a sequence to an
@@ -463,6 +466,8 @@ to process as input. We can parameterize this and define the number of subsequen
 nseqand the number of time steps per subsequence asnsteps. The input data can then be
 reshaped to have the required structure:[samples, subsequences, timesteps, features].
 For example:
+
+```
 # choose a number of time steps
 n_steps = 4
 # split into samples
@@ -474,15 +479,14 @@ n_steps = 2
 X = X.reshape((X.shape[0], n_seq, n_steps, n_features))
 
 ```
+
 We want to reuse the same CNN model when reading in each sub-sequence of
 data separately.
 
 This can be achieved by wrapping the entire CNN model in
 aTimeDistributedwrapper that
-
 will apply the entire model once per input, in this case, once per input
 subsequence. The CNN
-
 model first has a convolutional layer for reading across the subsequence that requires a number
 of filters and a kernel size to be specified. The number of filters is the number of reads or
 interpretations of the input sequence. The kernel size is the number of time steps included of
@@ -491,9 +495,9 @@ layer that distills the filter maps down to^14 of their size that includes the m
 
 These structures are then flattened down to a single one-dimensional
 vector to be used as a
-
 single input time step to the LSTM layer.
 
+```
 # define the input cnn model
 model.add(TimeDistributed(Conv1D(filters=64, kernel_size=1, activation='relu'),
 input_shape=(None, n_steps, n_features)))
@@ -501,6 +505,7 @@ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
 model.add(TimeDistributed(Flatten()))
 
 ```
+
 Next, we can define the LSTM part of the model that interprets the CNN model’s read of
 the input sequence and makes a prediction.
 
@@ -575,9 +580,10 @@ print(yhat)
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[101.69263]]
 
 ```
@@ -586,7 +592,6 @@ running the example a few times.
 
 A type of LSTM related to the CNN-LSTM is the ConvLSTM, where the
 convolutional reading
-
 of input is built directly into each LSTM unit. The ConvLSTM was developed for reading
 two-dimensional spatial-temporal data, but can be adapted for use with univariate time series
 forecasting. The layer expects input as a sequence of two-dimensional images, therefore the
@@ -596,6 +601,7 @@ the number of subsequences, ornseq, and columns will be the number of time steps
 each subsequence, ornsteps. The number of rows is fixed at 1 as we are working with
 one-dimensional data. We can now reshape the prepared samples into the required structure.
 
+```
 # choose a number of time steps
 n_steps = 4
 # split into samples
@@ -612,16 +618,19 @@ dimensional kernel size in terms of(rows, columns). As we are working with a one
 series, the number of rows is always fixed to 1 in the kernel. The output of the model must
 then be flattened before it can be interpreted and a prediction made.
 
+```
 # define the input cnnlstm model
 model.add(ConvLSTM2D(filters=64, kernel_size=(1,2), activation='relu', input_shape=(n_seq,
 1, n_steps, n_features)))
 model.add(Flatten())
 
 ```
+
 The complete example of a ConvLSTM for one-step univariate time series forecasting is
 listed below.
 
 
+```
 from numpy import array
  from keras.models import Sequential
  from keras.layers import Dense
@@ -673,12 +682,11 @@ x_input = array([60, 70, 80, 90])
 Running the example predicts the next value in the sequence, which we
 expect would be 100.
 
-Note: Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+**Note:** Given the stochastic nature of the algorithm, your specific
+results may vary. Consider running the example a few times.
 
 
+```
 [[103.68166]]
 
 ```
@@ -707,6 +715,8 @@ time series that is
 dependent on the input time series. The input time series are parallel because each series has
 an observation at the same time steps. We can demonstrate this with a simple example of two
 parallel input time series where the output series is the simple addition of the input series.
+
+```
 # define input sequence
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
 in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
@@ -715,8 +725,9 @@ out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
 ```
 
 We can reshape these three arrays of data as a single dataset where each row is a time step,
-and each column is a separate time series. This is a standard way of storing parallel time series
-in a CSV file.
+and each column is a separate time series. This is a standard way of storing parallel time series in a CSV file.
+
+```
 # convert to [rows, columns] structure
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 in_seq2 = in_seq2.reshape((len(in_seq2), 1))
@@ -729,6 +740,7 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
 The complete example is listed below.
 
 
+```
 # multivariate data preparation
 from numpy import array
 from numpy import hstack
@@ -748,6 +760,7 @@ print(dataset)
 Running the example prints the dataset with one row per time step and one column for each
 of the two input and one output parallel time series.
 
+```
 [[ 10 15 25]
 [ 20 25 45]
 [ 30 35 65]
@@ -762,17 +775,21 @@ of the two input and one output parallel time series.
 As with the univariate time series, we must structure these data into samples with input
 and output elements. An LSTM model needs sufficient context to learn a mapping from an
 input sequence to an output value. LSTMs can support parallel input time series as separate
-
 variables or features. Therefore, we need to split the data into samples
 maintaining the order of
-
 observations across the two input sequences. If we chose three input time steps, then the first
 sample would look as follows:
+
+
+```
 Input:
 
 10, 15
 20, 25
 30, 35
+
+```
+
 
 ```
 Output:
@@ -784,22 +801,17 @@ That is, the first three time steps of each parallel series are provided as inpu
 and the model associates this with the value in the output series at the third time step, in this
 case, 65. We can see that, in transforming the time series into input/output samples to train
 the model, that we will have to discard some values from the output time series where we do
-
-
 not have values in the input time series at prior time steps. In turn,
 the choice of the size of
-
 the number of input time steps will have an important effect on how much
 of the training data
-
 is used. We can define a function namedsplitsequences()that will take a
 dataset as we
-
 have defined it with rows for time steps and columns for parallel series
 and return input/output
-
 samples.
 
+```
 def split_sequences(sequences, n_steps):
  X, y = list(), list()
  for i in range(len(sequences)):
@@ -818,9 +830,9 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
 
 We can test this function on our dataset using three time steps for each
 input time series as
-
 input. The complete example is listed below.
 
+```
 from numpy import array
  from numpy import hstack
 
@@ -862,30 +874,23 @@ for i in range(len(X)):
 
 Running the example first prints the shape of the `X` and `y` components. We can
 see that
-
-theXcomponent has a three-dimensional structure. The first dimension is
+the `X` component has a three-dimensional structure. The first dimension is
 the number of
-
 samples, in this case 7. The second dimension is the number of time
 steps per sample, in this
-
 case 3, the value specified to the function. Finally, the last dimension
 specifies the number of
-
 parallel time series or the number of variables, in this case 2 for the
 two parallel series. This is
-
 the exact three-dimensional structure expected by an LSTM as input. The
 data is ready to
-
 use without further reshaping. We can then see that the input and output
 for each sample is
-
 printed, showing the three time steps for each of the two input series
 and the associated output
-
 for each sample.
 
+```
 (7, 3, 2) (7,)
 
 [[10 15]
@@ -914,15 +919,13 @@ for each sample.
 
 We are now ready to fit an LSTM model on this data. Any of the varieties
 of LSTMs in the
-
 previous section can be used, such as a Vanilla, Stacked, Bidirectional,
 CNN, or ConvLSTM
-
 model. We will use a Vanilla LSTM where the number of time steps and
 parallel series (features)
-
 are specified for the input layer via theinputshapeargument.
 
+```
 model = Sequential()
  model.add(LSTM(50, activation='relu', input_shape=(n_steps,
 n_features)))
@@ -938,6 +941,7 @@ When making a prediction, the model expects three time steps for two input time 
 We can predict the next value in the output series providing the input
 values of:
 
+```
 80, 85
 90, 95
 100, 105
@@ -948,6 +952,7 @@ be[1, 3, 2].
 
 We would expect the next value in the sequence to be 100 + 105, or 205.
 
+```
 # demonstrate prediction
 x_input = array([[80, 85], [90, 95], [100, 105]])
 x_input = x_input.reshape((1, n_steps, n_features))
@@ -955,6 +960,8 @@ yhat = model.predict(x_input, verbose=0)
 
 ```
 The complete example is listed below.
+
+```
 # multivariate lstm example
 from numpy import array
 from numpy import hstack
@@ -1013,9 +1020,10 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[208.13531]]
 
 ```
@@ -1031,6 +1039,7 @@ parallel time series and a
 value must be predicted for each. For example, given the data from the
 previous section:
 
+```
 [[ 10 15 25]
 [ 20 25 45]
 [ 30 35 65]
@@ -1042,9 +1051,13 @@ previous section:
 [ 90 95 185]]
 
 ```
+
 We may want to predict the value for each of the three time series for the next time step. This
 might be referred to as multivariate forecasting. Again, the data must be split into input/output
 samples in order to train a model. The first sample of this dataset would be:
+
+
+```
 Input:
 
 10, 15, 25
@@ -1054,17 +1067,21 @@ Input:
 30, 35, 65
 
 ```
+
+
+```
 Output:
 
 40, 45, 85
 
 ```
-Thesplitsequences()function below will split multiple parallel time
-series with rows for
 
+The splitsequences() function below will split multiple parallel time
+series with rows for
 time steps and one series per column into the required input/output
 shape.
 
+```
 def split_sequences(sequences, n_steps):
  X, y = list(), list()
  for i in range(len(sequences)):
@@ -1084,6 +1101,7 @@ seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
 We can demonstrate this on the contrived problem; the complete example
 is listed below.
 
+```
 from numpy import array
  from numpy import hstack
 
@@ -1128,13 +1146,14 @@ Running the example first prints the shape of the prepared `X` and `y` component
 shape ofXis three-dimensional, including the number of samples (6), the number of time steps
 chosen per sample (3), and the number of parallel time series or features (3). The shape ofy
 is two-dimensional as we might expect for the number of samples (6) and the number of time
-
 variables per sample to be predicted (3). The data is ready to use in an
 LSTM model that
-
 expects three-dimensional input and two-dimensional output shapes for the `X` and `y` components
 of each sample. Then, each of the samples is printed showing the input and output components
 of each sample.
+
+
+```
 (6, 3, 3) (6, 3)
 
 [[10 15 25]
@@ -1166,6 +1185,7 @@ also used in the specification of the number of values to predict by the model i
 layer; again, this is three.
 
 
+```
 model = Sequential()
  model.add(LSTM(100, activation='relu', return_sequences=True,
 input_shape=(n_steps,
@@ -1177,18 +1197,17 @@ input_shape=(n_steps,
 ```
 
 We can predict the next value in each of the three parallel series by providing an input of
-
 three time steps for each series.
 
+```
  80, 85, 165
  90, 95, 185
 
 ```
 The shape of the input for making a single prediction must be 1 sample,
-3 time steps, and 3
+3 time steps, and 3 features, or[1, 3, 3].
 
-features, or[1, 3, 3].
-
+```
 x_input = array([[70,75,145], [80,85,165], [90,95,185]])
  x_input = x_input.reshape((1, n_steps, n_features))
  yhat = model.predict(x_input, verbose=0)
@@ -1197,13 +1216,14 @@ x_input = array([[70,75,145], [80,85,165], [90,95,185]])
 
 We would expect the vector output to be:
 
+```
 [100, 105, 205]
 
 ```
 We can tie all of this together and demonstrate a Stacked LSTM for multivariate output
-
 time series forecasting below.
 
+```
 from numpy import array
  from numpy import hstack
  from keras.models import Sequential
@@ -1262,9 +1282,10 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[101.76599 108.730484 206.63577 ]]
 
 ```
@@ -1305,22 +1326,30 @@ will be comprised of multiple time steps and may or may not have the
 same number of steps.
 
 For example, given the univariate time series:
+
+```
 [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
 ```
 We could use the last three time steps as input and forecast the next two time steps. The
 first sample would look as follows:
+
+```
 Input:
 [10, 20, 30]
+
+```
+
 
 ```
 Output:
 [40, 50]
 
 ```
-Thesplitsequence()function below implements this behavior and will split a given
+The splitsequence() function below implements this behavior and will split a given
 univariate time series into samples with a specified number of input and output time steps.
 
+```
 # split a univariate sequence into samples
 def split_sequence(sequence, n_steps_in, n_steps_out):
 X, y = list(), list()
@@ -1343,6 +1372,7 @@ We can demonstrate this function on the small contrived dataset. The complete ex
 listed below.
 
 
+```
 from numpy import array
 
 def split_sequence(sequence, n_steps_in, n_steps_out):
@@ -1372,10 +1402,9 @@ for i in range(len(X)):
 ```
 
 Running the example splits the univariate series into input and output
-time steps and prints
+time steps and prints the input and output components of each.
 
-the input and output components of each.
-
+```
 [10 20 30] [40 50]
  [20 30 40] [50 60]
  [30 40 50] [60 70]
@@ -1383,8 +1412,6 @@ the input and output components of each.
  [50 60 70] [80 90]
 
 ```
-
-samples.
 
 Now that we know how to prepare data for multi-step forecasting, let’s
 look at some LSTM
@@ -1395,36 +1422,33 @@ models that can learn this mapping.
 
 Like other types of neural network models, the LSTM can output a vector
 directly that can
-
 be interpreted as a multi-step forecast. This approach was seen in the
 previous section were
-
 one time step of each output time series was forecasted as a vector. As
 with the LSTMs for
-
 univariate data in a prior section, the prepared samples must first be
 reshaped. The LSTM
-
 expects data to have a three-dimensional structure of[samples,
 timesteps, features], and
-
 in this case, we only have one feature so the reshape is
 straightforward.
 
 
+```
 # reshape from [samples, timesteps] into [samples, timesteps, features]
 n_features = 1
 X = X.reshape((X.shape[0], X.shape[1], n_features))
 
 ```
+
 With the number of input and output steps specified in
 thenstepsinandnstepsout
-
 variables, we can define a multi-step time-series forecasting model. Any
 of the presented LSTM
-
 model types could be used, such as Vanilla, Stacked, Bidirectional, CNN-LSTM, or ConvLSTM.
 Below defines a Stacked LSTM for multi-step forecasting.
+
+```
 # define model
 model = Sequential()
 model.add(LSTM(100, activation='relu', return_sequences=True, input_shape=(n_steps_in,
@@ -1446,6 +1470,9 @@ We would expect the predicted output to be:
 ```
 As expected by the model, the shape of the single sample of input data when making the
 prediction must be[1, 3, 1]for the 1 sample, 3 time steps of the input, and the single feature.
+
+
+```
 # demonstrate prediction
 x_input = array([70, 80, 90])
 x_input = x_input.reshape((1, n_steps_in, n_features))
@@ -1455,6 +1482,8 @@ yhat = model.predict(x_input, verbose=0)
 
 Tying all of this together, the Stacked LSTM for multi-step forecasting with a univariate
 time series is listed below.
+
+```
 # univariate multi-step vector-output stacked lstm example
 from numpy import array
 from keras.models import Sequential
@@ -1508,9 +1537,10 @@ print(yhat)
 Running the example forecasts and prints the next two time steps in the
 sequence.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[100.98096 113.28924]]
 
 ```
@@ -1532,6 +1562,7 @@ output of the encoder is a fixed length vector that represents the model’s int
 sequence. The encoder is traditionally a Vanilla LSTM model, although other encoder models
 can be used such as Stacked, Bidirectional, and CNN models.
 
+```
 # define encoder model
 model.add(LSTM(100, activation='relu', input_shape=(n_steps_in, n_features)))
 
@@ -1539,6 +1570,7 @@ model.add(LSTM(100, activation='relu', input_shape=(n_steps_in, n_features)))
 The decoder uses the output of the encoder as an input. First, the fixed-length output of
 the encoder is repeated, once for each required time step in the output sequence.
 
+```
 # repeat encoding
 model.add(RepeatVector(n_steps_out))
 
@@ -1546,21 +1578,24 @@ model.add(RepeatVector(n_steps_out))
 This sequence is then provided to an LSTM decoder model. The model must output a value
 for each value in the output time step, which can be interpreted by a single output model.
 
+```
 # define decoder model
 model.add(LSTM(100, activation='relu', return_sequences=True))
 
 ```
 We can use the same output layer or layers to make each one-step prediction in the output
 sequence. This can be achieved by wrapping the output part of the model in aTimeDistributed
-
 wrapper.
 
+```
 # define model output
 model.add(TimeDistributed(Dense(1)))
 
 ```
 The full definition for an Encoder-Decoder model for multi-step time series forecasting is
 listed below.
+
+```
 # define model
 model = Sequential()
 model.add(LSTM(100, activation='relu', input_shape=(n_steps_in, n_features)))
@@ -1573,6 +1608,8 @@ model.compile(optimizer='adam', loss='mse')
 
 As with other LSTM models, the input data must be reshaped into the expected three-
 dimensional shape of[samples, timesteps, features].
+
+```
 # reshape input training data
 X = X.reshape((X.shape[0], X.shape[1], n_features))
 
@@ -1580,18 +1617,18 @@ X = X.reshape((X.shape[0], X.shape[1], n_features))
 
 In the case of the Encoder-Decoder model, the output, orypart, of the training dataset
 must also have this shape. This is because the model will predict a given number of time steps
-
 with a given number of features for each input sample.
 
 
+```
 y = y.reshape((y.shape[0], y.shape[1], n_features))
 
 ```
 
 The complete example of an Encoder-Decoder LSTM for multi-step time series forecasting
-
 is listed below.
 
+```
 from numpy import array
  from keras.models import Sequential
  from keras.layers import LSTM
@@ -1645,9 +1682,11 @@ x_input = array([70, 80, 90])
 Running the example forecasts and prints the next two time steps in the
 sequence.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+
+```
 [[[101.9736
 
 [116.213615]]]
@@ -1663,7 +1702,6 @@ In the previous sections, we have looked at univariate, multivariate, and multi-
 forecasting. It is possible to mix and match the different types of LSTM models presented so
 far for the different problems. This too applies to time series forecasting problems that involve
 multivariate and multi-step forecasting, but it may be a little more challenging. In this section,
-
 we will provide short examples of data preparation and modeling for
 multivariate multi-step
 
@@ -1685,6 +1723,8 @@ output series is separate
 
 but dependent upon the input time series, and multiple time steps are required for the output
 series. For example, consider our multivariate time series from a prior section:
+
+```
 [[ 10 15 25]
 [ 20 25 45]
 [ 30 35 65]
@@ -1698,9 +1738,10 @@ series. For example, consider our multivariate time series from a prior section:
 ```
 
 We may use three prior time steps of each of the two input time series to predict two time
-
 steps of the output time series.
 
+
+```
 Input:
 
 10, 15
@@ -1708,14 +1749,18 @@ Input:
  30, 35
 
 ```
+
+```
 Output:
 
 65
- 85
+85
 
 ```
-Thesplitsequences()function below implements this behavior.
 
+The splitsequences() function below implements this behavior.
+
+```
 def split_sequences(sequences, n_steps_in, n_steps_out):
  X, y = list(), list()
  for i in range(len(sequences)):
@@ -1734,11 +1779,10 @@ sequences[end_ix-1:out_end_ix, -1]
 
 ```
 
-into samples.
-
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
 
+```
 from numpy import array
  from numpy import hstack
 
@@ -1790,6 +1834,9 @@ The output portion of the
 samples is two-dimensional for the six samples and the two time steps for each sample to be
 predicted. The prepared samples are then printed to confirm that the data was prepared as we
 specified.
+
+
+```
 (6, 3, 2) (6, 2)
 
 [[10 15]
@@ -1815,10 +1862,9 @@ specified.
 
 We can now develop an LSTM model for multi-step predictions. A vector output or an
 encoder-decoder model could be used. In this case, we will demonstrate a vector output with a
-
-
 Stacked LSTM. The complete example is listed below.
 
+```
 from numpy import array
  from numpy import hstack
  from keras.models import Sequential
@@ -1881,9 +1927,10 @@ sequence beyond the dataset. We would expect the next two steps to be:[185, 205]
 challenging framing of the problem with very little data, and the arbitrarily configured version
 of the model gets close.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[188.70619 210.16513]]
 
 ```
@@ -1894,6 +1941,9 @@ A problem with parallel time series may require the prediction of
 multiple time steps of each
 
 time series. For example, consider our multivariate time series from a prior section:
+
+
+```
 [[ 10 15 25]
 [ 20 25 45]
 [ 30 35 65]
@@ -1908,10 +1958,16 @@ time series. For example, consider our multivariate time series from a prior sec
 We may use the last three time steps from each of the three time series as input to the model
 and predict the next time steps of each of the three time series as output. The first sample in
 the training dataset would be the following.
+
+
+```
 Input:
 10, 15, 25
 20, 25, 45
 30, 35, 65
+
+```
+
 
 ```
 Output:
@@ -1919,9 +1975,11 @@ Output:
 50, 55, 105
 
 ```
-Thesplitsequences()function below implements this behavior.
+
+The splitsequences() function below implements this behavior.
 
 
+```
 def split_sequences(sequences, n_steps_in, n_steps_out):
  X, y = list(), list()
  for i in range(len(sequences)):
@@ -2035,6 +2093,7 @@ this problem. In
 this case, we will use the Encoder-Decoder model. The complete example
 is listed below.
 
+```
 from numpy import array
  from numpy import hstack
  from keras.models import Sequential
@@ -2108,7 +2167,7 @@ series and time steps to be as follows:
 We can see that the model forecast gets reasonably close to the expected
 values.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

@@ -43,7 +43,7 @@ into four parts; they are:
 53
 
 
-Note: Traditionally, a lot of research has been invested into using MLPs for time series
+**Note:** Traditionally, a lot of research has been invested into using MLPs for time series
 forecasting with modest results. Perhaps the most promising area in the application of deep
 learning methods to time series forecasting are in the use of CNNs, LSTMs and hybrid models.
 
@@ -254,7 +254,7 @@ prediction. We can see
 
 that the model predicts the next value in the sequence.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -657,7 +657,7 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 ```
@@ -810,7 +810,7 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 ```
@@ -1054,7 +1054,7 @@ Running the example prepares the data, fits the model, and makes a
 prediction.
 
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[100.95039 107.541306 206.81033 ]]
@@ -1188,7 +1188,7 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [array([[100.86121]], dtype=float32),
@@ -1381,7 +1381,7 @@ print(yhat)
 Running the example forecasts and prints the next two time steps in the
 sequence.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[102.572365 113.88405 ]]
@@ -1587,7 +1587,7 @@ Running the example fits the model and predicts the next two time steps of the o
 sequence beyond the dataset. We would expect the next two steps to
 be[185, 205].
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1745,8 +1745,6 @@ data was prepared as we expected.
 
 ```
 
-series.
-
 We can now develop an MLP model to make multivariate multi-step
 forecasts. In addition
 
@@ -1755,8 +1753,9 @@ we must also flatten the
 
 three-dimensional structure of the output data. This is because the MLP
 model is only capable
-
 of taking vector inputs and outputs.
+
+```
 n_input = X.shape[1] * X.shape[2]
  X = X.reshape((X.shape[0], n_input))
 n_output = y.shape[1] * y.shape[2]
@@ -1764,9 +1763,10 @@ n_output = y.shape[1] * y.shape[2]
 
 ```
 
-multi-step multivariate series.
 
 The complete example is listed below.
+
+```
 from numpy import array
  from numpy import hstack
  from keras.models import Sequential
@@ -1814,9 +1814,9 @@ the three time steps
 
 for the next two time steps beyond the end of the dataset. We would
 expect the values for these
-
 series and time steps to be as follows:
 
+```
 90, 95, 185
  100, 105, 205
 
@@ -1825,10 +1825,8 @@ series and time steps to be as follows:
 We can see that the model forecast gets reasonably close to the expected
 values.
 
-Note: Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+**Note:** Given the stochastic nature of the algorithm, your specific
+results may vary. Consider running the example a few times.
 
 [[ 91.28376 96.567 188.37575 100.54482 107.9219 208.108 ]]
 

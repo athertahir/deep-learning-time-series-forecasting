@@ -855,7 +855,7 @@ can see that the best RMSE of 18.98 was achieved with a configuration of[12, 100
 
 A truncated example output of the grid search is listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 
@@ -1201,7 +1201,7 @@ configuration as:
 
 A truncated example output of the grid search is listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 Total configs: 8
@@ -1524,7 +1524,7 @@ as input. We can unpack this configuration as:
 
 A truncated example output of the grid search is listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

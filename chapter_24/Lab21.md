@@ -488,7 +488,7 @@ result of 89%, trained on
 the dataset with heavy domain-specific feature engineering, not the raw
 dataset.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 >#1: 91.347
@@ -951,7 +951,7 @@ previous section) to about
 
 91.5% accuracy.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1145,7 +1145,7 @@ see perhaps a trend of increasing average performance with the increase in the n
 maps. The variance stays pretty constant, and perhaps 128 feature maps might be a good
 configuration for the network.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 ...
@@ -1313,7 +1313,7 @@ skill of about 91.8%, but
 perhaps a size of 7 or 11 may also be just as good with a smaller
 standard deviation.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1411,7 +1411,7 @@ created; provided below, it
 
 gives a clear idea of how the constructed model fits together.
 
-Note: the call toplotmodel()requires that pygraphviz and pydot are
+**Note:** the call toplotmodel()requires that pygraphviz and pydot are
 installed. If this is a
 
 problem, you can comment out this line.
@@ -1557,7 +1557,7 @@ CNN given the relative tripling of the resources in this model. Perhaps an apple
 comparison would be a model with the same architecture and the same number of filters across
 each input head of the model.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 >#1: 91.788

@@ -554,7 +554,7 @@ of about 404 kilowatts,
 
 less than 465 kilowatts achieved by a naive model.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 cnn: [404.411] 436.1, 400.6, 346.2, 388.2, 405.5, 326.0, 502.9
@@ -584,7 +584,7 @@ suggesting that further tuning
 of the input size and perhaps the kernel size of the model may result in
 better performance.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -867,7 +867,7 @@ this case, the use of
 all eight input variables does result in another small drop in the
 overall RMSE score.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1014,7 +1014,7 @@ When the model is built, a diagram of the structure of the model is created and 
 
 file. The structure of the network looks as follows.
 
-Note: the call toplotmodel()requires that pygraphviz and pydot are
+**Note:** the call toplotmodel()requires that pygraphviz and pydot are
 installed. If this is a
 
 problem, you can comment out this line.
@@ -1221,7 +1221,7 @@ configuration may not
 
 perform better than the multi-channel model in the previous section.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

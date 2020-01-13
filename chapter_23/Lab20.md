@@ -369,7 +369,7 @@ accuracy on the test set. This is a great result, exceeding the reported
 
 original paper.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -657,7 +657,7 @@ relevant to predicting the
 
 associated activity.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

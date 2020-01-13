@@ -495,7 +495,7 @@ grid search are listed
 
 below.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -691,7 +691,7 @@ of the results from
 
 running the hyperparameter grid search are listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -911,7 +911,7 @@ of the results from
 running the hyperparameter grid search are listed below.
 
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 > Model[['mul', True, None, 12, False, False]] 4.593
@@ -1114,7 +1114,7 @@ results from running the
 
 hyperparameter grid search are listed below.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

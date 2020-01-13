@@ -460,7 +460,7 @@ result of 89%, trained on
 the dataset with heavy domain-specific feature engineering, not the raw
 dataset.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 >#1: 90.058
@@ -702,7 +702,7 @@ Running the example summarizes the model performance for each of the 10 runs bef
 a final summary of the model’s performance on the test set is reported. We can see that the
 model achieved a performance of about 90.6% with a standard deviation of about 1%.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 >#1: 91.517
@@ -915,7 +915,7 @@ the problem achieving
 an accuracy of about 90%, perhaps with fewer resources than the larger
 CNN-LSTM model.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

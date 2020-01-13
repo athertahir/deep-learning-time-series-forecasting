@@ -482,7 +482,7 @@ of about 399 kilowatts,
 
 less than 465 kilowatts achieved by a naive model.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 
@@ -521,7 +521,7 @@ the model may result
 in better performance.
 
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -807,7 +807,7 @@ overall RMSE score of about 372
 
 kilowatts.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 lstm: [372.595] 379.5, 399.8, 339.6, 372.2, 370.9, 309.9, 424.8
@@ -1053,7 +1053,7 @@ see that in this case, the
 model is skillful, achieving an overall RMSE score of about 376
 kilowatts.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1303,7 +1303,7 @@ is skillful, achieving an
 
 overall RMSE score of about 372 kilowatts.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1621,7 +1621,7 @@ is skillful, achieving an
 
 overall RMSE score of about 367 kilowatts.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

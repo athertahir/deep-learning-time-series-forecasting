@@ -32,7 +32,7 @@ This tutorial is divided into five parts; they are:
 
 
 
-Note: The data visualizations in this tutorial are intended to be quick-and-dirty to rapidly
+**Note:** The data visualizations in this tutorial are intended to be quick-and-dirty to rapidly
 learn about the dataset, rather than used as the basis for presentation. As such they are more
 utilitarian and less aesthetic.
 

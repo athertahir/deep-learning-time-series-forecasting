@@ -717,7 +717,7 @@ sales. We can see that, on average, the chosen configuration has better performa
 the naive model (1,841.155) and the SARIMA model (1,551.842). This is impressive given that
 the model operated on the raw data directly without scaling or the data being made stationary.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 
@@ -1021,7 +1021,7 @@ standard deviation observed with the MLP model in the previous section. We have 
 confidence that in a bad-case scenario (3 standard deviations), the model RMSE will remain
 below (better than) the performance of the naive model.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 ...
@@ -1354,7 +1354,7 @@ least alone, are perhaps
 
 a bad fit for autoregressive-type sequence prediction problems.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 ...
@@ -1677,7 +1677,7 @@ score is also very large,
 suggesting that the chosen configuration may not be as stable as the
 standalone CNN model.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1971,7 +1971,7 @@ suggesting that the chosen
 
 configuration may not be as stable as the standalone CNN model.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.

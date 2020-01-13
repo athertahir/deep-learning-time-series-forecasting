@@ -282,7 +282,7 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a prediction. We can see
 that the model predicts the next value in the sequence.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[101.67965]]
@@ -623,7 +623,7 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[206.0161]]
@@ -800,7 +800,7 @@ print(yhat)
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[205.871]]
@@ -1053,7 +1053,7 @@ print(yhat)
 Running the example prepares the data, fits the model and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[100.11272 105.32213 205.53436]]
@@ -1195,7 +1195,7 @@ x_input = array([[70,75,145], [80,85,165], [90,95,185]])
 Running the example prepares the data, fits the model, and makes a
 prediction.
 
-Note: Given the stochastic nature of the algorithm, your specific
+**Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
 
 running the example a few times.
@@ -1432,7 +1432,7 @@ print(yhat)
 Running the example forecasts and prints the next two time steps in the
 sequence.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[102.86651 115.08979]]
@@ -1680,7 +1680,7 @@ print(yhat)
 Running the example fits the model and predicts the next two time steps of the output
 sequence beyond the dataset. We would expect the next two steps to be[185, 205].
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[185.57011 207.77893]]
@@ -1924,7 +1924,7 @@ series and time steps to be as follows:
 We can see that the model forecast gets reasonably close to the expected
 values.
 
-Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
+**Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 [[ 90.47855 95.621284 186.02629 100.48118 105.80815 206.52821 ]]
