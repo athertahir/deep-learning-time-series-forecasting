@@ -561,6 +561,8 @@ less than 465 kilowatts achieved by a naive model.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 cnn: [404.411] 436.1, 400.6, 346.2, 388.2, 405.5, 326.0, 502.9
 
 ```
@@ -592,6 +594,8 @@ better performance.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 cnn: [396.497] 392.2, 412.8, 384.0, 389.0, 387.3, 381.0, 427.1
 
@@ -881,6 +885,8 @@ overall RMSE score.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 cnn: [385.711] 422.2, 363.5, 349.8, 393.1, 357.1, 318.8, 474.3
 
@@ -1241,6 +1247,8 @@ perform better than the multi-channel model in the previous section.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 cnn: [396.116] 414.5, 385.5, 377.2, 412.1, 371.1, 380.6, 428.1
 

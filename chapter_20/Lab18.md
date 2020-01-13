@@ -487,6 +487,8 @@ less than 465 kilowatts achieved by a naive model.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 
 lstm: [399.456] 419.4, 422.1, 384.5, 395.1, 403.9, 317.7, 441.5
 
@@ -527,6 +529,8 @@ in better performance.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 lstm: [370.028] 387.4, 377.9, 334.0, 371.2, 367.1, 330.4, 415.1
 
@@ -814,6 +818,8 @@ kilowatts.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 lstm: [372.595] 379.5, 399.8, 339.6, 372.2, 370.9, 309.9, 424.8
 
 ```
@@ -1066,6 +1072,8 @@ results may vary. Consider
 
 running the example a few times.
 
+```
+
 lstm: [376.273] 378.5, 381.5, 328.4, 388.3, 361.2, 308.0, 467.2
 
 ```
@@ -1315,6 +1323,8 @@ overall RMSE score of about 372 kilowatts.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 lstm: [372.055] 383.8, 381.6, 339.1, 371.8, 371.8, 319.6, 427.2
 
@@ -1637,6 +1647,8 @@ overall RMSE score of about 367 kilowatts.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 lstm: [367.929] 416.3, 379.7, 334.7, 362.3, 374.7, 284.8, 406.7
 

@@ -376,6 +376,8 @@ results may vary. Consider
 
 running the example a few times.
 
+```
+
 Defined 8 models
 
 
@@ -665,6 +667,8 @@ associated activity.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 Defined 8 models
 

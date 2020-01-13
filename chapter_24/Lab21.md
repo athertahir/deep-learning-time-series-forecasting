@@ -493,6 +493,8 @@ dataset.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 >#1: 91.347
 
 >#2: 91.551
@@ -960,6 +962,8 @@ results may vary. Consider
 
 running the example a few times.
 
+```
+
 > p=False #1: 91.483
 >  p=False #2: 91.245
 >  p=False #3: 90.838
@@ -1154,6 +1158,8 @@ configuration for the network.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 ...
 
 Param=8: 89.148% (+/-0.790)
@@ -1325,6 +1331,8 @@ standard deviation.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 ...
 
@@ -1571,6 +1579,8 @@ each input head of the model.
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
+
+```
 
 >#1: 91.788
 

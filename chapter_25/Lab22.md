@@ -467,6 +467,8 @@ dataset.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 >#1: 90.058
 
 >#2: 85.918
@@ -711,6 +713,8 @@ model achieved a performance of about 90.6% with a standard deviation of about 1
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 >#1: 91.517
 
 >#2: 91.042
@@ -927,6 +931,8 @@ CNN-LSTM model.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 >#1: 90.092
 

@@ -724,6 +724,8 @@ the model operated on the raw data directly without scaling or the data being ma
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 
 ...
 
@@ -1033,6 +1035,8 @@ below (better than) the performance of the naive model.
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
+
+```
 
 ...
 
@@ -1369,6 +1373,8 @@ a bad fit for autoregressive-type sequence prediction problems.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 ...
 
 
@@ -1700,6 +1706,8 @@ results may vary. Consider
 
 running the example a few times.
 
+```
+
 ...
 
 > 1289.794
@@ -1995,6 +2003,8 @@ configuration may not be as stable as the standalone CNN model.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 ...
 

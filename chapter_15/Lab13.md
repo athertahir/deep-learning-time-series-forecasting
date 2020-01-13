@@ -870,6 +870,8 @@ A truncated example output of the grid search is listed below.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 
 Total configs: 8
 > 20.707
@@ -1226,6 +1228,8 @@ A truncated example output of the grid search is listed below.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
+
 Total configs: 8
 > 23.372
 > 28.317
@@ -1558,6 +1562,8 @@ A truncated example output of the grid search is listed below.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 ```
 Total configs: 2

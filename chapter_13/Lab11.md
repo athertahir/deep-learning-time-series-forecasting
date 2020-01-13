@@ -88,8 +88,6 @@ forecast. The
 updated version of the function is listed below.
 
 ```
-
-```
 # walk-forward validation for univariate data
 def walk_forward_validation(data, n_test, cfg):
 predictions = list()
@@ -478,6 +476,10 @@ results may vary. Consider
 
 running the example a few times.
 
+```
+
+```
+
 ...
 
 > Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 6.905
@@ -677,6 +679,8 @@ hyperparameter grid search are listed below.
 results may vary. Consider
 
 running the example a few times.
+
+```
 
 ...
 
@@ -892,6 +896,8 @@ results may vary. Consider
 
 running the example a few times.
 
+```
+
 ...
 
 > Model[[(2, 1, 2), (2, 1, 0, 12),'t']] 4.599
@@ -1103,6 +1109,8 @@ results may vary. Consider
 
 
 running the example a few times.
+
+```
 
 > Model[[(2, 1, 2), (2, 0, 2, 12),'ct']] 10710.462
 > Model[[(2, 1, 2), (2, 1, 2, 6),'ct']] 2183.568
