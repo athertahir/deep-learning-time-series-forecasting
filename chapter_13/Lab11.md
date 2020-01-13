@@ -2,7 +2,6 @@
 
 The Seasonal Autoregressive Integrated Moving Average, or SARIMA, model
 is an approach
-
 for modeling univariate time series data that may contain trend and seasonal components. It
 is an effective approach for time series forecasting, although it requires careful analysis and
 domain expertise in order to configure the seven or more model hyperparameters. An alternative
@@ -153,14 +152,10 @@ return models
 
 We now have a framework for grid searching SARIMA model hyperparameters
 via one-step
-
 walk-forward validation. It is generic and will work for any in-memory
 univariate time series
-
-
 provided as a list or NumPy array. We can make sure all the pieces work
 together by testing it
-
 on a contrived 10-step dataset. The complete example is listed below.
 
 ```
@@ -292,6 +287,9 @@ configurations and their errors are reported as they are evaluated, truncated be
 Finally, the configurations and the error for the top three configurations are reported. We can
 see that many models achieve perfect performance on this simple linearly increasing contrived
 time series problem.
+
+```
+
 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
 
 > Model[[(2, 0, 0), (2, 0, 0, 0),'ct']] 0.001
@@ -321,18 +319,14 @@ introduced. You can
 
 download the dataset directly from here:
 
-
 - daily-total-female-births.csv^1
 
 Save the file with the filenamedaily-total-female-births.csvin your
 current working
-
 directory. The dataset has one year, or 365 observations. We will use
 the first 200 for training
-
 and the remaining 165 as the test set. The complete example grid
 searching the daily female
-
 univariate time series forecasting problem is listed below.
 
 ```
@@ -376,11 +370,6 @@ yhat = sarima_forecast(history, cfg)
 predictions.append(yhat)
 
 history.append(test[i])
-
-(^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
-csv
-
 
 # estimate prediction error
 error = measure_rmse(test, predictions)
@@ -476,10 +465,8 @@ results may vary. Consider
 
 running the example a few times.
 
-```
 
 ```
-
 ...
 
 > Model[[(2, 1, 2), (1, 0, 1, 0),'ct']] 6.905
@@ -495,21 +482,14 @@ running the example a few times.
 
 ```
 
-dataset.
-
 We can see that the best result was an RMSE of about 6.77 births. A
 naive model achieved
-
 an RMSE of 6.93 births suggesting that the best performing SARIMA model
 is skillful on this
-
 problem. We can unpack the configuration of the best performing model as
 follows:
 
-```
-
 - Order: (1, 0, 2)
-
 
 - Seasonal Order: (1, 0, 1, 0)
 
@@ -523,7 +503,6 @@ model.
 
 Themonthly shampoo salesdataset summarizes the monthly sales of shampoo
 over a three-year
-
 period. For more information on this dataset, see Chapter 11 where it was introduced. You can
 download the dataset directly from here:
 
@@ -740,18 +719,16 @@ The period of the seasonal component is about one year, or 12 observations. We w
 this as the seasonal period in the call to thesarimaconfigs() function when preparing the
 model configurations.
 
+
+```
+
 # model configs
 cfg_list = sarima_configs(seasonal=[0, 12])
 
 ```
-(^3)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
-
 
 The complete example grid searching the monthly mean temperature time
-series forecasting
-
-problem is listed below.
+series forecasting problem is listed below.
 
 ```
 
@@ -878,26 +855,19 @@ print(cfg, error)
 
 ```
 
-dataset.
-
 Running the example may take a while on modern hardware. Model
 configurations and the
-
 RMSE are printed as the models are evaluated. The top three model
 configurations and their
-
 error are reported at the end of the run. A truncated example of the
 results from running the
-
 hyperparameter grid search are listed below.
-
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider
-
 running the example a few times.
 
-```
 
+```
 ...
 
 > Model[[(2, 1, 2), (2, 1, 0, 12),'t']] 4.599
@@ -913,23 +883,16 @@ running the example a few times.
 
 ```
 
-temperature dataset.
-
 We can see that the best result was an RMSE of about 1.55 degrees. A
 naive model achieved
-
 an RMSE of 1.50 degrees, suggesting that the best performing SARIMA
 model is not skillful on
-
 this problem. We can unpack the configuration of the best performing
 model as follows:
-
-```
 
 - Trend Order: (0, 0, 0)
 
 - Seasonal Order: (1, 0, 1, 12)
-
 
 - Trend Parameter:‘n’(no trend)
 
@@ -956,10 +919,14 @@ or 12 observations as the
 test set. The period of the seasonal component could be six months or 12 months. We will try
 both as the seasonal period in the call to thesarimaconfigs() function when preparing the
 model configurations.
+
+```
+
 # model configs
 cfg_list = sarima_configs(seasonal=[0,6,12])
 
 ```
+
 The complete example grid searching the monthly car sales time series forecasting problem
 is listed below.
 
@@ -989,10 +956,6 @@ yhat = model_fit.predict(len(history), len(history))
 return yhat[0]
 
 # root mean squared error or rmse
-
-(^4)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
-
 
 def measure_rmse(actual, predicted):
 return sqrt(mean_squared_error(actual, predicted))
@@ -1128,8 +1091,6 @@ done
 We can see that the best result was an RMSE of about 1,551.84 sales. A naive model achieved
 an RMSE of 1,841.15 sales on this problem, suggesting that the best performing SARIMA model
 is skillful. We can unpack the configuration of the best performing model as follows:
-
-```
 
 - Trend Order: (0, 0, 0)
 

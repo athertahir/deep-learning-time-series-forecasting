@@ -278,6 +278,8 @@ problem. Below is a function
 namedtosupervised()that takes a list of weeks (history) and the number of time steps to
 use as inputs and outputs and returns the data in the overlapping moving window format.
 
+```
+
 # convert history into inputs and outputs
 def to_supervised(train, n_input, n_out=7):
 # flatten data
@@ -302,7 +304,6 @@ return array(X), array(y)
 ```
 
 When we run this function on the entire training dataset, we transform 159 samples into
-
 1,099; specifically, the transformed dataset has the shapesX=[1099, 7,
 1]andy=[1099, 7].
 
@@ -313,18 +314,21 @@ small amount of data means that a small model is required. We will use a model w
 convolution layer with 16 filters and a kernel size of 3. This means that the input sequence
 of seven days will be read with a convolutional operation three time steps at a time and this
 operation will be performed 16 times. A pooling layer will reduce these feature maps by^14 their
-size before the internal representation is flattened to one long vector. This is then interpreted
+size before the internal representation is flattened to one long vector. 
+
+This is then interpreted
 by a fully connected layer before the output layer predicts the next seven days in the sequence.
 We will use the mean squared error loss function as it is a good match for our chosen error
 metric of RMSE. We will use the efficient Adam implementation of stochastic gradient descent
 and fit the model for 20 epochs with a batch size of 4. The small batch size and the stochastic
 nature of the algorithm means that the same model will learn a slightly different mapping of
-
-
 inputs to outputs each time it is trained. This means results may vary when the model is
 evaluated. You can try running the model multiple times and calculating an average of model
 performance. Thebuildmodel()below prepares the training data, defines the model, and fits
 the model on the training data, returning the fit model ready for making predictions.
+
+```
+
 # train the model
 def build_model(train, n_input):
 # prepare data
@@ -358,18 +362,22 @@ We are using walk-forward validation to evaluate the model as described in the p
 section. This means that we have the observations available for the prior week in order to
 predict the coming week. These are collected into an array of standard weeks, called history. In
 order to predict the next standard week, we need to retrieve the last days of observations. As
-
 with the training data, we must first flatten the history data to remove
-the weekly structure so
+the weekly structure so that we end up with eight parallel time series.
 
-that we end up with eight parallel time series.
+```
+
 # flatten data
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 ```
+
 Next, we need to retrieve the last seven days of daily total power consumed (feature number
 0). We will parameterize as we did for the training data so that the number of prior days used
 as input by the model can be modified in the future.
+
+```
+
 # retrieve last observations for input data
 input_x = data[-n_input:, 0]
 
@@ -377,6 +385,8 @@ input_x = data[-n_input:, 0]
 
 Next, we reshape the input into the expected three-dimensional
 structure.
+
+```
 
 input_x = input_x.reshape((1, len(input_x), 1))
 
@@ -391,12 +401,11 @@ yhat = model.predict(input_x, verbose=0)
 yhat = yhat[0]
 
 ```
-Theforecast() function below implements this and takes as arguments the
-model fit on
 
+The forecast() function below implements this and takes as arguments the
+model fit on
 the training dataset, the history of data observed so far, and the
 number of inputs time steps
-
 expected by the model.
 
 def forecast(model, history, n_input):
@@ -1044,16 +1053,16 @@ problem, you can comment out this line.
 Next, we can update the preparation of input samples when making a prediction for the
 
 test dataset. We must perform the same change, where an input array
-of[1, 14, 8]must be
+of[1, 14, 8] must be transformed into a list of eight 3D arrays each with[1, 14, 1].
 
-transformed into a list of eight 3D arrays each with[1, 14, 1].
+```
 
 input_x = [input_x[:,i].reshape((1,input_x.shape[0],1)) for i in
 range(input_x.shape[1])]
 
 ```
 
-Theforecast() function with this change is listed below.
+The forecast() function with this change is listed below.
 
 ```
 
@@ -1075,6 +1084,8 @@ return yhat
 
 That’s it. We can tie all of this together; the complete example is
 listed below.
+
+```
 
 from math import sqrt
 from numpy import split
@@ -1234,19 +1245,14 @@ pyplot.show()
 ```
 
 Running the example fits and evaluates the model, printing the overall RMSE across all
-
 seven days, and the per-day RMSE for each lead time. We can see that in
 this case, the overall
-
 RMSE is skillful compared to a naive forecast, but with the chosen
 configuration may not
-
 perform better than the multi-channel model in the previous section.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
+results may vary. Consider running the example a few times.
 
 ```
 
@@ -1330,8 +1336,3 @@ data.
 
 - How to develop a multi-headed multi-step time series forecasting model for multivariate
 data.
-
-19.11.1 Next
-
-In the next lesson, you will discover how to develop Recurrent Neural Network models for
-forecasting the household power usage problem.

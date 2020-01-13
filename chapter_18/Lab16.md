@@ -88,13 +88,11 @@ a negative or positive correlation respectively. A value of zero indicates no co
 
 We can calculate the correlation for time series observations with observations with previous
 time steps, called lags. Because the correlation of the time series observations is calculated with
-
 values of the same series at previous times, this is called a serial
 correlation, or an autocorrelation.
 
 A plot of the autocorrelation of a time series by lag is called the
 AutoCorrelation Function, or the
-
 acronym ACF. This plot is sometimes called a correlogram, or an autocorrelation plot. A partial
 autocorrelation function or PACF is a summary of the relationship between an observation
 in a time series with observations at prior time steps with the relationships of intervening
@@ -111,6 +109,8 @@ time series. Specifically, the observed daily total power consumed. Thetoseries(
 below will take the multivariate data divided into weekly windows and will return a single
 univariate time series.
 
+```
+
 # convert windows of weekly multivariate data into a series of total power
 def to_series(data):
 # extract just the total power from each week
@@ -123,6 +123,8 @@ return series
 We can call this function for the prepared training dataset. First, the daily power consumption
 dataset must be loaded.
 
+```
+
 # load the new file
 dataset = read_csv('household_power_consumption_days.csv', header=0,
 infer_datetime_format=True, parse_dates=['datetime'], index_col=['datetime'])
@@ -131,6 +133,8 @@ infer_datetime_format=True, parse_dates=['datetime'], index_col=['datetime'])
 The dataset must then be split into train and test sets with the standard week window
 structure.
 
+```
+
 # split into train and test
 train, test = split_dataset(dataset.values)
 
@@ -138,6 +142,8 @@ train, test = split_dataset(dataset.values)
 
 A univariate time series of daily power consumption can then be extracted from the training
 dataset.
+```
+
 # convert training data into a series
 series = to_series(train)
 
@@ -146,6 +152,8 @@ series = to_series(train)
 We can then create a single figure that contains both an ACF and a PACF plot. The number
 of lag time steps can be specified. We will fix this to be one year of daily observations, or 365
 days.
+
+```
 
 # plots
 pyplot.figure()
@@ -218,23 +226,22 @@ pyplot.show()
 
 Running the example creates a single figure with both ACF and PACF
 plots. The plots are
-
 very dense, and hard to read. Nevertheless, we might be able to see a
 familiar autoregression
-
 pattern. We might also see some significant lag observations at one year out. Further investigation
 may suggest a seasonal autocorrelation component, which would not be a surprising finding.
 
 ![](./images/377-26.png)
 
 We can zoom in the plot and change the number of lag observations from 365 to 50.
+```
+
 lags = 50
 
 ```
 
 
 Re-running the code example with this change results is a zoomed-in version of the plots
-
 with much less clutter. We can clearly see a familiar autoregression
 pattern across the two plots.
 
@@ -260,16 +267,15 @@ with seven lag observations used as input.
 
 We can develop an autoregression model for univariate series of daily
 power consumption. For
-
 more information on autoregressive models see Chapter 5. The Statsmodels library provides
 multiple ways of developing an AR model, such as using the AR, ARMA, ARIMA, and SARIMAX
 classes. For more information on developing SARIMAX models with the Statsmodels library,
-
-
 see Chapter 13. We will use the ARIMA implementation as it allows for easy expandability into
 differencing and moving average. First, the history data comprised of weeks of prior observations
 must be converted into a univariate time series of daily power consumption. We can use the
 toseries() function developed in the previous section.
+
+```
 
 # convert history into a univariate series
 series = to_series(history)
@@ -281,12 +287,16 @@ Next, an ARIMA model can be defined by passing arguments to the constructor of t
 ARIMA class. We will specify anAR(7)model, which in ARIMA notation
 isARIMA(7,0,0).
 
+```
+
 # define the model
 model = ARIMA(series, order=(7,0,0))
 
 ```
 Next, the model can be fit on the training data. We will use the defaults and disable all
 debugging information during the fit by settingdisp=False.
+```
+
 # fit the model
 model_fit = model.fit(disp=False)
 
@@ -297,6 +307,8 @@ the training data. We will use indices starting with the first time step beyond 
 and extending it six more days, giving a total of a seven day forecast period beyond the training
 dataset.
 
+```
+
 # make forecast
 yhat = model_fit.predict(len(series), len(series)+6)
 
@@ -304,6 +316,8 @@ yhat = model_fit.predict(len(series), len(series)+6)
 
 We can wrap all of this up into a function below namedarimaforecast()that takes the
 history and returns a one week forecast.
+
+```
 
 # arima forecast
 def arima_forecast(history):
@@ -427,11 +441,11 @@ test dataset.
 
 We can see that the model achieves the overall RMSE of about 381
 kilowatts. This model has
-
 skill when compared to naive forecast models, such as a model that forecasts the week ahead
 using observations from the same time one year ago that achieved an overall RMSE of about
-
 465 kilowatts.
+
+```
 
 arima: [381.636] 393.8, 398.9, 357.0, 377.2, 393.9, 306.1, 432.2
 

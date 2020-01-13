@@ -75,32 +75,32 @@ Download the dataset and unzip it into your current working directory. You will 
 the filehouseholdpowerconsumption.txtthat is about 127 megabytes in size and contains
 all of the observations. We can use thereadcsv() function to load the data and combine the
 first two columns into a single date-time column that we can use as an index.
+
+```
 # load all data
 dataset = read_csv('household_power_consumption.txt', sep=';', header=0, low_memory=False,
 infer_datetime_format=True, parse_dates={'datetime':[0,1]}, index_col=['datetime'])
 
 ```
-Next, we can mark all missing values indicated with a‘?’character with aNaNvalue, which
+
+Next, we can mark all missing values indicated with a‘?’character with a NaN value, which
 is a float. This will allow us to work with the data as one array of floating point values rather
 than mixed types (less efficient.)
 
-(^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
-zip
-
-
+```
 # mark all missing values
 dataset.replace('?', nan, inplace=True)
 # make dataset numeric
 dataset = dataset.astype('float32')
 
 ```
+
 We also need to fill in the missing values now that they have been marked. A very simple
 approach would be to copy the observation from the same time the day before. We can implement
 this in a function namedfillmissing()that will take the NumPy array of the data and copy
-
 values from exactly 24 hours ago.
 
+```
 # fill missing values with a value at the same time one day ago
 def fill_missing(values):
 one_day = 60 * 24
@@ -127,10 +127,13 @@ values[:,6])
 ```
 We can now save the cleaned-up version of the dataset to a new file; in this case we will just
 change the file extension to.csvand save the dataset ashouseholdpowerconsumption.csv.
+
+```
 # save updated dataset
 dataset.to_csv('household_power_consumption.csv')
 
 ```
+
 Tying all of this together, the complete example of loading, cleaning-up, and saving the
 dataset is listed below.
 
@@ -167,6 +170,7 @@ values[:,6])
 dataset.to_csv('household_power_consumption.csv')
 
 ```
+
 Running the example creates the new filehouseholdpowerconsumption.csvthat we can
 use as the starting point for our modeling project.
 
@@ -184,14 +188,12 @@ household power dataset. This section is divided into four parts; they are:
 
 There are many ways to harness and explore the household power
 consumption dataset. In
-
 this tutorial, we will use the data to explore a very specific question; that is: Given recent
 power consumption, what is the expected power consumption for the week ahead? This requires
 that a predictive model forecast the total active power for each day over the next seven days.
 
 Technically, this framing of the problem is referred to as a multi-step
 time series forecasting
-
 problem, given the multiple forecast steps. A model that makes use of multiple input variables
 may be referred to as a multivariate multi-step time series forecasting model.
 A model of this type could be helpful within the household in planning expenditures. It
@@ -199,8 +201,6 @@ could also be helpful on the supply side for planning electricity demand for a s
 
 This framing of the dataset also suggests that it would be useful to
 downsample the per-minute
-
-
 observations of power consumption to daily totals. This is not required, but makes sense, given
 that we are interested in total power per day. We can achieve this easily using theresample()
 function on the PandasDataFrame. Calling this function with the argument‘D’allows the
@@ -225,6 +225,7 @@ print(daily_data.head())
 daily_data.to_csv('household_power_consumption_days.csv')
 
 ```
+
 Running the example creates a new daily total power consumption dataset and saves the
 result into a separate file namedhouseholdpowerconsumptiondays.csv. We can use this as
 the dataset for fitting and evaluating predictive models for the chosen framing of the problem.
@@ -233,10 +234,8 @@ the dataset for fitting and evaluating predictive models for the chosen framing 
 
 A forecast will be comprised of seven values, one for each day of the
 week ahead. It is common
-
 with multi-step forecasting problems to evaluate each forecasted time
 step separately. This is
-
 helpful for a few reasons:
 
 - To comment on the skill at a specific lead time (e.g. +1 day vs +3
@@ -254,6 +253,8 @@ may be useful to summarize the performance of a model using a single score in or
 model selection. One possible score that could be used would be the RMSE across all forecast
 days. The functionevaluateforecasts()below will implement this behavior and return the
 performance of a model based on multiple seven-day forecasts.
+
+```
 
 # evaluate one or more weekly forecasts against expected values
 def evaluate_forecasts(actual, predicted):
@@ -277,6 +278,7 @@ score = sqrt(s / (actual.shape[0] * actual.shape[1]))
 return score, scores
 
 ```
+
 Running the function will first return the overall RMSE regardless of day, then an array of
 RMSE scores for each day.
 
@@ -284,34 +286,34 @@ RMSE scores for each day.
 
 We will use the first three years of data for training predictive models
 and the final year for
-
 evaluating models. The data in a given dataset will be divided into
 standard weeks. These are
-
 weeks that begin on a Sunday and end on a Saturday. This is a realistic
 and useful way for
-
 using the chosen framing of the model, where the power consumption for the week ahead can
 be predicted. It is also helpful with modeling, where models can be used to predict a specific
 day (e.g. Wednesday) or the entire sequence.
 We will split the data into standard weeks, working backwards from the test dataset. The
 final year of the data is in 2010 and the first Sunday for 2010 was January 3rd. The data ends
 in mid November 2010 and the closest final Saturday in the data is November 20th. This gives
-
 46 weeks of test data. The first and last rows of daily data for the
 test dataset are provided
-
 below for confirmation.
+
+```
 
 2010-01-03,2083.4539999999984,191.61000000000055,350992.12000000034,8703.600000000033,...
 ...
 2010-11-20,2197.006000000004,153.76800000000028,346475.9999999998,9320.20000000002,...
 
 ```
+
 The daily data starts in late 2006. The first Sunday in the dataset is December 17th, which
 is the second row of data. Organizing the data into standard weeks gives 159 full standard
-
 weeks for training a predictive model.
+
+
+```
 
 2006-12-17,3390.46,226.0059999999994,345725.32000000024,14398.59999999998,2033.0,4187.0,...
 ...
@@ -324,6 +326,8 @@ organizes each into standard weeks. Specific row offsets are used to split the d
 knowledge of the dataset. The split datasets are then organized into weekly data using the
 NumPysplit() function.
 
+
+```
 
 # split a univariate dataset into train/test sets
 def split_dataset(data):
@@ -374,6 +378,8 @@ the test dataset has 46 weeks. We can see that the total active power for the tr
 dataset for the first and last rows match the data for the specific dates that we defined as the
 bounds on the standard weeks for each set.
 
+```
+
 (159, 7, 8)
 3390.46 1309.2679999999998
 (46, 7, 8)
@@ -390,9 +396,11 @@ to the model so that it can be used as the basis for making a prediction on the 
 
 This is both realistic for how the model may be used in practice and
 beneficial to the models
-
 allowing them to make use of the best available data. We can demonstrate this below with
 separation of input data and output/predicted data.
+
+```
+
 Input, Predict
 [Week1] Week2
 [Week1 + Week2] Week3
@@ -406,6 +414,8 @@ as the argumentmodelfunc. This function is responsible for defining the model, f
 model on the training data, and making a one-week forecast. The forecasts made by the model
 are then evaluated against the test dataset using the previously definedevaluateforecasts()
 function.
+```
+
 # evaluate a single model
 def evaluate_model(model_func, train, test):
 # history is a list of weekly data
@@ -428,6 +438,8 @@ return score, scores
 Once we have the evaluation for a model, we can summarize the performance. The function
 below namedsummarizescores()will display the performance of a model as a single line for
 easy comparison with other models.
+
+```
 
 # summarize scores
 def summarize_scores(name, score, scores):
@@ -463,6 +475,8 @@ the active power from the last day prior to the forecast period (e.g. Saturday) 
 as the value of the power for each day in the forecast period (Sunday to Saturday). The
 dailypersistence() function below implements the daily persistence forecast strategy.
 
+```
+
 # daily persistence model
 def daily_persistence(history):
 # get the data for the prior week
@@ -478,10 +492,11 @@ return forecast
 
 Another good naive forecast when forecasting a standard week is to use
 the entire prior week
-
 as the forecast for the week ahead. It is based on the idea that next week will be very similar
 to this week. Theweeklypersistence() function below implements the weekly persistence
 forecast strategy.
+
+```
 
 # weekly persistence model
 def weekly_persistence(history):
@@ -496,11 +511,11 @@ return last_week[:, 0]
 Similar to the idea of using last week to forecast next week is the idea of using the same week
 last year to predict next week. That is, use the week of observations from 52 weeks ago as the
 forecast, based on the idea that next week will be similar to the same week one year ago. The
-
 weekoneyearagopersistence() function below implements the week one year
-ago forecast
+ago forecast strategy.
 
-strategy.
+```
+
 # week one year ago persistence model
 def week_one_year_ago_persistence(history):
 # get the data for the prior week
@@ -513,8 +528,10 @@ return last_week[:, 0]
 
 We can compare each of the forecast strategies using the test harness
 developed in the previous
-
 section. First, the dataset can be loaded and split into train and test sets.
+
+```
+
 # load the new file
 dataset = read_csv('household_power_consumption_days.csv', header=0,
 infer_datetime_format=True, parse_dates=['datetime'], index_col=['datetime'])
@@ -531,6 +548,7 @@ models['weekly'] = weekly_persistence
 models['week-oya'] = week_one_year_ago_persistence
 
 ```
+
 We can then enumerate each of the strategies, evaluating it using walk-forward validation,
 printing the scores, and adding the scores to a line plot for visual comparison.
 # evaluate each model
@@ -544,11 +562,11 @@ summarize_scores('daily persistence', score, scores)
 pyplot.plot(days, scores, marker='o', label=name)
 
 ```
+
 Tying all of this together, the complete example evaluating the three naive forecast strategies
 is listed below.
 
 ```
-
 
 from math import sqrt
 from numpy import split
@@ -652,18 +670,16 @@ pyplot.show()
 
 Running the example first prints the total and daily scores for each model. We can see that
 the weekly strategy performs better than the daily strategy and that the week one year ago
-
 (week-oya) performs slightly better again. We can see this in both the
 overall RMSE scores for
-
 each model and in the daily scores for each forecast day. One exception
 is the forecast error for
-
-
 the first day (Sunday) where it appears that the daily persistence model performs better than
 the two weekly strategies. We can use the week-oya strategy with an overall RMSE of 465.294
 kilowatts as the baseline in performance for more sophisticated models to be considered skillful
 on this specific framing of the problem.
+
+```
 
 daily: [511.886] 452.9, 596.4, 532.1, 490.5, 534.3, 481.5, 482.0
 weekly: [469.389] 567.6, 500.3, 411.2, 466.1, 471.9, 358.3, 482.0

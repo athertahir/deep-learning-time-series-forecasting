@@ -72,8 +72,6 @@ laundry, and climate control. These are not all the circuits in the household. T
 watt-hours can be calculated from the active energy by first converting the active energy to
 watt-hours then subtracting the other sub-metered active energy in watt-hours, as follows:
 
-```
-
 remainder = (
 
 globalactpwr× 1000
@@ -103,6 +101,9 @@ the filehouseholdpowerconsumption.txtthat is about 127 megabytes in size and con
 all of the observations Inspect the data file. Below are the first five rows of data (and the header)
 from the raw data file.
 
+
+```
+
 Date;Time;Global_active_power;Global_reactive_power;Voltage;Global_intensity;...
 16/12/2006;17:24:00;4.216;0.418;234.840;18.400;0.000;1.000;17.000
 16/12/2006;17:25:00;5.360;0.436;233.630;23.000;0.000;1.000;16.000
@@ -112,10 +113,14 @@ Date;Time;Global_active_power;Global_reactive_power;Voltage;Global_intensity;...
 ...
 
 ```
+
 We can see that the data columns are separated by semicolons (‘;’). The data is reported
 to have one row for each day in the time period. The data does have missing values; for example,
 
 we can see 2-3 days worth of missing data around28/4/2007.
+
+
+```
 
 ...
 28/4/2007;00:20:00;0.492;0.208;236.240;2.200;0.000;0.000;0.000
@@ -154,9 +159,10 @@ zip
 
 
 Putting all of this together, we can now load the data and summarize the
-loaded shape and
+loaded shape and first few rows.
 
-first few rows.
+
+```
 dataset = read_csv('household_power_consumption.txt', sep=';',
 header=0, low_memory=False,
 infer_datetime_format=True, parse_dates={'datetime':[0,1]},
@@ -165,17 +171,18 @@ print(dataset.shape)
 print(dataset.head())
 
 ```
+
 Next, we can mark all missing values indicated with a‘?’character with
-aNaNvalue, which
-
+a NaN value, which
 is a float. This will allow us to work with the data as one array of
-floating point values rather
+floating point values rather than mixed types, which is less efficient.
 
-than mixed types, which is less efficient.
+```
 
 dataset.replace('?', nan, inplace=True)
 
 ```
+
 Now we can create a new column that contains the remainder of the
 sub-metering, using the
 

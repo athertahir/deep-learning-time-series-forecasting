@@ -517,14 +517,14 @@ is listed below.
 The function expects the config to be a list with the following
 configuration hyperparameters:
 
-- ninput: The number of lag observations to use as input to the model.
+- **ninput:** The number of lag observations to use as input to the model.
 
-- nnodes: The number of nodes to use in the hidden layer.
+- **nnodes:** The number of nodes to use in the hidden layer.
 
-- nepochs: The number of times to expose the model to the whole training
+- **nepochs:** The number of times to expose the model to the whole training
 dataset.
 
-- nbatch: The number of samples within an epoch after which the weights
+- **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
 # fit a model
@@ -583,13 +583,13 @@ Model hyperparameters were chosen with a little trial and error and are listed b
 may not be optimal for the problem and improvements could be made via grid searching. For
 details on how, see Chapter 15.
 
-- ninput: 24 (e.g. 24 months)
+- **ninput:** 24 (e.g. 24 months)
 
-- nnodes: 500
+- **nnodes:** 500
 
-- nepochs: 100
+- **nepochs:** 100
 
-- nbatch: 100
+- **nbatch:** 100
 
 This configuration can be defined as a list:
 # define config
@@ -825,17 +825,17 @@ is listed below.
 
 The model takes the following five configuration parameters as a list:
 
-- ninput: The number of lag observations to use as input to the model.
+- **ninput:** The number of lag observations to use as input to the model.
 
-- nfilters: The number of parallel filters.
+- **nfilters:** The number of parallel filters.
 
-- nkernel: The number of time steps considered in each read of the input
+- **nkernel:** The number of time steps considered in each read of the input
 sequence.
 
-- nepochs: The number of times to expose the model to the whole training
+- **nepochs:** The number of times to expose the model to the whole training
 dataset.
 
-- nbatch: The number of samples within an epoch after which the weights
+- **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
 # fit a model
@@ -887,15 +887,15 @@ Model hyperparameters were chosen with a little trial and error and are listed b
 model may not be optimal for the problem and improvements could be made via grid searching.
 For details on how, see Chapter 15.
 
-- ninput: 36 (e.g. 3 years or 3×12)
+- **ninput:** 36 (e.g. 3 years or 3×12)
 
-- nfilters: 256
+- **nfilters:** 256
 
-- nkernel: 3
+- **nkernel:** 3
 
-- nepochs: 100
+- **nepochs:** 100
 
-- nbatch: 100 (e.g. batch gradient descent)
+- **nbatch:** 100 (e.g. batch gradient descent)
 
 This can be specified as a list as follows:
 
@@ -1156,17 +1156,17 @@ for fitting an LSTM
 model is provided below. The model expects a list of five model
 hyperparameters; they are:
 
-- ninput: The number of lag observations to use as input to the model.
+- **ninput:** The number of lag observations to use as input to the model.
 
-- nnodes: The number of LSTM units to use in the hidden layer.
+- **nnodes:** The number of LSTM units to use in the hidden layer.
 
-- nepochs: The number of times to expose the model to the whole training
+- **nepochs:** The number of times to expose the model to the whole training
 dataset.
 
-- nbatch: The number of samples within an epoch after which the weights
+- **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
-- ndiff: The difference order or 0 if not used.
+- **ndiff:** The difference order or 0 if not used.
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -1227,15 +1227,15 @@ via grid searching.
 
 For details on how, see Chapter 15.
 
-- ninput: 36 (i.e. 3 years or 3×12)
+- **ninput:** 36 (i.e. 3 years or 3×12)
 
-- nnodes: 50
+- **nnodes:** 50
 
-- nepochs: 100
+- **nepochs:** 100
 
-- nbatch: 100 (i.e. batch gradient descent)
+- **nbatch:** 100 (i.e. batch gradient descent)
 
-- ndiff: 12 (i.e. seasonal difference)
+- **ndiff:** 12 (i.e. seasonal difference)
 
 This can be specified as a list:
 config = [36, 50, 100, 100, 12]
@@ -1478,17 +1478,17 @@ hyperparameters; they are:
 
 - nsteps: The number of time steps within each subsequence.
 
-- nfilters: The number of parallel filters.
+- **nfilters:** The number of parallel filters.
 
-- nkernel: The number of time steps considered in each read of the input
+- **nkernel:** The number of time steps considered in each read of the input
 sequence.
 
-- nnodes: The number of LSTM units to use in the hidden layer.
+- **nnodes:** The number of LSTM units to use in the hidden layer.
 
-- nepochs: The number of times to expose the model to the whole training
+- **nepochs:** The number of times to expose the model to the whole training
 dataset.
 
-- nbatch: The number of samples within an epoch after which the weights
+- **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
 
@@ -1554,15 +1554,15 @@ For details on how, see Chapter 15.
 
 - nsteps: 12 (i.e. 1 year of months)
 
-- nfilters: 64
+- **nfilters:** 64
 
-- nkernel: 3
+- **nkernel:** 3
 
-- nnodes: 100
+- **nnodes:** 100
 
-- nepochs: 200
+- **nepochs:** 200
 
-- nbatch: 100 (i.e. batch gradient descent)
+- **nbatch:** 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
 config = [3, 12, 64, 3, 100, 200, 100]
@@ -1779,17 +1779,17 @@ hyperparameters, the same as the CNN-LSTM; they are:
 
 - nsteps: The number of time steps within each subsequence.
 
-- nfilters: The number of parallel filters.
+- **nfilters:** The number of parallel filters.
 
-- nkernel: The number of time steps considered in each read of the input
+- **nkernel:** The number of time steps considered in each read of the input
 sequence.
 
-- nnodes: The number of LSTM units to use in the hidden layer.
+- **nnodes:** The number of LSTM units to use in the hidden layer.
 
-- nepochs: The number of times to expose the model to the whole training
+- **nepochs:** The number of times to expose the model to the whole training
 dataset.
 
-- nbatch: The number of samples within an epoch after which the weights
+- **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
 Themodelfit() function that implements all of this is listed below.
@@ -1851,15 +1851,15 @@ For details on how, see Chapter 15.
 
 - nsteps: 12 (i.e. 1 year of months)
 
-- nfilters: 256
+- **nfilters:** 256
 
-- nkernel: 3
+- **nkernel:** 3
 
-- nnodes: 200
+- **nnodes:** 200
 
-- nepochs: 200
+- **nepochs:** 200
 
-- nbatch: 100 (i.e. batch gradient descent)
+- **nbatch:** 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
 config = [3, 12, 256, 3, 200, 200, 100]

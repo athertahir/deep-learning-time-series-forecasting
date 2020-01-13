@@ -520,17 +520,16 @@ forecasting. For more details on modeling a univariate time series with an MLP, 
 There are many aspects of the MLP that we may wish to tune. We will define a very simple
 model with one hidden layer and define five hyperparameters to tune. They are:
 
-- ninput: The number of prior inputs to use as input for the model (e.g.
+- **ninput:** The number of prior inputs to use as input for the model (e.g.
 12 months).
 
-- nnodes: The number of nodes to use in the hidden layer (e.g. 50).
+- **nnodes:** The number of nodes to use in the hidden layer (e.g. 50).
 
-- nepochs: The number of training epochs (e.g. 1000).
+- **nepochs:** The number of training epochs (e.g. 1000).
 
+- **nbatch:** The number of samples to include in each mini-batch (e.g. 32).
 
-- nbatch: The number of samples to include in each mini-batch (e.g. 32).
-
-- ndiff: The difference order (e.g. 0 or 12).
+- **ndiff:** The difference order (e.g. 0 or 12).
 
 Modern neural networks can handle raw data with little pre-processing, such as scaling and
 differencing. Nevertheless, when it comes to time series data, sometimes differencing the series
@@ -540,6 +539,8 @@ or seasonality structure. We will add support for differencing to the grid searc
 just in case it adds value to your specific problem. It does add value for the internal airline
 passengers dataset. Thedifference() function below will calculate the difference of a given
 order for the dataset.
+
+```
 
 # difference dataset
 def difference(data, order):
@@ -855,15 +856,15 @@ can see that the best RMSE of 18.98 was achieved with a configuration of[12, 100
 
 12], which we know can be interpreted as:
 
-- ninput: 12
+- **ninput:** 12
 
-- nnodes: 100
+- **nnodes:** 100
 
-- nepochs: 100
+- **nepochs:** 100
 
-- nbatch: 1
+- **nbatch:** 1
 
-- ndiff: 12
+- **ndiff:** 12
 
 A truncated example output of the grid search is listed below.
 
@@ -906,19 +907,19 @@ set of hyperparameters to grid search in the CNN model are as follows:
 
 ```
 
-- ninput: The number of prior inputs to use as input for the model (e.g.
+- **ninput:** The number of prior inputs to use as input for the model (e.g.
 12 months).
 
-- nfilters: The number of filter maps in the convolutional layer (e.g.
+- **nfilters:** The number of filter maps in the convolutional layer (e.g.
 32).
 
-- nkernel: The kernel size in the convolutional layer (e.g. 3).
+- **nkernel:** The kernel size in the convolutional layer (e.g. 3).
 
-- nepochs: The number of training epochs (e.g. 1000).
+- **nepochs:** The number of training epochs (e.g. 1000).
 
-- nbatch: The number of samples to include in each mini-batch (e.g. 32).
+- **nbatch:** The number of samples to include in each mini-batch (e.g. 32).
 
-- ndiff: The difference order (e.g. 0 or 12).
+- **ndiff:** The difference order (e.g. 0 or 12).
 
 Some additional hyperparameters that you may wish to investigate are the use of two
 convolutional layers before a pooling layer, the repetition of the convolutional and pooling layer
@@ -1202,17 +1203,17 @@ of 18.89, which
 is skillful as compared to a naive forecast model that achieved 50.70.
 We can unpack this configuration as:
 
-- ninput: 12
+- **ninput:** 12
 
-- nfilters: 64
+- **nfilters:** 64
 
-- nkernel: 5
+- **nkernel:** 5
 
-- nepochs: 100
+- **nepochs:** 100
 
-- nbatch: 1
+- **nbatch:** 1
 
-- ndiff: 12
+- **ndiff:** 12
 
 
 A truncated example output of the grid search is listed below.
@@ -1248,16 +1249,16 @@ For more details on modeling a univariate time series with an LSTM network, see 
 The hyperparameters for the LSTM model will be the same five as the MLP;
 they are:
 
-- ninput: The number of prior inputs to use as input for the model (e.g.
+- **ninput:** The number of prior inputs to use as input for the model (e.g.
 12 months).
 
-- nnodes: The number of nodes to use in the hidden layer (e.g. 50).
+- **nnodes:** The number of nodes to use in the hidden layer (e.g. 50).
 
-- nepochs: The number of training epochs (e.g. 1000).
+- **nepochs:** The number of training epochs (e.g. 1000).
 
-- nbatch: The number of samples to include in each mini-batch (e.g. 32).
+- **nbatch:** The number of samples to include in each mini-batch (e.g. 32).
 
-- ndiff: The difference order (e.g. 0 or 12).
+- **ndiff:** The difference order (e.g. 0 or 12).
 
 We will define a simple LSTM model with a single hidden LSTM layer and the number of
 nodes specifying the number of units in this layer.
@@ -1313,11 +1314,12 @@ verbose=0)
 return model
 
 ```
+
 Also like the CNN, the single input sample used to make a prediction
-must also be reshaped
+must also be reshaped into the expected three-dimensional structure.
 
-into the expected three-dimensional structure.
 
+```
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 ```
@@ -1530,15 +1532,15 @@ more tuning and may do much better with a hybrid configuration, such as
 having a CNN model
 as input. We can unpack this configuration as:
 
-- ninput: 12
+- **ninput:** 12
 
-- nnodes: 100
+- **nnodes:** 100
 
-- nepochs: 50
+- **nepochs:** 50
 
-- nbatch: 1
+- **nbatch:** 1
 
-- ndiff: 12
+- **ndiff:** 12
 
 A truncated example output of the grid search is listed below.
 

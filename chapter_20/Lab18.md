@@ -294,6 +294,8 @@ with the training data, we must first flatten the history data to remove
 the weekly structure so
 
 that we end up with eight parallel time series.
+```
+
 # flatten data
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
@@ -319,13 +321,14 @@ yhat = yhat[0]
 
 ```
 
-Theforecast() function below implements this and takes as arguments the
+The forecast() function below implements this and takes as arguments the
 model fit on
-
 the training dataset, the history of data observed so far, and the
 number of input time steps
-
 expected by the model.
+
+
+```
 
 def forecast(model, history, n_input):
 data = array(history)
@@ -1458,7 +1461,7 @@ input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 
 prediction.
 
-Theforecast() function with this change and with the parameterized
+The forecast() function with this change and with the parameterized
 subsequences is
 
 provided below.
