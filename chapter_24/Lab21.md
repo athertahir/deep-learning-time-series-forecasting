@@ -181,7 +181,7 @@ We can do this by calling
 thetocategorical()Keras function. Theloaddataset()function below
 implements this
 
-behavior and returns the train and testXandyelements ready for fitting
+behavior and returns the train and test `X` and `y` elements ready for fitting
 and evaluating the
 
 defined models.

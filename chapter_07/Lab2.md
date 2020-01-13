@@ -88,6 +88,8 @@ Thesplitsequence()function below implements this behavior and will split a given
 univariate sequence into multiple samples where each sample has a specified number of time
 steps and the output is a single time step.
 
+```
+
 # split a univariate sequence into samples
 def split_sequence(sequence, n_steps):
 X, y = list(), list()
@@ -96,7 +98,6 @@ for i in range(len(sequence)):
 end_ix = i + n_steps
 # check if we are beyond the sequence
 if end_ix > len(sequence)-1:
-
 
 break
 # gather input and output parts of the pattern
@@ -108,8 +109,10 @@ return array(X), array(y)
 ```
 
 We can demonstrate this function on our small contrived dataset above. The complete
-
 example is listed below.
+
+```
+
 from numpy import array
 def split_sequence(sequence, n_steps):
  X, y = list(), list()
@@ -130,8 +133,11 @@ for i in range(len(X)):
 ```
 
 Running the example splits the univariate series into six samples where each sample has
-
 three input time steps and one output time step.
+
+
+```
+
 
 [10 20 30] 40
  [20 30 40] 50
@@ -142,7 +148,6 @@ three input time steps and one output time step.
 
 ```
 
-problem.
 
 Now that we know how to prepare a univariate series for modeling, let’s
 look at developing
@@ -156,6 +161,10 @@ A simple MLP model has a single hidden layer of nodes, and an output
 layer used to make a
 
 prediction. We can define an MLP for univariate time series forecasting as follows.
+
+
+```
+
 # define model
 model = Sequential()
 model.add(Dense(100, activation='relu', input_dim=n_steps))
@@ -163,18 +172,24 @@ model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
 
 ```
+
 Important in the definition is the shape of the input; that is what the model expects as
 input for each sample in terms of the number of time steps. The number of time steps as input
 is the number we chose when preparing our dataset as an argument to thesplitsequence()
 function. The input dimension for each sample is specified in theinputdimargument on the
 definition of first hidden layer. Technically, the model will view each time step as a separate
 feature instead of separate time steps.
+
 We almost always have multiple samples, therefore, the model will expect the input
 component of training data to have the dimensions or shape: [samples, features]. Our
 splitsequence()function in the previous section outputs theXwith the shape[samples,
 features]ready to use for modeling. The model is fit using the efficient Adam version of
 stochastic gradient descent and optimized using the mean squared error, or‘mse’, loss function.
 Once the model is defined, we can fit it on the training dataset.
+
+
+```
+
 # fit model
 model.fit(X, y, epochs=2000, verbose=0)
 
@@ -184,6 +199,9 @@ in the sequence by providing the input:[70, 80, 90]. And expecting the model to 
 something like:[100]. The model expects the input shape to be two-dimensional with[samples,
 features], therefore, we must reshape the single input sample before making the prediction,
 e.g with the shape[1, 3]for 1 sample and 3 time steps used as input features.
+
+```
+
 # demonstrate prediction
 x_input = array([70, 80, 90])
 x_input = x_input.reshape((1, n_steps))
@@ -194,6 +212,7 @@ yhat = model.predict(x_input, verbose=0)
 We can tie all of this together and demonstrate how to develop an MLP for univariate time
 series forecasting and make a single prediction.
 
+```
 # univariate mlp example
 from numpy import array
 from keras.models import Sequential
@@ -240,6 +259,8 @@ results may vary. Consider
 
 running the example a few times.
 
+
+```
 [[100.0109]]
 
 ```
@@ -256,12 +277,8 @@ series forecasting problem, see Chapter 15.
 
 Multivariate time series data means data where there is more than one
 observation for each
-
 time step. There are two main models that we may require with
 multivariate time series data;
-
-they are:
-
 
 1.  Multiple Input Series.
 2.  Multiple Parallel Series.
@@ -277,6 +294,7 @@ dependent on the input time series. The input time series are parallel because e
 an observation at the same time step. We can demonstrate this with a simple example of two
 parallel input time series where the output series is the simple addition of the input series.
 
+```
 # define input sequence
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
 in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
@@ -287,6 +305,7 @@ We can reshape these three arrays of data as a single dataset where each row is 
 and each column is a separate time series. This is a standard way of storing parallel time series
 in a CSV file.
 
+```
 # convert to [rows, columns] structure
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
 in_seq2 = in_seq2.reshape((len(in_seq2), 1))
@@ -298,6 +317,7 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
 
 The complete example is listed below.
 
+```
 # multivariate data preparation
 from numpy import array
 from numpy import hstack
@@ -317,6 +337,7 @@ print(dataset)
 Running the example prints the dataset with one row per time step and one column for each
 of the two input and one output parallel time series.
 
+```
 [[ 10 15 25]
 
 [ 20 25 45]
@@ -336,22 +357,24 @@ of the two input and one output parallel time series.
 [ 90 95 185]]
 
 ```
+
 As with the univariate time series, we must structure these data into
 samples with input and
-
 output samples. We need to split the data into samples maintaining the
 order of observations
-
 across the two input sequences. If we chose three input time steps, then
 the first sample would
-
 look as follows:
 
+
+```
 Input:
 
 10, 15
  20, 25
  30, 35
+
+```
 
 ```
 Output:
@@ -384,6 +407,9 @@ have defined it with rows for time steps and columns for parallel series
 and return input/output
 
 samples.
+
+
+```
 def split_sequences(sequences, n_steps):
  X, y = list(), list()
  for i in range(len(sequences)):
@@ -400,6 +426,9 @@ seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
 
 We can test this function on our dataset using three time steps for each input time series as
 input. The complete example is listed below.
+
+
+```
 # multivariate data preparation
 from numpy import array
 from numpy import hstack
@@ -440,7 +469,7 @@ print(X[i], y[i])
 
 ```
 
-Running the example first prints the shape of theXandycomponents. We can see that the
+Running the example first prints the shape of the `X` and `y` components. We can see that the
 Xcomponent has a three-dimensional structure. The first dimension is the number of samples,
 in this case 7. The second dimension is the number of time steps per sample, in this case 3, the
 
@@ -452,6 +481,7 @@ the input and output for each sample is printed, showing the three time steps fo
 two input series and the associated output for each sample.
 
 
+```
 (7, 3, 2) (7,)
 
 [[10 15]
@@ -507,12 +537,17 @@ we will have multiple vectors, one for each time step. We can flatten
 the temporal structure of
 
 each input sample, so that:
+
+```
 [[10 15]
 [20 25]
 [30 35]]
 
 ```
+
 Becomes:
+
+```
 [10, 15, 20, 25, 30, 35]
 
 ```
@@ -520,6 +555,7 @@ Becomes:
 First, we can calculate the length of each input vector as the number of time steps multiplied
 by the number of features or time series. We can then use this vector size to reshape the input.
 
+```
 # flatten input
 n_input = X.shape[1] * X.shape[2]
 X = X.reshape((X.shape[0], n_input))
@@ -528,6 +564,8 @@ X = X.reshape((X.shape[0], n_input))
 
 We can now define an MLP model for the multivariate input where the vector length is used
 for the input dimension argument.
+
+```
 # define model
 model = Sequential()
 model.add(Dense(100, activation='relu', input_dim=n_input))
@@ -541,6 +579,7 @@ When making a prediction, the model expects three time steps for two input time 
 We can predict the next value in the output series proving the input
 values of:
 
+```
 80, 85
 90, 95
 100, 105
@@ -551,6 +590,7 @@ The shape of the 1 sample with 3 time steps and 2 variables would be[1, 3, 2]. W
 again reshape this to be 1 sample with a vector of 6 elements or[1, 6]. We would expect the
 next value in the sequence to be 100 + 105 or 205.
 
+```
 # demonstrate prediction
 x_input = array([[80, 85], [90, 95], [100, 105]])
 x_input = x_input.reshape((1, n_input))
@@ -559,6 +599,8 @@ yhat = model.predict(x_input, verbose=0)
 ```
 
 The complete example is listed below.
+
+```
 # multivariate mlp example
 from numpy import array
 from numpy import hstack
@@ -618,6 +660,7 @@ prediction.
 Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[205.04436]]
 
 ```
@@ -626,7 +669,6 @@ Multi-headed MLP Model
 
 There is another more elaborate way to model the problem. Each input
 series can be handled by
-
 a separate MLP and the output of each of these submodels can be combined before a prediction
 is made for the output sequence. We can refer to this as a multi-headed input MLP model. It
 may offer more flexibility or better performance depending on the specifics of the problem that
@@ -635,6 +677,7 @@ First, we can define the first input model as an MLP with an input layer that ex
 
 withnstepsfeatures.
 
+```
 # first input model
 visible1 = Input(shape=(n_steps,))
 dense1 = Dense(100, activation='relu')(visible1)
@@ -642,28 +685,35 @@ dense1 = Dense(100, activation='relu')(visible1)
 ```
 
 We can define the second input submodel in the same way.
+
+
+```
 visible2 = Input(shape=(n_steps,))
  dense2 = Dense(100, activation='relu')(visible2)
 
 ```
+
 Now that both input submodels have been defined, we can merge the output from each
 
 model into one long vector, which can be interpreted before making a
 prediction for the output
-
 sequence.
+
+```
 merge = concatenate([dense1, dense2])
  output = Dense(1)(merge)
 
 ```
+
 We can then tie the inputs and outputs together.
+
+```
 model = Model(inputs=[visible1, visible2], outputs=output)
 
 ```
 
 The image below provides a schematic for how this model looks, including
 the shape of the
-
 inputs and outputs of each layer.
 
 ![](./images/81-2.png)
@@ -674,21 +724,26 @@ the list contains data for one of the submodels. In order to achieve
 this, we can split the 3D
 
 input data into two separate arrays of input data: that is from one
-array with the shape[7, 3,
+array with the shape[7, 3, 2]to two 2D arrays with the shape[7, 3].
 
-2]to two 2D arrays with the shape[7, 3].
 
+```
 X1 = X[:, :, 0]
  X2 = X[:, :, 1]
 
 ```
 These data can then be provided in order to fit the model.
+
+
+```
 model.fit([X1, X2], y, epochs=2000, verbose=0)
 
 ```
-Similarly, we must prepare the data for a single sample as two separate two-dimensional
 
+Similarly, we must prepare the data for a single sample as two separate two-dimensional
 arrays when making a single one-step prediction.
+
+```
 x_input = array([[80, 85], [90, 95], [100, 105]])
  x1 = x_input[:, 0].reshape((1, n_steps))
  x2 = x_input[:, 1].reshape((1, n_steps))
@@ -696,6 +751,8 @@ x_input = array([[80, 85], [90, 95], [100, 105]])
 ```
 
 We can tie all of this together; the complete example is listed below.
+
+```
 from numpy import array
  from numpy import hstack
  from keras.models import Model
@@ -756,6 +813,7 @@ prediction.
 Note: Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[206.05022]]
 
 ```
@@ -768,6 +826,7 @@ parallel time series and a
 value must be predicted for each. For example, given the data from the
 previous section:
 
+```
 [[ 10 15 25]
 [ 20 25 45]
 [ 30 35 65]
@@ -789,6 +848,7 @@ be split into input/output
 samples in order to train a model. The first sample of this dataset
 would be:
 
+```
 Input:
 
 10, 15, 25
@@ -796,16 +856,21 @@ Input:
  30, 35, 65
 
 ```
+
+```
 Output:
 
 40, 45, 85
 
 ```
+
 Thesplitsequences()function below will split multiple parallel time
 series with rows for
-
 time steps and one series per column into the required input/output
 shape.
+
+
+```
 def split_sequences(sequences, n_steps):
  X, y = list(), list()
  for i in range(len(sequences)):
@@ -819,10 +884,11 @@ seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
 
 ```
 
-supervised learning problem.
 
 We can demonstrate this on the contrived problem; the complete example
 is listed below.
+
+```
 from numpy import array
  from numpy import hstack
 def split_sequences(sequences, n_steps):
@@ -857,15 +923,15 @@ print(X[i], y[i])
 
 ```
 
-Running the example first prints the shape of the preparedXandycomponents. The
+Running the example first prints the shape of the prepared `X` and `y` components. The
 shape ofXis three-dimensional, including the number of samples (6), the number of time steps
 chosen per sample (3), and the number of parallel time series or features (3). The shape ofy
 is two-dimensional as we might expect for the number of samples (6) and the number of time
-
 variables per sample to be predicted (3). Then, each of the samples is
 printed showing the input
-
 and output components of each sample.
+
+```
 (6, 3, 3) (6, 3)
 
 [[10 15 25]

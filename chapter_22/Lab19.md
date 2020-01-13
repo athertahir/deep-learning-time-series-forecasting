@@ -589,10 +589,10 @@ Next, we need a way to retrieve all of the rows for a single subject, e.g. subje
 We can do this by finding all of the row numbers that belong to a given
 subject and use those
 
-row numbers to select the samples from the loadedXandydata from the training dataset. The
+row numbers to select the samples from the loaded `X` and `y` data from the training dataset. The
 dataforsubject()function below implements this behavior. It will take the loaded training
 data, the loaded mapping of row number to subjects, and the subject identification number for
-the subject that we are interested in, and will return theXandydata for only that subject.
+the subject that we are interested in, and will return the `X` and `y` data for only that subject.
 # get all data for one subject
 def data_for_subject(X, y, sub_map, sub_id):
 # get row indexes for the subject id
@@ -624,7 +624,7 @@ Finally, we have enough to plot the data. We can plot each of the nine variables
 subject in turn and a final plot for the activity level. Each series will have the same number of
 time steps (length of x-axis), therefore, it may be useful to create a subplot for each variable and
 align all plots vertically so we can compare the movement on each variable. Theplotsubject()
-function below implements this behavior for theXandydata for a single subject. The function
+function below implements this behavior for the `X` and `y` data for a single subject. The function
 assumes the same order of the variables (3rd axis) as was loaded in theloaddataset()function.
 
 A crude title is also added to each plot so we don’t get easily confused

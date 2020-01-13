@@ -860,7 +860,7 @@ for i in range(len(X)):
 
 ```
 
-Running the example first prints the shape of theXandycomponents. We can
+Running the example first prints the shape of the `X` and `y` components. We can
 see that
 
 theXcomponent has a three-dimensional structure. The first dimension is
@@ -1124,7 +1124,7 @@ print(X[i], y[i])
 
 ```
 
-Running the example first prints the shape of the preparedXandycomponents. The
+Running the example first prints the shape of the prepared `X` and `y` components. The
 shape ofXis three-dimensional, including the number of samples (6), the number of time steps
 chosen per sample (3), and the number of parallel time series or features (3). The shape ofy
 is two-dimensional as we might expect for the number of samples (6) and the number of time
@@ -1132,7 +1132,7 @@ is two-dimensional as we might expect for the number of samples (6) and the numb
 variables per sample to be predicted (3). The data is ready to use in an
 LSTM model that
 
-expects three-dimensional input and two-dimensional output shapes for theXandycomponents
+expects three-dimensional input and two-dimensional output shapes for the `X` and `y` components
 of each sample. Then, each of the samples is printed showing the input and output components
 of each sample.
 (6, 3, 3) (6, 3)
