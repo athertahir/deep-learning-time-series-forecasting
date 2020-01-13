@@ -264,8 +264,8 @@ is listed below.
 from pandas import read_csv
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 data = load_file('HARDataset/train/Inertial
 Signals/total_acc_y_train.txt')
@@ -329,9 +329,9 @@ return loaded
 
 filenames =
 ['total_acc_x_train.txt','total_acc_y_train.txt','total_acc_z_train.txt']
- total_acc = load_group(filenames, prefix='HARDataset/train/Inertial
+total_acc = load_group(filenames, prefix='HARDataset/train/Inertial
 Signals/')
- print(total_acc.shape)
+print(total_acc.shape)
 
 ```
 Running the example prints the shape of the returned NumPy array,
@@ -363,36 +363,36 @@ can be called for either thetraingroup or thetestgroup, passed as a
 string argument.
 
 def load_dataset(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 ```
 
 The complete example is listed below.
 
 from numpy import dstack
- from pandas import read_csv
+from pandas import read_csv
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
 
@@ -471,8 +471,8 @@ counts = df.groupby(0).size()
 
 counts = counts.values
 for i in range(len(counts)):
- percent = counts[i] / len(df) * 100
- print('Class=%d, total=%d, percentage=%.3f' % (i+1, counts[i],
+percent = counts[i] / len(df) * 100
+print('Class=%d, total=%d, percentage=%.3f' % (i+1, counts[i],
 percent))
 
 ```
@@ -485,12 +485,12 @@ breakdown on the
 combined dataset. The complete example is listed below.
 
 from numpy import vstack
- from pandas import read_csv
- from pandas import DataFrame
+from pandas import read_csv
+from pandas import DataFrame
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def class_breakdown(data):
 
@@ -500,14 +500,14 @@ counts = df.groupby(0).size()
 
 counts = counts.values
 for i in range(len(counts)):
- percent = counts[i] / len(df) * 100
- print('Class=%d, total=%d, percentage=%.3f' % (i+1, counts[i],
+percent = counts[i] / len(df) * 100
+print('Class=%d, total=%d, percentage=%.3f' % (i+1, counts[i],
 percent))
 
 trainy = load_file('HARDataset/train/y_train.txt')
 
 print('Train Dataset')
- class_breakdown(trainy)
+class_breakdown(trainy)
 testy = load_file('HARDataset/test/y_test.txt')
 
 
@@ -636,53 +636,53 @@ looking at.
 
 
 def plot_subject(X, y):
- pyplot.figure()
+pyplot.figure()
 
 n, off = X.shape[2] + 1, 0
 for i in range(3):
- pyplot.subplot(n, 1, off+1)
- pyplot.plot(to_series(X[:, :, off]))
- pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
+pyplot.subplot(n, 1, off+1)
+pyplot.plot(to_series(X[:, :, off]))
+pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
 
 pyplot.yticks([])
- pyplot.xticks([])
- off += 1
+pyplot.xticks([])
+off += 1
 for i in range(3):
- pyplot.subplot(n, 1, off+1)
- pyplot.plot(to_series(X[:, :, off]))
- pyplot.title('body acc'+str(i), y=0, loc='left', size=7)
+pyplot.subplot(n, 1, off+1)
+pyplot.plot(to_series(X[:, :, off]))
+pyplot.title('body acc'+str(i), y=0, loc='left', size=7)
 
 pyplot.yticks([])
- pyplot.xticks([])
- off += 1
+pyplot.xticks([])
+off += 1
 for i in range(3):
- pyplot.subplot(n, 1, off+1)
- pyplot.plot(to_series(X[:, :, off]))
- pyplot.title('body gyro'+str(i), y=0, loc='left', size=7)
+pyplot.subplot(n, 1, off+1)
+pyplot.plot(to_series(X[:, :, off]))
+pyplot.title('body gyro'+str(i), y=0, loc='left', size=7)
 
 pyplot.yticks([])
- pyplot.xticks([])
- off += 1
+pyplot.xticks([])
+off += 1
 
 pyplot.subplot(n, 1, n)
- pyplot.plot(y)
- pyplot.title('activity', y=0, loc='left', size=7)
+pyplot.plot(y)
+pyplot.title('activity', y=0, loc='left', size=7)
 
 pyplot.yticks([])
- pyplot.xticks([])
- pyplot.show()
+pyplot.xticks([])
+pyplot.show()
 
 ```
 The complete example is listed below.
 
 from numpy import dstack
- from numpy import unique
- from pandas import read_csv
- from matplotlib import pyplot
+from numpy import unique
+from pandas import read_csv
+from matplotlib import pyplot
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
 
@@ -696,25 +696,25 @@ loaded = dstack(loaded)
 return loaded
 
 def load_dataset(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def data_for_subject(X, y, sub_map, sub_id):
 
@@ -723,22 +723,22 @@ ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 return X[ix, :, :], y[ix]
 
 def to_series(windows):
- series = list()
- for window in windows:
+series = list()
+for window in windows:
 
 half = int(len(window) / 2) - 1
- for value in window[-half:]:
- series.append(value)
- return series
+for value in window[-half:]:
+series.append(value)
+return series
 
 def plot_subject(X, y):
- pyplot.figure()
+pyplot.figure()
 
 n, off = X.shape[2] + 1, 0
 for i in range(3):
- pyplot.subplot(n, 1, off+1)
- pyplot.plot(to_series(X[:, :, off]))
- pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
+pyplot.subplot(n, 1, off+1)
+pyplot.plot(to_series(X[:, :, off]))
+pyplot.title('total acc'+str(i), y=0, loc='left', size=7)
 
 
 pyplot.yticks([])
@@ -909,25 +909,25 @@ return loaded
 
 
 def load_dataset(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def data_for_subject(X, y, sub_map, sub_id):
 
@@ -936,30 +936,30 @@ ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 return X[ix, :, :], y[ix]
 
 def to_series(windows):
- series = list()
- for window in windows:
+series = list()
+for window in windows:
 
 half = int(len(window) / 2) - 1
- for value in window[-half:]:
- series.append(value)
- return series
+for value in window[-half:]:
+series.append(value)
+return series
 
 def plot_subject_histograms(X, y, sub_map, offset, n=10):
- pyplot.figure()
+pyplot.figure()
 
 subject_ids = unique(sub_map[:,0])
 
 for k in range(n):
- sub_id = subject_ids[k]
+sub_id = subject_ids[k]
 
 subX, _ = data_for_subject(X, y, sub_map, sub_id)
 for i in range(3):
- ax = pyplot.subplot(n, 1, k+1)
- ax.set_xlim(-1,1)
- ax.hist(to_series(subX[:,:,offset+i]), bins=100)
- pyplot.yticks([])
- pyplot.xticks([-1,0,1])
- pyplot.show()
+ax = pyplot.subplot(n, 1, k+1)
+ax.set_xlim(-1,1)
+ax.hist(to_series(subX[:,:,offset+i]), bins=100)
+pyplot.yticks([])
+pyplot.xticks([-1,0,1])
+pyplot.show()
 
 
 X, y = load_dataset('train','HARDataset/')
@@ -1101,34 +1101,34 @@ return dataframe.values
 
 
 def load_group(filenames, prefix=''):
- loaded = list()
- for name in filenames:
- data = load_file(prefix + name)
- loaded.append(data)
+loaded = list()
+for name in filenames:
+data = load_file(prefix + name)
+loaded.append(data)
 
 loaded = dstack(loaded)
- return loaded
+return loaded
 
 def load_dataset(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def data_for_subject(X, y, sub_map, sub_id):
 
@@ -1137,13 +1137,13 @@ ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 return X[ix, :, :], y[ix]
 
 def to_series(windows):
- series = list()
- for window in windows:
+series = list()
+for window in windows:
 
 half = int(len(window) / 2) - 1
- for value in window[-half:]:
- series.append(value)
- return series
+for value in window[-half:]:
+series.append(value)
+return series
 
 def data_by_activity(X, y, activities):
 
@@ -1175,10 +1175,10 @@ pyplot.show()
 trainX, trainy = load_dataset('train', 'HARDataset/')
 
 sub_map = load_file('HARDataset/train/subject_train.txt')
- train_subjects = unique(sub_map)
+train_subjects = unique(sub_map)
 
 sub_id = train_subjects[0]
- subX, suby = data_for_subject(trainX, trainy, sub_map, sub_id)
+subX, suby = data_for_subject(trainX, trainy, sub_map, sub_id)
 
 plot_activity_histograms(subX, suby, 0)
 
@@ -1287,38 +1287,38 @@ pyplot.show()
 The complete example is listed below.
 
 from numpy import dstack
- from numpy import unique
- from pandas import read_csv
- from matplotlib import pyplot
+from numpy import unique
+from pandas import read_csv
+from matplotlib import pyplot
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
- loaded = list()
- for name in filenames:
- data = load_file(prefix + name)
- loaded.append(data)
+loaded = list()
+for name in filenames:
+data = load_file(prefix + name)
+loaded.append(data)
 
 loaded = dstack(loaded)
- return loaded
+return loaded
 
 def load_dataset(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
@@ -1333,13 +1333,13 @@ ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 return X[ix, :, :], y[ix]
 
 def to_series(windows):
- series = list()
- for window in windows:
+series = list()
+for window in windows:
 
 half = int(len(window) / 2) - 1
- for value in window[-half:]:
- series.append(value)
- return series
+for value in window[-half:]:
+series.append(value)
+return series
 
 def data_by_activity(X, y, activities):
 
@@ -1348,19 +1348,19 @@ return {a:X[y[:,0]==a, :, :] for a in activities}
 def plot_activity_durations_by_subject(X, y, sub_map):
 
 subject_ids = unique(sub_map[:,0])
- activity_ids = unique(y[:,0])
+activity_ids = unique(y[:,0])
 
 activity_windows = {a:list() for a in activity_ids}
- for sub_id in subject_ids:
+for sub_id in subject_ids:
 
 _, subj_y = data_for_subject(X, y, sub_map, sub_id)
 
 for a in activity_ids:
- activity_windows[a].append(len(subj_y[subj_y[:,0]==a]))
+activity_windows[a].append(len(subj_y[subj_y[:,0]==a]))
 
 durations = [activity_windows[a] for a in activity_ids]
- pyplot.boxplot(durations, labels=activity_ids)
- pyplot.show()
+pyplot.boxplot(durations, labels=activity_ids)
+pyplot.show()
 
 X, y = load_dataset('train','HARDataset/')
 

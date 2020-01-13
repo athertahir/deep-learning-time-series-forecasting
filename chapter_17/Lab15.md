@@ -86,7 +86,7 @@ than mixed types (less efficient.)
 
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
- zip
+zip
 
 
 # mark all missing values
@@ -543,22 +543,22 @@ is listed below.
 
 
 from math import sqrt
- from numpy import split
- from numpy import array
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from matplotlib import pyplot
+from numpy import split
+from numpy import array
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from matplotlib import pyplot
 
 def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
 train = array(split(train, len(train)/7))
- test = array(split(test, len(test)/7))
- return train, test
+test = array(split(test, len(test)/7))
+return train, test
 
 def evaluate_forecasts(actual, predicted):
- scores = list()
+scores = list()
 
 for i in range(actual.shape[1]):
 mse = mean_squared_error(actual[:, i], predicted[:, i])
@@ -566,29 +566,29 @@ rmse = sqrt(mse)
 scores.append(rmse)
 
 s = 0
- for row in range(actual.shape[0]):
- for col in range(actual.shape[1]):
- s += (actual[row, col] - predicted[row, col])**2
- score = sqrt(s / (actual.shape[0] * actual.shape[1]))
- return score, scores
+for row in range(actual.shape[0]):
+for col in range(actual.shape[1]):
+s += (actual[row, col] - predicted[row, col])**2
+score = sqrt(s / (actual.shape[0] * actual.shape[1]))
+return score, scores
 
 def summarize_scores(name, score, scores):
- s_scores = ','.join(['%.1f' % s for s in scores])
- print('%s: [%.3f] %s'% (name, score, s_scores))
+s_scores = ','.join(['%.1f' % s for s in scores])
+print('%s: [%.3f] %s'% (name, score, s_scores))
 
 def evaluate_model(model_func, train, test):
 
 history = [x for x in train]
 
 predictions = list()
- for i in range(len(test)):
+for i in range(len(test)):
 
 yhat_sequence = model_func(history)
 
 predictions.append(yhat_sequence)
 
 history.append(test[i, :])
- predictions = array(predictions)
+predictions = array(predictions)
 
 
 # evaluate predictions days for each week

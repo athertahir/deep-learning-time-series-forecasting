@@ -188,7 +188,7 @@ variable. The number of
 
 time steps as input is the number we chose when preparing our dataset as an argument to the
 splitsequence()function.
-The input shape for each sample is specified in theinputshapeargument on the definition
+The input shape for each sample is specified in the input shape argument on the definition
 of the first hidden layer. We almost always have multiple samples, therefore, the model will
 expect the input component of training data to have the dimensions or shape: [samples,
 timesteps, features]. Oursplitsequence()function in the previous section outputs the
@@ -222,8 +222,8 @@ making the prediction.
 
 
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps, n_features))
- yhat = model.predict(x_input, verbose=0)
+x_input = x_input.reshape((1, n_steps, n_features))
+yhat = model.predict(x_input, verbose=0)
 
 ```
 We can tie all of this together and demonstrate how to develop a 1D CNN model for
@@ -231,25 +231,25 @@ We can tie all of this together and demonstrate how to develop a 1D CNN model fo
 univariate time series forecasting and make a single prediction.
 
 from numpy import array
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
 
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequence)-1:
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -258,20 +258,20 @@ n_steps = 3
 X, y = split_sequence(raw_seq, n_steps)
 
 n_features = 1
- X = X.reshape((X.shape[0], X.shape[1], n_features))
+X = X.reshape((X.shape[0], X.shape[1], n_features))
 model = Sequential()
- model.add(Conv1D(filters=64, kernel_size=2, activation='relu',
+model.add(Conv1D(filters=64, kernel_size=2, activation='relu',
 input_shape=(n_steps,
- n_features)))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(50, activation='relu'))
- model.add(Dense(1))
- model.compile(optimizer='adam', loss='mse')
+n_features)))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(50, activation='relu'))
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
 model.fit(X, y, epochs=1000, verbose=0)
 
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps, n_features))
+x_input = x_input.reshape((1, n_steps, n_features))
 
 
 yhat = model.predict(x_input, verbose=0)
@@ -325,8 +325,8 @@ in a CSV file.
 
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -334,19 +334,19 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
 The complete example is listed below.
 
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
- print(dataset)
+print(dataset)
 
 ```
 Running the example prints the dataset with one row per time step and
@@ -355,14 +355,14 @@ one column for each
 of the two input and one output parallel time series.
 
 [[ 10 15 25]
- [ 20 25 45]
- [ 30 35 65]
- [ 40 45 85]
- [ 50 55 105]
- [ 60 65 125]
- [ 70 75 145]
- [ 80 85 165]
- [ 90 95 185]]
+[ 20 25 45]
+[ 30 35 65]
+[ 40 45 85]
+[ 50 55 105]
+[ 60 65 125]
+[ 70 75 145]
+[ 80 85 165]
+[ 90 95 185]]
 
 ```
 
@@ -386,8 +386,8 @@ follows:
 Input:
 
 10, 15
- 20, 25
- 30, 35
+20, 25
+30, 35
 
 ```
 
@@ -423,18 +423,18 @@ and return input/output
 samples.
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -444,21 +444,21 @@ input time series as
 input. The complete example is listed below.
 
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
@@ -652,17 +652,17 @@ input model as a 1D
 CNN with an input layer that expects vectors withnstepsand 1 feature.
 
 visible1 = Input(shape=(n_steps, n_features))
- cnn1 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible1)
- cnn1 = MaxPooling1D(pool_size=2)(cnn1)
- cnn1 = Flatten()(cnn1)
+cnn1 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible1)
+cnn1 = MaxPooling1D(pool_size=2)(cnn1)
+cnn1 = Flatten()(cnn1)
 
 ```
 We can define the second input submodel in the same way.
 
 visible2 = Input(shape=(n_steps, n_features))
- cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
- cnn2 = MaxPooling1D(pool_size=2)(cnn2)
- cnn2 = Flatten()(cnn2)
+cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
+cnn2 = MaxPooling1D(pool_size=2)(cnn2)
+cnn2 = Flatten()(cnn2)
 
 ```
 Now that both input submodels have been defined, we can merge the output from each
@@ -673,8 +673,8 @@ prediction for the output
 sequence.
 
 merge = concatenate([cnn1, cnn2])
- dense = Dense(50, activation='relu')(merge)
- output = Dense(1)(dense)
+dense = Dense(50, activation='relu')(merge)
+output = Dense(1)(dense)
 
 ```
 We can then tie the inputs and outputs together.
@@ -704,7 +704,7 @@ to two 3D arrays with[7, 3, 1].
 n_features = 1
 
 X1 = X[:, :, 0].reshape(X.shape[0], X.shape[1], n_features)
- X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n_features)
+X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n_features)
 
 ```
 
@@ -717,8 +717,8 @@ Similarly, we must prepare the data for a single sample as two separate two-dime
 arrays when making a single one-step prediction.
 
 x_input = array([[80, 85], [90, 95], [100, 105]])
- x1 = x_input[:, 0].reshape((1, n_steps, n_features))
- x2 = x_input[:, 1].reshape((1, n_steps, n_features))
+x1 = x_input[:, 0].reshape((1, n_steps, n_features))
+x2 = x_input[:, 1].reshape((1, n_steps, n_features))
 
 ```
 
@@ -726,37 +726,37 @@ x_input = array([[80, 85], [90, 95], [100, 105]])
 We can tie all of this together; the complete example is listed below.
 
 from numpy import array
- from numpy import hstack
- from keras.models import Model
- from keras.layers import Input
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
- from keras.layers.merge import concatenate
+from numpy import hstack
+from keras.models import Model
+from keras.layers import Input
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+from keras.layers.merge import concatenate
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -767,16 +767,16 @@ X, y = split_sequences(dataset, n_steps)
 n_features = 1
 
 X1 = X[:, :, 0].reshape(X.shape[0], X.shape[1], n_features)
- X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n_features)
+X2 = X[:, :, 1].reshape(X.shape[0], X.shape[1], n_features)
 
 visible1 = Input(shape=(n_steps, n_features))
- cnn1 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible1)
- cnn1 = MaxPooling1D(pool_size=2)(cnn1)
- cnn1 = Flatten()(cnn1)
+cnn1 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible1)
+cnn1 = MaxPooling1D(pool_size=2)(cnn1)
+cnn1 = Flatten()(cnn1)
 
 visible2 = Input(shape=(n_steps, n_features))
- cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
- cnn2 = MaxPooling1D(pool_size=2)(cnn2)
+cnn2 = Conv1D(filters=64, kernel_size=2, activation='relu')(visible2)
+cnn2 = MaxPooling1D(pool_size=2)(cnn2)
 
 
 cnn2 = Flatten()(cnn2)
@@ -852,18 +852,18 @@ time steps and one series per column into the required input/output
 shape.
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences)-1:
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -871,25 +871,25 @@ We can demonstrate this on the contrived problem; the complete example
 is listed below.
 
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences)-1:
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 
@@ -951,7 +951,7 @@ We are now ready to fit a 1D CNN model on this data. In this model, the
 number of time steps
 
 and parallel series (features) are specified for the input layer via
-theinputshapeargument.
+the input shape argument.
 
 
 The number of parallel series is also used in the specification of the
@@ -1168,13 +1168,13 @@ X, y = split_sequences(dataset, n_steps)
 n_features = X.shape[2]
 
 y1 = y[:, 0].reshape((y.shape[0], 1))
- y2 = y[:, 1].reshape((y.shape[0], 1))
- y3 = y[:, 2].reshape((y.shape[0], 1))
+y2 = y[:, 1].reshape((y.shape[0], 1))
+y3 = y[:, 2].reshape((y.shape[0], 1))
 visible = Input(shape=(n_steps, n_features))
- cnn = Conv1D(filters=64, kernel_size=2, activation='relu')(visible)
- cnn = MaxPooling1D(pool_size=2)(cnn)
- cnn = Flatten()(cnn)
- cnn = Dense(50, activation='relu')(cnn)
+cnn = Conv1D(filters=64, kernel_size=2, activation='relu')(visible)
+cnn = MaxPooling1D(pool_size=2)(cnn)
+cnn = Flatten()(cnn)
+cnn = Dense(50, activation='relu')(cnn)
 
 output1 = Dense(1)(cnn)
 
@@ -1182,13 +1182,13 @@ output2 = Dense(1)(cnn)
 
 output3 = Dense(1)(cnn)
 model = Model(inputs=visible, outputs=[output1, output2, output3])
- model.compile(optimizer='adam', loss='mse')
+model.compile(optimizer='adam', loss='mse')
 model.fit(X, [y1,y2,y3], epochs=2000, verbose=0)
 
 x_input = array([[70,75,145], [80,85,165], [90,95,185]])
- x_input = x_input.reshape((1, n_steps, n_features))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_steps, n_features))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -1201,8 +1201,8 @@ results may vary. Consider
 running the example a few times.
 
 [array([[100.96118]], dtype=float32),
- array([[105.502686]], dtype=float32),
- array([[205.98045]], dtype=float32)]
+array([[105.502686]], dtype=float32),
+array([[205.98045]], dtype=float32)]
 
 ```
 
@@ -1345,7 +1345,7 @@ X = X.reshape((X.shape[0], X.shape[1], n_features))
 ```
 
 With the number of input and output steps specified in
-thenstepsinandnstepsout
+the n_steps_in and n_steps_out
 
 variables, we can define a multi-step time-series forecasting model.
 
@@ -1617,37 +1617,37 @@ We can now develop a 1D CNN model for multi-step predictions. In this case, we w
 demonstrate a vector output model. The complete example is listed below.
 
 from numpy import array
- from numpy import hstack
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
+from numpy import hstack
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out-1
+out_end_ix = end_ix + n_steps_out-1
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1],
 sequences[end_ix-1:out_end_ix, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -1714,32 +1714,32 @@ sample in the training dataset would be the following.
 
 Input:
 
- 20, 25, 45
- 30, 35, 65
+20, 25, 45
+30, 35, 65
 
 ```
 Output:
 
- 50, 55, 105
+50, 55, 105
 
 ```
 Thesplitsequences()function below implements this behavior.
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -1751,17 +1751,17 @@ complete example is
 listed below.
 
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
@@ -1772,23 +1772,23 @@ y.append(seq_y)
 return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
 n_steps_in, n_steps_out = 3, 2
 
 X, y = split_sequences(dataset, n_steps_in, n_steps_out)
- print(X.shape, y.shape)
+print(X.shape, y.shape)
 
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 
 ```
 
@@ -1808,25 +1808,25 @@ data was prepared as we expected.
 (5, 3, 3) (5, 2, 3)
 
 [[10 15 25]
- [20 25 45]
- [30 35 65]] [[ 40 45 85]
- [ 50 55 105]]
- [[20 25 45]
- [30 35 65]
- [40 45 85]] [[ 50 55 105]
- [ 60 65 125]]
- [[ 30 35 65]
- [ 40 45 85]
- [ 50 55 105]] [[ 60 65 125]
- [ 70 75 145]]
- [[ 40 45 85]
- [ 50 55 105]
- [ 60 65 125]] [[ 70 75 145]
- [ 80 85 165]]
- [[ 50 55 105]
- [ 60 65 125]
- [ 70 75 145]] [[ 80 85 165]
- [ 90 95 185]]
+[20 25 45]
+[30 35 65]] [[ 40 45 85]
+[ 50 55 105]]
+[[20 25 45]
+[30 35 65]
+[40 45 85]] [[ 50 55 105]
+[ 60 65 125]]
+[[ 30 35 65]
+[ 40 45 85]
+[ 50 55 105]] [[ 60 65 125]
+[ 70 75 145]]
+[[ 40 45 85]
+[ 50 55 105]
+[ 60 65 125]] [[ 70 75 145]
+[ 80 85 165]]
+[[ 50 55 105]
+[ 60 65 125]
+[ 70 75 145]] [[ 80 85 165]
+[ 90 95 185]]
 
 ```
 
@@ -1845,44 +1845,44 @@ predicting two steps for each
 series, the model is trained on and expected to predict a vector of six
 numbers directly.
 n_output = y.shape[1] * y.shape[2]
- y = y.reshape((y.shape[0], n_output))
+y = y.reshape((y.shape[0], n_output))
 
 ```
 
 The complete example is listed below.
 
 from numpy import array
- from numpy import hstack
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
+from numpy import hstack
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -1890,7 +1890,7 @@ n_steps_in, n_steps_out = 3, 2
 
 X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 n_output = y.shape[1] * y.shape[2]
- y = y.reshape((y.shape[0], n_output))
+y = y.reshape((y.shape[0], n_output))
 
 n_features = X.shape[2]
 

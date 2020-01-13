@@ -176,35 +176,35 @@ together by testing it on a contrived 10-step dataset. The complete
 example is listed below.
 
 from math import sqrt
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from statsmodels.tsa.holtwinters import ExponentialSmoothing
- from sklearn.metrics import mean_squared_error
- from numpy import array
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from sklearn.metrics import mean_squared_error
+from numpy import array
 
 def exp_smoothing_forecast(history, config):
- t,d,s,p,b,r = config
+t,d,s,p,b,r = config
 
 history = array(history)
- model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
+model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
 seasonal_periods=p)
 
 model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
 
 yhat = model_fit.predict(len(history), len(history))
- return yhat[0]
+return yhat[0]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 
 train, test = train_test_split(data, n_test)
 
@@ -223,48 +223,48 @@ error = measure_rmse(test, predictions)
 return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def exp_smoothing_configs(seasonal=[None]):
- models = list()
+models = list()
 
 t_params = ['add','mul', None]
- d_params = [True, False]
- s_params = ['add','mul', None]
+d_params = [True, False]
+s_params = ['add','mul', None]
 
 
 p_params = seasonal
@@ -382,14 +382,14 @@ return sqrt(mean_squared_error(actual, predicted))
 
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
- csv
+csv
 
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 
 train, test = train_test_split(data, n_test)
 
@@ -404,39 +404,39 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 
 scores = [r for r in scores if r[1] != None]
@@ -445,40 +445,40 @@ scores.sort(key=lambda tup: tup[1])
 return scores
 
 def exp_smoothing_configs(seasonal=[None]):
- models = list()
+models = list()
 
 t_params = ['add','mul', None]
- d_params = [True, False]
- s_params = ['add','mul', None]
- p_params = seasonal
- b_params = [True, False]
- r_params = [True, False]
+d_params = [True, False]
+s_params = ['add','mul', None]
+p_params = seasonal
+b_params = [True, False]
+r_params = [True, False]
 
 for t in t_params:
- for d in d_params:
- for s in s_params:
- for p in p_params:
- for b in b_params:
- for r in r_params:
- cfg = [t,d,s,p,b,r]
- models.append(cfg)
- return models
+for d in d_params:
+for s in s_params:
+for p in p_params:
+for b in b_params:
+for r in r_params:
+cfg = [t,d,s,p,b,r]
+models.append(cfg)
+return models
 
 if **name** =='**main**':
 
 series = read_csv('daily-total-female-births.csv', header=0,
 index_col=0)
- data = series.values
+data = series.values
 
 n_test = 165
 
 cfg_list = exp_smoothing_configs()
 
 scores = grid_search(data[:,0], cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -562,32 +562,32 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
 
 from warnings import catch_warnings
- from warnings import filterwarnings
- from statsmodels.tsa.holtwinters import ExponentialSmoothing
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
- from numpy import array
+from warnings import filterwarnings
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
+from numpy import array
 
 def exp_smoothing_forecast(history, config):
- t,d,s,p,b,r = config
+t,d,s,p,b,r = config
 
 history = array(history)
- model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
+model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
 seasonal_periods=p)
 
 model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
 
 yhat = model_fit.predict(len(history), len(history))
- return yhat[0]
+return yhat[0]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 
 train, test = train_test_split(data, n_test)
 
@@ -602,16 +602,16 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 
 try:
@@ -627,45 +627,45 @@ print('> Model[%s] %.3f' % (key, result))
 return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def exp_smoothing_configs(seasonal=[None]):
- models = list()
+models = list()
 
 t_params = ['add','mul', None]
- d_params = [True, False]
- s_params = ['add','mul', None]
- p_params = seasonal
- b_params = [True, False]
- r_params = [True, False]
+d_params = [True, False]
+s_params = ['add','mul', None]
+p_params = seasonal
+b_params = [True, False]
+r_params = [True, False]
 
 for t in t_params:
- for d in d_params:
- for s in s_params:
- for p in p_params:
- for b in b_params:
- for r in r_params:
- cfg = [t,d,s,p,b,r]
- models.append(cfg)
- return models
+for d in d_params:
+for s in s_params:
+for p in p_params:
+for b in b_params:
+for r in r_params:
+cfg = [t,d,s,p,b,r]
+models.append(cfg)
+return models
 
 if **name** =='**main**':
 
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 
 n_test = 12
 
@@ -706,8 +706,8 @@ running the example a few times.
 >  done
 
 ['mul', False, None, None, False, False] 83.74666940175238
- ['mul', False, None, None, False, True] 86.40648953786152
- ['mul', True, None, None, False, True] 95.33737598817238
+['mul', False, None, None, False, True] 86.40648953786152
+['mul', True, None, None, False, True] 95.33737598817238
 
 ```
 
@@ -800,13 +800,13 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.cs
 return yhat[0]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 
 train, test = train_test_split(data, n_test)
 
@@ -821,32 +821,32 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
@@ -861,29 +861,29 @@ scores.sort(key=lambda tup: tup[1])
 return scores
 
 def exp_smoothing_configs(seasonal=[None]):
- models = list()
+models = list()
 
 t_params = ['add','mul', None]
- d_params = [True, False]
- s_params = ['add','mul', None]
- p_params = seasonal
- b_params = [True, False]
- r_params = [True, False]
+d_params = [True, False]
+s_params = ['add','mul', None]
+p_params = seasonal
+b_params = [True, False]
+r_params = [True, False]
 
 for t in t_params:
- for d in d_params:
- for s in s_params:
- for p in p_params:
- for b in b_params:
- for r in r_params:
- cfg = [t,d,s,p,b,r]
- models.append(cfg)
- return models
+for d in d_params:
+for s in s_params:
+for p in p_params:
+for b in b_params:
+for r in r_params:
+cfg = [t,d,s,p,b,r]
+models.append(cfg)
+return models
 
 if **name** =='**main**':
 
 series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 
 data = data[-(5*12):]
 
@@ -892,10 +892,10 @@ n_test = 12
 cfg_list = exp_smoothing_configs(seasonal=[0,12])
 
 scores = grid_search(data[:,0], cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -980,36 +980,36 @@ forecasting problem
 is listed below.
 
 from math import sqrt
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from statsmodels.tsa.holtwinters import ExponentialSmoothing
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
- from numpy import array
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
+from numpy import array
 
 def exp_smoothing_forecast(history, config):
- t,d,s,p,b,r = config
+t,d,s,p,b,r = config
 
 history = array(history)
- model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
+model = ExponentialSmoothing(history, trend=t, damped=d, seasonal=s,
 seasonal_periods=p)
 
 model_fit = model.fit(optimized=True, use_boxcox=b, remove_bias=r)
 
 yhat = model_fit.predict(len(history), len(history))
- return yhat[0]
+return yhat[0]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 
 train, test = train_test_split(data, n_test)
 
@@ -1028,56 +1028,56 @@ error = measure_rmse(test, predictions)
 return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def exp_smoothing_configs(seasonal=[None]):
- models = list()
+models = list()
 
 t_params = ['add','mul', None]
- d_params = [True, False]
- s_params = ['add','mul', None]
- p_params = seasonal
- b_params = [True, False]
- r_params = [True, False]
+d_params = [True, False]
+s_params = ['add','mul', None]
+p_params = seasonal
+b_params = [True, False]
+r_params = [True, False]
 
 for t in t_params:
- for d in d_params:
- for s in s_params:
- for p in p_params:
+for d in d_params:
+for s in s_params:
+for p in p_params:
 
 
 for b in b_params:
@@ -1089,17 +1089,17 @@ return models
 if **name** =='**main**':
 
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 
 n_test = 12
 
 cfg_list = exp_smoothing_configs(seasonal=[0,6,12])
 
 scores = grid_search(data[:,0], cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -1130,8 +1130,8 @@ running the example a few times.
 done
 
 ['add', False,'add', 12, False, True] 1672.5539372356582
- ['add', False,'add', 12, False, False] 1680.845043013083
- ['add', True,'add', 12, False, False] 1696.1734099400082
+['add', False,'add', 12, False, False] 1680.845043013083
+['add', True,'add', 12, False, False] 1696.1734099400082
 
 ```
 

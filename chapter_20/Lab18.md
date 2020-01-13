@@ -329,7 +329,7 @@ expected by the model.
 
 def forecast(model, history, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 input_x = data[-n_input:, 0]
 
@@ -338,7 +338,7 @@ input_x = input_x.reshape((1, len(input_x), 1))
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
- return yhat
+return yhat
 
 ```
 
@@ -350,25 +350,25 @@ can tie all of this
 together. The complete example is listed below.
 
 from math import sqrt
- from numpy import split
- from numpy import array
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from matplotlib import pyplot
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import LSTM
+from numpy import split
+from numpy import array
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from matplotlib import pyplot
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
 
 def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
 train = array(split(train, len(train)/7))
- test = array(split(test, len(test)/7))
- return train, test
+test = array(split(test, len(test)/7))
+return train, test
 
 def evaluate_forecasts(actual, predicted):
- scores = list()
+scores = list()
 
 for i in range(actual.shape[1]):
 mse = mean_squared_error(actual[:, i], predicted[:, i])
@@ -384,47 +384,47 @@ score = sqrt(s / (actual.shape[0] * actual.shape[1]))
 return score, scores
 
 def summarize_scores(name, score, scores):
- s_scores = ','.join(['%.1f' % s for s in scores])
- print('%s: [%.3f] %s'% (name, score, s_scores))
+s_scores = ','.join(['%.1f' % s for s in scores])
+print('%s: [%.3f] %s'% (name, score, s_scores))
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
- X, y = list(), list()
- in_start = 0
+X, y = list(), list()
+in_start = 0
 
 for _ in range(len(data)):
 
 in_end = in_start + n_input
- out_end = in_end + n_out
+out_end = in_end + n_out
 
 if out_end < len(data):
- x_input = data[in_start:in_end, 0]
- x_input = x_input.reshape((len(x_input), 1))
- X.append(x_input)
- y.append(data[in_end:out_end, 0])
+x_input = data[in_start:in_end, 0]
+x_input = x_input.reshape((len(x_input), 1))
+X.append(x_input)
+y.append(data[in_end:out_end, 0])
 
 in_start += 1
- return array(X), array(y)
+return array(X), array(y)
 
 def build_model(train, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
 verbose, epochs, batch_size = 0, 70, 16
- n_timesteps, n_features, n_outputs = train_x.shape[1],
+n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
 model = Sequential()
- model.add(LSTM(200, activation='relu', input_shape=(n_timesteps,
+model.add(LSTM(200, activation='relu', input_shape=(n_timesteps,
 n_features)))
- model.add(Dense(100, activation='relu'))
- model.add(Dense(n_outputs))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(100, activation='relu'))
+model.add(Dense(n_outputs))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
- return model
+return model
 
 def forecast(model, history, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 
 # retrieve last observations for input data
@@ -690,7 +690,7 @@ test = array(split(test, len(test)/7))
 return train, test
 
 def evaluate_forecasts(actual, predicted):
- scores = list()
+scores = list()
 
 for i in range(actual.shape[1]):
 mse = mean_squared_error(actual[:, i], predicted[:, i])
@@ -698,40 +698,40 @@ rmse = sqrt(mse)
 scores.append(rmse)
 
 s = 0
- for row in range(actual.shape[0]):
- for col in range(actual.shape[1]):
- s += (actual[row, col] - predicted[row, col])**2
- score = sqrt(s / (actual.shape[0] * actual.shape[1]))
- return score, scores
+for row in range(actual.shape[0]):
+for col in range(actual.shape[1]):
+s += (actual[row, col] - predicted[row, col])**2
+score = sqrt(s / (actual.shape[0] * actual.shape[1]))
+return score, scores
 
 def summarize_scores(name, score, scores):
- s_scores = ','.join(['%.1f' % s for s in scores])
- print('%s: [%.3f] %s'% (name, score, s_scores))
+s_scores = ','.join(['%.1f' % s for s in scores])
+print('%s: [%.3f] %s'% (name, score, s_scores))
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
- X, y = list(), list()
- in_start = 0
+X, y = list(), list()
+in_start = 0
 
 for _ in range(len(data)):
 
 in_end = in_start + n_input
- out_end = in_end + n_out
+out_end = in_end + n_out
 
 if out_end < len(data):
- x_input = data[in_start:in_end, 0]
- x_input = x_input.reshape((len(x_input), 1))
- X.append(x_input)
- y.append(data[in_end:out_end, 0])
+x_input = data[in_start:in_end, 0]
+x_input = x_input.reshape((len(x_input), 1))
+X.append(x_input)
+y.append(data[in_end:out_end, 0])
 
 in_start += 1
- return array(X), array(y)
+return array(X), array(y)
 
 def build_model(train, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
 verbose, epochs, batch_size = 0, 20, 16
- n_timesteps, n_features, n_outputs = train_x.shape[1],
+n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
 
 
@@ -751,7 +751,7 @@ return model
 
 def forecast(model, history, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 input_x = data[-n_input:, 0]
 
@@ -760,7 +760,7 @@ input_x = input_x.reshape((1, len(input_x), 1))
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
- return yhat
+return yhat
 
 def evaluate_model(train, test, n_input):
 model = build_model(train, n_input)
@@ -768,7 +768,7 @@ model = build_model(train, n_input)
 history = [x for x in train]
 
 predictions = list()
- for i in range(len(test)):
+for i in range(len(test)):
 
 yhat_sequence = forecast(model, history, n_input)
 
@@ -777,12 +777,12 @@ predictions.append(yhat_sequence)
 history.append(test[i, :])
 
 predictions = array(predictions)
- score, scores = evaluate_forecasts(test[:, :, 0], predictions)
- return score, scores
+score, scores = evaluate_forecasts(test[:, :, 0], predictions)
+return score, scores
 
 dataset = read_csv('household_power_consumption_days.csv',
 header=0,
- infer_datetime_format=True, parse_dates=['datetime'],
+infer_datetime_format=True, parse_dates=['datetime'],
 index_col=['datetime'])
 
 train, test = split_dataset(dataset.values)
@@ -859,20 +859,20 @@ The completetosupervised()function with this change is listed below.
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
- X, y = list(), list()
- in_start = 0
+X, y = list(), list()
+in_start = 0
 
 for _ in range(len(data)):
 
 in_end = in_start + n_input
- out_end = in_end + n_out
+out_end = in_end + n_out
 
 if out_end < len(data):
- X.append(data[in_start:in_end, :])
- y.append(data[in_end:out_end, 0])
+X.append(data[in_start:in_end, :])
+y.append(data[in_end:out_end, 0])
 
 in_start += 1
- return array(X), array(y)
+return array(X), array(y)
 
 ```
 
@@ -889,7 +889,7 @@ input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
 def forecast(model, history, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 input_x = data[-n_input:, :]
 
@@ -898,7 +898,7 @@ input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
- return yhat
+return yhat
 
 ```
 
@@ -912,29 +912,29 @@ the amount of input
 data. The complete example is listed below.
 
 from math import sqrt
- from numpy import split
+from numpy import split
 
 
 from numpy import array
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from matplotlib import pyplot
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import LSTM
- from keras.layers import RepeatVector
- from keras.layers import TimeDistributed
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from matplotlib import pyplot
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+from keras.layers import RepeatVector
+from keras.layers import TimeDistributed
 
 def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
 train = array(split(train, len(train)/7))
- test = array(split(test, len(test)/7))
- return train, test
+test = array(split(test, len(test)/7))
+return train, test
 
 def evaluate_forecasts(actual, predicted):
- scores = list()
+scores = list()
 
 for i in range(actual.shape[1]):
 mse = mean_squared_error(actual[:, i], predicted[:, i])
@@ -942,25 +942,25 @@ rmse = sqrt(mse)
 scores.append(rmse)
 
 s = 0
- for row in range(actual.shape[0]):
- for col in range(actual.shape[1]):
- s += (actual[row, col] - predicted[row, col])**2
- score = sqrt(s / (actual.shape[0] * actual.shape[1]))
- return score, scores
+for row in range(actual.shape[0]):
+for col in range(actual.shape[1]):
+s += (actual[row, col] - predicted[row, col])**2
+score = sqrt(s / (actual.shape[0] * actual.shape[1]))
+return score, scores
 
 def summarize_scores(name, score, scores):
- s_scores = ','.join(['%.1f' % s for s in scores])
- print('%s: [%.3f] %s'% (name, score, s_scores))
+s_scores = ','.join(['%.1f' % s for s in scores])
+print('%s: [%.3f] %s'% (name, score, s_scores))
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
- X, y = list(), list()
- in_start = 0
+X, y = list(), list()
+in_start = 0
 
 for _ in range(len(data)):
 
 in_end = in_start + n_input
- out_end = in_end + n_out
+out_end = in_end + n_out
 
 if out_end < len(data):
 
@@ -975,25 +975,25 @@ def build_model(train, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
 verbose, epochs, batch_size = 0, 50, 16
- n_timesteps, n_features, n_outputs = train_x.shape[1],
+n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
 
 train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 model = Sequential()
- model.add(LSTM(200, activation='relu', input_shape=(n_timesteps,
+model.add(LSTM(200, activation='relu', input_shape=(n_timesteps,
 n_features)))
- model.add(RepeatVector(n_outputs))
- model.add(LSTM(200, activation='relu', return_sequences=True))
- model.add(TimeDistributed(Dense(100, activation='relu')))
- model.add(TimeDistributed(Dense(1)))
- model.compile(loss='mse', optimizer='adam')
+model.add(RepeatVector(n_outputs))
+model.add(LSTM(200, activation='relu', return_sequences=True))
+model.add(TimeDistributed(Dense(100, activation='relu')))
+model.add(TimeDistributed(Dense(1)))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
- return model
+return model
 
 def forecast(model, history, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 input_x = data[-n_input:, :]
 
@@ -1002,7 +1002,7 @@ input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
- return yhat
+return yhat
 
 def evaluate_model(train, test, n_input):
 model = build_model(train, n_input)
@@ -1010,7 +1010,7 @@ model = build_model(train, n_input)
 history = [x for x in train]
 
 predictions = list()
- for i in range(len(test)):
+for i in range(len(test)):
 
 yhat_sequence = forecast(model, history, n_input)
 
@@ -1025,18 +1025,18 @@ return score, scores
 
 dataset = read_csv('household_power_consumption_days.csv',
 header=0,
- infer_datetime_format=True, parse_dates=['datetime'],
+infer_datetime_format=True, parse_dates=['datetime'],
 index_col=['datetime'])
 
 train, test = split_dataset(dataset.values)
 
 n_input = 14
- score, scores = evaluate_model(train, test, n_input)
+score, scores = evaluate_model(train, test, n_input)
 
 summarize_scores('lstm', score, scores)
 days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
- pyplot.plot(days, scores, marker='o', label='lstm')
- pyplot.show()
+pyplot.plot(days, scores, marker='o', label='lstm')
+pyplot.show()
 
 ```
 
@@ -1109,10 +1109,10 @@ one long vector that can
 then be used as input to the decoding process.
 
 model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
 
 ```
 The decoder is the same as was defined in previous sections. The only
@@ -1127,24 +1127,24 @@ def build_model(train, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
 verbose, epochs, batch_size = 0, 20, 16
- n_timesteps, n_features, n_outputs = train_x.shape[1],
+n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
 
 train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 model = Sequential()
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(RepeatVector(n_outputs))
- model.add(LSTM(200, activation='relu', return_sequences=True))
- model.add(TimeDistributed(Dense(100, activation='relu')))
- model.add(TimeDistributed(Dense(1)))
- model.compile(loss='mse', optimizer='adam')
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(RepeatVector(n_outputs))
+model.add(LSTM(200, activation='relu', return_sequences=True))
+model.add(TimeDistributed(Dense(100, activation='relu')))
+model.add(TimeDistributed(Dense(1)))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
- return model
+return model
 
 ```
 
@@ -1152,35 +1152,35 @@ model.
 
 We are now ready to try the encoder-decoder architecture with a CNN
 encoder. The complete code
- 
+
 ```
 from math import sqrt
- from numpy import split
- from numpy import array
- from pandas import read_csv
+from numpy import split
+from numpy import array
+from pandas import read_csv
 
 
 from sklearn.metrics import mean_squared_error
- from matplotlib import pyplot
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import LSTM
- from keras.layers import RepeatVector
- from keras.layers import TimeDistributed
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
+from matplotlib import pyplot
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import LSTM
+from keras.layers import RepeatVector
+from keras.layers import TimeDistributed
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
 
 def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
 train = array(split(train, len(train)/7))
- test = array(split(test, len(test)/7))
- return train, test
+test = array(split(test, len(test)/7))
+return train, test
 
 def evaluate_forecasts(actual, predicted):
- scores = list()
+scores = list()
 
 for i in range(actual.shape[1]):
 mse = mean_squared_error(actual[:, i], predicted[:, i])
@@ -1188,25 +1188,25 @@ rmse = sqrt(mse)
 scores.append(rmse)
 
 s = 0
- for row in range(actual.shape[0]):
- for col in range(actual.shape[1]):
- s += (actual[row, col] - predicted[row, col])**2
- score = sqrt(s / (actual.shape[0] * actual.shape[1]))
- return score, scores
+for row in range(actual.shape[0]):
+for col in range(actual.shape[1]):
+s += (actual[row, col] - predicted[row, col])**2
+score = sqrt(s / (actual.shape[0] * actual.shape[1]))
+return score, scores
 
 def summarize_scores(name, score, scores):
- s_scores = ','.join(['%.1f' % s for s in scores])
- print('%s: [%.3f] %s'% (name, score, s_scores))
+s_scores = ','.join(['%.1f' % s for s in scores])
+print('%s: [%.3f] %s'% (name, score, s_scores))
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
- X, y = list(), list()
- in_start = 0
+X, y = list(), list()
+in_start = 0
 
 for _ in range(len(data)):
 
 in_end = in_start + n_input
- out_end = in_end + n_out
+out_end = in_end + n_out
 
 
 if out_end < len(data):
@@ -1222,28 +1222,28 @@ def build_model(train, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
 verbose, epochs, batch_size = 0, 20, 16
- n_timesteps, n_features, n_outputs = train_x.shape[1],
+n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
 
 train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 model = Sequential()
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(RepeatVector(n_outputs))
- model.add(LSTM(200, activation='relu', return_sequences=True))
- model.add(TimeDistributed(Dense(100, activation='relu')))
- model.add(TimeDistributed(Dense(1)))
- model.compile(loss='mse', optimizer='adam')
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(RepeatVector(n_outputs))
+model.add(LSTM(200, activation='relu', return_sequences=True))
+model.add(TimeDistributed(Dense(100, activation='relu')))
+model.add(TimeDistributed(Dense(1)))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
- return model
+return model
 
 def forecast(model, history, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 input_x = data[-n_input:, 0]
 
@@ -1252,7 +1252,7 @@ input_x = input_x.reshape((1, len(input_x), 1))
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
- return yhat
+return yhat
 
 def evaluate_model(train, test, n_input):
 model = build_model(train, n_input)
@@ -1275,18 +1275,18 @@ return score, scores
 
 dataset = read_csv('household_power_consumption_days.csv',
 header=0,
- infer_datetime_format=True, parse_dates=['datetime'],
+infer_datetime_format=True, parse_dates=['datetime'],
 index_col=['datetime'])
 
 train, test = split_dataset(dataset.values)
 
 n_input = 14
- score, scores = evaluate_model(train, test, n_input)
+score, scores = evaluate_model(train, test, n_input)
 
 summarize_scores('lstm', score, scores)
 days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
- pyplot.plot(days, scores, marker='o', label='lstm')
- pyplot.show()
+pyplot.plot(days, scores, marker='o', label='lstm')
+pyplot.show()
 
 ```
 
@@ -1384,8 +1384,8 @@ We can then define the encoder as a ConvLSTM hidden layer followed by a flatten 
 ready for decoding.
 
 model.add(ConvLSTM2D(filters=64, kernel_size=(1,3), activation='relu',
- input_shape=(n_steps, 1, n_length, n_features)))
- model.add(Flatten())
+input_shape=(n_steps, 1, n_length, n_features)))
+model.add(Flatten())
 
 ```
 We will also parameterize the number of subsequences (nsteps) and the
@@ -1400,7 +1400,7 @@ def build_model(train, n_steps, n_length, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
 verbose, epochs, batch_size = 0, 20, 16
- n_timesteps, n_features, n_outputs = train_x.shape[1],
+n_timesteps, n_features, n_outputs = train_x.shape[1],
 train_x.shape[2], train_y.shape[1]
 
 train_x = train_x.reshape((train_x.shape[0], n_steps, 1, n_length,
@@ -1408,9 +1408,9 @@ n_features))
 
 train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 model = Sequential()
- model.add(ConvLSTM2D(filters=64, kernel_size=(1,3),
+model.add(ConvLSTM2D(filters=64, kernel_size=(1,3),
 activation='relu',
- input_shape=(n_steps, 1, n_length, n_features)))
+input_shape=(n_steps, 1, n_length, n_features)))
 
 
 model.add(Flatten())
@@ -1445,7 +1445,7 @@ provided below.
 
 def forecast(model, history, n_steps, n_length, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 input_x = data[-n_input:, 0]
 
@@ -1454,7 +1454,7 @@ input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
- return yhat
+return yhat
 
 ```
 
@@ -1469,31 +1469,31 @@ complete code example
 is listed below.
 
 from math import sqrt
- from numpy import split
- from numpy import array
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from matplotlib import pyplot
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
+from numpy import split
+from numpy import array
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from matplotlib import pyplot
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
 
 
 from keras.layers import LSTM
- from keras.layers import RepeatVector
- from keras.layers import TimeDistributed
- from keras.layers import ConvLSTM2D
+from keras.layers import RepeatVector
+from keras.layers import TimeDistributed
+from keras.layers import ConvLSTM2D
 
 def split_dataset(data):
 
 train, test = data[1:-328], data[-328:-6]
 
 train = array(split(train, len(train)/7))
- test = array(split(test, len(test)/7))
- return train, test
+test = array(split(test, len(test)/7))
+return train, test
 
 def evaluate_forecasts(actual, predicted):
- scores = list()
+scores = list()
 
 for i in range(actual.shape[1]):
 mse = mean_squared_error(actual[:, i], predicted[:, i])
@@ -1501,31 +1501,31 @@ rmse = sqrt(mse)
 scores.append(rmse)
 
 s = 0
- for row in range(actual.shape[0]):
- for col in range(actual.shape[1]):
- s += (actual[row, col] - predicted[row, col])**2
- score = sqrt(s / (actual.shape[0] * actual.shape[1]))
- return score, scores
+for row in range(actual.shape[0]):
+for col in range(actual.shape[1]):
+s += (actual[row, col] - predicted[row, col])**2
+score = sqrt(s / (actual.shape[0] * actual.shape[1]))
+return score, scores
 
 def summarize_scores(name, score, scores):
- s_scores = ','.join(['%.1f' % s for s in scores])
- print('%s: [%.3f] %s'% (name, score, s_scores))
+s_scores = ','.join(['%.1f' % s for s in scores])
+print('%s: [%.3f] %s'% (name, score, s_scores))
 
 def to_supervised(train, n_input, n_out=7):
 data = train.reshape((train.shape[0]*train.shape[1], train.shape[2]))
- X, y = list(), list()
- in_start = 0
+X, y = list(), list()
+in_start = 0
 
 for _ in range(len(data)):
 
 in_end = in_start + n_input
- out_end = in_end + n_out
+out_end = in_end + n_out
 
 if out_end < len(data):
- x_input = data[in_start:in_end, 0]
- x_input = x_input.reshape((len(x_input), 1))
- X.append(x_input)
- y.append(data[in_end:out_end, 0])
+x_input = data[in_start:in_end, 0]
+x_input = x_input.reshape((len(x_input), 1))
+X.append(x_input)
+y.append(data[in_end:out_end, 0])
 
 
 in_start += 1
@@ -1535,29 +1535,29 @@ def build_model(train, n_steps, n_length, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
 verbose, epochs, batch_size = 0, 20, 16
- n_features, n_outputs = train_x.shape[2], train_y.shape[1]
+n_features, n_outputs = train_x.shape[2], train_y.shape[1]
 
 train_x = train_x.reshape((train_x.shape[0], n_steps, 1, n_length,
 n_features))
 
 train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 model = Sequential()
- model.add(ConvLSTM2D(filters=64, kernel_size=(1,3),
+model.add(ConvLSTM2D(filters=64, kernel_size=(1,3),
 activation='relu',
- input_shape=(n_steps, 1, n_length, n_features)))
- model.add(Flatten())
- model.add(RepeatVector(n_outputs))
- model.add(LSTM(200, activation='relu', return_sequences=True))
- model.add(TimeDistributed(Dense(100, activation='relu')))
- model.add(TimeDistributed(Dense(1)))
- model.compile(loss='mse', optimizer='adam')
+input_shape=(n_steps, 1, n_length, n_features)))
+model.add(Flatten())
+model.add(RepeatVector(n_outputs))
+model.add(LSTM(200, activation='relu', return_sequences=True))
+model.add(TimeDistributed(Dense(100, activation='relu')))
+model.add(TimeDistributed(Dense(1)))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
- return model
+return model
 
 def forecast(model, history, n_steps, n_length, n_input):
 data = array(history)
- data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
+data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 input_x = data[-n_input:, 0]
 
@@ -1566,7 +1566,7 @@ input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
- return yhat
+return yhat
 
 def evaluate_model(train, test, n_steps, n_length, n_input):
 model = build_model(train, n_steps, n_length, n_input)
@@ -1574,7 +1574,7 @@ model = build_model(train, n_steps, n_length, n_input)
 history = [x for x in train]
 
 predictions = list()
- for i in range(len(test)):
+for i in range(len(test)):
 
 yhat_sequence = forecast(model, history, n_steps, n_length, n_input)
 
@@ -1590,7 +1590,7 @@ return score, scores
 
 dataset = read_csv('household_power_consumption_days.csv',
 header=0,
- infer_datetime_format=True, parse_dates=['datetime'],
+infer_datetime_format=True, parse_dates=['datetime'],
 index_col=['datetime'])
 
 train, test = split_dataset(dataset.values)
@@ -1598,13 +1598,13 @@ train, test = split_dataset(dataset.values)
 n_steps, n_length = 2, 7
 
 n_input = n_length * n_steps
- score, scores = evaluate_model(train, test, n_steps, n_length,
+score, scores = evaluate_model(train, test, n_steps, n_length,
 n_input)
 
 summarize_scores('lstm', score, scores)
 days = ['sun','mon', 'tue','wed','thr', 'fri','sat']
- pyplot.plot(days, scores, marker='o', label='lstm')
- pyplot.show()
+pyplot.plot(days, scores, marker='o', label='lstm')
+pyplot.show()
 
 ```
 

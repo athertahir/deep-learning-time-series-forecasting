@@ -90,18 +90,18 @@ steps and the output is a single time step.
 
 ```
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequence)-1:
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -112,18 +112,18 @@ example is listed below.
 from numpy import array
 
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequence)-1:
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -132,7 +132,7 @@ n_steps = 3
 X, y = split_sequence(raw_seq, n_steps)
 
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 
 ```
 
@@ -141,8 +141,8 @@ three input time steps and one output time step.
 
 ```
 [10 20 30] 40
- [20 30 40] 50
- [30 40 50] 60
+[20 30 40] 50
+[30 40 50] 60
 
 [40 50 60] 70
 
@@ -179,7 +179,7 @@ with a univariate series, so the number of features is one, for one
 variable. The number of
 time steps as input is the number we chose when preparing our dataset as an argument to the
 splitsequence() function.
-The shape of the input for each sample is specified in theinputshapeargument on the
+The shape of the input for each sample is specified in the input shape argument on the
 definition of first hidden layer. We almost always have multiple samples, therefore, the model
 will expect the input component of training data to have the dimensions
 or shape:[samples,
@@ -217,8 +217,8 @@ making the prediction.
 
 ```
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps, n_features))
- yhat = model.predict(x_input, verbose=0)
+x_input = x_input.reshape((1, n_steps, n_features))
+yhat = model.predict(x_input, verbose=0)
 
 ```
 
@@ -228,23 +228,23 @@ time series forecasting and make a single prediction.
 
 ```
 from numpy import array
- from keras.models import Sequential
- from keras.layers import LSTM
- from keras.layers import Dense
+from keras.models import Sequential
+from keras.layers import LSTM
+from keras.layers import Dense
 
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequence)-1:
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -253,18 +253,18 @@ n_steps = 3
 X, y = split_sequence(raw_seq, n_steps)
 
 n_features = 1
- X = X.reshape((X.shape[0], X.shape[1], n_features))
+X = X.reshape((X.shape[0], X.shape[1], n_features))
 
 model = Sequential()
- model.add(LSTM(50, activation='relu', input_shape=(n_steps,
+model.add(LSTM(50, activation='relu', input_shape=(n_steps,
 n_features)))
- model.add(Dense(1))
- model.compile(optimizer='adam', loss='mse')
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
 
 model.fit(X, y, epochs=200, verbose=0)
 
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps, n_features))
+x_input = x_input.reshape((1, n_steps, n_features))
 
 
 yhat = model.predict(x_input, verbose=0)
@@ -391,24 +391,24 @@ The complete example of the Bidirectional LSTM for univariate time series foreca
 
 ```
 from numpy import array
- from keras.models import Sequential
- from keras.layers import LSTM
- from keras.layers import Dense
- from keras.layers import Bidirectional
+from keras.models import Sequential
+from keras.layers import LSTM
+from keras.layers import Dense
+from keras.layers import Bidirectional
 
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequence)-1:
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -417,20 +417,20 @@ n_steps = 3
 X, y = split_sequence(raw_seq, n_steps)
 
 n_features = 1
- X = X.reshape((X.shape[0], X.shape[1], n_features))
+X = X.reshape((X.shape[0], X.shape[1], n_features))
 
 model = Sequential()
- model.add(Bidirectional(LSTM(50, activation='relu'),
+model.add(Bidirectional(LSTM(50, activation='relu'),
 input_shape=(n_steps, n_features)))
- model.add(Dense(1))
- model.compile(optimizer='adam', loss='mse')
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
 
 model.fit(X, y, epochs=200, verbose=0)
 
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps, n_features))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_steps, n_features))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -513,7 +513,7 @@ the input sequence and makes a prediction.
 # define the output model
 
 model.add(LSTM(50, activation='relu'))
- model.add(Dense(1))
+model.add(Dense(1))
 
 ```
 
@@ -523,27 +523,27 @@ time series forecasting is listed below.
 
 ```
 from numpy import array
- from keras.models import Sequential
- from keras.layers import LSTM
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import TimeDistributed
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
+from keras.models import Sequential
+from keras.layers import LSTM
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import TimeDistributed
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
 
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequence)-1:
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -552,19 +552,19 @@ n_steps = 4
 X, y = split_sequence(raw_seq, n_steps)
 
 n_features = 1
- n_seq = 2
- n_steps = 2
- X = X.reshape((X.shape[0], n_seq, n_steps, n_features))
+n_seq = 2
+n_steps = 2
+X = X.reshape((X.shape[0], n_seq, n_steps, n_features))
 
 model = Sequential()
- model.add(TimeDistributed(Conv1D(filters=64, kernel_size=1,
+model.add(TimeDistributed(Conv1D(filters=64, kernel_size=1,
 activation='relu'),
- input_shape=(None, n_steps, n_features)))
- model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
- model.add(TimeDistributed(Flatten()))
- model.add(LSTM(50, activation='relu'))
- model.add(Dense(1))
- model.compile(optimizer='adam', loss='mse')
+input_shape=(None, n_steps, n_features)))
+model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+model.add(TimeDistributed(Flatten()))
+model.add(LSTM(50, activation='relu'))
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
 
 model.fit(X, y, epochs=500, verbose=0)
 
@@ -632,24 +632,24 @@ listed below.
 
 ```
 from numpy import array
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import ConvLSTM2D
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import ConvLSTM2D
 
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequence)-1:
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -658,24 +658,24 @@ n_steps = 4
 X, y = split_sequence(raw_seq, n_steps)
 
 n_features = 1
- n_seq = 2
- n_steps = 2
- X = X.reshape((X.shape[0], n_seq, 1, n_steps, n_features))
+n_seq = 2
+n_steps = 2
+X = X.reshape((X.shape[0], n_seq, 1, n_steps, n_features))
 
 model = Sequential()
- model.add(ConvLSTM2D(filters=64, kernel_size=(1,2), activation='relu',
+model.add(ConvLSTM2D(filters=64, kernel_size=(1,2), activation='relu',
 input_shape=(n_seq,
- 1, n_steps, n_features)))
- model.add(Flatten())
- model.add(Dense(1))
- model.compile(optimizer='adam', loss='mse')
+1, n_steps, n_features)))
+model.add(Flatten())
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
 
 model.fit(X, y, epochs=500, verbose=0)
 
 x_input = array([60, 70, 80, 90])
- x_input = x_input.reshape((1, n_seq, 1, n_steps, n_features))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_seq, 1, n_steps, n_features))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -813,18 +813,18 @@ samples.
 
 ```
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -834,30 +834,30 @@ input. The complete example is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -865,10 +865,10 @@ dataset = hstack((in_seq1, in_seq2, out_seq))
 n_steps = 3
 
 X, y = split_sequences(dataset, n_steps)
- print(X.shape, y.shape)
+print(X.shape, y.shape)
 
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 
 ```
 
@@ -894,26 +894,26 @@ for each sample.
 (7, 3, 2) (7,)
 
 [[10 15]
- [20 25]
- [30 35]] 65
- [[20 25]
- [30 35]
- [40 45]] 85
- [[30 35]
- [40 45]
- [50 55]] 105
- [[40 45]
- [50 55]
- [60 65]] 125
- [[50 55]
- [60 65]
- [70 75]] 145
- [[60 65]
- [70 75]
- [80 85]] 165
- [[70 75]
- [80 85]
- [90 95]] 185
+[20 25]
+[30 35]] 65
+[[20 25]
+[30 35]
+[40 45]] 85
+[[30 35]
+[40 45]
+[50 55]] 105
+[[40 45]
+[50 55]
+[60 65]] 125
+[[50 55]
+[60 65]
+[70 75]] 145
+[[60 65]
+[70 75]
+[80 85]] 165
+[[70 75]
+[80 85]
+[90 95]] 185
 
 ```
 
@@ -923,13 +923,13 @@ previous section can be used, such as a Vanilla, Stacked, Bidirectional,
 CNN, or ConvLSTM
 model. We will use a Vanilla LSTM where the number of time steps and
 parallel series (features)
-are specified for the input layer via theinputshapeargument.
+are specified for the input layer via the input shape argument.
 
 ```
 model = Sequential()
- model.add(LSTM(50, activation='relu', input_shape=(n_steps,
+model.add(LSTM(50, activation='relu', input_shape=(n_steps,
 n_features)))
- model.add(Dense(1))
+model.add(Dense(1))
 
 
 model.compile(optimizer='adam', loss='mse')
@@ -1083,18 +1083,18 @@ shape.
 
 ```
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences)-1:
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -1103,25 +1103,25 @@ is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences)-1:
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 
@@ -1180,19 +1180,19 @@ of each sample.
 We are now ready to fit an LSTM model on this data. Any of the varieties of LSTMs in the
 previous section can be used, such as a Vanilla, Stacked, Bidirectional, CNN, or ConvLSTM
 model. We will use a Stacked LSTM where the number of time steps and parallel series (features)
-are specified for the input layer via theinputshapeargument. The number of parallel series is
+are specified for the input layer via the input shape argument. The number of parallel series is
 also used in the specification of the number of values to predict by the model in the output
 layer; again, this is three.
 
 
 ```
 model = Sequential()
- model.add(LSTM(100, activation='relu', return_sequences=True,
+model.add(LSTM(100, activation='relu', return_sequences=True,
 input_shape=(n_steps,
- n_features)))
- model.add(LSTM(100, activation='relu'))
- model.add(Dense(n_features))
- model.compile(optimizer='adam', loss='mse')
+n_features)))
+model.add(LSTM(100, activation='relu'))
+model.add(Dense(n_features))
+model.compile(optimizer='adam', loss='mse')
 
 ```
 
@@ -1200,8 +1200,8 @@ We can predict the next value in each of the three parallel series by providing 
 three time steps for each series.
 
 ```
- 80, 85, 165
- 90, 95, 185
+80, 85, 165
+90, 95, 185
 
 ```
 The shape of the input for making a single prediction must be 1 sample,
@@ -1209,8 +1209,8 @@ The shape of the input for making a single prediction must be 1 sample,
 
 ```
 x_input = array([[70,75,145], [80,85,165], [90,95,185]])
- x_input = x_input.reshape((1, n_steps, n_features))
- yhat = model.predict(x_input, verbose=0)
+x_input = x_input.reshape((1, n_steps, n_features))
+yhat = model.predict(x_input, verbose=0)
 
 ```
 
@@ -1225,23 +1225,23 @@ time series forecasting below.
 
 ```
 from numpy import array
- from numpy import hstack
- from keras.models import Sequential
- from keras.layers import LSTM
- from keras.layers import Dense
+from numpy import hstack
+from keras.models import Sequential
+from keras.layers import LSTM
+from keras.layers import Dense
 
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps
 
 if end_ix > len(sequences)-1:
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
+X.append(seq_x)
+y.append(seq_y)
 
 
 return array(X), array(y)
@@ -1376,19 +1376,19 @@ listed below.
 from numpy import array
 
 def split_sequence(sequence, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 
 if out_end_ix > len(sequence):
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix:out_end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -1397,7 +1397,7 @@ n_steps_in, n_steps_out = 3, 2
 X, y = split_sequence(raw_seq, n_steps_in, n_steps_out)
 
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 
 ```
 
@@ -1406,10 +1406,10 @@ time steps and prints the input and output components of each.
 
 ```
 [10 20 30] [40 50]
- [20 30 40] [50 60]
- [30 40 50] [60 70]
- [40 50 60] [70 80]
- [50 60 70] [80 90]
+[20 30 40] [50 60]
+[30 40 50] [60 70]
+[40 50 60] [70 80]
+[50 60 70] [80 90]
 
 ```
 
@@ -1442,7 +1442,7 @@ X = X.reshape((X.shape[0], X.shape[1], n_features))
 ```
 
 With the number of input and output steps specified in
-thenstepsinandnstepsout
+the n_steps_in and n_steps_out
 variables, we can define a multi-step time-series forecasting model. Any
 of the presented LSTM
 model types could be used, such as Vanilla, Stacked, Bidirectional, CNN-LSTM, or ConvLSTM.
@@ -1630,26 +1630,26 @@ is listed below.
 
 ```
 from numpy import array
- from keras.models import Sequential
- from keras.layers import LSTM
- from keras.layers import Dense
- from keras.layers import RepeatVector
- from keras.layers import TimeDistributed
+from keras.models import Sequential
+from keras.layers import LSTM
+from keras.layers import Dense
+from keras.layers import RepeatVector
+from keras.layers import TimeDistributed
 
 def split_sequence(sequence, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 
 if out_end_ix > len(sequence):
- break
+break
 
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix:out_end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
@@ -1658,23 +1658,23 @@ n_steps_in, n_steps_out = 3, 2
 X, y = split_sequence(raw_seq, n_steps_in, n_steps_out)
 
 n_features = 1
- X = X.reshape((X.shape[0], X.shape[1], n_features))
- y = y.reshape((y.shape[0], y.shape[1], n_features))
+X = X.reshape((X.shape[0], X.shape[1], n_features))
+y = y.reshape((y.shape[0], y.shape[1], n_features))
 
 model = Sequential()
- model.add(LSTM(100, activation='relu', input_shape=(n_steps_in,
+model.add(LSTM(100, activation='relu', input_shape=(n_steps_in,
 n_features)))
- model.add(RepeatVector(n_steps_out))
- model.add(LSTM(100, activation='relu', return_sequences=True))
- model.add(TimeDistributed(Dense(1)))
- model.compile(optimizer='adam', loss='mse')
+model.add(RepeatVector(n_steps_out))
+model.add(LSTM(100, activation='relu', return_sequences=True))
+model.add(TimeDistributed(Dense(1)))
+model.compile(optimizer='adam', loss='mse')
 
 model.fit(X, y, epochs=100, verbose=0)
 
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps_in, n_features))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_steps_in, n_features))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 
 ```
@@ -1745,8 +1745,8 @@ steps of the output time series.
 Input:
 
 10, 15
- 20, 25
- 30, 35
+20, 25
+30, 35
 
 ```
 
@@ -1762,20 +1762,20 @@ The splitsequences() function below implements this behavior.
 
 ```
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out-1
+out_end_ix = end_ix + n_steps_out-1
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1],
 sequences[end_ix-1:out_end_ix, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -1784,22 +1784,22 @@ is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out-1
+out_end_ix = end_ix + n_steps_out-1
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1],
 sequences[end_ix-1:out_end_ix, -1]
- X.append(seq_x)
- y.append(seq_y)
+X.append(seq_x)
+y.append(seq_y)
 
 
 return array(X), array(y)
@@ -1866,35 +1866,35 @@ Stacked LSTM. The complete example is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
- from keras.models import Sequential
- from keras.layers import LSTM
- from keras.layers import Dense
+from numpy import hstack
+from keras.models import Sequential
+from keras.layers import LSTM
+from keras.layers import Dense
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out-1
+out_end_ix = end_ix + n_steps_out-1
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :-1],
 sequences[end_ix-1:out_end_ix, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -1905,19 +1905,19 @@ X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 n_features = X.shape[2]
 
 model = Sequential()
- model.add(LSTM(100, activation='relu', return_sequences=True,
+model.add(LSTM(100, activation='relu', return_sequences=True,
 input_shape=(n_steps_in,
- n_features)))
- model.add(LSTM(100, activation='relu'))
- model.add(Dense(n_steps_out))
- model.compile(optimizer='adam', loss='mse')
+n_features)))
+model.add(LSTM(100, activation='relu'))
+model.add(Dense(n_steps_out))
+model.compile(optimizer='adam', loss='mse')
 
 model.fit(X, y, epochs=200, verbose=0)
 
 x_input = array([[70, 75], [80, 85], [90, 95]])
- x_input = x_input.reshape((1, n_steps_in, n_features))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_steps_in, n_features))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 
 ```
@@ -1981,20 +1981,20 @@ The splitsequences() function below implements this behavior.
 
 ```
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -2006,32 +2006,32 @@ complete example is
 listed below.
 
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -2043,7 +2043,7 @@ X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 print(X.shape, y.shape)
 
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 
 ```
 
@@ -2063,25 +2063,25 @@ data was prepared as we expected.
 (5, 3, 3) (5, 2, 3)
 
 [[10 15 25]
- [20 25 45]
- [30 35 65]] [[ 40 45 85]
- [ 50 55 105]]
- [[20 25 45]
- [30 35 65]
- [40 45 85]] [[ 50 55 105]
- [ 60 65 125]]
- [[ 30 35 65]
- [ 40 45 85]
- [ 50 55 105]] [[ 60 65 125]
- [ 70 75 145]]
- [[ 40 45 85]
- [ 50 55 105]
- [ 60 65 125]] [[ 70 75 145]
- [ 80 85 165]]
- [[ 50 55 105]
- [ 60 65 125]
- [ 70 75 145]] [[ 80 85 165]
- [ 90 95 185]]
+[20 25 45]
+[30 35 65]] [[ 40 45 85]
+[ 50 55 105]]
+[[20 25 45]
+[30 35 65]
+[40 45 85]] [[ 50 55 105]
+[ 60 65 125]]
+[[ 30 35 65]
+[ 40 45 85]
+[ 50 55 105]] [[ 60 65 125]
+[ 70 75 145]]
+[[ 40 45 85]
+[ 50 55 105]
+[ 60 65 125]] [[ 70 75 145]
+[ 80 85 165]]
+[[ 50 55 105]
+[ 60 65 125]
+[ 70 75 145]] [[ 80 85 165]
+[ 90 95 185]]
 
 ```
 
@@ -2095,16 +2095,16 @@ is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
- from keras.models import Sequential
- from keras.layers import LSTM
- from keras.layers import Dense
- from keras.layers import RepeatVector
- from keras.layers import TimeDistributed
+from numpy import hstack
+from keras.models import Sequential
+from keras.layers import LSTM
+from keras.layers import Dense
+from keras.layers import RepeatVector
+from keras.layers import TimeDistributed
 
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 
 
 end_ix = i + n_steps_in
@@ -2119,13 +2119,13 @@ y.append(seq_y)
 return array(X), array(y)
 
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 
@@ -2136,19 +2136,19 @@ X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 n_features = X.shape[2]
 
 model = Sequential()
- model.add(LSTM(200, activation='relu', input_shape=(n_steps_in,
+model.add(LSTM(200, activation='relu', input_shape=(n_steps_in,
 n_features)))
- model.add(RepeatVector(n_steps_out))
- model.add(LSTM(200, activation='relu', return_sequences=True))
- model.add(TimeDistributed(Dense(n_features)))
- model.compile(optimizer='adam', loss='mse')
+model.add(RepeatVector(n_steps_out))
+model.add(LSTM(200, activation='relu', return_sequences=True))
+model.add(TimeDistributed(Dense(n_features)))
+model.compile(optimizer='adam', loss='mse')
 
 model.fit(X, y, epochs=300, verbose=0)
 
 x_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
- x_input = x_input.reshape((1, n_steps_in, n_features))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_steps_in, n_features))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -2161,7 +2161,7 @@ expect the values for these
 series and time steps to be as follows:
 
 90, 95, 185
- 100, 105, 205
+100, 105, 205
 
 ```
 We can see that the model forecast gets reasonably close to the expected

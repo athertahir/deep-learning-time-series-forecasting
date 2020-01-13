@@ -188,17 +188,17 @@ defined models.
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
- print(trainX.shape, trainy.shape)
+print(trainX.shape, trainy.shape)
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
- print(testX.shape, testy.shape)
+print(testX.shape, testy.shape)
 
 trainy = trainy - 1
- testy = testy - 1
+testy = testy - 1
 
 trainy = to_categorical(trainy)
- testy = to_categorical(testy)
- print(trainX.shape, trainy.shape, testX.shape, testy.shape)
- return trainX, trainy, testX, testy
+testy = to_categorical(testy)
+print(trainX.shape, trainy.shape, testX.shape, testy.shape)
+return trainX, trainy, testX, testy
 
 ```
 ##### Fit and Evaluate Model
@@ -359,11 +359,11 @@ def run_experiment(repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
 scores = list()
- for r in range(repeats):
- score = evaluate_model(trainX, trainy, testX, testy)
- score = score * 100.0
- print('>#%d: %.3f' % (r+1, score))
- scores.append(score)
+for r in range(repeats):
+score = evaluate_model(trainX, trainy, testX, testy)
+score = score * 100.0
+print('>#%d: %.3f' % (r+1, score))
+scores.append(score)
 
 summarize_results(scores)
 
@@ -376,32 +376,32 @@ worked example. The complete code
 
 ```
 from numpy import mean
- from numpy import std
- from numpy import dstack
- from pandas import read_csv
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import Dropout
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
- from keras.utils import to_categorical
+from numpy import std
+from numpy import dstack
+from pandas import read_csv
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import Dropout
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+from keras.utils import to_categorical
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
- loaded = list()
- for name in filenames:
- data = load_file(prefix + name)
- loaded.append(data)
+loaded = list()
+for name in filenames:
+data = load_file(prefix + name)
+loaded.append(data)
 
 loaded = dstack(loaded)
- return loaded
+return loaded
 
 def load_dataset_group(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
@@ -426,37 +426,37 @@ trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
 trainy = trainy - 1
- testy = testy - 1
+testy = testy - 1
 
 trainy = to_categorical(trainy)
- testy = to_categorical(testy)
- return trainX, trainy, testX, testy
+testy = to_categorical(testy)
+return trainX, trainy, testX, testy
 
 def evaluate_model(trainX, trainy, testX, testy):
- verbose, epochs, batch_size = 0, 10, 32
- n_timesteps, n_features, n_outputs = trainX.shape[1],
+verbose, epochs, batch_size = 0, 10, 32
+n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
- model = Sequential()
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
- model.add(Dropout(0.5))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(100, activation='relu'))
- model.add(Dense(n_outputs, activation='softmax'))
- model.compile(loss='categorical_crossentropy', optimizer='adam',
+model = Sequential()
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+model.add(Dropout(0.5))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(100, activation='relu'))
+model.add(Dense(n_outputs, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
 model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
 _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
- return accuracy
+return accuracy
 
 def summarize_results(scores):
- print(scores)
- m, s = mean(scores), std(scores)
- print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
+print(scores)
+m, s = mean(scores), std(scores)
+print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
 
 def run_experiment(repeats=10):
@@ -592,53 +592,53 @@ loaded = dstack(loaded)
 return loaded
 
 def load_dataset_group(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
 trainy = trainy - 1
- testy = testy - 1
+testy = testy - 1
 
 trainy = to_categorical(trainy)
- testy = to_categorical(testy)
- return trainX, trainy, testX, testy
+testy = to_categorical(testy)
+return trainX, trainy, testX, testy
 
 def plot_variable_distributions(trainX):
 cut = int(trainX.shape[1] / 2)
- longX = trainX[:, -cut:, :]
+longX = trainX[:, -cut:, :]
 
 longX = longX.reshape((longX.shape[0] * longX.shape[1],
 longX.shape[2]))
- pyplot.figure()
- for i in range(longX.shape[1]):
+pyplot.figure()
+for i in range(longX.shape[1]):
 ax = pyplot.subplot(longX.shape[1], 1, i+1)
- ax.set_xlim(-1, 1)
+ax.set_xlim(-1, 1)
 
 pyplot.hist(longX[:, i], bins=100)
 
 pyplot.yticks([])
- pyplot.xticks([-1,0,1])
- pyplot.show()
+pyplot.xticks([-1,0,1])
+pyplot.show()
 
 
 # load data
@@ -718,26 +718,26 @@ this parameter
 to decide whether or not to perform the standardization.
 
 def evaluate_model(trainX, trainy, testX, testy, param):
- verbose, epochs, batch_size = 0, 10, 32
- n_timesteps, n_features, n_outputs = trainX.shape[1],
+verbose, epochs, batch_size = 0, 10, 32
+n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
 trainX, testX = scale_data(trainX, testX, param)
- model = Sequential()
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
- model.add(Dropout(0.5))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(100, activation='relu'))
- model.add(Dense(n_outputs, activation='softmax'))
- model.compile(loss='categorical_crossentropy', optimizer='adam',
+model = Sequential()
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+model.add(Dropout(0.5))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(100, activation='relu'))
+model.add(Dense(n_outputs, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
 model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
 _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
- return accuracy
+return accuracy
 
 ```
 
@@ -755,14 +755,14 @@ def run_experiment(params, repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
 all_scores = list()
- for p in params:
+for p in params:
 
 scores = list()
- for r in range(repeats):
- score = evaluate_model(trainX, trainy, testX, testy, p)
- score = score * 100.0
- print('>p=%d #%d: %.3f'% (p, r+1, score))
- scores.append(score)
+for r in range(repeats):
+score = evaluate_model(trainX, trainy, testX, testy, p)
+score = score * 100.0
+print('>p=%d #%d: %.3f'% (p, r+1, score))
+scores.append(score)
 
 
 all_scores.append(scores)
@@ -824,56 +824,56 @@ return loaded
 
 
 def load_dataset_group(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
 trainy = trainy - 1
- testy = testy - 1
+testy = testy - 1
 
 trainy = to_categorical(trainy)
- testy = to_categorical(testy)
- return trainX, trainy, testX, testy
+testy = to_categorical(testy)
+return trainX, trainy, testX, testy
 
 def scale_data(trainX, testX, standardize):
 cut = int(trainX.shape[1] / 2)
- longX = trainX[:, -cut:, :]
+longX = trainX[:, -cut:, :]
 
 longX = longX.reshape((longX.shape[0] * longX.shape[1],
 longX.shape[2]))
 
 flatTrainX = trainX.reshape((trainX.shape[0] * trainX.shape[1],
 trainX.shape[2]))
- flatTestX = testX.reshape((testX.shape[0] * testX.shape[1],
+flatTestX = testX.reshape((testX.shape[0] * testX.shape[1],
 testX.shape[2]))
 if standardize:
- s = StandardScaler()
+s = StandardScaler()
 
 s.fit(longX)
 
 longX = s.transform(longX)
- flatTrainX = s.transform(flatTrainX)
- flatTestX = s.transform(flatTestX)
+flatTrainX = s.transform(flatTrainX)
+flatTestX = s.transform(flatTestX)
 flatTrainX = flatTrainX.reshape((trainX.shape))
 
 
@@ -881,50 +881,50 @@ flatTestX = flatTestX.reshape((testX.shape))
 return flatTrainX, flatTestX
 
 def evaluate_model(trainX, trainy, testX, testy, param):
- verbose, epochs, batch_size = 0, 10, 32
- n_timesteps, n_features, n_outputs = trainX.shape[1],
+verbose, epochs, batch_size = 0, 10, 32
+n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
 trainX, testX = scale_data(trainX, testX, param)
- model = Sequential()
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
- model.add(Dropout(0.5))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(100, activation='relu'))
- model.add(Dense(n_outputs, activation='softmax'))
- model.compile(loss='categorical_crossentropy', optimizer='adam',
+model = Sequential()
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
+model.add(Dropout(0.5))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(100, activation='relu'))
+model.add(Dense(n_outputs, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
 model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
 _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
- return accuracy
+return accuracy
 
 def summarize_results(scores, params):
- print(scores, params)
+print(scores, params)
 
 for i in range(len(scores)):
- m, s = mean(scores[i]), std(scores[i])
- print('Param=%s: %.3f%% (+/-%.3f)' % (params[i], m, s))
+m, s = mean(scores[i]), std(scores[i])
+print('Param=%s: %.3f%% (+/-%.3f)' % (params[i], m, s))
 
 pyplot.boxplot(scores, labels=params)
- pyplot.savefig('exp_cnn_standardize.png')
+pyplot.savefig('exp_cnn_standardize.png')
 
 def run_experiment(params, repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
 all_scores = list()
- for p in params:
+for p in params:
 
 scores = list()
- for r in range(repeats):
- score = evaluate_model(trainX, trainy, testX, testy, p)
- score = score * 100.0
- print('>p=%s #%d: %.3f'% (p, r+1, score))
- scores.append(score)
- all_scores.append(scores)
+for r in range(repeats):
+score = evaluate_model(trainX, trainy, testX, testy, p)
+score = score * 100.0
+print('>p=%s #%d: %.3f'% (p, r+1, score))
+scores.append(score)
+all_scores.append(scores)
 
 summarize_results(all_scores, params)
 
@@ -979,18 +979,18 @@ running the example a few times.
 
 [[91.48286392941975, 91.24533423820834, 90.83814048184594,
 89.24329826942655,
- 90.19341703427214, 90.46487953851374, 90.39701391245333,
+90.19341703427214, 90.46487953851374, 90.39701391245333,
 90.56667797760434,
- 88.93790295215473, 91.14353579911774], [92.90804207668816,
+88.93790295215473, 91.14353579911774], [92.90804207668816,
 90.93993892093654,
- 92.29725144214456, 91.82219205972176, 92.09365456396336,
+92.29725144214456, 91.82219205972176, 92.09365456396336,
 91.31319986426874,
- 91.65252799457076, 89.14149983033593, 91.10960298608755,
+91.65252799457076, 89.14149983033593, 91.10960298608755,
 91.89005768578215]] [False,
- True]
+True]
 
 Param=False: 90.451% (+/-0.785)
- Param=True: 91.517% (+/-0.965)
+Param=True: 91.517% (+/-0.965)
 
 ```
 
@@ -1031,110 +1031,110 @@ from matplotlib import pyplot
 
 
 from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import Dropout
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
- from keras.utils import to_categorical
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import Dropout
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+from keras.utils import to_categorical
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
- loaded = list()
- for name in filenames:
- data = load_file(prefix + name)
- loaded.append(data)
+loaded = list()
+for name in filenames:
+data = load_file(prefix + name)
+loaded.append(data)
 
 loaded = dstack(loaded)
- return loaded
+return loaded
 
 def load_dataset_group(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
 trainy = trainy - 1
- testy = testy - 1
+testy = testy - 1
 
 trainy = to_categorical(trainy)
- testy = to_categorical(testy)
- return trainX, trainy, testX, testy
+testy = to_categorical(testy)
+return trainX, trainy, testX, testy
 
 
 def evaluate_model(trainX, trainy, testX, testy, n_filters):
- verbose, epochs, batch_size = 0, 10, 32
- n_timesteps, n_features, n_outputs = trainX.shape[1],
+verbose, epochs, batch_size = 0, 10, 32
+n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
- model = Sequential()
- model.add(Conv1D(filters=n_filters, kernel_size=3,
+model = Sequential()
+model.add(Conv1D(filters=n_filters, kernel_size=3,
 activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=n_filters, kernel_size=3,
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=n_filters, kernel_size=3,
 activation='relu'))
- model.add(Dropout(0.5))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(100, activation='relu'))
- model.add(Dense(n_outputs, activation='softmax'))
- model.compile(loss='categorical_crossentropy', optimizer='adam',
+model.add(Dropout(0.5))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(100, activation='relu'))
+model.add(Dense(n_outputs, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
 model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
 _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
- return accuracy
+return accuracy
 
 def summarize_results(scores, params):
- print(scores, params)
+print(scores, params)
 
 for i in range(len(scores)):
- m, s = mean(scores[i]), std(scores[i])
- print('Param=%d: %.3f%% (+/-%.3f)' % (params[i], m, s))
+m, s = mean(scores[i]), std(scores[i])
+print('Param=%d: %.3f%% (+/-%.3f)' % (params[i], m, s))
 
 pyplot.boxplot(scores, labels=params)
- pyplot.savefig('exp_cnn_filters.png')
+pyplot.savefig('exp_cnn_filters.png')
 
 def run_experiment(params, repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
 all_scores = list()
- for p in params:
+for p in params:
 
 scores = list()
- for r in range(repeats):
- score = evaluate_model(trainX, trainy, testX, testy, p)
- score = score * 100.0
- print('>p=%d #%d: %.3f'% (p, r+1, score))
- scores.append(score)
- all_scores.append(scores)
+for r in range(repeats):
+score = evaluate_model(trainX, trainy, testX, testy, p)
+score = score * 100.0
+print('>p=%d #%d: %.3f'% (p, r+1, score))
+scores.append(score)
+all_scores.append(scores)
 
 summarize_results(all_scores, params)
 
 n_params = [8, 16, 32, 64, 128, 256]
- run_experiment(n_params)
+run_experiment(n_params)
 
 ```
 
@@ -1195,109 +1195,109 @@ from keras.models import Sequential
 
 
 from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import Dropout
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
- from keras.utils import to_categorical
+from keras.layers import Flatten
+from keras.layers import Dropout
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+from keras.utils import to_categorical
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
- loaded = list()
- for name in filenames:
- data = load_file(prefix + name)
- loaded.append(data)
+loaded = list()
+for name in filenames:
+data = load_file(prefix + name)
+loaded.append(data)
 
 loaded = dstack(loaded)
- return loaded
+return loaded
 
 def load_dataset_group(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
 trainy = trainy - 1
- testy = testy - 1
+testy = testy - 1
 
 trainy = to_categorical(trainy)
- testy = to_categorical(testy)
- return trainX, trainy, testX, testy
+testy = to_categorical(testy)
+return trainX, trainy, testX, testy
 
 
 def evaluate_model(trainX, trainy, testX, testy, n_kernel):
- verbose, epochs, batch_size = 0, 15, 32
- n_timesteps, n_features, n_outputs = trainX.shape[1],
+verbose, epochs, batch_size = 0, 15, 32
+n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
- model = Sequential()
- model.add(Conv1D(filters=64, kernel_size=n_kernel,
+model = Sequential()
+model.add(Conv1D(filters=64, kernel_size=n_kernel,
 activation='relu',
- input_shape=(n_timesteps,n_features)))
- model.add(Conv1D(filters=64, kernel_size=n_kernel,
+input_shape=(n_timesteps,n_features)))
+model.add(Conv1D(filters=64, kernel_size=n_kernel,
 activation='relu'))
- model.add(Dropout(0.5))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(100, activation='relu'))
- model.add(Dense(n_outputs, activation='softmax'))
- model.compile(loss='categorical_crossentropy', optimizer='adam',
+model.add(Dropout(0.5))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(100, activation='relu'))
+model.add(Dense(n_outputs, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
 model.fit(trainX, trainy, epochs=epochs, batch_size=batch_size,
 verbose=verbose)
 _, accuracy = model.evaluate(testX, testy, batch_size=batch_size,
 verbose=0)
- return accuracy
+return accuracy
 
 def summarize_results(scores, params):
- print(scores, params)
+print(scores, params)
 
 for i in range(len(scores)):
- m, s = mean(scores[i]), std(scores[i])
- print('Param=%d: %.3f%% (+/-%.3f)' % (params[i], m, s))
+m, s = mean(scores[i]), std(scores[i])
+print('Param=%d: %.3f%% (+/-%.3f)' % (params[i], m, s))
 
 pyplot.boxplot(scores, labels=params)
- pyplot.savefig('exp_cnn_kernel.png')
+pyplot.savefig('exp_cnn_kernel.png')
 
 def run_experiment(params, repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
 all_scores = list()
- for p in params:
+for p in params:
 
 scores = list()
- for r in range(repeats):
- score = evaluate_model(trainX, trainy, testX, testy, p)
- score = score * 100.0
- print('>p=%d #%d: %.3f'% (p, r+1, score))
- scores.append(score)
- all_scores.append(scores)
+for r in range(repeats):
+score = evaluate_model(trainX, trainy, testX, testy, p)
+score = score * 100.0
+print('>p=%d #%d: %.3f'% (p, r+1, score))
+scores.append(score)
+all_scores.append(scores)
 
 summarize_results(all_scores, params)
 
 n_params = [2, 3, 5, 7, 11]
- run_experiment(n_params)
+run_experiment(n_params)
 
 ```
 Running the example tests each kernel size in turn. The results are
@@ -1321,10 +1321,10 @@ running the example a few times.
 ...
 
 Param=2: 90.176% (+/-0.724)
- Param=3: 90.275% (+/-1.277)
- Param=5: 91.853% (+/-1.249)
- Param=7: 91.347% (+/-0.852)
- Param=11: 91.456% (+/-0.743)
+Param=3: 90.275% (+/-1.277)
+Param=5: 91.853% (+/-1.249)
+Param=7: 91.347% (+/-0.852)
+Param=11: 91.456% (+/-0.743)
 
 ```
 
@@ -1427,115 +1427,115 @@ the multi-headed 1D
 CNN is listed below.
 
 from numpy import mean
- from numpy import std
- from numpy import dstack
- from pandas import read_csv
- from keras.utils import to_categorical
- from keras.utils.vis_utils import plot_model
+from numpy import std
+from numpy import dstack
+from pandas import read_csv
+from keras.utils import to_categorical
+from keras.utils.vis_utils import plot_model
 from keras.models import Model
- from keras.layers import Input
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import Dropout
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
- from keras.layers.merge import concatenate
+from keras.layers import Input
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import Dropout
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+from keras.layers.merge import concatenate
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
- loaded = list()
- for name in filenames:
- data = load_file(prefix + name)
- loaded.append(data)
+loaded = list()
+for name in filenames:
+data = load_file(prefix + name)
+loaded.append(data)
 
 loaded = dstack(loaded)
- return loaded
+return loaded
 
 def load_dataset_group(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
 y = load_file(prefix + group +'/y_'+group+'.txt')
- return X, y
+return X, y
 
 def load_dataset(prefix=''):
 trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 
 trainy = trainy - 1
- testy = testy - 1
+testy = testy - 1
 
 trainy = to_categorical(trainy)
- testy = to_categorical(testy)
+testy = to_categorical(testy)
 
 
 return trainX, trainy, testX, testy
 
 def evaluate_model(trainX, trainy, testX, testy):
- verbose, epochs, batch_size = 0, 10, 32
- n_timesteps, n_features, n_outputs = trainX.shape[1],
+verbose, epochs, batch_size = 0, 10, 32
+n_timesteps, n_features, n_outputs = trainX.shape[1],
 trainX.shape[2], trainy.shape[1]
 inputs1 = Input(shape=(n_timesteps,n_features))
- conv1 = Conv1D(filters=64, kernel_size=3, activation='relu')(inputs1)
- drop1 = Dropout(0.5)(conv1)
- pool1 = MaxPooling1D(pool_size=2)(drop1)
- flat1 = Flatten()(pool1)
+conv1 = Conv1D(filters=64, kernel_size=3, activation='relu')(inputs1)
+drop1 = Dropout(0.5)(conv1)
+pool1 = MaxPooling1D(pool_size=2)(drop1)
+flat1 = Flatten()(pool1)
 inputs2 = Input(shape=(n_timesteps,n_features))
- conv2 = Conv1D(filters=64, kernel_size=5, activation='relu')(inputs2)
- drop2 = Dropout(0.5)(conv2)
- pool2 = MaxPooling1D(pool_size=2)(drop2)
- flat2 = Flatten()(pool2)
+conv2 = Conv1D(filters=64, kernel_size=5, activation='relu')(inputs2)
+drop2 = Dropout(0.5)(conv2)
+pool2 = MaxPooling1D(pool_size=2)(drop2)
+flat2 = Flatten()(pool2)
 inputs3 = Input(shape=(n_timesteps,n_features))
- conv3 = Conv1D(filters=64, kernel_size=11,
+conv3 = Conv1D(filters=64, kernel_size=11,
 activation='relu')(inputs3)
- drop3 = Dropout(0.5)(conv3)
- pool3 = MaxPooling1D(pool_size=2)(drop3)
- flat3 = Flatten()(pool3)
+drop3 = Dropout(0.5)(conv3)
+pool3 = MaxPooling1D(pool_size=2)(drop3)
+flat3 = Flatten()(pool3)
 merged = concatenate([flat1, flat2, flat3])
 dense1 = Dense(100, activation='relu')(merged)
- outputs = Dense(n_outputs, activation='softmax')(dense1)
- model = Model(inputs=[inputs1, inputs2, inputs3], outputs=outputs)
+outputs = Dense(n_outputs, activation='softmax')(dense1)
+model = Model(inputs=[inputs1, inputs2, inputs3], outputs=outputs)
 
 plot_model(model, show_shapes=True, to_file='multiheaded.png')
- model.compile(loss='categorical_crossentropy', optimizer='adam',
+model.compile(loss='categorical_crossentropy', optimizer='adam',
 metrics=['accuracy'])
 model.fit([trainX,trainX,trainX], trainy, epochs=epochs,
 batch_size=batch_size,
- verbose=verbose)
+verbose=verbose)
 _, accuracy = model.evaluate([testX,testX,testX], testy,
 batch_size=batch_size, verbose=0)
- return accuracy
+return accuracy
 
 def summarize_results(scores):
- print(scores)
- m, s = mean(scores), std(scores)
- print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
+print(scores)
+m, s = mean(scores), std(scores)
+print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
 
 def run_experiment(repeats=10):
 trainX, trainy, testX, testy = load_dataset()
 
 scores = list()
- for r in range(repeats):
- score = evaluate_model(trainX, trainy, testX, testy)
- score = score * 100.0
- print('>#%d: %.3f' % (r+1, score))
+for r in range(repeats):
+score = evaluate_model(trainX, trainy, testX, testy)
+score = score * 100.0
+print('>#%d: %.3f' % (r+1, score))
 
 
 scores.append(score)

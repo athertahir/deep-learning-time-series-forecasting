@@ -148,7 +148,7 @@ called ’datetime’ (parsedates=‘datetime’:[0,1])
 
 (^2)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/household_power_consumption.
- zip
+zip
 
 
 Putting all of this together, we can now load the data and summarize the
@@ -157,10 +157,10 @@ loaded shape and
 first few rows.
 dataset = read_csv('household_power_consumption.txt', sep=';',
 header=0, low_memory=False,
- infer_datetime_format=True, parse_dates={'datetime':[0,1]},
+infer_datetime_format=True, parse_dates={'datetime':[0,1]},
 index_col=['datetime'])
 print(dataset.shape)
- print(dataset.head())
+print(dataset.head())
 
 ```
 Next, we can mark all missing values indicated with a‘?’character with
@@ -180,9 +180,9 @@ sub-metering, using the
 calculation from the previous section.
 
 values = dataset.values.astype('float32')
- dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4]
+dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4]
 + values[:,5] +
- values[:,6])
+values[:,6])
 
 ```
 We can now save the cleaned-up version of the dataset to a new file; in
@@ -200,7 +200,7 @@ summarize the first
 five rows.
 
 dataset = read_csv('household_power_consumption.csv', header=None)
- print(dataset.head())
+print(dataset.head())
 
 ```
 Tying all of this together, the complete example of loading, cleaning-up, and saving the
@@ -208,10 +208,10 @@ Tying all of this together, the complete example of loading, cleaning-up, and sa
 dataset is listed below.
 
 from numpy import nan
- from pandas import read_csv
+from pandas import read_csv
 dataset = read_csv('household_power_consumption.txt', sep=';',
 header=0, low_memory=False,
- infer_datetime_format=True, parse_dates={'datetime':[0,1]},
+infer_datetime_format=True, parse_dates={'datetime':[0,1]},
 index_col=['datetime'])
 print(dataset.shape)
 
@@ -221,16 +221,16 @@ print(dataset.head())
 dataset.replace('?', nan, inplace=True)
 
 values = dataset.values.astype('float32')
- dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4]
+dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4]
 + values[:,5] +
- values[:,6])
+values[:,6])
 
 dataset.to_csv('household_power_consumption.csv')
 
 dataset = read_csv('household_power_consumption.csv', header=0,
 infer_datetime_format=True,
- parse_dates=['datetime'], index_col=['datetime'])
- print(dataset.head())
+parse_dates=['datetime'], index_col=['datetime'])
+print(dataset.head())
 
 ```
 
@@ -242,12 +242,12 @@ of the loaded data.
 (2075259, 7)
 
 Global_active_power ... Sub_metering_3
- datetime ...
- 2006-12-16 17:24:00 4.216 ... 17.0
- 2006-12-16 17:25:00 5.360 ... 16.0
- 2006-12-16 17:26:00 5.374 ... 17.0
- 2006-12-16 17:27:00 5.388 ... 17.0
- 2006-12-16 17:28:00 3.666 ... 17.0
+datetime ...
+2006-12-16 17:24:00 4.216 ... 17.0
+2006-12-16 17:25:00 5.360 ... 16.0
+2006-12-16 17:26:00 5.374 ... 17.0
+2006-12-16 17:27:00 5.388 ... 17.0
+2006-12-16 17:28:00 3.666 ... 17.0
 
 ```
 The dataset is then cleaned up and saved to a new file. We load this new
@@ -259,12 +259,12 @@ and addition of the new
 sub-metered column.
 
 Global_active_power ... sub_metering_4
- datetime ...
- 2006-12-16 17:24:00 4.216 ... 52.266670
- 2006-12-16 17:25:00 5.360 ... 72.333336
- 2006-12-16 17:26:00 5.374 ... 70.566666
- 2006-12-16 17:27:00 5.388 ... 71.800000
- 2006-12-16 17:28:00 3.666 ... 43.100000
+datetime ...
+2006-12-16 17:24:00 4.216 ... 52.266670
+2006-12-16 17:25:00 5.360 ... 72.333336
+2006-12-16 17:26:00 5.374 ... 70.566666
+2006-12-16 17:27:00 5.388 ... 71.800000
+2006-12-16 17:28:00 3.666 ... 43.100000
 
 ```
 We can peek inside the newhouseholdpowerconsumption.csvfile and check
@@ -276,13 +276,13 @@ correctly read asNaN,
 for example around row 190,499:
 
 ...
- 2007-04-28 00:20:00,0.492,0.208,236.240,2.200,0.000,0.000,0.0,8.2
- 2007-04-28 00:21:00,,,,,,,,
- 2007-04-28 00:22:00,,,,,,,,
- 2007-04-28 00:23:00,,,,,,,,
- 2007-04-28 00:24:00,,,,,,,,
- 2007-04-28 00:25:00,,,,,,,,
- ...
+2007-04-28 00:20:00,0.492,0.208,236.240,2.200,0.000,0.000,0.0,8.2
+2007-04-28 00:21:00,,,,,,,,
+2007-04-28 00:22:00,,,,,,,,
+2007-04-28 00:23:00,,,,,,,,
+2007-04-28 00:24:00,,,,,,,,
+2007-04-28 00:25:00,,,,,,,,
+...
 
 
 ```
@@ -345,15 +345,15 @@ so will remove it from
 the plot. The complete example is listed below.
 
 from pandas import read_csv
- from matplotlib import pyplot
+from matplotlib import pyplot
 
 dataset = read_csv('household_power_consumption.csv', header=0,
 infer_datetime_format=True,
- parse_dates=['datetime'], index_col=['datetime'])
+parse_dates=['datetime'], index_col=['datetime'])
 
 years = [' 2007 ', ' 2008 ',' 2009 ',' 2010 ']
- pyplot.figure()
- for i in range(len(years)):
+pyplot.figure()
+for i in range(len(years)):
 
 ax = pyplot.subplot(len(years), 1, i+1)
 
@@ -443,15 +443,15 @@ each day, and perhaps
 differences in days over a week. The complete example is listed below.
 
 from pandas import read_csv
- from matplotlib import pyplot
+from matplotlib import pyplot
 
 dataset = read_csv('household_power_consumption.csv', header=0,
 infer_datetime_format=True,
- parse_dates=['datetime'], index_col=['datetime'])
+parse_dates=['datetime'], index_col=['datetime'])
 
 days = [x for x in range(1, 20)]
- pyplot.figure()
- for i in range(len(days)):
+pyplot.figure()
+for i in range(len(days)):
 
 ax = pyplot.subplot(len(days), 1, i+1)
 
@@ -545,15 +545,15 @@ active power consumption for the four full years of data. The complete
 example is listed below.
 
 from pandas import read_csv
- from matplotlib import pyplot
+from matplotlib import pyplot
 
 dataset = read_csv('household_power_consumption.csv', header=0,
 infer_datetime_format=True,
- parse_dates=['datetime'], index_col=['datetime'])
+parse_dates=['datetime'], index_col=['datetime'])
 
 years = [' 2007 ', ' 2008 ',' 2009 ',' 2010 ']
- pyplot.figure()
- for i in range(len(years)):
+pyplot.figure()
+for i in range(len(years)):
 
 ax = pyplot.subplot(len(years), 1, i+1)
 

@@ -115,20 +115,20 @@ example is listed below.
 
 from numpy import array
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 end_ix = i + n_steps
 if end_ix > len(sequence)-1:
- break
+break
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 n_steps = 3
 X, y = split_sequence(raw_seq, n_steps)
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 
 ```
 
@@ -140,11 +140,11 @@ three input time steps and one output time step.
 
 
 [10 20 30] 40
- [20 30 40] 50
- [30 40 50] 60
- [40 50 60] 70
- [50 60 70] 80
- [60 70 80] 90
+[20 30 40] 50
+[30 40 50] 60
+[40 50 60] 70
+[50 60 70] 80
+[60 70 80] 90
 
 ```
 
@@ -238,14 +238,14 @@ raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 n_steps = 3
 X, y = split_sequence(raw_seq, n_steps)
 model = Sequential()
- model.add(Dense(100, activation='relu', input_dim=n_steps))
- model.add(Dense(1))
- model.compile(optimizer='adam', loss='mse')
+model.add(Dense(100, activation='relu', input_dim=n_steps))
+model.add(Dense(1))
+model.compile(optimizer='adam', loss='mse')
 model.fit(X, y, epochs=2000, verbose=0)
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_steps))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -371,8 +371,8 @@ look as follows:
 Input:
 
 10, 15
- 20, 25
- 30, 35
+20, 25
+30, 35
 
 ```
 
@@ -411,15 +411,15 @@ samples.
 
 ```
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps
 if end_ix > len(sequences):
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 
 ```
@@ -689,7 +689,7 @@ We can define the second input submodel in the same way.
 
 ```
 visible2 = Input(shape=(n_steps,))
- dense2 = Dense(100, activation='relu')(visible2)
+dense2 = Dense(100, activation='relu')(visible2)
 
 ```
 
@@ -701,7 +701,7 @@ sequence.
 
 ```
 merge = concatenate([dense1, dense2])
- output = Dense(1)(merge)
+output = Dense(1)(merge)
 
 ```
 
@@ -729,7 +729,7 @@ array with the shape[7, 3, 2]to two 2D arrays with the shape[7, 3].
 
 ```
 X1 = X[:, :, 0]
- X2 = X[:, :, 1]
+X2 = X[:, :, 1]
 
 ```
 These data can then be provided in order to fit the model.
@@ -745,8 +745,8 @@ arrays when making a single one-step prediction.
 
 ```
 x_input = array([[80, 85], [90, 95], [100, 105]])
- x1 = x_input[:, 0].reshape((1, n_steps))
- x2 = x_input[:, 1].reshape((1, n_steps))
+x1 = x_input[:, 0].reshape((1, n_steps))
+x2 = x_input[:, 1].reshape((1, n_steps))
 
 ```
 
@@ -754,28 +754,28 @@ We can tie all of this together; the complete example is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
- from keras.models import Model
- from keras.layers import Input
- from keras.layers import Dense
- from keras.layers.merge import concatenate
+from numpy import hstack
+from keras.models import Model
+from keras.layers import Input
+from keras.layers import Dense
+from keras.layers.merge import concatenate
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps
 if end_ix > len(sequences):
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :-1], sequences[end_ix-1, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 
 dataset = hstack((in_seq1, in_seq2, out_seq))
 # choose a number of time steps
@@ -852,8 +852,8 @@ would be:
 Input:
 
 10, 15, 25
- 20, 25, 45
- 30, 35, 65
+20, 25, 45
+30, 35, 65
 
 ```
 
@@ -872,15 +872,15 @@ shape.
 
 ```
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps
 if end_ix > len(sequences)-1:
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
@@ -890,13 +890,13 @@ is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps
 if end_ix > len(sequences)-1:
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
 X.append(seq_x)
 y.append(seq_y)
@@ -1012,41 +1012,41 @@ We can tie all of this together and demonstrate an MLP for multivariate output t
 forecasting below.
 
 from numpy import array
- from numpy import hstack
- from keras.models import Sequential
- from keras.layers import Dense
+from numpy import hstack
+from keras.models import Sequential
+from keras.layers import Dense
 def split_sequences(sequences, n_steps):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps
 if end_ix > len(sequences)-1:
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 dataset = hstack((in_seq1, in_seq2, out_seq))
 n_steps = 3
 X, y = split_sequences(dataset, n_steps)
 n_input = X.shape[1] * X.shape[2]
- X = X.reshape((X.shape[0], n_input))
- n_output = y.shape[1]
+X = X.reshape((X.shape[0], n_input))
+n_output = y.shape[1]
 model = Sequential()
- model.add(Dense(100, activation='relu', input_dim=n_input))
- model.add(Dense(n_output))
- model.compile(optimizer='adam', loss='mse')
+model.add(Dense(100, activation='relu', input_dim=n_input))
+model.add(Dense(n_output))
+model.compile(optimizer='adam', loss='mse')
 model.fit(X, y, epochs=2000, verbose=0)
 x_input = array([[70,75,145], [80,85,165], [90,95,185]])
- x_input = x_input.reshape((1, n_input))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_input))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -1339,8 +1339,8 @@ the input and the
 
 single feature.
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps_in))
- yhat = model.predict(x_input, verbose=0)
+x_input = x_input.reshape((1, n_steps_in))
+yhat = model.predict(x_input, verbose=0)
 
 ```
 
@@ -1349,30 +1349,30 @@ univariate time series is
 
 listed below.
 from numpy import array
- from keras.models import Sequential
- from keras.layers import Dense
+from keras.models import Sequential
+from keras.layers import Dense
 def split_sequence(sequence, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 if out_end_ix > len(sequence):
- break
+break
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix:out_end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 raw_seq = [10, 20, 30, 40, 50, 60, 70, 80, 90]
 n_steps_in, n_steps_out = 3, 2
 X, y = split_sequence(raw_seq, n_steps_in, n_steps_out)
 model = Sequential()
- model.add(Dense(100, activation='relu', input_dim=n_steps_in))
- model.add(Dense(n_steps_out))
- model.compile(optimizer='adam', loss='mse')
+model.add(Dense(100, activation='relu', input_dim=n_steps_in))
+model.add(Dense(n_steps_out))
+model.compile(optimizer='adam', loss='mse')
 model.fit(X, y, epochs=2000, verbose=0)
 x_input = array([70, 80, 90])
- x_input = x_input.reshape((1, n_steps_in))
- yhat = model.predict(x_input, verbose=0)
+x_input = x_input.reshape((1, n_steps_in))
+yhat = model.predict(x_input, verbose=0)
 
 
 print(yhat)
@@ -1445,44 +1445,44 @@ Input:
 Output:
 
 65
- 85
+85
 
 ```
 
 Thesplitsequences()function below implements this behavior.
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out-1
+out_end_ix = end_ix + n_steps_out-1
 if out_end_ix > len(sequences):
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :-1],
 sequences[end_ix-1:out_end_ix, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 
 ```
 
 We can demonstrate this on our contrived dataset. The complete example
 is listed below.
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out-1
+out_end_ix = end_ix + n_steps_out-1
 if out_end_ix > len(sequences):
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :-1],
 sequences[end_ix-1:out_end_ix, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
 
 
 out_seq = array([in_seq1[i]+in_seq2[i] for i in range(len(in_seq1))])
@@ -1547,38 +1547,38 @@ from keras.models import Sequential
 
 from keras.layers import Dense
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out-1
+out_end_ix = end_ix + n_steps_out-1
 if out_end_ix > len(sequences):
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :-1],
 sequences[end_ix-1:out_end_ix, -1]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 dataset = hstack((in_seq1, in_seq2, out_seq))
 n_steps_in, n_steps_out = 3, 2
 X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 n_input = X.shape[1] * X.shape[2]
- X = X.reshape((X.shape[0], n_input))
+X = X.reshape((X.shape[0], n_input))
 model = Sequential()
- model.add(Dense(100, activation='relu', input_dim=n_input))
- model.add(Dense(n_steps_out))
- model.compile(optimizer='adam', loss='mse')
+model.add(Dense(100, activation='relu', input_dim=n_input))
+model.add(Dense(n_steps_out))
+model.compile(optimizer='adam', loss='mse')
 model.fit(X, y, epochs=2000, verbose=0)
 x_input = array([[70, 75], [80, 85], [90, 95]])
- x_input = x_input.reshape((1, n_input))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_input))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -1658,32 +1658,32 @@ complete example is
 
 listed below.
 from numpy import array
- from numpy import hstack
+from numpy import hstack
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 if out_end_ix > len(sequences):
- break
+break
 seq_x, seq_y = sequences[i:end_ix, :],
 sequences[end_ix:out_end_ix, :]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 dataset = hstack((in_seq1, in_seq2, out_seq))
 n_steps_in, n_steps_out = 3, 2
 X, y = split_sequences(dataset, n_steps_in, n_steps_out)
- print(X.shape, y.shape)
+print(X.shape, y.shape)
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 
 ```
 
@@ -1757,9 +1757,9 @@ of taking vector inputs and outputs.
 
 ```
 n_input = X.shape[1] * X.shape[2]
- X = X.reshape((X.shape[0], n_input))
+X = X.reshape((X.shape[0], n_input))
 n_output = y.shape[1] * y.shape[2]
- y = y.reshape((y.shape[0], n_output))
+y = y.reshape((y.shape[0], n_output))
 
 ```
 
@@ -1768,44 +1768,44 @@ The complete example is listed below.
 
 ```
 from numpy import array
- from numpy import hstack
- from keras.models import Sequential
- from keras.layers import Dense
+from numpy import hstack
+from keras.models import Sequential
+from keras.layers import Dense
 def split_sequences(sequences, n_steps_in, n_steps_out):
- X, y = list(), list()
- for i in range(len(sequences)):
+X, y = list(), list()
+for i in range(len(sequences)):
 end_ix = i + n_steps_in
- out_end_ix = end_ix + n_steps_out
+out_end_ix = end_ix + n_steps_out
 if out_end_ix > len(sequences):
- break
+break
 
 seq_x, seq_y = sequences[i:end_ix, :], sequences[end_ix:out_end_ix, :]
 X.append(seq_x)
 y.append(seq_y)
 return array(X), array(y)
 in_seq1 = array([10, 20, 30, 40, 50, 60, 70, 80, 90])
- in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
- out_seq = array([in_seq1[i]+in_seq2[i] for i in
+in_seq2 = array([15, 25, 35, 45, 55, 65, 75, 85, 95])
+out_seq = array([in_seq1[i]+in_seq2[i] for i in
 range(len(in_seq1))])
 in_seq1 = in_seq1.reshape((len(in_seq1), 1))
- in_seq2 = in_seq2.reshape((len(in_seq2), 1))
- out_seq = out_seq.reshape((len(out_seq), 1))
+in_seq2 = in_seq2.reshape((len(in_seq2), 1))
+out_seq = out_seq.reshape((len(out_seq), 1))
 dataset = hstack((in_seq1, in_seq2, out_seq))
 n_steps_in, n_steps_out = 3, 2
 X, y = split_sequences(dataset, n_steps_in, n_steps_out)
 n_input = X.shape[1] * X.shape[2]
- X = X.reshape((X.shape[0], n_input))
+X = X.reshape((X.shape[0], n_input))
 n_output = y.shape[1] * y.shape[2]
- y = y.reshape((y.shape[0], n_output))
+y = y.reshape((y.shape[0], n_output))
 model = Sequential()
- model.add(Dense(100, activation='relu', input_dim=n_input))
- model.add(Dense(n_output))
- model.compile(optimizer='adam', loss='mse')
+model.add(Dense(100, activation='relu', input_dim=n_input))
+model.add(Dense(n_output))
+model.compile(optimizer='adam', loss='mse')
 model.fit(X, y, epochs=2000, verbose=0)
 x_input = array([[60, 65, 125], [70, 75, 145], [80, 85, 165]])
- x_input = x_input.reshape((1, n_input))
- yhat = model.predict(x_input, verbose=0)
- print(yhat)
+x_input = x_input.reshape((1, n_input))
+yhat = model.predict(x_input, verbose=0)
+print(yhat)
 
 ```
 
@@ -1818,7 +1818,7 @@ series and time steps to be as follows:
 
 ```
 90, 95, 185
- 100, 105, 205
+100, 105, 205
 
 ```
 

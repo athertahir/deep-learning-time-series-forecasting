@@ -332,7 +332,7 @@ prior observations relative to the time to be forecasted. We do not need to fit 
 modelfit()function will be implemented to simply returnNone.
 
 def model_fit(train, config):
- return None
+return None
 
 ```
 We will use the config to define a list of index offsets in the prior observations relative to
@@ -350,10 +350,10 @@ to collect the
 observations, then return the median of those observations.
 
 def model_predict(model, history, config):
- values = list()
- for offset in config:
- values.append(history[-offset])
- return median(values)
+values = list()
+for offset in config:
+values.append(history[-offset])
+return median(values)
 
 ```
 The complete example of using the framework with a simple persistence model is listed
@@ -361,24 +361,24 @@ The complete example of using the framework with a simple persistence model is l
 below.
 
 from math import sqrt
- from numpy import median
- from numpy import mean
- from numpy import std
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from matplotlib import pyplot
+from numpy import median
+from numpy import mean
+from numpy import std
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from matplotlib import pyplot
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def difference(data, interval):
- return [data[i] - data[i - interval] for i in range(interval,
+return [data[i] - data[i - interval] for i in range(interval,
 len(data))]
 def model_fit(train, config):
- return None
+return None
 
 def model_predict(model, history, config):
 
@@ -389,7 +389,7 @@ values.append(history[-offset])
 return median(values)
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -404,25 +404,25 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- print(' > %.3f' % error)
- return error
+print(' > %.3f' % error)
+return error
 
 def repeat_evaluate(data, config, n_test, n_repeats=30):
 
 scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
- return scores
+return scores
 
 def summarize_scores(name, scores):
 
 scores_m, score_std = mean(scores), std(scores)
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
+print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
 pyplot.boxplot(scores)
- pyplot.show()
+pyplot.show()
 
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 config = [12, 24, 36]
 scores = repeat_evaluate(data, config, n_test)
@@ -616,48 +616,48 @@ from keras.models import Sequential
 
 
 from keras.layers import Dense
- from matplotlib import pyplot
+from matplotlib import pyplot
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def series_to_supervised(data, n_in, n_out=1):
- df = DataFrame(data)
- cols = list()
+df = DataFrame(data)
+cols = list()
 
 for i in range(n_in, 0, -1):
- cols.append(df.shift(i))
+cols.append(df.shift(i))
 
 for i in range(0, n_out):
- cols.append(df.shift(-i))
+cols.append(df.shift(-i))
 
 agg = concat(cols, axis=1)
 
 agg.dropna(inplace=True)
- return agg.values
+return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch = config
 data = series_to_supervised(train, n_input)
- train_x, train_y = data[:, :-1], data[:, -1]
+train_x, train_y = data[:, :-1], data[:, -1]
 model = Sequential()
- model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 def model_predict(model, history, config):
 n_input, _, _, _ = config
 x_input = array(history[-n_input:]).reshape(1, n_input)
 yhat = model.predict(x_input, verbose=0)
- return yhat[0]
+return yhat[0]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 
 
 # split dataset
@@ -915,53 +915,53 @@ from matplotlib import pyplot
 
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def series_to_supervised(data, n_in, n_out=1):
- df = DataFrame(data)
- cols = list()
+df = DataFrame(data)
+cols = list()
 
 for i in range(n_in, 0, -1):
- cols.append(df.shift(i))
+cols.append(df.shift(i))
 
 for i in range(0, n_out):
- cols.append(df.shift(-i))
+cols.append(df.shift(-i))
 
 agg = concat(cols, axis=1)
 
 agg.dropna(inplace=True)
- return agg.values
+return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 def model_fit(train, config):
 n_input, n_filters, n_kernel, n_epochs, n_batch = config
 data = series_to_supervised(train, n_input)
- train_x, train_y = data[:, :-1], data[:, -1]
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
+train_x, train_y = data[:, :-1], data[:, -1]
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 model = Sequential()
- model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
+model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
 activation='relu',
- input_shape=(n_input, 1)))
- model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
+input_shape=(n_input, 1)))
+model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
 activation='relu'))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 def model_predict(model, history, config):
 n_input, _, _, _, _ = config
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 yhat = model.predict(x_input, verbose=0)
- return yhat[0]
+return yhat[0]
 
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -976,25 +976,25 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- print(' > %.3f' % error)
- return error
+print(' > %.3f' % error)
+return error
 
 def repeat_evaluate(data, config, n_test, n_repeats=30):
 
 scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
- return scores
+return scores
 
 def summarize_scores(name, scores):
 
 scores_m, score_std = mean(scores), std(scores)
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
+print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
 pyplot.boxplot(scores)
- pyplot.show()
+pyplot.show()
 
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 config = [36, 256, 3, 100, 100]
 scores = repeat_evaluate(data, config, n_test)
@@ -1104,7 +1104,7 @@ model.compile(loss='mse', optimizer='adam')
 ```
 Like the CNN, the LSTM can support multiple variables or features at each time step. As
 the car sales dataset only has one value at each time step, we can fix this at 1, both when
-defining the input to the network in theinputshapeargument[ninput, 1], and in defining
+defining the input to the network in the input shape argument[ninput, 1], and in defining
 the shape of the input samples.
 
 # reshape input samples
@@ -1156,19 +1156,19 @@ are updated.
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
- data = series_to_supervised(train, n_input)
- train_x, train_y = data[:, :-1], data[:, -1]
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
+train = difference(train, n_diff)
+data = series_to_supervised(train, n_input)
+train_x, train_y = data[:, :-1], data[:, -1]
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 model = Sequential()
- model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
+model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
 1)))
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 ```
 Making a prediction with the LSTM model is the same as making a
@@ -1194,10 +1194,10 @@ behavior.
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config
 correction = 0.0
- if n_diff > 0:
- correction = history[-n_diff]
- history = difference(history, n_diff)
- x_input = array(history[-n_input:]).reshape((1, n_input, 1))
+if n_diff > 0:
+correction = history[-n_diff]
+history = difference(history, n_diff)
+x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 
 # forecast
@@ -1230,27 +1230,27 @@ config = [36, 50, 100, 100, 12]
 Tying all of this together, the complete example is listed below.
 
 from math import sqrt
- from numpy import array
- from numpy import mean
- from numpy import std
- from pandas import DataFrame
- from pandas import concat
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import LSTM
- from matplotlib import pyplot
+from numpy import array
+from numpy import mean
+from numpy import std
+from pandas import DataFrame
+from pandas import concat
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+from matplotlib import pyplot
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def series_to_supervised(data, n_in, n_out=1):
- df = DataFrame(data)
- cols = list()
+df = DataFrame(data)
+cols = list()
 
 for i in range(n_in, 0, -1):
- cols.append(df.shift(i))
+cols.append(df.shift(i))
 
 for i in range(0, n_out):
 
@@ -1263,40 +1263,40 @@ agg.dropna(inplace=True)
 return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def difference(data, interval):
- return [data[i] - data[i - interval] for i in range(interval,
+return [data[i] - data[i - interval] for i in range(interval,
 len(data))]
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
- data = series_to_supervised(train, n_input)
- train_x, train_y = data[:, :-1], data[:, -1]
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
+train = difference(train, n_diff)
+data = series_to_supervised(train, n_input)
+train_x, train_y = data[:, :-1], data[:, -1]
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 model = Sequential()
- model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
+model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
 1)))
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config
 correction = 0.0
- if n_diff > 0:
- correction = history[-n_diff]
- history = difference(history, n_diff)
- x_input = array(history[-n_input:]).reshape((1, n_input, 1))
+if n_diff > 0:
+correction = history[-n_diff]
+history = difference(history, n_diff)
+x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 yhat = model.predict(x_input, verbose=0)
- return correction + yhat[0]
+return correction + yhat[0]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -1423,14 +1423,14 @@ We can achieve
 this by wrapping the entire CNN model in aTimeDistributedlayer wrapper.
 
 model = Sequential()
- model.add(TimeDistributed(Conv1D(filters=n_filters,
+model.add(TimeDistributed(Conv1D(filters=n_filters,
 kernel_size=n_kernel,
- activation='relu', input_shape=(None,n_steps,1))))
- model.add(TimeDistributed(Conv1D(filters=n_filters,
+activation='relu', input_shape=(None,n_steps,1))))
+model.add(TimeDistributed(Conv1D(filters=n_filters,
 kernel_size=n_kernel,
- activation='relu')))
- model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
- model.add(TimeDistributed(Flatten()))
+activation='relu')))
+model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+model.add(TimeDistributed(Flatten()))
 
 ```
 The output of one application of the CNN submodel will be a vector. The output of
@@ -1445,8 +1445,8 @@ outcomes of the LSTM and finally an output layer for making one-step
 predictions.
 
 model.add(LSTM(n_nodes, activation='relu'))
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
 
 ```
 The completemodelfit()function is listed below. The model expects a list
@@ -1552,34 +1552,34 @@ The complete example of evaluating the CNN-LSTM model for forecasting the univar
 monthly car sales is listed below.
 
 from math import sqrt
- from numpy import array
- from numpy import mean
- from numpy import std
- from pandas import DataFrame
- from pandas import concat
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import LSTM
- from keras.layers import TimeDistributed
- from keras.layers import Flatten
- from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
- from matplotlib import pyplot
+from numpy import array
+from numpy import mean
+from numpy import std
+from pandas import DataFrame
+from pandas import concat
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import LSTM
+from keras.layers import TimeDistributed
+from keras.layers import Flatten
+from keras.layers.convolutional import Conv1D
+from keras.layers.convolutional import MaxPooling1D
+from matplotlib import pyplot
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def series_to_supervised(data, n_in, n_out=1):
- df = DataFrame(data)
- cols = list()
+df = DataFrame(data)
+cols = list()
 
 for i in range(n_in, 0, -1):
- cols.append(df.shift(i))
+cols.append(df.shift(i))
 
 for i in range(0, n_out):
- cols.append(df.shift(-i))
+cols.append(df.shift(-i))
 
 agg = concat(cols, axis=1)
 
@@ -1588,40 +1588,40 @@ agg.dropna(inplace=True)
 return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 def model_fit(train, config):
 n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
 config
- n_input = n_seq * n_steps
+n_input = n_seq * n_steps
 data = series_to_supervised(train, n_input)
- train_x, train_y = data[:, :-1], data[:, -1]
- train_x = train_x.reshape((train_x.shape[0], n_seq, n_steps, 1))
+train_x, train_y = data[:, :-1], data[:, -1]
+train_x = train_x.reshape((train_x.shape[0], n_seq, n_steps, 1))
 model = Sequential()
- model.add(TimeDistributed(Conv1D(filters=n_filters,
+model.add(TimeDistributed(Conv1D(filters=n_filters,
 kernel_size=n_kernel,
- activation='relu', input_shape=(None,n_steps,1))))
- model.add(TimeDistributed(Conv1D(filters=n_filters,
+activation='relu', input_shape=(None,n_steps,1))))
+model.add(TimeDistributed(Conv1D(filters=n_filters,
 kernel_size=n_kernel,
- activation='relu')))
- model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
- model.add(TimeDistributed(Flatten()))
- model.add(LSTM(n_nodes, activation='relu'))
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+activation='relu')))
+model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
+model.add(TimeDistributed(Flatten()))
+model.add(LSTM(n_nodes, activation='relu'))
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 def model_predict(model, history, config):
 n_seq, n_steps, _, _, _, _, _ = config
- n_input = n_seq * n_steps
+n_input = n_seq * n_steps
 x_input = array(history[-n_input:]).reshape((1, n_seq, n_steps, 1))
 yhat = model.predict(x_input, verbose=0)
- return yhat[0]
+return yhat[0]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -1645,18 +1645,18 @@ def repeat_evaluate(data, config, n_test, n_repeats=30):
 
 scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
- return scores
+return scores
 
 def summarize_scores(name, scores):
 
 scores_m, score_std = mean(scores), std(scores)
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
+print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
 pyplot.boxplot(scores)
- pyplot.show()
+pyplot.show()
 
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 config = [3, 12, 64, 3, 100, 200, 100]
 scores = repeat_evaluate(data, config, n_test)
@@ -1739,7 +1739,7 @@ size of the kernel used when reading the input sequences.
 
 model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
 activation='relu',
- input_shape=(n_seq, 1, n_steps, 1)))
+input_shape=(n_seq, 1, n_steps, 1)))
 
 ```
 The output of the layer is a sequence of filter maps that must first be flattened before
@@ -1770,22 +1770,22 @@ Themodelfit()function that implements all of this is listed below.
 def model_fit(train, config):
 n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
 config
- n_input = n_seq * n_steps
+n_input = n_seq * n_steps
 data = series_to_supervised(train, n_input)
- train_x, train_y = data[:, :-1], data[:, -1]
- train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps,
+train_x, train_y = data[:, :-1], data[:, -1]
+train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps,
 1))
 model = Sequential()
- model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
+model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
 activation='relu',
- input_shape=(n_seq, 1, n_steps, 1)))
- model.add(Flatten())
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+input_shape=(n_seq, 1, n_steps, 1)))
+model.add(Flatten())
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 ```
 
@@ -1804,11 +1804,11 @@ listed below.
 
 def model_predict(model, history, config):
 n_seq, n_steps, _, _, _, _, _ = config
- n_input = n_seq * n_steps
+n_input = n_seq * n_steps
 x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 1))
 yhat = model.predict(x_input, verbose=0)
- return yhat[0]
+return yhat[0]
 
 ```
 
@@ -1844,61 +1844,61 @@ for one-step forecasting of the monthly car sales dataset is listed
 below.
 
 from math import sqrt
- from numpy import array
- from numpy import mean
- from numpy import std
- from pandas import DataFrame
+from numpy import array
+from numpy import mean
+from numpy import std
+from pandas import DataFrame
 
 
 from pandas import concat
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
- from keras.layers import ConvLSTM2D
- from matplotlib import pyplot
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
+from keras.layers import ConvLSTM2D
+from matplotlib import pyplot
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def series_to_supervised(data, n_in, n_out=1):
- df = DataFrame(data)
- cols = list()
+df = DataFrame(data)
+cols = list()
 
 for i in range(n_in, 0, -1):
- cols.append(df.shift(i))
+cols.append(df.shift(i))
 
 for i in range(0, n_out):
- cols.append(df.shift(-i))
+cols.append(df.shift(-i))
 
 agg = concat(cols, axis=1)
 
 agg.dropna(inplace=True)
- return agg.values
+return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def difference(data, interval):
- return [data[i] - data[i - interval] for i in range(interval,
+return [data[i] - data[i - interval] for i in range(interval,
 len(data))]
 def model_fit(train, config):
 n_seq, n_steps, n_filters, n_kernel, n_nodes, n_epochs, n_batch =
 config
- n_input = n_seq * n_steps
+n_input = n_seq * n_steps
 data = series_to_supervised(train, n_input)
- train_x, train_y = data[:, :-1], data[:, -1]
- train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps,
+train_x, train_y = data[:, :-1], data[:, -1]
+train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps,
 1))
 model = Sequential()
- model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
+model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
 activation='relu',
- input_shape=(n_seq, 1, n_steps, 1)))
- model.add(Flatten())
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+input_shape=(n_seq, 1, n_steps, 1)))
+model.add(Flatten())
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
 
@@ -1907,14 +1907,14 @@ return model
 
 def model_predict(model, history, config):
 n_seq, n_steps, _, _, _, _, _ = config
- n_input = n_seq * n_steps
+n_input = n_seq * n_steps
 x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 1))
 yhat = model.predict(x_input, verbose=0)
- return yhat[0]
+return yhat[0]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -1929,25 +1929,25 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- print(' > %.3f' % error)
- return error
+print(' > %.3f' % error)
+return error
 
 def repeat_evaluate(data, config, n_test, n_repeats=30):
 
 scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
- return scores
+return scores
 
 def summarize_scores(name, scores):
 
 scores_m, score_std = mean(scores), std(scores)
- print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
+print('%s: %.3f RMSE (+/- %.3f)' % (name, scores_m, score_std))
 
 pyplot.boxplot(scores)
- pyplot.show()
+pyplot.show()
 
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 config = [3, 12, 256, 3, 200, 200, 100]
 

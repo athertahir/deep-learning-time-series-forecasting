@@ -75,20 +75,20 @@ print(series.shape)
 We can then create a line plot of the series to get an idea of the
 structure of the series.
 pyplot.plot(series)
- pyplot.show()
+pyplot.show()
 
 ```
 We can tie all of this together; the complete example is listed below.
 
 from pandas import read_csv
- from matplotlib import pyplot
+from matplotlib import pyplot
 series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
 
 print(series.shape)
 pyplot.plot(series)
- pyplot.xticks([])
- pyplot.show()
+pyplot.xticks([])
+pyplot.show()
 
 ```
 
@@ -416,15 +416,15 @@ return data[:-n_test], data[-n_test:]
 
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 def model_fit(train, config):
- return None
+return None
 
 def model_predict(model, history, offset):
- return history[-offset]
+return history[-offset]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -439,8 +439,8 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- print(' > %.3f' % error)
- return error
+print(' > %.3f' % error)
+return error
 
 def repeat_evaluate(data, config, n_test, n_repeats=10):
 
@@ -450,8 +450,8 @@ scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
 
 result = mean(scores)
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test):
 
@@ -459,10 +459,10 @@ scores = scores = [repeat_evaluate(data, cfg, n_test) for cfg in
 cfg_list]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
- data = series.values
+data = series.values
 
 
 # data split
@@ -582,18 +582,18 @@ The complete implementation of themodelfit()function is listed below.
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
+train = difference(train, n_diff)
 
 data = series_to_supervised(train, n_input)
 
 train_x, train_y = data[:, :-1], data[:, -1]
 model = Sequential()
- model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 ```
 
@@ -615,9 +615,9 @@ history back to the value
 predicted by the model.
 
 correction = 0.0
- if n_diff > 0:
- correction = history[-n_diff]
- ...
+if n_diff > 0:
+correction = history[-n_diff]
+...
 
 return correction + yhat[0]
 
@@ -709,47 +709,47 @@ return data[:-n_test], data[-n_test:]
 
 
 def series_to_supervised(data, n_in, n_out=1):
- df = DataFrame(data)
- cols = list()
+df = DataFrame(data)
+cols = list()
 
 for i in range(n_in, 0, -1):
- cols.append(df.shift(i))
+cols.append(df.shift(i))
 
 for i in range(0, n_out):
- cols.append(df.shift(-i))
+cols.append(df.shift(-i))
 
 agg = concat(cols, axis=1)
 
 agg.dropna(inplace=True)
- return agg.values
+return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def difference(data, order):
- return [data[i] - data[i - order] for i in range(order, len(data))]
+return [data[i] - data[i - order] for i in range(order, len(data))]
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
+train = difference(train, n_diff)
 
 data = series_to_supervised(train, n_in=n_input)
 
 train_x, train_y = data[:, :-1], data[:, -1]
 model = Sequential()
- model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config
 correction = 0.0
- if n_diff > 0:
- correction = history[-n_diff]
- history = difference(history, n_diff)
+if n_diff > 0:
+correction = history[-n_diff]
+history = difference(history, n_diff)
 
 x_input = array(history[-n_input:]).reshape((1, n_input))
 
@@ -760,7 +760,7 @@ yhat = model.predict(x_input, verbose=0)
 return correction + yhat[0]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -775,8 +775,8 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- print(' > %.3f' % error)
- return error
+print(' > %.3f' % error)
+return error
 
 def repeat_evaluate(data, config, n_test, n_repeats=10):
 
@@ -786,8 +786,8 @@ scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
 
 result = mean(scores)
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test):
 
@@ -795,15 +795,15 @@ scores = scores = [repeat_evaluate(data, cfg, n_test) for cfg in
 cfg_list]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def model_configs():
 
 n_input = [12]
- n_nodes = [50, 100]
- n_epochs = [100]
- n_batch = [1, 150]
- n_diff = [0, 12]
+n_nodes = [50, 100]
+n_epochs = [100]
+n_batch = [1, 150]
+n_diff = [0, 12]
 configs = list()
 
 
@@ -916,7 +916,7 @@ model.add(Flatten())
 
 
 model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mse', optimizer='adam')
 
 ```
 The data must be prepared in much the same way as for the MLP. Unlike the MLP that
@@ -930,7 +930,7 @@ onto channels
 and in this case 1 for the one variable we measure each month.
 
 n_features = 1
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
 ```
@@ -938,26 +938,26 @@ The complete implementation of themodelfit()function is listed below.
 def model_fit(train, config):
 n_input, n_filters, n_kernel, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
+train = difference(train, n_diff)
 
 data = series_to_supervised(train, n_input)
 
 train_x, train_y = data[:, :-1], data[:, -1]
 
 n_features = 1
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 model = Sequential()
- model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
+model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
 activation='relu',
- input_shape=(n_input, n_features)))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+input_shape=(n_input, n_features)))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 ```
 
@@ -1004,22 +1004,22 @@ time. The completemodelconfigs()function is listed below.
 def model_configs():
 
 n_input = [12]
- n_filters = [64]
- n_kernels = [3, 5]
- n_epochs = [100]
- n_batch = [1, 150]
- n_diff = [0, 12]
+n_filters = [64]
+n_kernels = [3, 5]
+n_epochs = [100]
+n_batch = [1, 150]
+n_diff = [0, 12]
 configs = list()
- for a in n_input:
- for b in n_filters:
- for c in n_kernels:
- for d in n_epochs:
- for e in n_batch:
- for f in n_diff:
- cfg = [a,b,c,d,e,f]
- configs.append(cfg)
- print('Total configs: %d'% len(configs))
- return configs
+for a in n_input:
+for b in n_filters:
+for c in n_kernels:
+for d in n_epochs:
+for e in n_batch:
+for f in n_diff:
+cfg = [a,b,c,d,e,f]
+configs.append(cfg)
+print('Total configs: %d'% len(configs))
+return configs
 
 ```
 
@@ -1030,80 +1030,80 @@ neural network for univariate time series forecasting. The complete
 example is listed below.
 
 from math import sqrt
- from numpy import array
- from numpy import mean
- from pandas import DataFrame
- from pandas import concat
- from pandas import read_csv
- from sklearn.metrics import mean_squared_error
- from keras.models import Sequential
- from keras.layers import Dense
- from keras.layers import Flatten
+from numpy import array
+from numpy import mean
+from pandas import DataFrame
+from pandas import concat
+from pandas import read_csv
+from sklearn.metrics import mean_squared_error
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Flatten
 
 
 from keras.layers.convolutional import Conv1D
- from keras.layers.convolutional import MaxPooling1D
+from keras.layers.convolutional import MaxPooling1D
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def series_to_supervised(data, n_in, n_out=1):
- df = DataFrame(data)
- cols = list()
+df = DataFrame(data)
+cols = list()
 
 for i in range(n_in, 0, -1):
- cols.append(df.shift(i))
+cols.append(df.shift(i))
 
 for i in range(0, n_out):
- cols.append(df.shift(-i))
+cols.append(df.shift(-i))
 
 agg = concat(cols, axis=1)
 
 agg.dropna(inplace=True)
- return agg.values
+return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def difference(data, order):
- return [data[i] - data[i - order] for i in range(order, len(data))]
+return [data[i] - data[i - order] for i in range(order, len(data))]
 def model_fit(train, config):
 n_input, n_filters, n_kernel, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
+train = difference(train, n_diff)
 
 data = series_to_supervised(train, n_in=n_input)
 
 train_x, train_y = data[:, :-1], data[:, -1]
 
 n_features = 1
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 model = Sequential()
- model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
+model.add(Conv1D(filters=n_filters, kernel_size=n_kernel,
 activation='relu',
- input_shape=(n_input, n_features)))
- model.add(MaxPooling1D(pool_size=2))
- model.add(Flatten())
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+input_shape=(n_input, n_features)))
+model.add(MaxPooling1D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 
 def model_predict(model, history, config):
 n_input, _, _, _, _, n_diff = config
 correction = 0.0
- if n_diff > 0:
- correction = history[-n_diff]
- history = difference(history, n_diff)
- x_input = array(history[-n_input:]).reshape((1, n_input, 1))
+if n_diff > 0:
+correction = history[-n_diff]
+history = difference(history, n_diff)
+x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 yhat = model.predict(x_input, verbose=0)
- return correction + yhat[0]
+return correction + yhat[0]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -1118,8 +1118,8 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- print(' > %.3f' % error)
- return error
+print(' > %.3f' % error)
+return error
 
 def repeat_evaluate(data, config, n_test, n_repeats=10):
 
@@ -1129,8 +1129,8 @@ scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
 
 result = mean(scores)
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test):
 
@@ -1138,38 +1138,38 @@ scores = scores = [repeat_evaluate(data, cfg, n_test) for cfg in
 cfg_list]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 
 def model_configs():
 
 n_input = [12]
- n_filters = [64]
- n_kernels = [3, 5]
- n_epochs = [100]
- n_batch = [1, 150]
- n_diff = [0, 12]
+n_filters = [64]
+n_kernels = [3, 5]
+n_epochs = [100]
+n_batch = [1, 150]
+n_diff = [0, 12]
 configs = list()
- for a in n_input:
- for b in n_filters:
- for c in n_kernels:
- for d in n_epochs:
- for e in n_batch:
- for f in n_diff:
- cfg = [a,b,c,d,e,f]
- configs.append(cfg)
- print('Total configs: %d'% len(configs))
- return configs
+for a in n_input:
+for b in n_filters:
+for c in n_kernels:
+for d in n_epochs:
+for e in n_batch:
+for f in n_diff:
+cfg = [a,b,c,d,e,f]
+configs.append(cfg)
+print('Total configs: %d'% len(configs))
+return configs
 series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 cfg_list = model_configs()
 scores = grid_search(data, cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -1266,7 +1266,7 @@ to have a three-
 dimensional shape for the samples, time steps, and features.
 
 n_features = 1
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
 ```
@@ -1274,24 +1274,24 @@ The complete implementation of themodelfit()function is listed below.
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
+train = difference(train, n_diff)
 
 data = series_to_supervised(train, n_input)
 
 train_x, train_y = data[:, :-1], data[:, -1]
 
 n_features = 1
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 model = Sequential()
- model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
+model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
 n_features)))
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 ```
 Also like the CNN, the single input sample used to make a prediction
@@ -1308,9 +1308,9 @@ The completemodelpredict()function is listed below.
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config
 correction = 0.0
- if n_diff > 0:
- correction = history[-n_diff]
- history = difference(history, n_diff)
+if n_diff > 0:
+correction = history[-n_diff]
+history = difference(history, n_diff)
 
 
 # reshape sample into [samples, timesteps, features]
@@ -1388,38 +1388,38 @@ agg.dropna(inplace=True)
 return agg.values
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def difference(data, order):
- return [data[i] - data[i - order] for i in range(order, len(data))]
+return [data[i] - data[i - order] for i in range(order, len(data))]
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
- train = difference(train, n_diff)
+train = difference(train, n_diff)
 
 data = series_to_supervised(train, n_in=n_input)
 
 train_x, train_y = data[:, :-1], data[:, -1]
 
 n_features = 1
- train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
+train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 model = Sequential()
- model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
+model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input,
 n_features)))
- model.add(Dense(n_nodes, activation='relu'))
- model.add(Dense(1))
- model.compile(loss='mse', optimizer='adam')
+model.add(Dense(n_nodes, activation='relu'))
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch,
 verbose=0)
- return model
+return model
 
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config
 correction = 0.0
- if n_diff > 0:
- correction = history[-n_diff]
- history = difference(history, n_diff)
+if n_diff > 0:
+correction = history[-n_diff]
+history = difference(history, n_diff)
 
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
@@ -1429,7 +1429,7 @@ yhat = model.predict(x_input, verbose=0)
 return correction + yhat[0]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 model = model_fit(train, cfg)
 
@@ -1444,8 +1444,8 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- print(' > %.3f' % error)
- return error
+print(' > %.3f' % error)
+return error
 
 def repeat_evaluate(data, config, n_test, n_repeats=10):
 
@@ -1455,8 +1455,8 @@ scores = [walk_forward_validation(data, n_test, config) for _ in
 range(n_repeats)]
 
 result = mean(scores)
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test):
 
@@ -1464,17 +1464,17 @@ scores = scores = [repeat_evaluate(data, cfg, n_test) for cfg in
 cfg_list]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def model_configs():
 
 n_input = [12]
- n_nodes = [100]
- n_epochs = [50]
- n_batch = [1, 150]
- n_diff = [12]
+n_nodes = [100]
+n_epochs = [50]
+n_batch = [1, 150]
+n_diff = [12]
 configs = list()
- for i in n_input:
+for i in n_input:
 
 for j in n_nodes:
 for k in n_epochs:
@@ -1486,14 +1486,14 @@ print('Total configs: %d'% len(configs))
 return configs
 series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 cfg_list = model_configs()
 scores = grid_search(data, cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 

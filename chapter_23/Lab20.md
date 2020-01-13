@@ -323,15 +323,15 @@ model.fit(trainX, trainy)
 yhat = model.predict(testX)
 
 accuracy = accuracy_score(testy, yhat)
- return accuracy * 100.0
+return accuracy * 100.0
 
 def evaluate_models(trainX, trainy, testX, testy, models):
- results = dict()
- for name, model in models.items():
+results = dict()
+for name, model in models.items():
 
 results[name] = evaluate_model(trainX, trainy, testX, testy, model)
 print('>%s: %.3f' % (name, results[name]))
- return results
+return results
 
 def summarize_results(results, maximize=True):
 
@@ -340,10 +340,10 @@ mean_scores = [(k,v) for k,v in results.items()]
 mean_scores = sorted(mean_scores, key=lambda x: x[1])
 
 if maximize:
- mean_scores = list(reversed(mean_scores))
- print()
- for name, score in mean_scores:
- print('Name=%s, Score=%.3f'% (name, score))
+mean_scores = list(reversed(mean_scores))
+print()
+for name, score in mean_scores:
+print('Name=%s, Score=%.3f'% (name, score))
 trainX, trainy, testX, testy = load_dataset()
 models = define_models()
 
@@ -519,45 +519,45 @@ return trainX, trainy, testX, testy
 Putting this all together, the complete example is listed below.
 
 from numpy import dstack
- from pandas import read_csv
- from sklearn.metrics import accuracy_score
- from sklearn.neighbors import KNeighborsClassifier
- from sklearn.tree import DecisionTreeClassifier
- from sklearn.svm import SVC
- from sklearn.naive_bayes import GaussianNB
- from sklearn.ensemble import BaggingClassifier
- from sklearn.ensemble import RandomForestClassifier
- from sklearn.ensemble import ExtraTreesClassifier
- from sklearn.ensemble import GradientBoostingClassifier
+from pandas import read_csv
+from sklearn.metrics import accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import BaggingClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 
 def load_file(filepath):
- dataframe = read_csv(filepath, header=None, delim_whitespace=True)
- return dataframe.values
+dataframe = read_csv(filepath, header=None, delim_whitespace=True)
+return dataframe.values
 
 def load_group(filenames, prefix=''):
- loaded = list()
- for name in filenames:
- data = load_file(prefix + name)
- loaded.append(data)
+loaded = list()
+for name in filenames:
+data = load_file(prefix + name)
+loaded.append(data)
 
 loaded = dstack(loaded)
- return loaded
+return loaded
 
 def load_dataset_group(group, prefix=''):
- filepath = prefix + group + '/Inertial Signals/'
+filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
 
 filenames +=
 ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
- 'total_acc_z_'+group+'.txt']
+'total_acc_z_'+group+'.txt']
 
 filenames += ['body_acc_x_'+group+'.txt',
 'body_acc_y_'+group+'.txt',
- 'body_acc_z_'+group+'.txt']
+'body_acc_z_'+group+'.txt']
 filenames +=
 ['body_gyro_x_'+group+'.txt','body_gyro_y_'+group+'.txt',
- 'body_gyro_z_'+group+'.txt']
+'body_gyro_z_'+group+'.txt']
 
 X = load_group(filenames, filepath)
 
@@ -570,24 +570,24 @@ trainX, trainy = load_dataset_group('train', prefix + 'HARDataset/')
 testX, testy = load_dataset_group('test', prefix + 'HARDataset/')
 trainX = trainX.reshape((trainX.shape[0], trainX.shape[1] *
 trainX.shape[2]))
- testX = testX.reshape((testX.shape[0], testX.shape[1] *
+testX = testX.reshape((testX.shape[0], testX.shape[1] *
 testX.shape[2]))
 trainy, testy = trainy[:,0], testy[:,0]
- return trainX, trainy, testX, testy
+return trainX, trainy, testX, testy
 
 def define_models(models=dict()):
 
 models['knn'] = KNeighborsClassifier(n_neighbors=7)
- models['cart'] = DecisionTreeClassifier()
- models['svm'] = SVC()
- models['bayes'] = GaussianNB()
+models['cart'] = DecisionTreeClassifier()
+models['svm'] = SVC()
+models['bayes'] = GaussianNB()
 
 models['bag'] = BaggingClassifier(n_estimators=100)
- models['rf'] = RandomForestClassifier(n_estimators=100)
- models['et'] = ExtraTreesClassifier(n_estimators=100)
- models['gbm'] = GradientBoostingClassifier(n_estimators=100)
- print('Defined %d models'% len(models))
- return models
+models['rf'] = RandomForestClassifier(n_estimators=100)
+models['et'] = ExtraTreesClassifier(n_estimators=100)
+models['gbm'] = GradientBoostingClassifier(n_estimators=100)
+print('Defined %d models'% len(models))
+return models
 
 def evaluate_model(trainX, trainy, testX, testy, model):
 model.fit(trainX, trainy)
@@ -595,15 +595,15 @@ model.fit(trainX, trainy)
 yhat = model.predict(testX)
 
 accuracy = accuracy_score(testy, yhat)
- return accuracy * 100.0
+return accuracy * 100.0
 
 def evaluate_models(trainX, trainy, testX, testy, models):
- results = dict()
- for name, model in models.items():
+results = dict()
+for name, model in models.items():
 
 results[name] = evaluate_model(trainX, trainy, testX, testy, model)
 print('>%s: %.3f' % (name, results[name]))
- return results
+return results
 
 def summarize_results(results, maximize=True):
 
@@ -674,13 +674,13 @@ Defined 8 models
 >  gbm: 87.615
 
 Name=gbm, Score=87.615
- Name=et, Score=86.902
- Name=rf, Score=84.662
- Name=bag, Score=84.527
- Name=svm, Score=76.960
- Name=bayes, Score=72.480
- Name=cart, Score=72.141
- Name=knn, Score=61.893
+Name=et, Score=86.902
+Name=rf, Score=84.662
+Name=bag, Score=84.527
+Name=svm, Score=76.960
+Name=bayes, Score=72.480
+Name=cart, Score=72.141
+Name=knn, Score=61.893
 
 
 ```

@@ -164,32 +164,32 @@ together by testing it
 on a contrived 10-step dataset. The complete example is listed below.
 
 from math import sqrt
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from statsmodels.tsa.statespace.sarimax import SARIMAX
- from sklearn.metrics import mean_squared_error
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from sklearn.metrics import mean_squared_error
 
 def sarima_forecast(history, config):
- order, sorder, trend = config
+order, sorder, trend = config
 model = SARIMAX(history, order=order, seasonal_order=sorder,
 trend=trend,
- enforce_stationarity=False, enforce_invertibility=False)
+enforce_stationarity=False, enforce_invertibility=False)
 model_fit = model.fit(disp=False)
 
 yhat = model_fit.predict(len(history), len(history))
- return yhat[0]
+return yhat[0]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -203,10 +203,10 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 
 key = str(cfg)
@@ -228,42 +228,42 @@ print('> Model[%s] %.3f' % (key, result))
 return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def sarima_configs(seasonal=[0]):
- models = list()
+models = list()
 
 p_params = [0, 1, 2]
- d_params = [0, 1]
- q_params = [0, 1, 2]
- t_params = ['n','c','t','ct']
- P_params = [0, 1, 2]
- D_params = [0, 1]
- Q_params = [0, 1, 2]
- m_params = seasonal
+d_params = [0, 1]
+q_params = [0, 1, 2]
+t_params = ['n','c','t','ct']
+P_params = [0, 1, 2]
+D_params = [0, 1]
+Q_params = [0, 1, 2]
+m_params = seasonal
 
 for p in p_params:
- for d in d_params:
- for q in q_params:
- for t in t_params:
- for P in P_params:
- for D in D_params:
- for Q in Q_params:
- for m in m_params:
- cfg = [(p,d,q), (P,D,Q,m), t]
+for d in d_params:
+for q in q_params:
+for t in t_params:
+for P in P_params:
+for D in D_params:
+for Q in Q_params:
+for m in m_params:
+cfg = [(p,d,q), (P,D,Q,m), t]
 
 
 models.append(cfg)
@@ -334,33 +334,33 @@ searching the daily female
 univariate time series forecasting problem is listed below.
 
 from math import sqrt
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from statsmodels.tsa.statespace.sarimax import SARIMAX
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
 
 def sarima_forecast(history, config):
- order, sorder, trend = config
+order, sorder, trend = config
 model = SARIMAX(history, order=order, seasonal_order=sorder,
 trend=trend,
- enforce_stationarity=False, enforce_invertibility=False)
+enforce_stationarity=False, enforce_invertibility=False)
 model_fit = model.fit(disp=False)
 
 yhat = model_fit.predict(len(history), len(history))
- return yhat[0]
+return yhat[0]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -375,7 +375,7 @@ history.append(test[i])
 
 (^1)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
- csv
+csv
 
 
 # estimate prediction error
@@ -383,53 +383,53 @@ error = measure_rmse(test, predictions)
 return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def sarima_configs(seasonal=[0]):
- models = list()
+models = list()
 
 p_params = [0, 1, 2]
- d_params = [0, 1]
- q_params = [0, 1, 2]
- t_params = ['n','c','t','ct']
- P_params = [0, 1, 2]
- D_params = [0, 1]
- Q_params = [0, 1, 2]
- m_params = seasonal
+d_params = [0, 1]
+q_params = [0, 1, 2]
+t_params = ['n','c','t','ct']
+P_params = [0, 1, 2]
+D_params = [0, 1]
+Q_params = [0, 1, 2]
+m_params = seasonal
 
 for p in p_params:
 
@@ -448,14 +448,14 @@ return models
 if **name** =='**main**':
 series = read_csv('daily-total-female-births.csv', header=0,
 index_col=0)
- data = series.values
+data = series.values
 n_test = 165
 cfg_list = sarima_configs()
 scores = grid_search(data, cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -482,8 +482,8 @@ running the example a few times.
 >  done
 
 [(1, 0, 2), (1, 0, 1, 0),'t'] 6.770349800255089
- [(0, 1, 2), (1, 0, 2, 0),'ct'] 6.773217122759515
- [(2, 1, 1), (2, 0, 2, 0),'ct'] 6.886633191752254
+[(0, 1, 2), (1, 0, 2, 0),'ct'] 6.773217122759515
+[(2, 1, 1), (2, 0, 2, 0),'ct'] 6.886633191752254
 
 ```
 
@@ -560,7 +560,7 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -574,39 +574,39 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
@@ -616,39 +616,39 @@ scores.sort(key=lambda tup: tup[1])
 return scores
 
 def sarima_configs(seasonal=[0]):
- models = list()
+models = list()
 
 p_params = [0, 1, 2]
- d_params = [0, 1]
- q_params = [0, 1, 2]
- t_params = ['n','c','t','ct']
- P_params = [0, 1, 2]
- D_params = [0, 1]
- Q_params = [0, 1, 2]
- m_params = seasonal
+d_params = [0, 1]
+q_params = [0, 1, 2]
+t_params = ['n','c','t','ct']
+P_params = [0, 1, 2]
+D_params = [0, 1]
+Q_params = [0, 1, 2]
+m_params = seasonal
 
 for p in p_params:
- for d in d_params:
- for q in q_params:
- for t in t_params:
- for P in P_params:
- for D in D_params:
- for Q in Q_params:
- for m in m_params:
- cfg = [(p,d,q), (P,D,Q,m), t]
- models.append(cfg)
- return models
+for d in d_params:
+for q in q_params:
+for t in t_params:
+for P in P_params:
+for D in D_params:
+for Q in Q_params:
+for m in m_params:
+cfg = [(p,d,q), (P,D,Q,m), t]
+models.append(cfg)
+return models
 
 if **name** =='**main**':
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 cfg_list = sarima_configs()
 scores = grid_search(data, cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -738,33 +738,33 @@ series forecasting
 problem is listed below.
 
 from math import sqrt
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from statsmodels.tsa.statespace.sarimax import SARIMAX
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
 
 def sarima_forecast(history, config):
- order, sorder, trend = config
+order, sorder, trend = config
 model = SARIMAX(history, order=order, seasonal_order=sorder,
 trend=trend,
- enforce_stationarity=False, enforce_invertibility=False)
+enforce_stationarity=False, enforce_invertibility=False)
 model_fit = model.fit(disp=False)
 
 yhat = model_fit.predict(len(history), len(history))
- return yhat[0]
+return yhat[0]
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -778,10 +778,10 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 
 # convert config to a key
@@ -804,41 +804,41 @@ print('> Model[%s] %.3f' % (key, result))
 return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def sarima_configs(seasonal=[0]):
- models = list()
+models = list()
 
 p_params = [0, 1, 2]
- d_params = [0, 1]
- q_params = [0, 1, 2]
- t_params = ['n','c','t','ct']
- P_params = [0, 1, 2]
- D_params = [0, 1]
- Q_params = [0, 1, 2]
- m_params = seasonal
+d_params = [0, 1]
+q_params = [0, 1, 2]
+t_params = ['n','c','t','ct']
+P_params = [0, 1, 2]
+D_params = [0, 1]
+Q_params = [0, 1, 2]
+m_params = seasonal
 
 for p in p_params:
- for d in d_params:
- for q in q_params:
- for t in t_params:
- for P in P_params:
- for D in D_params:
- for Q in Q_params:
- for m in m_params:
+for d in d_params:
+for q in q_params:
+for t in t_params:
+for P in P_params:
+for D in D_params:
+for Q in Q_params:
+for m in m_params:
 
 
 cfg = [(p,d,q), (P,D,Q,m), t]
@@ -847,16 +847,16 @@ return models
 
 if **name** =='**main**':
 series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 
 data = data[-(5*12):]
 n_test = 12
 cfg_list = sarima_configs(seasonal=[0, 12])
 scores = grid_search(data, cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -888,8 +888,8 @@ running the example a few times.
 >  done
 
 [(0, 0, 0), (1, 0, 1, 12),'n'] 1.5577613610905712
- [(0, 0, 0), (1, 1, 0, 12),'n'] 1.6469530713847962
- [(0, 0, 0), (2, 0, 0, 12),'n'] 1.7314448163607488
+[(0, 0, 0), (1, 1, 0, 12),'n'] 1.6469530713847962
+[(0, 0, 0), (2, 0, 0, 12),'n'] 1.7314448163607488
 
 ```
 
@@ -971,13 +971,13 @@ https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.cs
 
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -991,37 +991,37 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
+scores = executor(tasks)
 
 
 else:
@@ -1033,39 +1033,39 @@ scores.sort(key=lambda tup: tup[1])
 return scores
 
 def sarima_configs(seasonal=[0]):
- models = list()
+models = list()
 
 p_params = [0, 1, 2]
- d_params = [0, 1]
- q_params = [0, 1, 2]
- t_params = ['n','c','t','ct']
- P_params = [0, 1, 2]
- D_params = [0, 1]
- Q_params = [0, 1, 2]
- m_params = seasonal
+d_params = [0, 1]
+q_params = [0, 1, 2]
+t_params = ['n','c','t','ct']
+P_params = [0, 1, 2]
+D_params = [0, 1]
+Q_params = [0, 1, 2]
+m_params = seasonal
 
 for p in p_params:
- for d in d_params:
- for q in q_params:
- for t in t_params:
- for P in P_params:
- for D in D_params:
- for Q in Q_params:
- for m in m_params:
- cfg = [(p,d,q), (P,D,Q,m), t]
- models.append(cfg)
- return models
+for d in d_params:
+for q in q_params:
+for t in t_params:
+for P in P_params:
+for D in D_params:
+for Q in Q_params:
+for m in m_params:
+cfg = [(p,d,q), (P,D,Q,m), t]
+models.append(cfg)
+return models
 
 if **name** =='**main**':
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 cfg_list = sarima_configs(seasonal=[0,6,12])
 scores = grid_search(data, cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 

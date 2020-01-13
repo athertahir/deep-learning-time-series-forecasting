@@ -159,11 +159,11 @@ X.append(seq_x)
 y.append(seq_y)
 return array(X), array(y)
 series = array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
- print(series.shape)
+print(series.shape)
 X, y = split_sequence(series, 3)
- print(X.shape, y.shape)
+print(X.shape, y.shape)
 for i in range(len(X)):
- print(X[i], y[i])
+print(X[i], y[i])
 ```
 
 Running the example first prints the shape of the time series, in this case 10 time steps
@@ -191,12 +191,12 @@ are printed, showing the expected breakdown of the problem.
 (7, 3) (7,)
 
 [1 2 3] 4
- [2 3 4] 5
- [3 4 5] 6
- [4 5 6] 7
- [5 6 7] 8
- [6 7 8] 9
- [7 8 9] 10
+[2 3 4] 5
+[3 4 5] 6
+[4 5 6] 7
+[5 6 7] 8
+[6 7 8] 9
+[7 8 9] 10
 
 ```
 
@@ -228,7 +228,7 @@ an example in
 the next section.
 
 The input layer for CNN and LSTM models is specified by
-theinputshapeargument on
+the input shape argument on
 
 the first hidden layer of the network. This too can make things
 confusing for beginners as
@@ -243,9 +243,9 @@ oneDenseoutput layer.
 ```
 # lstm without an input layer
 ...
- model = Sequential()
- model.add(LSTM(32))
- model.add(Dense(1))
+model = Sequential()
+model.add(LSTM(32))
+model.add(Dense(1))
 
 ```
 
@@ -288,7 +288,7 @@ or more samples and requires that you specify the number of time steps
 and the number of
 
 features. You can do this by specifying a tuple to
-theinputshapeargument. For example, the
+the input shape argument. For example, the
 
 model below defines an input layer that expects 1 or more samples, 3
 time steps, and 1 feature.
@@ -308,9 +308,9 @@ data.
 # lstm with an input layer
 
 ...
- model = Sequential()
- model.add(LSTM(32, input_shape=(3, 1)))
- model.add(Dense(1))
+model = Sequential()
+model.add(LSTM(32, input_shape=(3, 1)))
+model.add(Dense(1))
 
 ```
 
@@ -380,21 +380,21 @@ provided below.
 ```
 from numpy import array
 def split_sequence(sequence, n_steps):
- X, y = list(), list()
- for i in range(len(sequence)):
+X, y = list(), list()
+for i in range(len(sequence)):
 end_ix = i + n_steps
 if end_ix > len(sequence)-1:
- break
+break
 seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
- X.append(seq_x)
- y.append(seq_y)
- return array(X), array(y)
+X.append(seq_x)
+y.append(seq_y)
+return array(X), array(y)
 series = array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
- print(series.shape)
+print(series.shape)
 X, y = split_sequence(series, 3)
- print(X.shape, y.shape)
+print(X.shape, y.shape)
 X = X.reshape((X.shape[0], X.shape[1], 1))
- print(X.shape)
+print(X.shape)
 ```
 Running the example first prints the shape of the univariate time series, in this case 10
 time steps. It then summarizes the shape if the input (X) and output (y) elements of each
@@ -453,12 +453,12 @@ time steps.
 ```
 from numpy import array
 data = list()
- n = 5000
- for i in range(n):
- data.append([i+1, (i+1)*10])
- data = array(data)
- print(data[:5, :])
- print(data.shape)
+n = 5000
+for i in range(n):
+data.append([i+1, (i+1)*10])
+data = array(data)
+print(data[:5, :])
+print(data.shape)
 
 ```
 
@@ -471,11 +471,11 @@ series dataset.
 ```
 
 [[ 1 10]
- [ 2 20]
- [ 3 30]
- [ 4 40]
- [ 5 50]]
- (5000, 2)
+[ 2 20]
+[ 3 30]
+[ 4 40]
+[ 5 50]]
+(5000, 2)
 
 ```
 
@@ -493,12 +493,12 @@ the first column:
 ```
 from numpy import array
 data = list()
- n = 5000
- for i in range(n):
- data.append([i+1, (i+1)*10])
- data = array(data)
+n = 5000
+for i in range(n):
+data.append([i+1, (i+1)*10])
+data = array(data)
 data = data[:, 1]
- print(data.shape)
+print(data.shape)
 
 ```
 
@@ -577,12 +577,12 @@ data = array(data)
 ```
 data = data[:, 1]
 samples = list()
- length = 200
+length = 200
 for i in range(0,n,length):
 sample = data[i:i+length]
- samples.append(sample)
+samples.append(sample)
 data = array(samples)
- print(data.shape)
+print(data.shape)
 
 ```
 
@@ -604,19 +604,19 @@ feature and use the existing columns as time steps instead.
 
 from numpy import array
 data = list()
- n = 5000
- for i in range(n):
- data.append([i+1, (i+1)*10])
- data = array(data)
+n = 5000
+for i in range(n):
+data.append([i+1, (i+1)*10])
+data = array(data)
 data = data[:, 1]
 samples = list()
- length = 200
+length = 200
 for i in range(0,n,length):
 sample = data[i:i+length]
- samples.append(sample)
+samples.append(sample)
 data = array(samples)
 data = data.reshape((len(samples), length, 1))
- print(data.shape)
+print(data.shape)
 ```
 
 And that is it. The data can now be used as an input (X) to an LSTM

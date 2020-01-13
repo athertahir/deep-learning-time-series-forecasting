@@ -85,18 +85,18 @@ the naive forecast strategy for a given offset from 1 to the length of
 the dataset.
 
 def naive_forecast(history, n):
- return history[-n]
+return history[-n]
 
 ```
 We can test this function out on a small contrived dataset.
 
 def naive_forecast(history, n):
- return history[-n]
+return history[-n]
 data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
- print(data)
+print(data)
 
 for i in range(1, len(data)+1):
- print(naive_forecast(data, i))
+print(naive_forecast(data, i))
 
 ```
 
@@ -106,23 +106,23 @@ forecast for each offset
 in the historical dataset.
 
 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
- 100.0
- 90.0
- 80.0
- 70.0
- 60.0
- 50.0
- 40.0
- 30.0
- 20.0
- 10.0
+100.0
+90.0
+80.0
+70.0
+60.0
+50.0
+40.0
+30.0
+20.0
+10.0
 
 ```
 We can now look at developing a function for the average forecast strategy. Averaging the
 
 lastnobservations is straight-forward; for example:
 from numpy import mean
- result = mean(history[-n:])
+result = mean(history[-n:])
 
 ```
 We may also want to test out the median in those cases where the
@@ -131,7 +131,7 @@ distribution of observations
 is non-Gaussian.
 
 from numpy import median
- result = median(history[-n:])
+result = median(history[-n:])
 
 ```
 Theaverageforecast()function below implements this taking the historical
@@ -143,10 +143,10 @@ average as an integer, and a
 string that describe the way to calculate the average (meanormedian).
 
 def average_forecast(history, config):
- n, avg_type = config
+n, avg_type = config
 
 if avg_type is 'mean':
- return mean(history[-n:])
+return mean(history[-n:])
 
 return median(history[-n:])
 
@@ -154,7 +154,7 @@ return median(history[-n:])
 The complete example on a small contrived dataset is listed below.
 
 from numpy import mean
- from numpy import median
+from numpy import median
 
 def average_forecast(history, config):
 
@@ -166,10 +166,10 @@ return mean(history[-n:])
 # median of last n values
 return median(history[-n:])
 data = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
- print(data)
+print(data)
 
 for i in range(1, len(data)+1):
- print(average_forecast(data, (i, 'mean')))
+print(average_forecast(data, (i, 'mean')))
 
 ```
 Running the example forecasts the next value in the series as the mean
@@ -178,16 +178,16 @@ value from contiguous
 subsets of prior observations from -1 to -10, inclusively.
 
 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
- 100.0
- 95.0
- 90.0
- 85.0
- 80.0
- 75.0
- 70.0
- 65.0
- 60.0
- 55.0
+100.0
+95.0
+90.0
+85.0
+80.0
+75.0
+70.0
+65.0
+60.0
+55.0
 
 ```
 We can update the function to support averaging over seasonal data,
@@ -214,18 +214,18 @@ beyond the end of the
 historical observations. The updated function is listed below.
 
 def average_forecast(history, config):
- n, offset, avg_type = config
- values = list()
- if offset == 1:
- values = history[-n:]
- else:
+n, offset, avg_type = config
+values = list()
+if offset == 1:
+values = history[-n:]
+else:
 
 if n*offset > len(history):
- raise Exception('Config beyond end of data: %d %d' % (n,offset))
+raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
 for i in range(1, n+1):
- ix = i * offset
- values.append(history[-ix])
+ix = i * offset
+values.append(history[-ix])
 
 
 # mean of last n values
@@ -243,40 +243,40 @@ We can test out this function on a small contrived dataset with a seasonal cycle
 complete example is listed below.
 
 from numpy import mean
- from numpy import median
+from numpy import median
 
 def average_forecast(history, config):
- n, offset, avg_type = config
- values = list()
- if offset == 1:
- values = history[-n:]
- else:
+n, offset, avg_type = config
+values = list()
+if offset == 1:
+values = history[-n:]
+else:
 
 if n*offset > len(history):
- raise Exception('Config beyond end of data: %d %d' % (n,offset))
+raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
 for i in range(1, n+1):
- ix = i * offset
- values.append(history[-ix])
+ix = i * offset
+values.append(history[-ix])
 
 if avg_type is 'mean':
- return mean(values)
+return mean(values)
 
 return median(values)
 data = [10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]
- print(data)
+print(data)
 
 for i in [1, 2, 3]:
- print(average_forecast(data, (i, 3,'mean')))
+print(average_forecast(data, (i, 3,'mean')))
 
 ```
 Running the example calculates the mean values of[10],[10, 10]and[10,
 10, 10].
 
 [10.0, 20.0, 30.0, 10.0, 20.0, 30.0, 10.0, 20.0, 30.0]
- 10.0
- 10.0
- 10.0
+10.0
+10.0
+10.0
 
 ```
 
@@ -578,7 +578,7 @@ return data[:-n_test], data[-n_test:]
 
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -592,39 +592,39 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
@@ -747,7 +747,7 @@ test set.
 
 (^3)
 https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
- csv
+csv
 
 
 (365, 1)
@@ -769,51 +769,51 @@ the daily female univariate time series forecasting problem is listed
 below.
 
 from math import sqrt
- from numpy import mean
- from numpy import median
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
+from numpy import mean
+from numpy import median
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
 
 
 def simple_forecast(history, config):
- n, offset, avg_type = config
+n, offset, avg_type = config
 
 if avg_type == 'persist':
- return history[-n]
+return history[-n]
 
 values = list()
- if offset == 1:
- values = history[-n:]
- else:
+if offset == 1:
+values = history[-n:]
+else:
 
 if n*offset > len(history):
- raise Exception('Config beyond end of data: %d %d' % (n,offset))
+raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
 for i in range(1, n+1):
- ix = i * offset
- values.append(history[-ix])
+ix = i * offset
+values.append(history[-ix])
 
 if len(values) < 2:
- raise Exception('Cannot calculate average')
+raise Exception('Cannot calculate average')
 
 if avg_type == 'mean':
- return mean(values)
+return mean(values)
 
 return median(values)
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -827,7 +827,7 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
 
@@ -853,37 +853,37 @@ print('> Model[%s] %.3f' % (key, result))
 return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def simple_configs(max_length, offsets=[1]):
- configs = list()
- for i in range(1, max_length+1):
- for o in offsets:
- for t in ['persist', 'mean', 'median']:
- cfg = [i, o, t]
- configs.append(cfg)
- return configs
+configs = list()
+for i in range(1, max_length+1):
+for o in offsets:
+for t in ['persist', 'mean', 'median']:
+cfg = [i, o, t]
+configs.append(cfg)
+return configs
 
 if **name** =='**main**':
 series = read_csv('daily-total-female-births.csv', header=0,
 index_col=0)
- data = series.values
+data = series.values
 n_test = 165
 max_length = len(data) - n_test
- cfg_list = simple_configs(max_length)
+cfg_list = simple_configs(max_length)
 
 scores = grid_search(data, cfg_list, n_test)
 print('done')
@@ -947,20 +947,20 @@ We can then create a line plot of the series and inspect it for systematic struc
 
 trends and seasonality.
 pyplot.plot(series)
- pyplot.xticks([])
- pyplot.show()
+pyplot.xticks([])
+pyplot.show()
 
 ```
 The complete example is listed below.
 
 from pandas import read_csv
- from matplotlib import pyplot
+from matplotlib import pyplot
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 print(series.shape)
 pyplot.plot(series)
- pyplot.xticks([])
- pyplot.show()
+pyplot.xticks([])
+pyplot.show()
 
 ```
 
@@ -991,24 +991,24 @@ the shampoo sales univariate time series forecasting problem is listed
 below.
 
 from math import sqrt
- from numpy import mean
- from numpy import median
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
+from numpy import mean
+from numpy import median
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
 
 def simple_forecast(history, config):
- n, offset, avg_type = config
+n, offset, avg_type = config
 
 if avg_type == 'persist':
- return history[-n]
+return history[-n]
 
 values = list()
- if offset == 1:
+if offset == 1:
 
 
 values = history[-n:]
@@ -1030,13 +1030,13 @@ return mean(values)
 return median(values)
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -1050,16 +1050,16 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
@@ -1076,41 +1076,41 @@ print('> Model[%s] %.3f' % (key, result))
 return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def simple_configs(max_length, offsets=[1]):
- configs = list()
- for i in range(1, max_length+1):
- for o in offsets:
- for t in ['persist', 'mean', 'median']:
- cfg = [i, o, t]
- configs.append(cfg)
- return configs
+configs = list()
+for i in range(1, max_length+1):
+for o in offsets:
+for t in ['persist', 'mean', 'median']:
+cfg = [i, o, t]
+configs.append(cfg)
+return configs
 
 if **name** =='**main**':
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 max_length = len(data) - n_test
- cfg_list = simple_configs(max_length)
+cfg_list = simple_configs(max_length)
 scores = grid_search(data, cfg_list, n_test)
- print('done')
+print('done')
 
 for cfg, error in scores[:3]:
- print(cfg, error)
+print(cfg, error)
 
 ```
 
@@ -1239,52 +1239,52 @@ the monthly mean temperature time series forecasting problem is listed
 below.
 
 from math import sqrt
- from numpy import mean
- from numpy import median
- from multiprocessing import cpu_count
+from numpy import mean
+from numpy import median
+from multiprocessing import cpu_count
 
 
 from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
 
 def simple_forecast(history, config):
- n, offset, avg_type = config
+n, offset, avg_type = config
 
 if avg_type == 'persist':
- return history[-n]
+return history[-n]
 
 values = list()
- if offset == 1:
- values = history[-n:]
- else:
+if offset == 1:
+values = history[-n:]
+else:
 
 if n*offset > len(history):
- raise Exception('Config beyond end of data: %d %d' % (n,offset))
+raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
 for i in range(1, n+1):
- ix = i * offset
- values.append(history[-ix])
+ix = i * offset
+values.append(history[-ix])
 
 if len(values) < 2:
- raise Exception('Cannot calculate average')
+raise Exception('Cannot calculate average')
 
 if avg_type == 'mean':
- return mean(values)
+return mean(values)
 
 return median(values)
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -1302,50 +1302,50 @@ error = measure_rmse(test, predictions)
 return error
 
 def score_model(data, n_test, cfg, debug=False):
- result = None
+result = None
 
 key = str(cfg)
 
 if debug:
- result = walk_forward_validation(data, n_test, cfg)
- else:
+result = walk_forward_validation(data, n_test, cfg)
+else:
 
 try:
 
 with catch_warnings():
- filterwarnings("ignore")
- result = walk_forward_validation(data, n_test, cfg)
- except:
- error = None
+filterwarnings("ignore")
+result = walk_forward_validation(data, n_test, cfg)
+except:
+error = None
 
 if result is not None:
- print('> Model[%s] %.3f' % (key, result))
- return (key, result)
+print('> Model[%s] %.3f' % (key, result))
+return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def simple_configs(max_length, offsets=[1]):
- configs = list()
- for i in range(1, max_length+1):
- for o in offsets:
- for t in ['persist', 'mean', 'median']:
- cfg = [i, o, t]
- configs.append(cfg)
- return configs
+configs = list()
+for i in range(1, max_length+1):
+for o in offsets:
+for t in ['persist', 'mean', 'median']:
+cfg = [i, o, t]
+configs.append(cfg)
+return configs
 
 if **name** =='**main**':
 series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
@@ -1480,51 +1480,51 @@ example grid searching
 the monthly car sales time series forecasting problem is listed below.
 
 from math import sqrt
- from numpy import mean
- from numpy import median
- from multiprocessing import cpu_count
- from joblib import Parallel
- from joblib import delayed
- from warnings import catch_warnings
- from warnings import filterwarnings
- from sklearn.metrics import mean_squared_error
- from pandas import read_csv
+from numpy import mean
+from numpy import median
+from multiprocessing import cpu_count
+from joblib import Parallel
+from joblib import delayed
+from warnings import catch_warnings
+from warnings import filterwarnings
+from sklearn.metrics import mean_squared_error
+from pandas import read_csv
 
 
 def simple_forecast(history, config):
- n, offset, avg_type = config
+n, offset, avg_type = config
 
 if avg_type == 'persist':
- return history[-n]
+return history[-n]
 
 values = list()
- if offset == 1:
- values = history[-n:]
- else:
+if offset == 1:
+values = history[-n:]
+else:
 
 if n*offset > len(history):
- raise Exception('Config beyond end of data: %d %d' % (n,offset))
+raise Exception('Config beyond end of data: %d %d' % (n,offset))
 
 for i in range(1, n+1):
- ix = i * offset
- values.append(history[-ix])
+ix = i * offset
+values.append(history[-ix])
 
 if len(values) < 2:
- raise Exception('Cannot calculate average')
+raise Exception('Cannot calculate average')
 
 if avg_type == 'mean':
- return mean(values)
+return mean(values)
 
 return median(values)
 
 def measure_rmse(actual, predicted):
- return sqrt(mean_squared_error(actual, predicted))
+return sqrt(mean_squared_error(actual, predicted))
 
 def train_test_split(data, n_test):
- return data[:-n_test], data[-n_test:]
+return data[:-n_test], data[-n_test:]
 
 def walk_forward_validation(data, n_test, cfg):
- predictions = list()
+predictions = list()
 train, test = train_test_split(data, n_test)
 
 history = [x for x in train]
@@ -1538,7 +1538,7 @@ predictions.append(yhat)
 history.append(test[i])
 
 error = measure_rmse(test, predictions)
- return error
+return error
 
 def score_model(data, n_test, cfg, debug=False):
 
@@ -1564,36 +1564,36 @@ print('> Model[%s] %.3f' % (key, result))
 return (key, result)
 
 def grid_search(data, cfg_list, n_test, parallel=True):
- scores = None
- if parallel:
+scores = None
+if parallel:
 
 executor = Parallel(n_jobs=cpu_count(), backend='multiprocessing')
- tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
+tasks = (delayed(score_model)(data, n_test, cfg) for cfg in
 cfg_list)
- scores = executor(tasks)
- else:
- scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
+scores = executor(tasks)
+else:
+scores = [score_model(data, n_test, cfg) for cfg in cfg_list]
 
 scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
- return scores
+return scores
 
 def simple_configs(max_length, offsets=[1]):
- configs = list()
- for i in range(1, max_length+1):
- for o in offsets:
- for t in ['persist', 'mean', 'median']:
- cfg = [i, o, t]
- configs.append(cfg)
- return configs
+configs = list()
+for i in range(1, max_length+1):
+for o in offsets:
+for t in ['persist', 'mean', 'median']:
+cfg = [i, o, t]
+configs.append(cfg)
+return configs
 
 if **name** =='**main**':
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
- data = series.values
+data = series.values
 n_test = 12
 max_length = len(data) - n_test
- cfg_list = simple_configs(max_length, offsets=[1,12])
+cfg_list = simple_configs(max_length, offsets=[1,12])
 
 scores = grid_search(data, cfg_list, n_test)
 print('done')
