@@ -109,7 +109,7 @@ The first step is to split the loaded series into train and test sets.
 We will use the first eight
 
 years (96 observations) for training and the last 12 for the test set.
-Thetraintestsplit()
+The traintestsplit()
 
 function below will split the series taking the raw observations and the number of observations
 to use in the test set as arguments.

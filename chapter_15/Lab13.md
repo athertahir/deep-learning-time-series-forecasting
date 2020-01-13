@@ -38,32 +38,29 @@ This tutorial is divided into five parts; they are:
 
 In this tutorial we will focus on one dataset and use it as the context
 to demonstrate the
-
 development of a grid searching framework for range of deep learning
 models for univariate
-
 time series forecasting. We will use themonthly airline passengerdataset
 as this context as it
-
 includes the complexity of both trend and seasonal elements. Themonthly
 airline passenger
-
 dataset summarizes the monthly total number of international passengers
 in thousands on for
-
 an airline from 1949 to 1960. Download the dataset directly from here:
 
 - monthly-airline-passengers.csv^1
 
 Save the file with the filenamemonthly-airline-passengers.csvin your
-current working
-
-directory. We can load this dataset as a PandasDataFrameusing the
+current working directory. We can load this dataset as a PandasDataFrameusing the
 functionreadcsv().
+
+
+```
 series = read_csv('monthly-airline-passengers.csv', header=0,
 index_col=0)
 
 ```
+
 Once loaded, we can summarize the shape of the dataset in order to
 determine the number
 
@@ -78,6 +75,7 @@ pyplot.plot(series)
 pyplot.show()
 
 ```
+
 We can tie all of this together; the complete example is listed below.
 
 ```
@@ -96,6 +94,7 @@ pyplot.show()
 
 Running the example first prints the shape of the dataset.
 
+```
 (144, 1)
 
 ```
@@ -118,12 +117,11 @@ or RMSE, of 50.70 (remember the units are thousands of passengers) by persisting
 from 12 months ago (relative index -12). The performance of this naive model provides a bound
 on a model that is considered skillful for this problem. Any model that achieves a predictive
 performance of lower than 50.70 on the last 12 months has skill.
+
 It should be noted that a tuned ETS model can achieve an RMSE of 17.09 and a tuned
 SARIMA can achieve an RMSE of 13.89. These provide a lower bound on the expectations of a
-
 well-tuned deep learning model for this problem. Now that we have
 defined our problem and
-
 expectations of model skill, we can look at defining the grid search
 test harness.
 
@@ -150,12 +148,12 @@ duplicated here given the changes needed to adapt it for grid searching model hy
 
 The first step is to split the loaded series into train and test sets.
 We will use the first 11
-
 years (132 observations) for training and the last 12 for the test set.
-Thetraintestsplit()
-
-function below will split the series taking the raw observations and the number of observations
+The traintestsplit() function below will split the series taking the raw observations and the number of observations
 to use in the test set as arguments.
+
+
+```
 # split a univariate dataset into train/test sets
 def train_test_split(data, n_test):
 return data[:-n_test], data[-n_test:]
@@ -170,9 +168,8 @@ means that the data needs to be split into multiple examples that the model lear
 generalizes across. Each sample must have both an input component and an output component.
 
 The input component will be some number of prior observations, such as
-three years, or 36 time
+three years, or 36 time steps.
 
-steps.
 The output component will be the total sales in the next month because we are interested
 in developing a model to make one-step forecasts. We can implement this using theshift()
 function on the PandasDataFrame. It allows us to shift a column down (forward in time) or
@@ -182,6 +179,7 @@ input and output elements we require. When a series is shifted down,NaNvalues ar
 because we don’t have values beyond the start of the series.
 
 
+```
 (t)
 1
 2
@@ -190,6 +188,8 @@ because we don’t have values beyond the start of the series.
 
 ```
 This column can be shifted and inserted as a column beforehand:
+
+```
 (t-1), (t)
 Nan, 1
 1, 2
@@ -206,6 +206,7 @@ number of lag observations to use in the input and the number to use in the outp
 sample. It will also remove rows that haveNaNvalues as they cannot be used to train or test a
 model.
 
+```
 # transform list into supervised learning format
 def series_to_supervised(data, n_in, n_out=1):
 df = DataFrame(data)
@@ -234,11 +235,8 @@ walk-forward validation.
 
 Walk-forward validation is an approach where the model makes a forecast
 for each observation
-
 in the test dataset one at a time. After each forecast is made for a time step in the test
 dataset, the true observation for the forecast is added to the test dataset and made available to
-
-
 the model. Simpler models can be refit with the observation prior to making the subsequent
 prediction. More complex models, such as neural networks, are not refit given the much greater
 computational cost. Nevertheless, the true observation for the time step can then be used as
@@ -250,20 +248,23 @@ define a genericmodelfit() function to perform this operation that can be filled
 given type of neural network that we may be interested in later. The function takes the training
 dataset and the model configuration and returns the fit model ready for making predictions.
 
+```
 # fit a model
 def model_fit(train, config):
 return None
 
 ```
+
 Each time step of the test dataset is enumerated. A prediction is made
 using the fit model.
 
 Again, we will define a generic function namedmodelpredict()that takes
 the fit model, the
-
 history, and the model configuration and makes a single one-step
 prediction.
 
+
+```
 # forecast with a pre-fit model
 def model_predict(model, history, config):
 return 0.0
@@ -284,6 +285,7 @@ the forecasts and the actual values. Themeasurermse()implements this below using
 meansquarederror()scikit-learn function to first calculate the mean squared error, or MSE,
 before calculating the square root.
 
+```
 # root mean squared error or rmse
 def measure_rmse(actual, predicted):
 return sqrt(mean_squared_error(actual, predicted))
@@ -294,6 +296,7 @@ The completewalkforwardvalidation() function that ties all of this together is l
 below. It takes the dataset, the number of observations to use as the test set, and the
 configuration for the model, and returns the RMSE for the model performance on the test set.
 
+```
 # walk-forward validation for univariate data
 def walk_forward_validation(data, n_test, cfg):
 predictions = list()
@@ -326,21 +329,19 @@ Neural network models are stochastic. This means that, given the same model conf
 the same training dataset, a different internal set of weights will result each time the model is
 trained that will, in turn, have a different performance. This is a benefit, allowing the model to
 be adaptive and find high performing configurations to complex problems. It is also a problem
-
 when evaluating the performance of a model and in choosing a final model
 to use to make
-
 predictions.
-To address model evaluation, we will evaluate a model configuration multiple times via
 
+To address model evaluation, we will evaluate a model configuration multiple times via
 walk-forward validation and report the error as the average error across
 each evaluation. This is
-
 not always possible for large neural networks and may only make sense for small networks that
 can be fit in minutes or hours. Therepeatevaluate() function below implements this and
 allows the number of repeats to be specified as an optional parameter that defaults to 10 and
 returns the mean RMSE score from all repeats.
 
+```
 # score a model, return None on failure
 def repeat_evaluate(data, config, n_test, n_repeats=10):
 # convert config to a key
@@ -358,11 +359,8 @@ return (key, result)
 
 We now have all the pieces of the framework. All that is left is a
 function to drive the search. We
-
 can define agridsearch() function that takes the dataset, a list of configurations to search,
 and the number of observations to use as the test set and perform the search. Once mean scores
-
-
 are calculated for each config, the list of configurations is sorted in ascending order so that the
 best scores are listed first. The complete function is listed below.
 
@@ -380,27 +378,31 @@ return scores
 #### Worked Example
 
 Now that we have defined the elements of the test harness, we can tie them all together and
-define a simple persistence model. We do not need to fit a model so themodelfit() function
-
+define a simple persistence model. We do not need to fit a model so the modelfit() function
 will be implemented to simply returnNone.
 
+
+```
 # fit a model
 def model_fit(train, config):
 return None
 
 ```
+
 We will use the config to define a list of index offsets in the prior observations relative to
 the time to be forecasted that will be used as the prediction. For example, 12 will use the
 observation 12 months ago (-12) relative to the time to be forecasted.
+
+```
 # define config
 cfg_list = [1, 6, 12, 24, 36]
 
 ```
+
 Themodelpredict() function can be implemented to use this configuration
-to persist the
+to persist the value at the negative relative offset.
 
-value at the negative relative offset.
-
+```
 # forecast with a pre-fit model
 def model_predict(model, history, offset):
 history[-offset]
@@ -581,7 +583,7 @@ model.compile(loss='mse', optimizer='adam')
 model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 
 ```
-The complete implementation of themodelfit() function is listed below.
+The complete implementation of the modelfit() function is listed below.
 
 ```
 
@@ -657,7 +659,7 @@ yhat = model.predict(x_input, verbose=0)
 
 ```
 
-The complete implementation of themodelpredict() function is listed below.
+The complete implementation of the modelpredict() function is listed below.
 
 ``` Next, we
 must define the range of values to try for each hyperparameter. We can define amodelconfigs()
@@ -672,7 +674,7 @@ review learning curve diagnostic plots, and use information about the domain to 
 values of the hyperparameters to grid search.
 
 You are also encouraged to repeat the grid search to narrow in on ranges of values that
-appear to show better performance. An implementation of themodelconfigs() function is
+appear to show better performance. An implementation of the modelconfigs() function is
 listed below.
 
 # create a list of configs to try
@@ -950,7 +952,8 @@ train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
 ```
-The complete implementation of themodelfit() function is listed below.
+
+The complete implementation of the modelfit() function is listed below.
 
 ```
 def model_fit(train, config):
@@ -980,18 +983,20 @@ return model
 ```
 
 Making a prediction with a fit CNN model is very much like making a prediction with a
-
 fit MLP. Again, the only difference is that the one sample worth of
-input data must have a
+input data must have a three-dimensional shape.
 
-three-dimensional shape.
 
+```
 x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 ```
-The complete implementation of themodelpredict() function is listed
+
+The complete implementation of the modelpredict() function is listed
 below.
 
+
+```
 def model_predict(model, history, config):
 
 
@@ -1010,14 +1015,10 @@ return correction + yhat[0]
 ```
 
 Finally, we can define a list of configurations for the model to evaluate. As before, we can
-
 do this by defining lists of hyperparameter values to try that are
 combined into a list. We will
-
 try a small number of configurations to ensure the example executes in a
-reasonable amount of
-
-time. The completemodelconfigs() function is listed below.
+reasonable amount of time. The completemodelconfigs() function is listed below.
 
 ```
 
@@ -1045,7 +1046,6 @@ return configs
 
 We now have all of the elements needed to grid search the
 hyperparameters of a convolutional
-
 neural network for univariate time series forecasting. The complete
 example is listed below.
 
@@ -1195,18 +1195,12 @@ print(cfg, error)
 
 ```
 
-configurations on the airline passengers dataset.
-
 Running the example, we can see that only eight distinct configurations
 are evaluated. We
-
 can see that a configuration of[12, 64, 5, 100, 1, 12]achieved an RMSE
 of 18.89, which
-
 is skillful as compared to a naive forecast model that achieved 50.70.
-We can unpack this
-
-configuration as:
+We can unpack this configuration as:
 
 - ninput: 12
 
@@ -1222,8 +1216,6 @@ configuration as:
 
 
 A truncated example output of the grid search is listed below.
-
-```
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
@@ -1253,7 +1245,6 @@ We can now adopt the framework for grid searching the hyperparameters of
 an LSTM model.
 
 For more details on modeling a univariate time series with an LSTM network, see Chapter 9.
-
 The hyperparameters for the LSTM model will be the same five as the MLP;
 they are:
 
@@ -1270,6 +1261,8 @@ they are:
 
 We will define a simple LSTM model with a single hidden LSTM layer and the number of
 nodes specifying the number of units in this layer.
+
+```
 # define model
 model = Sequential()
 model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input, n_features)))
@@ -1282,21 +1275,19 @@ model.fit(train_x, train_y, epochs=n_epochs, batch_size=n_batch, verbose=0)
 ```
 
 It may be interesting to explore tuning additional configurations such as the use of a
-
 bidirectional input layer, stacked LSTM layers, and even hybrid models
 with CNN or ConvLSTM
-
 input models. As with the CNN model, the LSTM model expects input data
-to have a three-
+to have a three-dimensional shape for the samples, time steps, and features.
 
-dimensional shape for the samples, time steps, and features.
-
+```
 n_features = 1
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
 
 ```
-The complete implementation of themodelfit() function is listed below.
+
+The complete implementation of the modelfit() function is listed below.
 
 ```
 def model_fit(train, config):
@@ -1352,12 +1343,13 @@ return correction + yhat[0]
 ```
 
 We can now define the function used to create the list of model configurations to evaluate.
-
 The LSTM model is quite a bit slower to train than MLP and CNN models;
 as such, you
-
 may want to evaluate fewer configurations per run. We will define a very simple set of two
 configurations to explore: stochastic and batch gradient descent.
+
+
+```
 # create a list of configs to try
 def model_configs():
 # define scope of configs
@@ -1529,19 +1521,13 @@ print(cfg, error)
 
 ```
 
-model configurations on the airline passengers dataset.
-
 Running the example, we can see that only two distinct configurations are evaluated. We
-
 can see that a configuration of[12, 100, 50, 1, 12]achieved an RMSE of
 21.24, which is
-
 skillful as compared to a naive forecast model that achieved 50.70. The
 model requires a lot
-
 more tuning and may do much better with a hybrid configuration, such as
 having a CNN model
-
 as input. We can unpack this configuration as:
 
 - ninput: 12
@@ -1556,14 +1542,8 @@ as input. We can unpack this configuration as:
 
 A truncated example output of the grid search is listed below.
 
-```
-
 **Note:** Given the stochastic nature of the algorithm, your specific
-results may vary. Consider
-
-running the example a few times.
-
-```
+results may vary. Consider running the example a few times.
 
 ```
 Total configs: 2
