@@ -131,13 +131,11 @@ in subsequent sections. The number of prior days used as input defines the one-d
 
 (1D) subsequence of data that the LSTM will read and learn to extract
 features. Some ideas on
-
 the size and nature of this input include:
 
 - All prior days, up to years worth of data.
 
 - The prior seven days.
-
 
 - The prior two weeks.
 
@@ -167,15 +165,12 @@ the next standard week. A problem is that 159 instances is not a lot to train a 
 
 A way to create a lot more training data is to change the problem during
 training to predict
-
 the next seven days given the prior seven days, regardless of the standard week. This only
 impacts the training data, and the test problem remains the same: predict the daily power
 consumption for the next standard week given the prior standard week. This will require a little
 preparation of the training data. The training data is provided in standard weeks with eight
-
 variables, specifically in the shape[159, 7, 8]. The first step is to
 flatten the data so that we
-
 have eight time series sequences.
 
 ```
@@ -183,27 +178,30 @@ have eight time series sequences.
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
 
 ```
+
 We then need to iterate over the time steps and divide the data into overlapping windows;
 each iteration moves along one time step and predicts the subsequent seven days. For example:
+
+
+```
 Input, Output
 [d01, d02, d03, d04, d05, d06, d07], [d08, d09, d10, d11, d12, d13, d14]
 [d02, d03, d04, d05, d06, d07, d08], [d09, d10, d11, d12, d13, d14, d15]
 ...
 
 ```
+
 We can do this by keeping track of start and end indexes for the inputs and outputs as we
 iterate across the length of the flattened data in terms of time steps. We can also do this in a
-
 way where the number of inputs and outputs are parameterized (e.g.
 ninput,nout) so that
-
 you can experiment with different values or adapt it for your own
 problem. Below is a function
-
 namedtosupervised() that takes a list of weeks (history) and the number of time steps to
 use as inputs and outputs and returns the data in the overlapping moving window format.
 
 
+```
 # convert history into inputs and outputs
 def to_supervised(train, n_input, n_out=7):
 # flatten data
@@ -228,9 +226,8 @@ return array(X), array(y)
 ```
 
 When we run this function on the entire training dataset, we transform 159 samples into
-
-1,099; specifically, the transformed dataset has the shapesX=[1099, 7,
-1]andy=[1099, 7].
+1,099; specifically, the transformed dataset has the shapes X=[1099, 7,
+1] and y=[1099, 7].
 
 Next, we can define and fit the LSTM model on the training data. This multi-step time series
 forecasting problem is an autoregression. That means it is likely best modeled where that the
@@ -245,15 +242,12 @@ function as it is a good match for our chosen error metric of RMSE. We will use 
 
 Adam implementation of stochastic gradient descent and fit the model for
 70 epochs with a
-
 batch size of 16.
 The small batch size and the stochastic nature of the algorithm means that the same model
-
 will learn a slightly different mapping of inputs to outputs each time
 it is trained. This means
-
 results may vary when the model is evaluated. You can try running the model multiple times
-and calculate an average of model performance. The buildmodel()below prepares the training
+and calculate an average of model performance. The build_model()below prepares the training
 data, defines the model, and fits the model on the training data, returning the fit model ready
 for making predictions.
 
@@ -278,6 +272,7 @@ model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size, verbose=verbos
 return model
 
 ```
+
 Now that we know how to fit the model, we can look at how the model can be used to make
 a prediction. Generally, the model expects data to have the same three dimensional shape when
 making a prediction. In this case, the expected shape of an input pattern is one sample, seven
@@ -286,15 +281,15 @@ making predictions for the test set and when a final model is being used to make
 the future. If you change the number if input days to 14, then the shape of the training data
 and the shape of new samples when making predictions must be changed accordingly to have 14
 time steps. It is a modeling choice that you must carry forward when using the model.
+
 We are using walk-forward validation to evaluate the model as described in the previous
 section. This means that we have the observations available for the prior week in order to
 predict the coming week. These are collected into an array of standard weeks called history. In
 order to predict the next standard week, we need to retrieve the last days of observations. As
-
 with the training data, we must first flatten the history data to remove
 the weekly structure so
-
 that we end up with eight parallel time series.
+
 ```
 
 # flatten data
@@ -353,10 +348,8 @@ return yhat
 ```
 
 That’s it; we now have everything we need to make multi-step time series forecasts with
-
 an LSTM model on the daily total power consumed univariate dataset. We
 can tie all of this
-
 together. The complete example is listed below.
 
 ```
@@ -553,33 +546,26 @@ model) that reads the training data in different ways.
 
 In this section, we can update the vanilla LSTM to use an
 encoder-decoder model. This means
-
 that the model will not output a vector sequence directly. Instead, the
 model will be comprised
-
 of two sub models, the encoder to read and encode the input sequence,
 and the decoder that
-
-
 will read the encoded input sequence and make a one-step prediction for
 each element in the
-
 output sequence.
-The difference is subtle, as in practice both approaches do in fact predict a sequence output.
 
+The difference is subtle, as in practice both approaches do in fact predict a sequence output.
 The important difference is that an LSTM model is used in the decoder,
 allowing it to both
-
 know what was predicted for the prior day in the sequence and accumulate internal state while
 outputting the sequence. Let’s take a closer look at how this model is defined.
 As before, we define an LSTM hidden layer with 200 units. This is the decoder model that
-
 will read the input sequence and will output a 200 element vector (one
 output per unit) that
-
 captures features from the input sequence. We will use 14 days of total power consumption as
 input.
 
+```
 # define encoder
 model.add(LSTM(200, activation='relu', input_shape=(n_timesteps, n_features)))
 
@@ -599,10 +585,12 @@ decoder will output the entire sequence, not just the output at the end of the s
 did with the encoder. This means that each of the 200 units will output a value for each of the
 seven days, representing the basis for what to predict for each day in the output sequence.
 
+```
 # define decoder model
 model.add(LSTM(200, activation='relu', return_sequences=True))
 
 ```
+
 We will then use a fully connected layer to interpret each time step in the output sequence
 before the final output layer. Importantly, the output layer predicts a single step in the output
 sequence, not all seven days at a time. This means that we will use the same layers applied
@@ -611,9 +599,9 @@ layer will be used to process each time step provided by the decoder. To achieve
 
 wrap the interpretation layer and the output layer in
 aTimeDistributedwrapper that allows
-
 the wrapped layers to be used for each time step from the decoder.
 
+```
 # define output model
 model.add(TimeDistributed(Dense(100, activation='relu')))
 model.add(TimeDistributed(Dense(1)))
@@ -623,30 +611,27 @@ This allows the LSTM decoder to figure out the context required for each step in
 sequence and the wrapped dense layers to interpret each time step separately, yet reusing
 the same weights to perform the interpretation. An alternative would be to flatten all of the
 structure created by the LSTM decoder and to output the vector directly. You can try this as
-
-
 an extension to see how it compares. The network therefore outputs a
 three-dimensional vector
-
-with the same structure as the input, with the dimensions[samples,
-timesteps, features].
+with the same structure as the input, with the dimensions [samples,timesteps, features].
 
 There is a single feature, the daily total power consumed, and there are
 always seven features.
-
 A single one-week prediction will therefore have the size:[1, 7, 1].
 Therefore, when training
-
 the model, we must restructure the output data (y) to have the three-dimensional structure
 instead of the two-dimensional structure of[samples, features]used in the previous section.
 
+```
 # reshape output into [samples, timesteps, features]
 train_y = train_y.reshape((train_y.shape[0], train_y.shape[1], 1))
 
 ```
-We can tie all of this together into the updatedbuildmodel() function
+
+We can tie all of this together into the updated build_model() function
 listed below.
 
+```
 # train the model
 def build_model(train, n_input):
 # prepare data
@@ -809,10 +794,8 @@ pyplot.show()
 ```
 
 Running the example fits the model and summarizes the performance on the test dataset.
-
 We can see that in this case, the model is skillful, achieving an
 overall RMSE score of about 372
-
 kilowatts.
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
@@ -833,34 +816,26 @@ seen in the previous section.
 
 In this section, we will update the Encoder-Decoder LSTM developed in
 the previous section to
-
 use each of the eight time series variables to predict the next standard
 week of daily total power
-
 consumption. We will do this by providing each one-dimensional time
 series to the model as a
-
 separate sequence of input. The LSTM will in turn create an internal
 representation of each
-
 input sequence that will together be interpreted by the decoder.
 
 Using multivariate inputs is helpful for those problems where the output sequence is some
-
 function of the observations at prior time steps from multiple different
 features, not just (or
-
 including) the feature being forecasted. It is unclear whether this is
 the case in the power
-
 consumption problem, but we can explore it nonetheless. First, we must
 update the preparation
-
 of the training data to include all of the eight features, not just the
 one total daily power
-
 consumed. It requires a single line change:
 
+```
 X.append(data[in_start:in_end, :])
 
 ```
@@ -890,14 +865,13 @@ return array(X), array(y)
 
 We also must update the function used to make forecasts with the fit
 model to use all eight
-
 features from the prior time steps. Again, another small change:
 
+```
 input_x = data[-n_input:, :]
 
 input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
-```
 
 def forecast(model, history, n_input):
 data = array(history)
@@ -914,14 +888,9 @@ return yhat
 
 ```
 
-all input variables.
-
 The same model architecture and configuration is used directly, although we will increase
-
 the number of training epochs from 20 to 50 given the 8-fold increase in
-the amount of input
-
-data. The complete example is listed below.
+the amount of input data. The complete example is listed below.
 
 ```
 
@@ -1030,7 +999,6 @@ yhat_sequence = forecast(model, history, n_input)
 
 predictions.append(yhat_sequence)
 
-
 history.append(test[i, :])
 # evaluate predictions days for each week
 predictions = array(predictions)
@@ -1082,7 +1050,6 @@ A line plot of the per-day RMSE is also created.
 
 A convolutional neural network, or CNN, can be used as the encoder in an
 encoder-decoder
-
 architecture. The CNN does not directly support sequence input; instead, a 1D CNN is capable
 of reading across sequence input and automatically learning the salient features. These can
 then be interpreted by an LSTM decoder as per normal. We refer to hybrid models that use
@@ -1090,34 +1057,29 @@ a CNN and LSTM as CNN-LSTM models, and in this case we are using them together i
 encoder-decoder architecture. The CNN expects the input data to have the same 3D structure
 as the LSTM model, although multiple features are read as different channels that ultimately
 have the same effect.
+
 We will simplify the example and focus on the CNN-LSTM with univariate input, but it can
 just as easily be updated to use multivariate input, which is left as an exercise. As before, we
-
 will use input sequences comprised of 14 days of daily total power
 consumption. We will define
-
 a simple but effective CNN architecture for the encoder that is comprised of two convolutional
 layers followed by a max pooling layer, the results of which are then flattened.
+
 The first convolutional layer reads across the input sequence and projects the results onto
-
-
 feature maps. The second performs the same operation on the feature maps
 created by the first
-
 layer, attempting to amplify any salient features. We will use 64
 feature maps per convolutional
-
 layer and read the input sequences with a kernel size of three time
 steps. The max pooling
-
 layer simplifies the feature maps by keeping^14 of the values with the
 largest (max) signal. The
-
 distilled feature maps after the pooling layer are then flattened into
 one long vector that can
-
 then be used as input to the decoding process.
 
+
+```
 model.add(Conv1D(filters=64, kernel_size=3, activation='relu',
 input_shape=(n_timesteps,n_features)))
 model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
@@ -1125,14 +1087,13 @@ model.add(MaxPooling1D(pool_size=2))
 model.add(Flatten())
 
 ```
+
 The decoder is the same as was defined in previous sections. The only
 other change is to set
+the number of training epochs to 20. The build_model() function with these
+changes is listed below.
 
-the number of training epochs to 20. The buildmodel() function with these
-changes is listed
-
-below.
-
+```
 def build_model(train, n_input):
 train_x, train_y = to_supervised(train, n_input)
 
@@ -1158,10 +1119,9 @@ return model
 
 ```
 
-model.
 
 We are now ready to try the encoder-decoder architecture with a CNN
-encoder. The complete code
+encoder. The complete code is listed below.
 
 ```
 from math import sqrt
@@ -1393,7 +1353,7 @@ We will also parameterize the number of subsequences (nsteps) and the
 length of each
 subsequence (nlength) and pass them as arguments. The rest of the model
 and training is the
-same. The buildmodel() function with these changes is listed below.
+same. The build_model() function with these changes is listed below.
 
 ```
 
@@ -1426,24 +1386,20 @@ return model
 
 ```
 
-LSTM model.
-
 This model expects five-dimensional data as input. Therefore, we must also update the
-
 preparation of a single sample in theforecast() function when making a
 prediction.
 
+```
 input_x = input_x.reshape((1, n_steps, 1, n_length, 1))
 
 ```
 
-prediction.
-
 The forecast() function with this change and with the parameterized
 subsequences is
-
 provided below.
 
+```
 def forecast(model, history, n_steps, n_length, n_input):
 data = array(history)
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
@@ -1459,14 +1415,10 @@ return yhat
 
 ```
 
-LSTM model.
-
 We now have all of the elements for evaluating an encoder-decoder
 architecture for multi-step
-
 time series forecasting where a ConvLSTM is used as the encoder. The
 complete code example
-
 is listed below.
 
 ```

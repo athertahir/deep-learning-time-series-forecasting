@@ -142,8 +142,8 @@ train, test = split_dataset(dataset.values)
 
 A univariate time series of daily power consumption can then be extracted from the training
 dataset.
-```
 
+```
 # convert training data into a series
 series = to_series(train)
 
@@ -255,10 +255,8 @@ increases.
 
 The ACF plot indicates that there is a strong autocorrelation component, whereas the PACF
 plot indicates that this component is distinct for the first approximately seven lag observations.
-
 This suggests that a good starting model would be anAR(7); that is an
 autoregression model
-
 with seven lag observations used as input.
 
 ![](./images/378-27.png)
@@ -283,9 +281,8 @@ series = to_series(history)
 ```
 
 Next, an ARIMA model can be defined by passing arguments to the constructor of the
-
 ARIMA class. We will specify anAR(7)model, which in ARIMA notation
-isARIMA(7,0,0).
+is ARIMA(7,0,0).
 
 ```
 
@@ -294,7 +291,7 @@ model = ARIMA(series, order=(7,0,0))
 
 ```
 Next, the model can be fit on the training data. We will use the defaults and disable all
-debugging information during the fit by settingdisp=False.
+debugging information during the fit by setting disp=False.
 ```
 
 # fit the model
@@ -472,7 +469,6 @@ a suite of ARIMA parameters (q, d, p) to see if performance can be further impro
 - Explore Seasonal AR. Explore whether the performance of the AR model can be
 improved by including seasonal autoregression elements. This may require the use of a
 SARIMA model.
-
 
 - Explore ETS. Explore whether better results may be achieved by using an ETS model
 instead of an ARIMA model.

@@ -1,7 +1,5 @@
 <img align="right" width="110" height="110" src="../logo.png">
 
-<img align="right" width="110" height="110" src="../logo.png">
-
 ### How to Develop CNNs for Human Activity Recognition
 
 Human activity recognition is the problem of classifying sequences of accelerometer data
@@ -11,7 +9,6 @@ fixed-sized windows and training machine learning models, such as ensembles of d
 
 The difficulty is that this feature engineering requires deep expertise
 in the field. Recently, deep
-
 learning methods such as recurrent neural networks and one-dimensional convolutional neural
 networks, or CNNs, have been shown to provide state-of-the-art results on challenging activity
 recognition tasks with little or no data feature engineering, instead using feature learning on raw
@@ -64,6 +61,7 @@ one-dimensional sequences of data, such as in the case of acceleration and gyros
 human activity recognition. The model learns to extract features from sequences of observations
 and how to map the internal features to different activity types. For more information on CNNs
 for time series forecasting, see Chapter 8.
+
 The benefit of using CNNs for sequence classification is that they can learn from the raw
 time series data directly, and in turn do not require domain expertise to manually engineer
 input features. The model can learn an internal representation of the time series data and
@@ -78,44 +76,27 @@ features. This section is divided into 4 parts; they are:
 <!-- -->
 
 Some of the details on loading and preparing the dataset were covered in Chapters 22 and
-
 23. There is some repetition here in order to customize the data
 preparation and prediction
-
 evaluation for deep learning models.
-
-(^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
-
 
 #### Load Data
 
-The first step is to load the raw dataset into memory. There are three
-main signal types in the
-
+The first step is to load the raw dataset into memory. There are three main signal types in the
 raw data: total acceleration, body acceleration, and body gyroscope. Each has three axes of
 data. This means that there are a total of nine variables for each time step. Further, each series
 of data has been partitioned into overlapping windows of 2.65 seconds of data, or 128 time steps.
-
-These windows of data correspond to the windows of engineered features
-(rows) in the previous
-
+These windows of data correspond to the windows of engineered features (rows) in the previous
 section.
-This means that one row of data has (128×9), or 1,152, elements. This is a little less than
+
+This means that one row of data has (128 × 9), or 1,152, elements. This is a little less than
 double the size of the 561 element vectors in the previous section and it is likely that there
-is some redundant data. The signals are stored in the/Inertial Signals/directory under
+is some redundant data. The signals are stored in the /Inertial Signals/ directory under
 the train and test subdirectories. Each axis of each signal is stored in a separate file, meaning
 that each of the train and test datasets have nine input files to load and one output file to load.
-
-We can batch the loading of these files into groups given the consistent
-directory structures
-
-and file naming conventions. The input data is in CSV format where
-columns are separated by
-
-whitespace. Each of these files can be loaded as a NumPy array.
-Theloadfile() function
-
+We can batch the loading of these files into groups given the consistent directory structures
+and file naming conventions. The input data is in CSV format where columns are separated by
+whitespace. Each of these files can be loaded as a NumPy array. The load file() function
 below loads a dataset given the file path to the file and returns the loaded data as a NumPy
 array.
 
@@ -126,11 +107,12 @@ dataframe = read_csv(filepath, header=None, delim_whitespace=True)
 return dataframe.values
 
 ```
+
 We can then load all data for a given group (train or test) into a single three-dimensional
-NumPy array, where the dimensions of the array are[samples, timesteps, features]. To
+NumPy array, where the dimensions of the array are [samples, timesteps, features]. To
 make this clearer, there are 128 time steps and nine features, where the number of samples is the
-number of rows in any given raw signal data file. Theloadgroup() function below implements
-this behavior. Thedstack()NumPy function allows us to stack each of the loaded 3D arrays
+number of rows in any given raw signal data file. The load group() function below implements
+this behavior. The dstack() NumPy function allows us to stack each of the loaded 3D arrays
 into a single 3D array where the variables are separated on the third dimension (features).
 
 ```
@@ -146,11 +128,8 @@ return loaded
 
 ```
 
-We can use this function to load all input signal data for a given
-group, such as train or test.
-
-The loaddatasetgroup() function below loads all input signal data and the
-output data for
+We can use this function to load all input signal data for a given group, such as train or test.
+The load dataset group() function below loads all input signal data and the output data for
 a single group using the consistent naming conventions between the train and test directories.
 
 ```
@@ -179,14 +158,10 @@ return X, y
 ```
 
 Finally, we can load each of the train and test datasets. The output data is defined as an
-integer for the class number. We must one hot encode these class
-integers so that the data is
-suitable for fitting a neural network multiclass classification model.
-We can do this by calling
-thetocategorical() Keras function. The loaddataset() function below
-implements this
-behavior and returns the train and test `X` and `y` elements ready for fitting
-and evaluating the
+integer for the class number. We must one hot encode these class integers so that the data is
+suitable for fitting a neural network multiclass classification model. We can do this by calling
+the to categorical() Keras function. The load dataset() function below implements this
+behavior and returns the train and test X and y elements ready for fitting and evaluating the
 defined models.
 
 
@@ -209,26 +184,21 @@ return trainX, trainy, testX, testy
 
 #### Fit and Evaluate Model
 
-Now that we have the data loaded into memory ready for modeling, we can
-define, fit, and
-evaluate a 1D CNN model. We can define a function
-namedevaluatemodel() that takes the
-train and test dataset, fits a model on the training dataset, evaluates
-it on the test dataset, and
-returns an estimate of the model’s performance. First, we must define
-the CNN model using
-the Keras deep learning library. The model requires a three-dimensional
-input with[samples, timesteps, features].
+Now that we have the data loaded into memory ready for modeling, we can define, fit, and
+evaluate a 1D CNN model. We can define a function named evaluate model() that takes the
+train and test dataset, fits a model on the training dataset, evaluates it on the test dataset, and
+returns an estimate of the model’s performance. First, we must define the CNN model using
+the Keras deep learning library. The model requires a three-dimensional input with [samples,
+timesteps, features].
 
 This is exactly how we have loaded the data, where one sample is one window of the time
-series data, each window has 128 time steps, and a time step has nine
-variables or features. The
+series data, each window has 128 time steps, and a time step has nine variables or features. The24.3. CNN for Activity Recognition 495
 output for the model will be a six-element vector containing the probability of a given window
 belonging to each of the six activity types. These input and output dimensions are required
-when fitting the model, and we can extract them from the provided
-training dataset.
+when fitting the model, and we can extract them from the provided training dataset.
 
 ```
+
 # define data shape
 n_timesteps, n_features, n_outputs = trainX.shape[1], trainX.shape[2], trainy.shape[1]
 
@@ -239,21 +209,20 @@ as having two 1D CNN layers, followed by a dropout layer for regularization, the
 layer. It is common to define CNN layers in groups of two in order to give the model a good
 chance of learning features from the input data. CNNs learn very quickly, so the dropout layer
 is intended to help slow down the learning process and hopefully result in a better final model.
-
-The pooling layer reduces the learned features to^14 their size,
-consolidating them to only the
+The pooling layer reduces the learned features to 1 4 their size, consolidating them to only the
 most essential elements. After the CNN and pooling, the learned features are flattened to one
 long vector and pass through a fully connected layer before the output layer used to make a
 prediction. The fully connected layer ideally provides a buffer between the learned features and
 the output with the intent of interpreting the learned features before making a prediction.
+
 For this model, we will use a standard configuration of 64 parallel feature maps and a kernel
 size of 3. The feature maps are the number of times the input is processed or interpreted,
-whereas the kernel size is the number of input time steps considered as
-the input sequence is
+whereas the kernel size is the number of input time steps considered as the input sequence is
 read or processed onto the feature maps. The efficient Adam version of stochastic gradient
 descent will be used to optimize the network, and the categorical cross entropy loss function
-will be used given that we are learning a multiclass classification
-problem. The definition of the model is listed below.
+will be used given that we are learning a multiclass classification problem. The definition of the
+model is listed below.
+
 
 ```
 # define the CNN model
@@ -270,12 +239,10 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 
 ```
 
-The model is fit for a fixed number of epochs, in this case 10, and a
-batch size of 32 samples
-will be used, where 32 windows of data will be exposed to the model
-before the weights of the
+The model is fit for a fixed number of epochs, in this case 10, and a batch size of 32 samples
+will be used, where 32 windows of data will be exposed to the model before the weights of the
 model are updated. Once the model is fit, it is evaluated on the test dataset and the accuracy
-of the fit model on the test dataset is returned. The completeevaluatemodel() function is
+of the fit model on the test dataset is returned. The complete evaluate model() function is
 listed below.
 
 ```
@@ -308,17 +275,12 @@ just a starting point for this problem.
 
 #### Summarize Results
 
-We cannot judge the skill of the model from a single evaluation. The
-reason for this is that
-
+We cannot judge the skill of the model from a single evaluation. The reason for this is that
 neural networks are stochastic, meaning that a different specific model will result when training
 the same model configuration on the same data. This is a feature of the network in that it gives
 the model its adaptive ability, but requires a slightly more complicated evaluation of the model.
-
-We will repeat the evaluation of the model multiple times, then
-summarize the performance of
-
-the model across each of those runs. For example, we can callevaluatemodel()a total of 10
+We will repeat the evaluation of the model multiple times, then summarize the performance of
+the model across each of those runs. For example, we can call evaluate model() a total of 10
 times. This will result in a population of model evaluation scores that must be summarized.
 
 ```
@@ -331,25 +293,23 @@ print('>#%d: %.3f'% (r+1, score))
 scores.append(score)
 
 ```
+
 We can summarize the sample of scores by calculating and reporting the mean and standard
 deviation of the performance. The mean gives the average accuracy of the model on the dataset,
-
-whereas the standard deviation gives the average variance of the
-accuracy from the mean. The
-functionsummarizeresults()below summarizes the results of a run.
+whereas the standard deviation gives the average variance of the accuracy from the mean. The
+function summarize results() below summarizes the results of a run.
 
 ```
 # summarize scores
 def summarize_results(scores):
 print(scores)
 m, s = mean(scores), std(scores)
-print('Accuracy: %.3f%% (+/-%.3f)'% (m, s))
-
+print('Accuracy: %.3f%% (+/-%.3f)' % (m, s))
 ```
-We can bundle up the repeated evaluation, gathering of results, and summarization of results
-into a main function for the experiment, calledrunexperiment(), listed below. By default,
-the model is evaluated 10 times before the performance of the model is reported.
 
+We can bundle up the repeated evaluation, gathering of results, and summarization of results
+into a main function for the experiment, called run experiment(), listed below. By default,
+the model is evaluated 10 times before the performance of the model is reported.
 
 ```
 def run_experiment(repeats=10):
@@ -401,7 +361,6 @@ def load_dataset_group(group, prefix=''):
 filepath = prefix + group + '/Inertial Signals/'
 
 filenames = list()
-
 
 # total acceleration
 filenames += ['total_acc_x_'+group+'.txt','total_acc_y_'+group+'.txt',
@@ -478,12 +437,8 @@ Running the example first loads the dataset. The models are created and evaluate
 debug message is printed for each. Finally, the sample of scores is printed followed by the mean
 and standard deviation. We can see that the model performed well achieving a classification
 accuracy of about 90.9% trained on the raw dataset, with a standard deviation of about 1.3.
-
-This is a good result, considering that the original paper published a
-result of 89%, trained on
-
-the dataset with heavy domain-specific feature engineering, not the raw
-dataset.
+This is a good result, considering that the original paper published a result of 89%, trained on
+the dataset with heavy domain-specific feature engineering, not the raw dataset.
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
@@ -521,7 +476,6 @@ Accuracy: 90.787% (+/-1.341)
 ```
 
 Now that we have seen how to load the data and fit a 1D CNN model, we can investigate
-
 whether we can further lift the skill of the model with some
 hyperparameter tuning.
 
@@ -540,9 +494,9 @@ problem. We will look at three main areas:
 In the previous section, we did not perform any data preparation. We used the data as-is. Each
 of the main sets of data (body acceleration, body gyroscopic, and total acceleration) have been
 scaled to the range -1, 1. It is not clear if the data was scaled per-subject or across all subjects.
-
 One possible transform that may result in an improvement is to standardize the observations
 prior to fitting a model.
+
 Standardization refers to shifting the distribution of each variable such that it has a mean of
 zero and a standard deviation of 1. It really only makes sense if the distribution of each variable
 is Gaussian. We can quickly check the distribution of each variable by plotting a histogram of
@@ -552,10 +506,8 @@ data distribution, we must first remove the duplicated observations (the overlap
 the windowing of the data.
 
 We can do this using NumPy, first slicing the array and only keeping the second half of each
-window, then flattening the windows into a long vector for each
-variable. This is quick and dirty
-and does mean that we lose the data in the first half of the first
-window.
+window, then flattening the windows into a long vector for each variable. This is quick and dirty
+and does mean that we lose the data in the first half of the first window.
 
 ```
 # remove overlap
@@ -565,8 +517,10 @@ longX = trainX[:, -cut:, :]
 longX = longX.reshape((longX.shape[0] * longX.shape[1], longX.shape[2]))
 
 ```
+
 The complete example of loading the data, flattening it, and plotting a histogram for each
 of the nine variables is listed below.
+
 
 ```
 
@@ -654,23 +608,18 @@ Running the example creates a figure with nine histogram plots, one for each var
 the training dataset. The order of the plots matches the order in which the data was loaded,
 specifically:
 
-1.  Total Accelerationx
-2.  Total Accelerationy
-3.  Total Accelerationz
-4.  Body Accelerationx
-5.  Body Accelerationy
-6.  Body Accelerationz
-7.  Body Gyroscopex
-8.  Body Gyroscopey
-9.  Body Gyroscopez
-
-<!-- -->
+1. Total Acceleration x
+2. Total Acceleration y
+3. Total Acceleration z
+4. Body Acceleration x
+5. Body Acceleration y
+6. Body Acceleration z
+7. Body Gyroscope x
+8. Body Gyroscope y
+9. Body Gyroscope z
 
 We can see that each variable has a Gaussian-like distribution, except perhaps the first
-
-variable (Total Accelerationx). The distributions of total acceleration
-data is flatter than the
-
+variable (Total Acceleration x). The distributions of total acceleration data is flatter than the
 body data, which is more pointed. We could explore using a power transform on the data to
 make the distributions more Gaussian, although this is left as an exercise.
 
@@ -678,11 +627,8 @@ make the distributions more Gaussian, although this is left as an exercise.
 
 The data is sufficiently Gaussian-like to explore whether a standardization transform will
 help the model extract salient signal from the raw observations. The function below named
-scaledata()can be used to standardize the data prior to fitting and evaluating the model.
-
-The StandardScaler scikit-learn class will be used to perform the
-transform. It is first fit on the
-
+scale data() can be used to standardize the data prior to fitting and evaluating the model.
+The StandardScaler scikit-learn class will be used to perform the transform. It is first fit on the
 training data (e.g. to find the mean and standard deviation for each variable), then applied to
 the train and test sets. The standardization is optional, so we can apply the process and compare
 the results to the same code path without the standardization in a controlled experiment.
@@ -715,11 +661,11 @@ flatTestX = flatTestX.reshape((testX.shape))
 return flatTrainX, flatTestX
 
 ```
-We can update theevaluatemodel() function to take a parameter, then use
-this parameter
 
+We can update the evaluate model() function to take a parameter, then use this parameter
 to decide whether or not to perform the standardization.
 
+```
 def evaluate_model(trainX, trainy, testX, testy, param):
 verbose, epochs, batch_size = 0, 10, 32
 n_timesteps, n_features, n_outputs = trainX.shape[1],
@@ -744,15 +690,10 @@ return accuracy
 
 ```
 
-standardization.
-
-We can also update therunexperiment() to repeat the experiment 10 times
-for each param-
-
-eter; in this case, only two parameters will be evaluated[False,
-True]for no standardization
-
+We can also update the run experiment() to repeat the experiment 10 times for each parameter; in this case,only two parameters will be evaluated [False, True] for no standardization
 and standardization respectively.
+
+```
 
 def run_experiment(params, repeats=10):
 trainX, trainy, testX, testy = load_dataset()
@@ -942,19 +883,10 @@ run_experiment(n_params)
 ```
 
 Running the example may take a while, depending on your hardware. The performance
-
-is printed for each evaluated model. At the end of the run, the
-performance of each of the
-
-tested configurations is summarized showing the mean and the standard
-deviation. We can see
-
-that it does look like standardizing the dataset prior to modeling does
-result in a small lift in
-
-performance from about 90.4% accuracy (close to what we saw in the
-previous section) to about
-
+is printed for each evaluated model. At the end of the run, the performance of each of the
+tested configurations is summarized showing the mean and the standard deviation. We can see
+that it does look like standardizing the dataset prior to modeling does result in a small lift in
+performance from about 90.4% accuracy (close to what we saw in the previous section) to about
 91.5% accuracy.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
@@ -1000,32 +932,29 @@ Param=True: 91.517% (+/-0.965)
 
 ```
 
-A box and whisker plot of the results is also created. This allows the
-two samples of results
-
-to be compared in a nonparametric way, showing the median and the middle
-50% of each
-
-sample. We can see that the distribution of results with standardization
-is quite different from
-
-the distribution of results without standardization. This is likely a
-real effect.
+Running the example may take a while, depending on your hardware. The performance
+is printed for each evaluated model. At the end of the run, the performance of each of the
+tested configurations is summarized showing the mean and the standard deviation. We can see
+that it does look like standardizing the dataset prior to modeling does result in a small lift in
+performance from about 90.4% accuracy (close to what we saw in the previous section) to about
+91.5% accuracy.
 
 ![](./images/526-57.png)
 
+#### Number of Filters
 Now that we have an experimental framework, we can explore varying other hyperparameters
 of the model. An important hyperparameter for the CNN is the number of filter maps. We can
 experiment with a range of different values, from less to many more than the 64 used in the
 first model that we developed. Specifically, we will try the following numbers of feature maps:
-# define configuration
-n_params = [8, 16, 32, 64, 128, 256]
 
 ```
-We can use the same code from the previous section and update theevaluatemodel()
-function to use the provided parameter as the number of filters in theConv1Dlayers. We can
-also update thesummarizeresults() function to save the box plot asexpcnnfilters.png.
+# define configuration
+n_params = [8, 16, 32, 64, 128, 256]
+```
 
+We can use the same code from the previous section and update the evaluate model()
+function to use the provided parameter as the number of filters in the Conv1D layers. We can
+also update the summarize results() function to save the box plot as exp cnn filters.png.
 The complete code example is listed below.
 
 ```
@@ -1173,20 +1102,15 @@ A box and whisker plot of the results is also created, allowing the distribution
 each number of filters to be compared. From the plot, we can see the trend upward in terms
 of median classification accuracy (orange line on the box) with the increase in the number of
 feature maps. We do see a dip at 64 feature maps (the default or baseline in our experiments),
-
 which is surprising, and perhaps a plateau in accuracy across 32, 128,
-and 256 filter maps.
-
-Perhaps 32 would be a more stable configuration.
+and 256 filter maps. Perhaps 32 would be a more stable configuration.
 
 ![](./images/530-58.png)
 
 #### Size of Kernel
 
-The size of the kernel is another important hyperparameter of the 1D CNN
-to tune. The kernel
-
-size controls the number of time steps consider in eachreadof the input sequence, that is then
+The size of the kernel is another important hyperparameter of the 1D CNN to tune. The kernel
+size controls the number of time steps consider in each read of the input sequence, that is then
 projected onto the feature map (via the convolutional process). A large kernel size means a less
 rigorous reading of the data, but may result in a more generalized snapshot of the input. We
 can use the same experimental setup and test a suite of different kernel sizes in addition to the
@@ -1196,6 +1120,9 @@ default of three time steps. The full list of values is as follows:
 # define configuration
 n_params = [2, 3, 5, 7, 11]
 
+```
+
+The complete code listing is provided below:
 
 ```
 from numpy import mean
@@ -1312,20 +1239,16 @@ n_params = [2, 3, 5, 7, 11]
 run_experiment(n_params)
 
 ```
-Running the example tests each kernel size in turn. The results are
-summarized at the end
-of the run. We can see a general increase in model performance with the
-increase in kernel
-size. The results suggest a kernel size of 5 might be good with a mean
-skill of about 91.8%, but
-perhaps a size of 7 or 11 may also be just as good with a smaller
-standard deviation.
+
+Running the example tests each kernel size in turn. The results are summarized at the end2
+of the run. We can see a general increase in model performance with the increase in kernel
+size. The results suggest a kernel size of 5 might be good with a mean skill of about 91.8%, but
+perhaps a size of 7 or 11 may also be just as good with a smaller standard deviation.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider running the example a few times.
 
 ```
-
 ...
 
 Param=2: 90.176% (+/-0.724)
@@ -1336,45 +1259,31 @@ Param=11: 91.456% (+/-0.743)
 
 ```
 
-A box and whisker plot of the results is also created. The results
-suggest that a larger kernel
-
-size does appear to result in better accuracy and that perhaps a kernel
-size of 7 provides a good
-
+A box and whisker plot of the results is also created. The results suggest that a larger kernel
+size does appear to result in better accuracy and that perhaps a kernel size of 7 provides a good
 balance between good performance and low variance.
 
 ![](./images/533-59.png)
 
 This is just the beginning of tuning the model, although we have focused on perhaps the
-
-more important elements. It might be interesting to explore combinations
-of some of the above
-
-
+more important elements. It might be interesting to explore combinations of some of the above
 findings to see if performance can be lifted even further. It may also be interesting to increase
 the number of repeats from 10 to 30 or more to see if it results in more stable findings.
 
 #### Multi-headed CNN Model
 
-Another popular approach with 1D CNNs is to have a multi-headed model,
-where each head of
+Running the example prints the performance of the model each repeat of the experiment and
+then summarizes the estimated score as the mean and standard deviation, as we did in the first
+case with the simple 1D CNN. We can see that the average performance of the model is about
+91.6% classification accuracy with a standard deviation of about 0.8. This example may be used
+as the basis for exploring a variety of other models that vary different model hyperparameters
+and even different data preparation schemes across the input heads.
 
-the model reads the input time steps using a different sized kernel. For example, a three-headed
-model may have three different kernel sizes of 3, 5, 11, allowing the model to read and interpret
-the sequence data at three different resolutions. The interpretations from all three heads are then
-concatenated within the model and interpreted by a fully-connected layer before a prediction is
-made.
-We can implement a multi-headed 1D CNN using the Keras functional API. The updated
+It would not be an apples-to-apples comparison to compare this result with a single-headed
+CNN given the relative tripling of the resources in this model. Perhaps an apples-to-apples
+comparison would be a model with the same architecture and the same number of filters across
+each input head of the model.
 
-version of theevaluatemodel() function is listed below.
-
-```that creates a
-three-headed 1D CNN
-
-model. We can see that each head of the model is the same structure, although the kernel size
-is varied. The three heads then feed into a single merge layer before being interpreted prior to
-making a prediction.
 
 ```
 # fit and evaluate a model
@@ -1414,28 +1323,18 @@ verbose=verbose)
 # evaluate model
 _, accuracy = model.evaluate([testX,testX,testX], testy, batch_size=batch_size, verbose=0)
 
-
 return accuracy
 
 ```
-When the model is created, a plot of the network architecture is
-created; provided below, it
 
+When the model is created, a plot of the network architecture is created; provided below, it
 gives a clear idea of how the constructed model fits together.
 
-**Note:** the call toplotmodel()requires that pygraphviz and pydot are
-installed. If this is a
-
-problem, you can comment out this line.
 
 ![](./images/535-60.png)
 
-Other aspects of the model could be varied across the heads, such as the
-number of filters or
-
-even the preparation of the data itself. The complete code example with
-the multi-headed 1D
-
+Other aspects of the model could be varied across the heads, such as the number of filters or
+even the preparation of the data itself. The complete code example with the multi-headed 1D
 CNN is listed below.
 
 ```
@@ -1560,6 +1459,7 @@ summarize_results(scores)
 run_experiment()
 
 ```
+
 Running the example prints the performance of the model each repeat of the experiment and
 then summarizes the estimated score as the mean and standard deviation, as we did in the first
 case with the simple 1D CNN. We can see that the average performance of the model is about

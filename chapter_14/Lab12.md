@@ -48,7 +48,7 @@ was introduced. You can download the dataset directly from here:
 
 - monthly-car-sales.csv^1
 
-Save the file with the filenamemonthly-car-sales.csvin your current
+Save the file with the filename `monthly-car-sales.csv` in your current
 working directory.
 
 The dataset is monthly and has nine years, or 108 observations. In our
@@ -244,7 +244,7 @@ def measure_rmse(actual, predicted):
 return sqrt(mean_squared_error(actual, predicted))
 
 ```
-The completewalkforwardvalidation() function that ties all of this together is listed
+The complete walkforwardvalidation() function that ties all of this together is listed
 below. It takes the dataset, the number of observations to use as the test set, and the
 configuration for the model, and returns the RMSE for the model performance on the test set.
 
@@ -1383,47 +1383,37 @@ the base case for the model did not achieve the performance of a naive model.
 
 We have seen that the CNN model is capable of automatically learning and
 extracting features
-
 from the raw sequence data without scaling or differencing. We can combine this capability
-
 with the LSTM where a CNN model is applied to sub-sequences of input
 data, the results of
-
 which together form a time series of extracted features that can be
 interpreted by an LSTM
-
 model. This combination of a CNN model used to read multiple subsequences over time by an
 LSTM is called a CNN-LSTM model. The model requires that each input sequence, e.g. 36
-
-
 months, is divided into multiple subsequences, each read by the CNN
 model, e.g. 3 subsequence
-
 of 12 time steps. It may make sense to divide the sub-sequences by
 years, but this is just a
-
 hypothesis, and other splits could be used, such as six subsequences of
 six time steps. Therefore,
-
 this splitting is parameterized with thenseqandnstepsfor the number of
 subsequences and
-
 number of steps per subsequence parameters.
 
+```
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
 ```
+
 The number of lag observations per sample is simply (nseq × nsteps).
 This is a 4-
-
 dimensional input array now with the dimensions: [samples, subsequences,
 timesteps,
-
 features]. The same CNN model must be applied to each input subsequence.
 We can achieve
-
 this by wrapping the entire CNN model in aTimeDistributedlayer wrapper.
 
+```
 model = Sequential()
 model.add(TimeDistributed(Conv1D(filters=n_filters,
 kernel_size=n_kernel,
@@ -1435,14 +1425,12 @@ model.add(TimeDistributed(MaxPooling1D(pool_size=2)))
 model.add(TimeDistributed(Flatten()))
 
 ```
-The output of one application of the CNN submodel will be a vector. The output of
 
+The output of one application of the CNN submodel will be a vector. The output of
 the submodel to each input subsequence will be a time series of
 interpretations that can be
-
 interpreted by an LSTM model. This can be followed by a fully connected
 layer to interpret the
-
 outcomes of the LSTM and finally an output layer for making one-step
 predictions.
 

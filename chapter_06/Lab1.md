@@ -439,7 +439,7 @@ steps:
 
 #### Load the Data
 
-We can load this dataset as a PandasSeriesusing the functionreadcsv().
+We can load this dataset as a PandasSeriesusing the function readcsv().
 
 ```
 

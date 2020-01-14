@@ -36,7 +36,6 @@ TheHousehold Power Consumptiondataset is a multivariate time series dataset that
 the electricity consumption for a single household over four years. The data was collected
 between December 2006 and November 2010 and observations of power consumption within the
 household were collected every minute. It is a multivariate series comprised of seven variables
-
 (besides the date and time); they are:
 
 - globalactivepower: The total active power consumed by the household
@@ -111,13 +110,16 @@ values[row, col] = values[row - one_day, col]
 ```
 We can apply this function directly to the data within theDataFrame.
 
+```
 # fill missing
 fill_missing(dataset.values)
 
 ```
+
 Now we can create a new column that contains the remainder of the sub-metering, using the
 calculation from the previous section.
 
+```
 # add a column for for the remainder of sub metering
 values = dataset.values
 dataset['sub_metering_4'] = (values[:,0] * 1000 / 60) - (values[:,4] + values[:,5] +

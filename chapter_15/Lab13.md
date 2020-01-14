@@ -1,10 +1,8 @@
 ### How to Grid Search Deep Learning Models for Univariate Forecasting
 
 Grid searching is generally not an operation that we can perform with deep learning methods.
-
 This is because deep learning methods often require large amounts of
 data and large models,
-
 together resulting in models that take hours, days, or weeks to train. In those cases where the
 datasets are smaller, such as univariate time series, it may be possible to use a grid search to
 tune the hyperparameters of a deep learning model. In this tutorial, you will discover how to
@@ -48,9 +46,9 @@ an airline from 1949 to 1960. Download the dataset directly from here:
 
 - monthly-airline-passengers.csv^1
 
-Save the file with the filenamemonthly-airline-passengers.csvin your
+Save the file with the filename `monthly-airline-passengers.csv` in your
 current working directory. We can load this dataset as a PandasDataFrameusing the
-functionreadcsv().
+function readcsv().
 
 
 ```
@@ -60,15 +58,16 @@ index_col=0)
 ```
 
 Once loaded, we can summarize the shape of the dataset in order to
-determine the number
+determine the number of observations.
 
-of observations.
-
+```
 print(series.shape)
 
 ```
 We can then create a line plot of the series to get an idea of the
 structure of the series.
+
+```
 pyplot.plot(series)
 pyplot.show()
 
@@ -96,10 +95,6 @@ Running the example first prints the shape of the dataset.
 (144, 1)
 
 ```
-
-(^1)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/airline-passengers.csv
-
 
 The dataset is monthly and has 12 years, or 144 observations. In our testing, we will use the
 last year, or 12 observations, as the test set. A line plot is created. The dataset has an obvious
@@ -274,7 +269,6 @@ added to a list of observations that was seeded with all observations from the t
 
 This list is built up during each step in the walk-forward validation,
 allowing the model to make
-
 a one-step prediction using the most recent history. All of the predictions can then be compared
 to the true values in the test set and an error measure calculated. We will calculate the root
 mean squared error, or RMSE, between predictions and the true values.
@@ -290,7 +284,7 @@ return sqrt(mean_squared_error(actual, predicted))
 
 ```
 
-The completewalkforwardvalidation() function that ties all of this together is listed
+The complete walkforwardvalidation() function that ties all of this together is listed
 below. It takes the dataset, the number of observations to use as the test set, and the
 configuration for the model, and returns the RMSE for the model performance on the test set.
 
@@ -489,10 +483,10 @@ on the final 12 months of data. Each model configuration is evaluated 10 times, 
 because the model has no stochastic element, the score is the same each time. At the end of
 the run, the configurations and RMSE for the top three performing model configurations are
 reported. We can see, as we might have expected, that persisting the value from one year ago
-
 (relative offset -12) resulted in the best performance for the
 persistence model.
 
+```
 > 110.274
 
 > 110.274
@@ -557,6 +551,7 @@ predictions of the model will need the differencing reversed prior to returning 
 can now define the elements required to fit the MLP model in the test harness. First, we must
 unpack the list of hyperparameters.
 
+```
 # unpack config
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 
@@ -564,6 +559,7 @@ n_input, n_nodes, n_epochs, n_batch, n_diff = config
 Next, we must prepare the data, including the differencing, transforming the data to a
 supervised format and separating out the input and output aspects of the data samples.
 
+```
 # prepare data
 if n_diff > 0:
 train = difference(train, n_diff)
@@ -573,8 +569,10 @@ data = series_to_supervised(train, n_input)
 train_x, train_y = data[:, :-1], data[:, -1]
 
 ```
+
 We can now define and fit the model with the provided configuration.
 
+```
 # define model
 model = Sequential()
 model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
@@ -1205,7 +1203,6 @@ A truncated example output of the grid search is listed below.
 running the example a few times.
 
 ```
-
 Total configs: 8
 > 23.372
 > 28.317

@@ -348,7 +348,7 @@ download the dataset directly from here:
 
 - daily-total-female-births.csv^1
 
-Save the file with the filenamedaily-total-female-births.csvin your current working
+Save the file with the filename `daily-total-female-births.csv` in your current working
 directory. The dataset has one year, or 365 observations. We will use the first 200 for training
 and the remaining 165 as the test set. The complete example grid searching the daily female
 univariate time series forecasting problem is listed below.
@@ -538,7 +538,7 @@ download the dataset directly from here:
 
 - monthly-shampoo-sales.csv^2
 
-Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
+Save the file with the filename `monthly-shampoo-sales.csv` in your current working di-
 rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
 and the remaining 12 as the test set. The complete example grid searching the shampoo sales
 univariate time series forecasting problem is listed below.
@@ -732,7 +732,7 @@ from here:
 
 - monthly-mean-temp.csv^3
 
-Save the file with the filenamemonthly-mean-temp.csvin your current
+Save the file with the filename `monthly-mean-temp.csv` in your current
 working directory.
 
 The dataset has 20 years, or 240 observations. We will trim the dataset
@@ -947,7 +947,7 @@ You can download the dataset directly from here:
 
 - monthly-car-sales.csv^4
 
-Save the file with the filenamemonthly-car-sales.csvin your current
+Save the file with the filename `monthly-car-sales.csv` in your current
 working directory.
 
 The dataset has 9 years, or 108 observations. We will use the last year

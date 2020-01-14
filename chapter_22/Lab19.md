@@ -17,10 +17,8 @@ predictive modeling. This dataset will provided the basis for the remaining tuto
 of the book. After completing this tutorial, you will know:
 
 - How to download and load the dataset into memory.
-
 - How to use line plots, histograms, and box plots to better understand the structure of the
 motion data.
-
 - How to model the problem, including framing, data preparation,
 modeling, and evaluation.
 
@@ -43,223 +41,97 @@ This tutorial is divided into 10 parts; they are:
 
 #### Activity Recognition Using Smartphones Dataset
 
-A standard human activity recognition dataset is theActivity Recognition
-Using Smartphones
-
+A standard human activity recognition dataset is the Activity Recognition Using Smartphones
 dataset made available in 2012. It was prepared and made available by Davide Anguita, et
-al. from the University of Genova, Italy and is described in full in their 2013 paperA Public
-
-Domain Dataset for Human Activity Recognition Using Smartphones. The
-dataset was modeled
-
-with machine learning algorithms in their 2012 paper titledHuman
-Activity Recognition on
-
-Smartphones using a Multiclass Hardware-Friendly Support Vector Machine.
-The dataset was
-
-made available and can be downloaded for free from the UCI Machine
-Learning Repository^1.
-
-![](./images/461-45.png)
+al. from the University of Genova, Italy and is described in full in their 2013 paper A Public
+Domain Dataset for Human Activity Recognition Using Smartphones. The dataset was modeled
+with machine learning algorithms in their 2012 paper titled Human Activity Recognition on
+Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. The dataset was
+made available and can be downloaded for free from the UCI Machine Learning Repository.
 
 The data was collected from 30 subjects aged between 19 and 48 years old performing one
 of 6 standard activities while wearing a waist-mounted smartphone that recorded the movement
-
-(^1)
-https://archive.ics.uci.edu/ml/datasets/human+activity+recognition+using+smartphones
-
-
-data. Video was recorded of each subject performing the activities and
-the movement data was
-
-labeled manually from these videos. Below is an example video of a
-subject performing the
-
-activities while their movement data is being recorded^2. The six
-activities performed were as
-
+data. Video was recorded of each subject performing the activities and the movement data was
+labeled manually from these videos. Below is an example video of a subject performing the
+activities while their movement data is being recorded2. The six activities performed were as
 follows:
 
-```
+1. Walking
+2. Walking Upstairs
+3. Walking Downstairs
+4. Sitting
+5. Standing
+6. Laying
 
-1.  Walking
-2.  Walking Upstairs
-3.  Walking Downstairs
-4.  Sitting
-5.  Standing
-6.  Laying
-
-The movement data recorded was thex,y, andzaccelerometer data (linear
-acceleration)
-
-and gyroscopic data (angular velocity) from the smartphone, specifically
-a Samsung Galaxy S II.
-
-Observations were recorded at 50 Hz (i.e. 50 data points per second).
-Each subject performed
-
-the sequence of activities twice, once with the device on their
-left-hand-side and once with the
-
+The movement data recorded was the x, y, and z accelerometer data (linear acceleration)
+and gyroscopic data (angular velocity) from the smartphone, specifically a Samsung Galaxy S II.
+Observations were recorded at 50 Hz (i.e. 50 data points per second). Each subject performed
+the sequence of activities twice, once with the device on their left-hand-side and once with the
 device on their right-hand side.
 
-A group of 30 volunteers with ages ranging from 19 to 48 years were selected for
-this task. Each person was instructed to follow a protocol of activities while wearing
-a waist-mounted Samsung Galaxy S II smartphone. The six selected ADL were
-standing, sitting, laying down, walking, walking downstairs and upstairs. Each
-subject performed the protocol twice: on the first trial the smartphone was fixed
-on the left side of the belt and on the second it was placed by the user himself as
-preferred
-
-—A Public Domain Dataset for Human Activity Recognition Using
-Smartphones, 2013.
-
 The raw data is not available. Instead, a pre-processed version of the dataset was made
-
 available. The pre-processing steps included:
-
 - Pre-processing accelerometer and gyroscope using noise filters.
-
-- Splitting data into fixed windows of 2.56 seconds (128 data points)
-with 50% overlap.
-
-- Splitting of accelerometer data into gravitational (total) and body
-motion components.
-
-These signals were preprocessed for noise reduction with a median filter and a 3rd
-order low-pass Butterworth filter with a 20 Hz cutoff frequency. [...] The acceleration
-signal, which has gravitational and body motion components, was separated using
-another Butterworth low-pass filter into body acceleration and gravity.
-
-—A Public Domain Dataset for Human Activity Recognition Using
-Smartphones, 2013.
-
-(^2) View on YouTube:https://www.youtube.com/watch?v=XOEN9W05_4A
-
-
-Feature engineering was applied to the window data, and a copy of the data with these
-engineered features was made available. A number of time and frequency features commonly
-used in the field of human activity recognition were extracted from each window. The result
-
-was a 561 element vector of features. The dataset was split into train
-(70%) and test (30%) sets
-
-based on data for subjects, e.g. 21 subjects for train and nine for test.
-This suggests a framing of the problem where a sequence of movement activity is used as
-input to predict the portion (2.56 seconds) of the current activity being performed, where a
-model trained on known subjects is used to predict the activity from movement on new subjects.
-Early experiment results with a support vector machine intended for use on a smartphone (e.g.
-fixed-point arithmetic) resulted in a predictive accuracy of 89% on the test dataset, achieving
-similar results as an unmodified SVM implementation.
-
-This method adapts the standard Support Vector Machine (SVM) and exploits
-fixed-point arithmetic for computational cost reduction. A comparison with the
-traditional SVM shows a significant improvement in terms of computational costs
-while maintaining similar accuracy [...]
-
-—Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support
-Vector Machine, 2012.
-
-Now that we are familiar with the prediction problem, we will look at loading and exploring
-this dataset.
+- Splitting data into fixed windows of 2.56 seconds (128 data points) with 50% overlap.
+- Splitting of accelerometer data into gravitational (total) and body motion components.
 
 #### Download the Dataset
 
-The data is provided as a single zip file that is about 58 megabytes in
-size. A direct for
-
+The data is provided as a single zip file that is about 58 megabytes in size. A direct for
 downloading the dataset is provided below:
-
-- HARSmartphones.zip^3
+- HAR Smartphones.zip 3
 
 Download the dataset and unzip all files into a new directory in your current working
-directory namedHARDataset. Inspecting the decompressed contents, you will notice a few
+directory named HARDataset. Inspecting the decompressed contents, you will notice a few
 things:
 
-- There aretrainandtestfolders containing the split portions of the data for modeling
+- There are train and test folders containing the split portions of the data for modeling
 (e.g. 70%/30%).
-
-- There is aREADME.txtfile that contains a detailed technical description of the dataset
+- There is a README.txt file that contains a detailed technical description of the dataset
 and the contents of the unzipped files.
-
-- There is afeatures.txt file that contains a technical description of the engineered
+- There is a features.txt file that contains a technical description of the engineered
 features.
 
-The contents of thetrainandtestfolders are similar (e.g. folders and
-file names), although
-
-with differences in the specific data they contain. Inspecting
-thetrainfolder shows a few
-
+The contents of the train and test folders are similar (e.g. folders and file names), although
+with differences in the specific data they contain. Inspecting the train folder shows a few
 important elements:
 
-(^3)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/HAR_Smartphones.zip
-
-
-- AnInertial Signalsfolder that contains the preprocessed data.
-
-- TheXtrain.txtfile that contains the engineered features intended for
-fitting a model.
-
-- Theytrain.txtthat contains the class labels for each observation
-(1-6).
-
-- Thesubjecttrain.txtfile that contains a mapping of each line in the data files with
+- An Inertial Signals folder that contains the preprocessed data.
+- The X train.txt file that contains the engineered features intended for fitting a model.
+- The y train.txt that contains the class labels for each observation (1-6).
+- The subject train.txt file that contains a mapping of each line in the data files with
 their subject identifier (1-30).
 
 The number of lines in each file match, indicating that one row is one record in each data
+file. The Inertial Signals directory contains 9 files.
+- Gravitational acceleration data files for x, y and z axes: total acc x train.txt,
+total acc y train.txt, total acc z train.txt.
+- Body acceleration data files for x, y and z axes: body acc x train.txt,
+body acc y train.txt, body acc z train.txt.
+- Body gyroscope data files for x, y and z axes: body gyro x train.txt,
+body gyro y train.txt, body gyro z train.txt.
 
-file. TheInertial Signalsdirectory contains 9 files.
-
-- Gravitational acceleration data files forx,yandzaxes:totalaccxtrain.txt,
-totalaccytrain.txt,totalaccztrain.txt.
-
-- Body acceleration data files forx,yandzaxes:bodyaccxtrain.txt,
-bodyaccytrain.txt,bodyaccztrain.txt.
-
-- Body gyroscope data files forx,yandzaxes:bodygyroxtrain.txt,
-bodygyroytrain.txt,bodygyroztrain.txt.
-
-The structure is mirrored in thetestdirectory. We will focus our
-attention on the data in
-
-theInertial Signalsas this is most interesting in developing machine
-learning models that
-
-can learn a suitable representation, instead of using the
-domain-specific feature engineering.
-
-Inspecting a datafile shows that columns are separated by whitespace and
-values appear to
-
-be scaled to the range -1, 1. This scaling can be confirmed by a note in
-theREADME.txtfile
-
-provided with the dataset. Now that we know what data we have, we can
-figure out how to
-
+The structure is mirrored in the test directory. We will focus our attention on the data in
+the Inertial Signals as this is most interesting in developing machine learning models that
+can learn a suitable representation, instead of using the domain-specific feature engineering.
+Inspecting a datafile shows that columns are separated by whitespace and values appear to
+be scaled to the range -1, 1. This scaling can be confirmed by a note in the README.txt file
+provided with the dataset. Now that we know what data we have, we can figure out how to
 load it into memory.
 
 #### Load the Dataset
 
-In this section, we will develop some code to load the dataset into
-memory. First, we need to
+In this section, we will develop some code to load the dataset into memory. First, we need to
+load a single file. We can use the read csv() Pandas function to load a single data file and
+specify that the file has no header and to separate columns using white space.
 
-load a single file. We can use thereadcsv()Pandas function to load a
-single data file and
-
-specify that the file has no header and to separate columns using white
-space.
-
+```
 dataframe = read_csv(filepath, header=None, delim_whitespace=True)
 
 ```
-We can wrap this in a function namedloadfile(). The complete example of
-this function
 
-is listed below.
+We can wrap this in a function namedloadfile(). The complete example of
+this function is listed below.
 
 ```
 
@@ -272,14 +144,15 @@ return dataframe.values
 data = load_file('HARDataset/train/Inertial
 Signals/total_acc_y_train.txt')
 
-
 print(data.shape)
 
 ```
+
 Running the example loads the filetotalaccytrain.txt, returns a NumPy array, and
 prints the shape of the array. We can see that the training data is comprised of 7,352 rows or
-
 windows of data, where each window has 128 observations.
+
+```
 
 (7352, 128)
 
@@ -287,14 +160,15 @@ windows of data, where each window has 128 observations.
 
 Next, it would be useful to load a group of files, such as all of the body acceleration data
 files as a single group. Ideally, when working with multivariate time series data, it is useful to
-have the data structured in the format:[samples, timesteps, features]. This is helpful for
+have the data structured in the format: [samples, timesteps, features]. This is helpful for
 analysis and is the expectation of deep learning models such as convolutional neural networks
-and recurrent neural networks. We can achieve this by calling the aboveloadfile() function
+and recurrent neural networks. We can achieve this by calling the above load file() function
 multiple times, once for each file in a group.
+
 Once we have loaded each file as a NumPy array, we can combine or stack all three arrays
-together. We can use thedstack()NumPy function to ensure that each array is stacked in
+together. We can use the dstack() NumPy function to ensure that each array is stacked in
 such a way that the features are separated in the third dimension, as we would prefer. The
-functionloadgroup()implements this behavior for a list of file names and is listed below.
+function load group() implements this behavior for a list of file names and is listed below.
 
 ```
 # load a list of files, such as x, y, z data for a given variable
@@ -340,34 +214,25 @@ Signals/')
 print(total_acc.shape)
 
 ```
+
 Running the example prints the shape of the returned NumPy array,
 showing the expected
-
-number of samples and time steps with the three features,x,y, andzfor
+number of samples and time steps with the three features, `x` , `y` , and `z` for
 the dataset.
 
+```
 (7352, 128, 3)
 
 ```
 
-Finally, we can use the two functions developed so far to load all data
-for the train and the
+Finally, we can use the two functions developed so far to load all data for the train and the
+test dataset. Given the parallel structure in the train and test folders, we can develop a new
+function that loads all input and output data for a given folder. The function can build a list of
+all 9 data files to load, load them as one NumPy array with 9 features, then load the data file
+containing the output class. The load dataset() function below implements this behavior. It
+can be called for either the train group or the test group, passed as a string argument.
 
-test dataset. Given the parallel structure in the train and test
-folders, we can develop a new
-
-function that loads all input and output data for a given folder. The
-function can build a list of
-
-all 9 data files to load, load them as one NumPy array with 9 features,
-then load the data file
-
-containing the output class. Theloaddataset() function below implements
-this behavior. It
-
-can be called for either thetraingroup or thetestgroup, passed as a
-string argument.
-
+```
 def load_dataset(group, prefix=''):
 filepath = prefix + group + '/Inertial Signals/'
 
@@ -441,36 +306,30 @@ testX, testy = load_dataset('test','HARDataset/')
 print(testX.shape, testy.shape)
 
 ```
+
 Running the example loads the train and test datasets. We can see that the test dataset
 has 2,947 rows of window data. As expected, we can see that the size of windows in the train
 and test sets matches and the size of the output (y) in each the train and test case matches the
 number of samples.
 
+```
 (7352, 128, 9) (7352, 1)
 (2947, 128, 9) (2947, 1)
 
 ```
+
 #### Balance of Activity Classes
 
-A good first check of the data is to investigate the balance of each
-activity. We believe that
-
+A good first check of the data is to investigate the balance of each activity. We believe that
 each of the 30 subjects performed each of the six activities. Confirming this expectation will
 both check that the data is indeed balanced, making it easier to model, and confirm that we are
 correctly loading and interpreting the dataset. We can develop a function that summarizes the
-
-
-breakdown of the output variables, e.g. theyvariable. The
-functionclassbreakdown()below
-
-implements this behavior, first wrapping the provided NumPy array in
-aDataFrame, grouping
-
-the rows by the class value, and calculating the size of each group
-(number of rows). The results
-
+breakdown of the output variables, e.g. the y variable. The function class breakdown() below
+implements this behavior, first wrapping the provided NumPy array in a DataFrame, grouping
+the rows by the class value, and calculating the size of each group (number of rows). The results
 are then summarized, including the count and the percentage.
 
+```
 def class_breakdown(data):
 
 df = DataFrame(data)
@@ -486,10 +345,7 @@ percent))
 ```
 
 It may be useful to summarize the breakdown of the classes in the train and test datasets
-
-to ensure they have a similar breakdown, then compare the result to the
-breakdown on the
-
+to ensure they have a similar breakdown, then compare the result to the breakdown on the
 combined dataset. The complete example is listed below.
 
 ```
@@ -534,11 +390,11 @@ class_breakdown(combined)
 Running the example first summarizes the breakdown for the training set. We can see a
 pretty similar distribution of each class hovering between 13% and 19% of the dataset. The
 result on the test set and on both datasets together look very similar. It is likely safe to work
-
 with the dataset assuming the distribution of classes is balanced per
 train and test set and
-
 perhaps per subject.
+
+```
 Train Dataset
 Class=1, total=1226, percentage=16.676
 Class=2, total=1073, percentage=14.595
@@ -569,12 +425,9 @@ Class=6, total=1944, percentage=18.876
 
 We are working with time series data, therefore an import check is to
 create a line plot of the
-
 raw data. The raw data is comprised of windows of time series data per variable, and the
-
 windows do have a 50% overlap. This suggests we may see some repetition
 in the observations
-
 as a line plot unless the overlap is removed. We can start off by loading the training dataset
 using the functions developed above.
 
@@ -584,9 +437,9 @@ trainX, trainy = load_dataset('train', 'HARDataset/')
 
 ```
 
-Next, we can load thesubjecttrain.txtin thetraindirectory that provides a mapping
-of rows to the subject to which it belongs. We can load this file using theloadfile() function.
-Once loaded, we can also use theunique()NumPy function to retrieve a list of the unique
+Next, we can load the subject train.txt in the train directory that provides a mapping
+of rows to the subject to which it belongs. We can load this file using the load file() function.
+Once loaded, we can also use the unique() NumPy function to retrieve a list of the unique
 subjects in the training dataset.
 
 ```
@@ -598,13 +451,11 @@ print(train_subjects)
 ```
 
 Next, we need a way to retrieve all of the rows for a single subject, e.g. subject number 1.
-
-We can do this by finding all of the row numbers that belong to a given
-subject and use those
-row numbers to select the samples from the loaded `X` and `y` data from the training dataset. The
-dataforsubject() function below implements this behavior. It will take the loaded training
+We can do this by finding all of the row numbers that belong to a given subject and use those
+row numbers to select the samples from the loaded X and y data from the training dataset. The
+data for subject() function below implements this behavior. It will take the loaded training
 data, the loaded mapping of row number to subjects, and the subject identification number for
-the subject that we are interested in, and will return the `X` and `y` data for only that subject.
+the subject that we are interested in, and will return the X and y data for only that subject.
 
 ```
 # get all data for one subject
@@ -615,14 +466,13 @@ ix = [i for i in range(len(sub_map)) if sub_map[i]==sub_id]
 return X[ix, :, :], y[ix]
 
 ```
+
 Now that we have data for one subject, we can plot it. The data is comprised of windows
-
-with overlap. We can write a function to remove this overlap and squash
-the windows down
-
+with overlap. We can write a function to remove this overlap and squash the windows down
 for a given variable into one long sequence that can be plotted directly as a line plot. The
-toseries() function below implements this behavior for a given variable, e.g. array of windows.
+to series() function below implements this behavior for a given variable, e.g. array of windows.
 
+```
 # convert a series of windows to a 1D list
 def to_series(windows):
 series = list()
@@ -634,18 +484,17 @@ series.append(value)
 return series
 
 ```
+
 Finally, we have enough to plot the data. We can plot each of the nine variables for the
 subject in turn and a final plot for the activity level. Each series will have the same number of
 time steps (length of x-axis), therefore, it may be useful to create a subplot for each variable and
 align all plots vertically so we can compare the movement on each variable. Theplotsubject()
 function below implements this behavior for the `X` and `y` data for a single subject. The function
 assumes the same order of the variables (3rd axis) as was loaded in theloaddataset() function.
-
 A crude title is also added to each plot so we don’t get easily confused
-about what we are
+about what we are looking at.
 
-looking at.
-
+```
 # plot the data for one subject
 
 
@@ -804,24 +653,21 @@ plot_subject(subX, suby)
 
 Running the example prints the unique subjects in the training dataset, the sample of the
 data for the first subject, and creates one figure with 10 plots, one for each of the nine input
-
 variables and the output class.
 
+```
 [ 1 3 5 6 7 8 11 14 15 16 17 19 21 22 23 25 26 27 28 29 30]
 (341, 128, 9) (341, 1)
 
 ```
-In the plot, we can see periods of large movement corresponding with activities 1, 2, and
 
+In the plot, we can see periods of large movement corresponding with activities 1, 2, and
 3: the walking activities. We can also see much less activity (i.e. a
 relatively straight line) for
-
-
 higher numbered activities, 4, 5, and 6 (sitting, standing, and laying). This is good confirmation
 that we have correctly loaded interpreted the raw dataset. We can see that this subject has
 performed the same general sequence of activities twice, and some activities are performed more
 than two times. This suggests that for a given subject, we should not make assumptions about
-
 what activities may have been performed or their order.
 
 We can also see some relatively large movement for some stationary activities, such as laying.
@@ -850,10 +696,8 @@ sequence of activities does appear more regular than the first subject.
 As the problem is framed, we are interested in using the movement data from some subjects
 to predict activities from the movement of other subjects. This suggests that there must be
 regularity in the movement data across subjects. We know that the data has been scaled between
-
 -1 and 1, presumably per subject, suggesting that the amplitude of the
 detected movements
-
 will be similar. We would also expect that the distribution of movement data would be similar
 across subjects, given that they performed the same actions.
 We can check for this by plotting and comparing the histograms of the movement data across
@@ -864,6 +708,7 @@ across subjects can be compared. Theplotsubjecthistograms() function below imple
 this behavior. The function takes the loaded dataset and mapping of rows to subjects as well as
 a maximum number of subjects to plot, fixed at 10 by default.
 
+```
 # plot histograms for multiple subjects
 def plot_subject_histograms(X, y, sub_map, offset, n=10):
 pyplot.figure()
@@ -890,6 +735,7 @@ The addition of anoffsetargument allows the same function to be called for each 
 groups of variables to plot at a time: total acceleration, body acceleration and gyroscopic with
 offsets 0, 3 and 6 respectively.
 
+```
 # plot total acceleration histograms for subjects
 plot_subject_histograms(X, y, sub_map, 0)
 # plot body acceleration histograms for subjects
@@ -898,7 +744,6 @@ plot_subject_histograms(X, y, sub_map, 3)
 plot_subject_histograms(X, y, sub_map, 6)
 
 ```
-variables.
 
 For a given call, a plot is created for each subject and the three variables for one data type
 are plotted as histograms with 100 bins, to help to make the distribution obvious. Each plot
@@ -996,34 +841,25 @@ plot_subject_histograms(X, y, sub_map, 6)
 
 Running the example creates three figures, each with 10 plots with
 histograms for the three
-
 axis. Each of the three axes on a given plot have a different color,
-specificallyx,y, andzare
-
+specifically `x` , `y` , and `z` are
 blue, orange, and green respectively. The first figure summarizes the
 total acceleration. We can
-
 see that the distribution for a given axis does appear Gaussian with
 large separate groups of
-
 data. We can see some of the distributions align (e.g. main groups in
 the middle around 0.0),
-
 suggesting there may be some continuity of the movement data across
 subjects, at least for this
-
 data.
 
 ![](./images/478-48.png)
 
 The second figure shows histograms for the body acceleration with very different results.
-
 We can see all data clustered around 0.0 across axis within a subject
 and across subjects.
-
 This suggests that perhaps the data was centered (zero mean). This
 strong consistency across
-
 subjects may aid in modeling, and may suggest that the differences across subjects in the total
 acceleration data may not be as helpful.
 
@@ -1071,6 +907,7 @@ function below implements this function for the traces data for a given subject.
 is grouped by activity, then one subplot is created for each activity and each axis of the data
 type is added as a histogram.
 
+```
 # plot histograms for each activity for a subject
 def plot_activity_histograms(X, y, offset):
 # get a list of unique activities for the subject
@@ -1109,7 +946,6 @@ plot_activity_histograms(subX, suby, 3)
 plot_activity_histograms(subX, suby, 6)
 
 ```
-variables.
 
 The complete example is listed below.
 
@@ -1213,59 +1049,31 @@ plot_activity_histograms(subX, suby, 3)
 plot_activity_histograms(subX, suby, 6)
 
 ```
+
 Running the example creates three figures, where each figure has with six subplots, one
-
-for each activity for the first subject in the train dataset. Each of
-thex,y, andz axes for
-
-the total acceleration data have a blue, orange, and green histogram
-respectively. In the first
-
-figure, can see that each activity has a different data distribution,
-with a marked difference
-
-between the large movement (first three activities) with the stationary
-activities (last three
-
-activities). Data distributions for the first three activities look
-Gaussian with perhaps differing
-
-means and standard deviations. Distributions for the latter activities
-look multi-modal (i.e.
-
+for each activity for the first subject in the train dataset. Each of the x, y, and z axes for
+the total acceleration data have a blue, orange, and green histogram respectively. In the first
+figure, can see that each activity has a different data distribution, with a marked difference
+between the large movement (first three activities) with the stationary activities (last three
+activities). Data distributions for the first three activities look Gaussian with perhaps differing
+means and standard deviations. Distributions for the latter activities look multi-modal (i.e.
 multiple peaks).
 
 ![](./images/484-51.png)
 
 The second figure summarizes the body acceleration distributions per activity. We can
-
-see more similar distributions across the activities amongst the
-in-motion vs. stationary
-
-activities. The data looks bimodal in the case of the in-motion
-activities and perhaps Gaussian
-
-or exponential in the case of the stationary activities. The pattern we
-see with the total vs.
-
-body acceleration distributions by activity mirrors what we see with the
-same data types across
-
-subjects in the previous section. Perhaps the total acceleration data is
-the key to discriminating
-
+see more similar distributions across the activities amongst the in-motion vs. stationary
+activities. The data looks bimodal in the case of the in-motion activities and perhaps Gaussian
+or exponential in the case of the stationary activities. The pattern we see with the total vs.
+body acceleration distributions by activity mirrors what we see with the same data types across
+subjects in the previous section. Perhaps the total acceleration data is the key to discriminating
 the activities.
 
 ![](./images/485-52.png)
 
-The final figure summarizes the gyroscopic data per activity for the
-first subject. We can see
-
-plots with the similar pattern as the body acceleration data, although
-showing perhaps fat-tailed
-
-Gaussian-like distributions instead of bimodal distributions for the
-in-motion activities.
+The final figure summarizes the gyroscopic data per activity for the first subject. We can see
+plots with the similar pattern as the body acceleration data, although showing perhaps fat-tailed
+Gaussian-like distributions instead of bimodal distributions for the in-motion activities.
 
 ![](./images/486-53.png)
 
@@ -1281,18 +1089,15 @@ be reasonably well balanced. We can confirm this by calculating how long (in sam
 each subject spends on each activity and look at the distribution of durations for each activity.
 A handy way to review this data is to summarize the distributions as box plots showing the
 median (line), the middle 50% (box), the general extent of the data as the interquartile range
-
-(the whiskers), and outliers (as dots). The
-functionplotactivitydurationsbysubject()
-
+(the whiskers), and outliers (as dots). The function plot activity durations by subject()
 below implements this behavior by first splitting the dataset by subject, then the subjects data
 by activity and counting the rows spent on each activity, before finally creating a box plot per
 activity of the duration measurements.
 
+```
 # plot activity durations by subject
 def plot_activity_durations_by_subject(X, y, sub_map):
 # get unique subjects and activities
-
 
 subject_ids = unique(sub_map[:,0])
 activity_ids = unique(y[:,0])
@@ -1396,28 +1201,14 @@ sub_map = load_file('HARDataset/train/subject_train.txt')
 plot_activity_durations_by_subject(X, y, sub_map)
 
 ```
-Running the example creates six box plots, one for each activity. Each
-box plot summarizes
 
-how long (in rows or the number of windows) subjects in the training
-dataset spent on each
-
-activity. We can see that the subjects spent more time on stationary
-activities (4, 5 and 6) and
-
-less time on the in motion activities (1, 2 and 3), with the
-distribution for 3 being the smallest,
-
-
-or where time was spent least. The spread across the activities is not
-large, suggesting little
-
-need to trim the longer duration activities or oversampling of the
-in-motion activities. Although,
-
-these approaches remain available if skill of a predictive model on the
-in-motion activities is
-
+Running the example creates six box plots, one for each activity. Each box plot summarizes
+how long (in rows or the number of windows) subjects in the training dataset spent on each
+activity. We can see that the subjects spent more time on stationary activities (4, 5 and 6) and
+less time on the in motion activities (1, 2 and 3), with the distribution for 3 being the smallest,
+or where time was spent least. The spread across the activities is not large, suggesting little
+need to trim the longer duration activities or oversampling of the in-motion activities. Although,
+these approaches remain available if skill of a predictive model on the in-motion activities is
 generally worse.
 
 ![](./images/489-54.png)
@@ -1425,18 +1216,17 @@ generally worse.
 We can create a similar box plot for the training data with the
 following additional lines.
 
+```
 X, y = load_dataset('test','HARDataset/')
 
 sub_map = load_file('HARDataset/test/subject_test.txt')
 plot_activity_durations_by_subject(X, y, sub_map)
 
 ```
+
 Running the updated example shows a similar relationship between activities. This is
-
-encouraging, suggesting that indeed the test and training dataset are
-reasonably representative
-
-of the whole dataset.
+encouraging, suggesting that indeed the test and training dataset are reasonably representative
+of the whole dataset
 
 ![](./images/490-55.png)
 
@@ -1449,20 +1239,16 @@ In this section, we summarize some approaches to modeling the activity recogniti
 
 These ideas are divided into the main themes of a project.
 
-22.10.1 Problem Framing
+###### Problem Framing
 
-The first important consideration is the framing of the prediction
-problem. The framing of the
-
+The first important consideration is the framing of the prediction problem. The framing of the
 problem as described in the original work is the prediction of activity for a new subject given
 their movement data, based on the movement data and activities of known subjects. We can
 summarize this as:
-
 - Predict activity given a window of movement data.
 
 This is a reasonable and useful framing of the problem. Some other possible ways to frame
 the provided data as a prediction problem include the following:
-
 
 - Predict activity given a time step of movement data.
 
@@ -1482,7 +1268,7 @@ movement data.
 Some of these framings may be too challenging or too easy. Nevertheless, these framings
 provide additional ways to explore and understand the dataset.
 
-22.10.2 Data Preparation
+#### Data Preparation
 
 Some data preparation may be required prior to using the raw data to train a model. The data
 already appears to have been scaled to the range[-1,1]. Some additional data transforms that
@@ -1507,27 +1293,20 @@ could be performed prior to modeling include:
 - Downsampling signal data to^14 ,^12 , 1, 2 or other fractions of a
 section.
 
-22.10.3 Predictive Modeling
+#### Predictive Modeling
 
 Generally, the problem is a time series multiclass classification problem. As we have seen, it
 may also be framed as a binary classification problem and a multi-step time series classification
 problem. The original paper explored the use of a classical machine learning algorithm on a
-
-version of the dataset where features were engineered from each window
-of data. Specifically, a
-
+version of the dataset where features were engineered from each window of data. Specifically, a
 modified support vector machine.
+
 The results of an SVM on the feature-engineered version of the dataset may provide a
 baseline in performance on the problem. Expanding from this point, the evaluation of multiple
 linear, nonlinear, and ensemble machine learning algorithms on this version of the dataset may
 provide an improved benchmark. The focus of the problem may be on the un-engineered or raw
-
-version of the dataset. Here, a progression in model complexity may be
-explored in order to
-
-determine the most suitable model for the problem; some candidate models
-to explore include:
-
+version of the dataset. Here, a progression in model complexity may be explored in order to
+determine the most suitable model for the problem; some candidate models to explore include:
 
 - Common linear, nonlinear, and ensemble machine learning algorithms.
 
@@ -1541,18 +1320,14 @@ to explore include:
 
 #### Model Evaluation
 
-The evaluation of the model in the original paper involved using a
-train/test split of the data by
-
+The evaluation of the model in the original paper involved using a train/test split of the data by
 subject with a 70% and 30% ratio. Exploration of this pre-defined split of the data suggests that
 both sets are reasonably representative of the whole dataset. Another alternative methodology
 may be to use leave-one-out cross-validation, or LOOCV, per subject. In addition to giving
 the data for each subject the opportunity for being used as the withheld test set, the approach
-
-would provide a population of 30 scores that can be averaged and
-summarized, which may offer
-
+would provide a population of 30 scores that can be averaged and summarized, which may offer
 a more robust result.
+
 Model performance was presented using classification accuracy and a confusion matrix, both
 of which are suitable for the multiclass nature of the prediction problem. Specifically, the
 confusion matrix will aid in determining whether some classes are easier or more challenging to
@@ -1575,13 +1350,12 @@ of the dataset that may provide insight into modeling this problem.
 
 If you explore any of these extensions, I’d love to know.
 
-####3Further Reading
+#### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
 
-
-22.13.1 Papers
+Papers
 
 - Deep Learning for Sensor-based Activity Recognition: A Survey, 2017.
 https://arxiv.org/abs/1707.03502
@@ -1593,7 +1367,7 @@ https://upcommons.upc.edu/handle/2117/20897
 Vector Machine, 2012.
 https://link.springer.com/chapter/10.1007/978-3-642-35395-6_30
 
-22.13.2 API
+API
 
 - pandas.readcsvAPI.
 http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
@@ -1601,7 +1375,7 @@ http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html
 - numpy.dstackAPI.
 https://www.numpy.org/devdocs/reference/generated/numpy.dstack.html
 
-22.13.3 Articles
+Articles
 
 - Human Activity Recognition Dataset, UCI Machine Learning Repository.
 
@@ -1613,12 +1387,8 @@ https://www.youtube.com/watch?v=XOEN9W05_4A
 
 ####  Summary
 
-In this tutorial, you discovered the Activity Recognition Using
-Smartphones Dataset for time
-
-series classification and how to load and explore the dataset in order
-to make it ready for
-
+In this tutorial, you discovered the Activity Recognition Using Smartphones Dataset for time
+series classification and how to load and explore the dataset in order to make it ready for
 predictive modeling. Specifically, you learned:
 
 - How to download and load the dataset into memory.
@@ -1628,10 +1398,3 @@ motion data.
 
 - How to model the problem including framing, data preparation,
 modeling, and evaluation.
-
-22.14.1 Next
-
-In the next lesson, you will discover how to develop Machine Learning
-models for predicting
-
-human activities from a stream of smartphone accelerometer data.

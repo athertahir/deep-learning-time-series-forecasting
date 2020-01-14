@@ -313,15 +313,13 @@ for each dataset; perhaps an ETS or something else would be more appropriate in 
 
 Thedaily female birthsdataset summarizes the daily total female births
 in California, USA in
-
 1959. For more information on this dataset, see Chapter 11 where it was
 introduced. You can
-
 download the dataset directly from here:
 
 - daily-total-female-births.csv^1
 
-Save the file with the filenamedaily-total-female-births.csvin your
+Save the file with the filename `daily-total-female-births.csv` in your
 current working
 directory. The dataset has one year, or 365 observations. We will use
 the first 200 for training
@@ -506,7 +504,7 @@ download the dataset directly from here:
 
 - monthly-shampoo-sales.csv^2
 
-Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
+Save the file with the filename `monthly-shampoo-sales.csv` in your current working di-
 rectory. The dataset has three years, or 36 observations. We will use the first 24 for training
 and the remaining 12 as the test set. The complete example grid searching the shampoo sales
 univariate time series forecasting problem is listed below.
@@ -543,10 +541,6 @@ return sqrt(mean_squared_error(actual, predicted))
 # split a univariate dataset into train/test sets
 def train_test_split(data, n_test):
 return data[:-n_test], data[-n_test:]
-
-(^2)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
-
 
 def walk_forward_validation(data, n_test, cfg):
 predictions = list()
@@ -695,7 +689,7 @@ from here:
 
 - monthly-mean-temp.csv^3
 
-Save the file with the filenamemonthly-mean-temp.csvin your current
+Save the file with the filename `monthly-mean-temp.csv` in your current
 working directory.
 
 The dataset has 20 years, or 240 observations. We will trim the dataset
@@ -902,12 +896,11 @@ You can download the dataset directly from here:
 
 - monthly-car-sales.csv^4
 
-Save the file with the filenamemonthly-car-sales.csvin your current
+Save the file with the filename `monthly-car-sales.csv` in your current
 working directory.
 
 The dataset has 9 years, or 108 observations. We will use the last year
 or 12 observations as the
-
 test set. The period of the seasonal component could be six months or 12 months. We will try
 both as the seasonal period in the call to thesarimaconfigs() function when preparing the
 model configurations.

@@ -719,8 +719,8 @@ in California, USA in
 
 - daily-total-female-births.csv^3
 
-Save the file with the filenamedaily-total-female-births.csvin your current working
-directory. We can load this dataset as a PandasSeriesusing the functionreadcsv()and
+Save the file with the filename `daily-total-female-births.csv` in your current working
+directory. We can load this dataset as a PandasSeriesusing the function readcsv()and
 summarize the shape of the dataset.
 
 # load
@@ -948,7 +948,7 @@ period. You can download the dataset directly from here:
 
 - monthly-shampoo-sales.csv^4
 
-Save the file with the filenamemonthly-shampoo-sales.csvin your current working di-
+Save the file with the filename `monthly-shampoo-sales.csv` in your current working di-
 rectory. We can load this dataset as a PandasSeriesusing the function readcsv()and
 summarize the shape of the dataset.
 
@@ -1174,10 +1174,10 @@ dataset directly from here:
 
 - monthly-mean-temp.csv^5
 
-Save the file with the filenamemonthly-mean-temp.csvin your current
+Save the file with the filename `monthly-mean-temp.csv` in your current
 working directory.
 
-We can load this dataset as a PandasSeriesusing the functionreadcsv()and
+We can load this dataset as a PandasSeriesusing the function readcsv()and
 summarize
 
 the shape of the dataset.
@@ -1426,10 +1426,10 @@ Canada between
 
 - monthly-car-sales.csv^6
 
-Save the file with the filenamemonthly-car-sales.csvin your current
+Save the file with the filename `monthly-car-sales.csv` in your current
 working directory.
 
-We can load this dataset as a PandasSeriesusing the functionreadcsv()and
+We can load this dataset as a PandasSeriesusing the function readcsv()and
 summarize
 
 the shape of the dataset.

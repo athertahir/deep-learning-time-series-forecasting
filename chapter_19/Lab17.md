@@ -106,7 +106,7 @@ provided below, namedevaluatemodel(). The train and test datasets in standard-we
 are provided to the function as arguments. An additional argument,ninput, is provided that
 is used to define the number of prior observations that the model will use as input in order to
 make a prediction. Two new functions are called: one to build a model from the training data
-calledbuildmodel()and another that uses the model to make forecasts for each new standard
+calledbuild_model()and another that uses the model to make forecasts for each new standard
 week, calledforecast(). These will be covered in subsequent sections.
 We are working with neural networks and as such they are generally slow to train but fast to
 evaluate. This means that the preferred usage of the models is to build them once on historical
@@ -303,8 +303,8 @@ return array(X), array(y)
 ```
 
 When we run this function on the entire training dataset, we transform 159 samples into
-1,099; specifically, the transformed dataset has the shapesX=[1099, 7,
-1]andy=[1099, 7].
+1,099; specifically, the transformed dataset has the shapes X=[1099, 7,
+1] and y=[1099, 7].
 
 Next, we can define and fit the CNN model on the training data. This multi-step time series
 forecasting problem is an autoregression. That means it is likely best modeled where that the
@@ -323,7 +323,7 @@ and fit the model for 20 epochs with a batch size of 4. The small batch size and
 nature of the algorithm means that the same model will learn a slightly different mapping of
 inputs to outputs each time it is trained. This means results may vary when the model is
 evaluated. You can try running the model multiple times and calculating an average of model
-performance. The buildmodel()below prepares the training data, defines the model, and fits
+performance. The build_model()below prepares the training data, defines the model, and fits
 the model on the training data, returning the fit model ready for making predictions.
 
 ```
@@ -390,11 +390,11 @@ structure.
 input_x = input_x.reshape((1, len(input_x), 1))
 
 ```
+
 We then make a prediction using the fit model and the input data and
-retrieve the vector of
+retrieve the vector of seven days of output.
 
-seven days of output.
-
+```
 yhat = model.predict(input_x, verbose=0)
 
 yhat = yhat[0]
@@ -407,6 +407,7 @@ the training dataset, the history of data observed so far, and the
 number of inputs time steps
 expected by the model.
 
+```
 def forecast(model, history, n_input):
 data = array(history)
 data = data.reshape((data.shape[0]*data.shape[1], data.shape[2]))
@@ -588,12 +589,8 @@ n_input = 14
 ```
 
 Re-running the example with this change first prints a summary of the performance of the
-
-model. In this case, we can see a further drop in the overall RMSE,
-suggesting that further tuning
-
-of the input size and perhaps the kernel size of the model may result in
-better performance.
+model. In this case, we can see a further drop in the overall RMSE, suggesting that further tuning
+of the input size and perhaps the kernel size of the model may result in better performance.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider running the example a few times.
@@ -604,15 +601,9 @@ cnn: [396.497] 392.2, 412.8, 384.0, 389.0, 387.3, 381.0, 427.1
 
 ```
 
-Comparing the per-day RMSE scores, we see some are better and some are
-worse than using
-
-seventh inputs. This may suggest a benefit in using the two different
-sized inputs in some way,
-
-such as an ensemble of the two approaches or perhaps a single model
-(e.g. a multi-headed
-
+Comparing the per-day RMSE scores, we see some are better and some are worse than using
+seventh inputs. This may suggest a benefit in using the two different sized inputs in some way,
+such as an ensemble of the two approaches or perhaps a single model (e.g. a multi-headed
 model) that reads the training data in different ways.
 
 ![](./images/396-30.png)
@@ -621,10 +612,7 @@ model) that reads the training data in different ways.
 
 In this section, we will update the CNN developed in the previous section to use each of the
 eight time series variables to predict the next standard week of daily total power consumption.
-
-We will do this by providing each one-dimensional time series to the
-model as a separate channel
-
+We will do this by providing each one-dimensional time series to the model as a separate channel
 of input. The CNN will then use a separate kernel and read each input sequence onto a separate
 set of filter maps, essentially learning features from each input time series variable. This is
 helpful for those problems where the output sequence is some function of the observations
@@ -662,18 +650,17 @@ return array(X), array(y)
 
 ```
 
-We also must update the function used to make forecasts with the fit
-model to use all eight
-
+We also must update the function used to make forecasts with the fit model to use all eight
 features from the prior time steps. Again, another small change:
 
+```
 input_x = data[-n_input:, :]
 
 input_x = input_x.reshape((1, input_x.shape[0], input_x.shape[1]))
 
 ```
 
-The completeforecast()with this change is listed below.
+The completeforecast() with this change is listed below.
 
 ```
 
@@ -692,14 +679,12 @@ return yhat
 
 ```
 
-all input variables.
-
 We will use 14 days of prior observations across eight of the input
 variables as we did in the
-
 final section of the prior section that resulted in slightly better
 performance.
 
+```
 n_input = 14
 
 ```
@@ -711,10 +696,8 @@ two convolutional layers with 32 filter maps followed by pooling, then another c
 layer with 16 feature maps and pooling. The fully connected layer that interprets the features
 is increased to 100 nodes and the model is fit for 70 epochs with a batch size of 16 samples.
 
-The updatedbuildmodel() function that defines and fits the model on the
-training dataset is
-
-listed below.
+The updated build_model() function that defines and fits the model on the
+training dataset is listed below.
 
 ```
 # train the model
@@ -916,32 +899,25 @@ further gains can be made.
 ![](./images/402-31.png)
 
 #### Multi-headed CNN Model
-
-We can further extend the CNN model to have a separate sub-CNN model or
-head for each input
-
-variable, which we can refer to as a multi-headed CNN model. This
-requires a modification to
-
+We can further extend the CNN model to have a separate sub-CNN model or head for each input
+variable, which we can refer to as a multi-headed CNN model. This requires a modification to
 the preparation of the model, and in turn, modification to the preparation of the training and
 test datasets. Starting with the model, we must define a separate CNN model for each of the
 eight input variables. The configuration of the model, including the number of layers and their
 hyperparameters, were also modified to better suit the new approach. The new configuration is
 not optimal and was found with a little trial and error. The multi-headed model is specified
 using the more flexible functional API for defining Keras models.
+
 We can loop over each variable and create a submodel that takes a one-dimensional sequence
 of 14 days of data and outputs a flat vector containing a summary of the learned features from
 the sequence. Each of these vectors can be merged via concatenation to make one very long
-
-vector that is then interpreted by some fully connected layers before a
-prediction is made. As
-
-we build up the submodels, we keep track of the input layers and flatten
-layers in lists. This is
-
+vector that is then interpreted by some fully connected layers before a prediction is made. As
+we build up the submodels, we keep track of the input layers and flatten layers in lists. This is
 so that we can specify the inputs in the definition of the model object and use the list of flatten
 layers in the merge layer.
 
+
+```
 # create a channel for each variable
 in_layers, out_layers = list(), list()
 
@@ -966,18 +942,11 @@ model = Model(inputs=in_layers, outputs=outputs)
 model.compile(loss='mse', optimizer='adam')
 
 ```
-When the model is used, it will require eight arrays as input: one for
-each of the submodels.
 
-This is required when training the model, when evaluating the model, and
-when making
-
-predictions with a final model. We can achieve this by creating a list
-of 3D arrays, where each
-
-3D array contains[samples, timesteps, 1], with one feature. We can
-prepare the training
-
+When the model is used, it will require eight arrays as input: one for each of the submodels.
+This is required when training the model, when evaluating the model, and when making
+predictions with a final model. We can achieve this by creating a list of 3D arrays, where each
+3D array contains [samples, timesteps, 1], with one feature. We can prepare the training
 dataset in this format as follows:
 
 ```
@@ -987,7 +956,7 @@ range(n_features)]
 
 ```
 
-The updatedbuildmodel() function with these changes is listed below.
+The updated build_model() function with these changes is listed below.
 
 ```
 # train the model
@@ -1041,7 +1010,6 @@ problem, you can comment out this line.
 ![](./images/404-32.png)
 
 Next, we can update the preparation of input samples when making a prediction for the
-
 test dataset. We must perform the same change, where an input array
 of[1, 14, 8] must be transformed into a list of eight 3D arrays each with[1, 14, 1].
 
@@ -1235,10 +1203,8 @@ pyplot.show()
 ```
 
 Running the example fits and evaluates the model, printing the overall RMSE across all
-seven days, and the per-day RMSE for each lead time. We can see that in
-this case, the overall
-RMSE is skillful compared to a naive forecast, but with the chosen
-configuration may not
+seven days, and the per-day RMSE for each lead time. We can see that in this case, the overall
+RMSE is skillful compared to a naive forecast, but with the chosen configuration may not
 perform better than the multi-channel model in the previous section.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
@@ -1250,40 +1216,29 @@ cnn: [396.116] 414.5, 385.5, 377.2, 412.1, 371.1, 380.6, 428.1
 
 ```
 
-We can also see a different, more pronounced profile for the daily RMSE
-scores where perhaps
-Mon-Tue and Thu-Fri are easier for the model to predict than the other
-forecast days. These
-results may be useful when combined with another forecast model. It may
-be interesting to
-explore alternate methods in the architecture for merging the output of
-each submodel.
+We can also see a different, more pronounced profile for the daily RMSE scores where perhaps
+Mon-Tue and Thu-Fri are easier for the model to predict than the other forecast days. These
+results may be useful when combined with another forecast model. It may be interesting to
+explore alternate methods in the architecture for merging the output of each submodel.
 
 ![](./images/409-33.png)
 
 #### Extensions
 
-This section lists some ideas for extending the tutorial that you may
-wish to explore.
+This section lists some ideas for extending the tutorial that you may wish to explore.
 
 - Size of Input. Explore more or fewer numbers of days used as input for the model, such
 as three days, 21 days, 30 days and more.
-
 - Model Tuning. Tune the structure and hyperparameters for a model and further lift
 model performance on average.
-
 - Data Scaling. Explore whether data scaling, such as standardization and normalization,
 can be used to improve the performance of any of the CNN models.
-
-- Learning Diagnostics. Use diagnostics such as learning curves for the train and valida-
-tion loss and mean squared error to help tune the structure and hyperparameters of a
+- Learning Diagnostics. Use diagnostics such as learning curves for the train and validation loss and mean squared error to help tune the structure and hyperparameters of a
 CNN model.
-
 - Vary Kernel Size. Combine the multi-channel CNN with the multi-headed CNN and
 use a different kernel size for each head to see if this configuration can further improve
 performance.
 
-If you explore any of these extensions, I’d love to know.
 
 #### Further Reading
 
