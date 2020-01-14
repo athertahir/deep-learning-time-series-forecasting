@@ -478,7 +478,6 @@ instead of an ARIMA model.
 whether standardization or normalization or even power transforms can further improve
 the skill of the AR model.
 
-If you explore any of these extensions, I’d love to know.
 
 #### Further Reading
 
@@ -517,5 +516,5 @@ one-week forecasts.
 
 #### Next
 
-In the next lesson, you will discover how to develop Convolutional Neural Network models for
+In the next lab, you will discover how to develop Convolutional Neural Network models for
 forecasting the household power usage problem.

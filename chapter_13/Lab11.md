@@ -1099,21 +1099,11 @@ in the test set.
 - Tune Amount of History. Update the framework to tune the amount of historical data
 used to fit the model (e.g. in the case of the 10 years of max temperature data).
 
-If you explore any of these extensions, I’d love to know.
 
 ### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
-
-
-#### Books
-
-- Chapter 8 ARIMA models,Forecasting: principles and practice, 2013.
-https://amzn.to/2xlJsfV
-
-- Chapter 7, Non-stationary Models,Introductory Time Series with R, 2009.
-https://amzn.to/2smB9LR
 
 #### APIs
 
@@ -1156,7 +1146,7 @@ shampoo sales, car sales and temperature.
 
 #### Next
 
-In the next lesson, you will discover how to develop deep learning
+In the next lab, you will discover how to develop deep learning
 models for univariate time
 
 series forecasting problems.

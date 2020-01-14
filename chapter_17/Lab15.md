@@ -716,7 +716,6 @@ from the three proposed naive forecast methods.
 - Optimized Direct Persistence Models. Test and find the optimal relative prior day
 (e.g. -1 or -7) to use for each forecast day in a direct persistence model.
 
-If you explore any of these extensions, I’d love to know.
 
 #### Further Reading
 
@@ -757,5 +756,5 @@ forecasting methods.
 
 #### Next
 
-In the next lesson, you will discover how to develop autoregressive models for forecasting the
+In the next lab, you will discover how to develop autoregressive models for forecasting the
 household power usage problem.

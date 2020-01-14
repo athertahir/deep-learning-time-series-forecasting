@@ -807,7 +807,7 @@ The CNN model expects input data to be in the form of multiple samples, where ea
 has multiple input time steps, the same as the MLP in the previous section. One difference is
 that the CNN can support multiple features or types of observations at each time step, which are
 interpreted as channels of an image. We only have a single feature at each time step, therefore
-the required three-dimensional shape of the input data will be[nsamples, ninput, 1].
+the required three-dimensional shape of the input data will be [nsamples, ninput, 1].
 
 ```
 # reshape training data
@@ -2009,7 +2009,6 @@ network model as part of walk-forward validation can further improve model perfo
 - More Parameterization. Explore adding further model parameterization for one model,
 such as the use of additional layers.
 
-If you explore any of these extensions, I’d love to know.
 
 ### Further Reading
 
@@ -2055,6 +2054,6 @@ models for time series forecasting.
 
 #### Next
 
-In the next lesson, you will discover how to develop a framework to grid
+In the next lab, you will discover how to develop a framework to grid
 search deep learning
 models for univariate time series forecasting problems.

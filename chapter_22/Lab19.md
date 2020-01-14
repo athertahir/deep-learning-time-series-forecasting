@@ -1348,7 +1348,6 @@ this chapter.
 - Additional Analysis. Use summary statistics and/or plots to explore one more aspect
 of the dataset that may provide insight into modeling this problem.
 
-If you explore any of these extensions, I’d love to know.
 
 #### Further Reading
 

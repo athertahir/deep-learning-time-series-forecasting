@@ -801,7 +801,6 @@ lift model performance, such as normalization, standardization, and power transf
 better performance on this problem, such as stacked LSTMs and Bidirectional LSTMs.
 - Hyperparameter Tuning. Consider exploring tuning of model hyperparameters such
 as the number of units, training epochs, batch size, and more.
-If you explore any of these extensions, I’d love to know.
 
 
 ####  Further Reading

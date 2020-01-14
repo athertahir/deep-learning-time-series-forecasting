@@ -1525,7 +1525,6 @@ architectures and deeper fully-connected layers for interpreting the CNN input f
 over the epochs and whether more regularization, different learning rates, or different
 batch sizes or numbers of epochs may result in a better performing or more stable model.
 
-If you explore any of these extensions, I’d love to know.
 
 #### Further Reading
 
@@ -1567,5 +1566,5 @@ model that provides an ensemble-like result.
 
 #### Next
 
-In the next lesson, you will discover how to develop Recurrent Neural Network models for
+In the next lab, you will discover how to develop Recurrent Neural Network models for
 predicting human activities from a stream of smartphone accelerometer data.

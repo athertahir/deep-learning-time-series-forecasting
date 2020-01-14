@@ -3,12 +3,8 @@
 
 ### How to Develop LSTMs for Time Series Forecasting
 
-Long Short-Term Memory networks, or LSTMs for short, can be applied to
-time series forecasting.
-
-There are many types of LSTM models that can be used for each specific
-type of time series
-
+Long Short-Term Memory networks, or LSTMs for short, can be applied to time series forecasting.
+There are many types of LSTM models that can be used for each specific type of time series
 forecasting problem. In this tutorial, you will discover how to develop a suite of LSTM models
 for a range of standard time series forecasting problems. The objective of this tutorial is to
 provide standalone examples of each model on each type of time series problem as a template
@@ -160,7 +156,6 @@ LSTM models that can learn the mapping of inputs to outputs, starting with a Van
 
 A Vanilla LSTM is an LSTM model that has a single hidden layer of LSTM
 units, and an
-
 output layer used to make a prediction. Key to LSTMs is that they offer native support for
 sequences. Unlike a CNN that reads across the entire input vector, the LSTM model reads one
 time step of the sequence at a time and builds up an internal state representation that can be
@@ -175,13 +170,14 @@ model.add(Dense(1))
 model.compile(optimizer='adam', loss='mse')
 
 ```
+
 Key in the definition is the shape of the input; that is what the model expects as input for
 each sample in terms of the number of time steps and the number of features. We are working
-
 with a univariate series, so the number of features is one, for one
 variable. The number of
 time steps as input is the number we chose when preparing our dataset as an argument to the
 splitsequence() function.
+
 The shape of the input for each sample is specified in the input shape argument on the
 definition of first hidden layer. We almost always have multiple samples, therefore, the model
 will expect the input component of training data to have the dimensions
@@ -934,13 +930,11 @@ model.add(LSTM(50, activation='relu', input_shape=(n_steps,
 n_features)))
 model.add(Dense(1))
 
-
 model.compile(optimizer='adam', loss='mse')
 
 ```
 
 When making a prediction, the model expects three time steps for two input time series.
-
 We can predict the next value in the output series providing the input
 values of:
 
@@ -950,10 +944,9 @@ values of:
 100, 105
 
 ```
-The shape of the one sample with three time steps and two variables must
-be[1, 3, 2].
 
-We would expect the next value in the sequence to be 100 + 105, or 205.
+The shape of the one sample with three time steps and two variables must
+be [1, 3, 2]. We would expect the next value in the sequence to be 100 + 105, or 205.
 
 ```
 # demonstrate prediction
@@ -1476,7 +1469,7 @@ We would expect the predicted output to be:
 ```
 
 As expected by the model, the shape of the single sample of input data when making the
-prediction must be[1, 3, 1]for the 1 sample, 3 time steps of the input, and the single feature.
+prediction must be [1, 3, 1]for the 1 sample, 3 time steps of the input, and the single feature.
 
 
 ```
@@ -1834,10 +1827,7 @@ print(X[i], y[i])
 
 Running the example first prints the shape of the prepared training data. We can see that
 the shape of the input portion of the samples is three-dimensional, comprised of six samples,
-
-with three time steps, and two variables for the 2 input time series.
-The output portion of the
-
+with three time steps, and two variables for the 2 input time series. The output portion of the
 samples is two-dimensional for the six samples and the two time steps for each sample to be
 predicted. The prepared samples are then printed to confirm that the data was prepared as we
 specified.
@@ -1944,11 +1934,8 @@ running the example a few times.
 
 #### Multiple Parallel Input and Multi-step Output
 
-A problem with parallel time series may require the prediction of
-multiple time steps of each
-
+A problem with parallel time series may require the prediction of multiple time steps of each
 time series. For example, consider our multivariate time series from a prior section:
-
 
 ```
 [[ 10 15 25]
@@ -2193,20 +2180,11 @@ dataset.
 - Develop Framework. Use the examples in this chapter as the basis for a framework for
 automatically developing an LSTM model for a given time series forecasting problem.
 
-If you explore any of these extensions, I’d love to know.
 
 ### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
-
-#### Books
-
-- Deep Learning, 2016.
-https://amzn.to/2MQyLVZ
-
-- Deep Learning with Python, 2017.
-https://amzn.to/2vMRiMe
 
 #### Papers
 
@@ -2222,10 +2200,8 @@ https://ieeexplore.ieee.org/document/861302/
 - LSTM: A Search Space Odyssey, 2017.
 https://arxiv.org/abs/1503.04069
 
-
 - Convolutional LSTM Network: A Machine Learning Approach for Precipitation Nowcasting,
-2015.
-https://arxiv.org/abs/1506.04214v1
+2015. https://arxiv.org/abs/1506.04214v1
 
 #### APIs
 
@@ -2257,50 +2233,3 @@ time series forecasting problems. Specifically, you learned:
 - How to develop LSTM models for multivariate time series forecasting.
 
 - How to develop LSTM models for multi-step time series forecasting.
-
-#### Next
-
-This is the final lesson of this part, the next part will focus on
-systematically developing models
-
-for univariate time series forecasting problems.
-
-### Part IV
-
-### Univariate Forecasting
-
-
-### Overview
-
-This part highlights that classical methods are known to out-perform
-more sophisticated methods
-
-on univariate time series forecasting problems on average and how to systematically evaluate
-classical and deep learning methods to ensure that you are getting the most out of them on
-
-your forecasting problem. As such, the chapters in this section focus on
-providing you the tools
-
-for grid searching classical and deep learning methods and demonstrating these tools on a suite
-of standard univariate datasets. After reading the chapters in this part, you will know:
-
-- The results of a recent and reasonably conclusive study that classical methods out-perform
-machine learning and deep learning methods for univariate time series forecasting problems
-on average (Chapter 10).
-
-- How to develop and grid search a suite of naive forecasting methods for univariate time
-series, the results of which can be used as a baseline for determining whether a model has
-skill (Chapter 11).
-
-- How to develop and grid search exponential smoothing forecasting models, also known as
-ETS, for univariate time series forecasting problems (Chapter 12).
-
-- How to develop and grid search Seasonal ARIMA models or SARIMA for univariate time
-series forecasting problems (Chapter 13).
-
-- How to develop and evaluate MLP, CNN and LSTM deep learning models for univariate
-time series forecasting (Chapter 14).
-
-- How to grid search the hyperparameters for MLP, CNN and LSTM deep learning models
-for univariate time series forecasting (Chapter 15).
-

@@ -140,7 +140,7 @@ a time series with 3 inputs, 1 output will be transformed into a supervised lear
 with 4 columns, or really 3 columns for the input data and 1 for the
 output data. If we have 7
 
-rows and 3 columns for the input data then the shape of the dataset would be[7, 3], or 7
+rows and 3 columns for the input data then the shape of the dataset would be [7, 3], or 7
 samples and 3 features. We can make this concrete by transforming our small contrived dataset.
 
 ```
@@ -643,7 +643,6 @@ reshape it into a structure suitable for training a CNN or LSTM model.
 - Develop Framework. Develop a function to automatically reshape a time series dataset
 into samples and into a shape suitable for training a CNN or LSTM model.
 
-If you explore any of these extensions, I’d love to know.
 
 ### Further Reading
 
@@ -676,5 +675,5 @@ ready for training a CNN or LSTM model.
 
 #### Next
 
-In the next lesson, you will discover how to develop Multilayer Perceptron models for time series
+In the next lab, you will discover how to develop Multilayer Perceptron models for time series
 forecasting.

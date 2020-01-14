@@ -641,7 +641,6 @@ can further lift performance on the problem.
 additional scaling, such as standardization, can result in better performance, perhaps on
 methods sensitive to such scaling such askNN.
 
-If you explore any of these extensions, I’d love to know.
 
 #### Further Reading
 

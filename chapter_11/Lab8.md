@@ -461,13 +461,16 @@ scores = executor(tasks)
 On some systems, such as windows that do not support thefork() function, it is necessary
 to add a check to ensure that the entry point of the script is only executed by the main process
 and not child processes.
+
+
+```
 ...
 if __name__ =='__main__':
 ...
 
 ```
 
-(^1) Note, you may have to install Joblib:pip install joblib
+Note, you may have to install Joblib: `pip install joblib`
 
 
 That’s it. We can also provide a non-parallel version of evaluating all model configurations
@@ -541,13 +544,12 @@ return configs
 ```
 
 We now have a framework for grid searching simple model hyperparameters via one-step
-
 walk-forward validation. It is generic and will work for any in-memory
 univariate time series
-
 provided as a list or NumPy array. We can make sure all the pieces work together by testing it
 on a contrived 10-step dataset. The complete example is listed below.
 
+```
 # grid search simple forecasts
 from math import sqrt
 from numpy import mean
@@ -648,7 +650,6 @@ scores = [r for r in scores if r[1] != None]
 
 scores.sort(key=lambda tup: tup[1])
 
-
 return scores
 
 # create a set of simple configs to try
@@ -683,6 +684,7 @@ and the error for the top three configurations are reported. We can see that the
 model with a configuration of 1 (e.g. persist the last observation) achieves the best performance
 of the simple models tested, as would be expected.
 
+```
 [10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
 
 ...
@@ -699,31 +701,25 @@ done
 
 ```
 
-Now that we have a robust framework for grid searching simple model hyperparameters, let’s
-test it out on a suite of standard univariate time series datasets. All datasets in this tutorial
-
-were drawn from the Time Series Dataset Library on the DataMarket
-website^2. The results
-
-(^2) https://datamarket.com/data/list/?q=provider:tsdl
-
-
-demonstrated on each dataset provide a baseline of performance that can be used to compare
-more sophisticated methods, such as SARIMA, ETS, and even machine learning methods.
+Now that we have a robust framework for grid searching ETS model hyperparameters, let’s
+test it out on a suite of standard univariate time series datasets. The datasets were chosen for
+demonstration purposes; I am not suggesting that an ETS model is the best approach for each
+dataset, and perhaps an SARIMA or something else would be more appropriate in some cases.
 
 ### Case Study 1: No Trend or Seasonality
 
-Thedaily female birthsdataset summarizes the daily total female births
-in California, USA in
+The daily female births dataset summarizes the daily total female births in California, USA in
+1959. For more information on this dataset, see Chapter 11 where it was introduced. You can
+download the dataset directly from here:
 
-1959. You can download the dataset directly from here:
+ daily-total-female-births.csv 1
 
-- daily-total-female-births.csv^3
+Save the file with the filename daily-total-female-births.csv in your current working
+directory. The dataset has one year, or 365 observations. We will use the first 200 for training
+and the remaining 165 as the test set. The complete example grid searching the daily female
+univariate time series forecasting problem is listed below.
 
-Save the file with the filename `daily-total-female-births.csv` in your current working
-directory. We can load this dataset as a PandasSeriesusing the function readcsv()and
-summarize the shape of the dataset.
-
+```
 # load
 series = read_csv('daily-total-female-births.csv', header=0, index_col=0)
 # summarize shape
@@ -733,6 +729,7 @@ print(series.shape)
 We can then create a line plot of the series and inspect it for systematic structures like
 trends and seasonality.
 
+```
 # plot
 pyplot.plot(series)
 pyplot.xticks([])
@@ -741,6 +738,7 @@ pyplot.show()
 ```
 The complete example is listed below.
 
+```
 # load and plot daily births dataset
 from pandas import read_csv
 from matplotlib import pyplot
@@ -755,37 +753,27 @@ pyplot.show()
 
 ```
 
-Running the example first summarizes the shape of the loaded dataset.
-The dataset has one
-
-year, or 365 observations. We will use the first 200 for training and
-the remaining 165 as the
-
+Running the example first summarizes the shape of the loaded dataset. The dataset has one
+year, or 365 observations. We will use the first 200 for training and the remaining 165 as the
 test set.
 
-(^3)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/daily-total-female-births.
-csv
 
-
+```
 (365, 1)
 
 ```
 
-births dataset
-
 A line plot of the series is also created. We can see that there is no obvious trend or
-
 seasonality.
 
 ![](./images/202-8.png)
 
 We can now grid search naive models for the dataset. The complete
 example grid searching
-
 the daily female univariate time series forecasting problem is listed
 below.
 
+```
 from math import sqrt
 from numpy import mean
 from numpy import median
@@ -915,6 +903,7 @@ Running the example prints the model configurations and the RMSE are printed as 
 models are evaluated. The top three model configurations and their error are reported at the
 end of the run.
 
+```
 > Model[[186, 1,'mean']] 7.523
 > Model[[200, 1,'median']] 7.681
 > Model[[186, 1,'median']] 7.691
@@ -944,33 +933,34 @@ persistence of -1 or an average of the entire historical dataset to result in th
 
 Themonthly shampoo salesdataset summarizes the monthly sales of shampoo
 over a three-year
-
 period. You can download the dataset directly from here:
 
 - monthly-shampoo-sales.csv^4
 
-Save the file with the filename `monthly-shampoo-sales.csv` in your current working di-
-rectory. We can load this dataset as a PandasSeriesusing the function readcsv()and
+Save the file with the filename monthly-shampoo-sales.csv in your current working directory. We can load this dataset as a Pandas Series using the function read csv() and
 summarize the shape of the dataset.
 
-(^4)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
 
+```
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
 
 print(series.shape)
 
 ```
-We can then create a line plot of the series and inspect it for systematic structures like
 
+We can then create a line plot of the series and inspect it for systematic structures like
 trends and seasonality.
+
+```
 pyplot.plot(series)
 pyplot.xticks([])
 pyplot.show()
 
 ```
+
 The complete example is listed below.
 
+```
 from pandas import read_csv
 from matplotlib import pyplot
 series = read_csv('monthly-shampoo-sales.csv', header=0, index_col=0)
@@ -983,20 +973,15 @@ pyplot.show()
 ```
 
 Running the example first summarizes the shape of the loaded dataset. The dataset has
-
 three years, or 36 observations. We will use the first 24 for training
-and the remaining 12 as the
+and the remaining 12 as the test set.
 
-test set.
-
+```
 (36, 1)
 
 ```
 
-sales dataset
-
 A line plot of the series is also created. We can see that there is an obvious trend and no
-
 obvious seasonality.
 
 
@@ -1004,10 +989,10 @@ obvious seasonality.
 
 We can now grid search naive models for the dataset. The complete
 example grid searching
-
 the shampoo sales univariate time series forecasting problem is listed
 below.
 
+```
 from math import sqrt
 from numpy import mean
 from numpy import median
@@ -1134,10 +1119,11 @@ print(cfg, error)
 
 Running the example prints the configurations and the RMSE are printed
 as the models are
-
-
 evaluated. The top three model configurations and their error are reported at the end of the
 run.
+
+
+```
 ...
 > Model[[23, 1,'mean']] 209.782
 > Model[[23, 1,'median']] 221.863
@@ -1167,20 +1153,14 @@ value.
 
 #### Case Study 3: Seasonality
 
-Themonthly mean temperaturesdataset summarizes the monthly average air
-temperatures in
-
+The monthly mean temperatures dataset summarizes the monthly average air temperatures in
 Nottingham Castle, England from 1920 to 1939 in degrees Fahrenheit. You can download the
 dataset directly from here:
 
-- monthly-mean-temp.csv^5
+ monthly-mean-temp.csv 5
 
-Save the file with the filename `monthly-mean-temp.csv` in your current
-working directory.
-
-We can load this dataset as a PandasSeriesusing the function readcsv()and
-summarize
-
+Save the file with the filename monthly-mean-temp.csv in your current working directory.
+We can load this dataset as a Pandas Series using the function read csv() and summarize
 the shape of the dataset.
 
 ```
@@ -1190,13 +1170,11 @@ series = read_csv('monthly-mean-temp.csv', header=0, index_col=0)
 print(series.shape)
 
 ```
+
 We can then create a line plot of the series and inspect it for systematic structures like
 trends and seasonality.
 
-(^5)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-mean-temp.csv
-
-
+```
 # plot
 pyplot.plot(series)
 pyplot.xticks([])
@@ -1205,6 +1183,7 @@ pyplot.show()
 ```
 The complete example is listed below.
 
+```
 # load and plot monthly mean temp dataset
 from pandas import read_csv
 from matplotlib import pyplot
@@ -1221,9 +1200,10 @@ pyplot.show()
 
 Running the example first summarizes the shape of the loaded dataset.
 The dataset has 20
-
 years, or 240 observations.
 
+
+```
 (240, 1)
 
 ```
@@ -1234,30 +1214,27 @@ obvious seasonality structure.
 
 ![](./images/212-10.png)
 
-We will trim the dataset to the last five years of data (60
-observations) in order to speed up
+We will trim the dataset to the last five years of data (60 observations) in order to speed up
+the model evaluation process and use the last year or 12 observations for the test set.
 
-the model evaluation process and use the last year or 12 observations
-for the test set.
-
+```
 data = data[-(5*12):]
 
 ```
+
 The period of the seasonal component is about one year, or 12 observations. We will use
-
-this as the seasonal period in the call to thesimpleconfigs() function
-when preparing the
-
+this as the seasonal period in the call to the simple configs() function when preparing the
 model configurations.
+
+```
 cfg_list = simple_configs(seasonal=[0, 12])
 
 ```
-We can now grid search naive models for the dataset. The complete
-example grid searching
 
-the monthly mean temperature time series forecasting problem is listed
-below.
+We can now grid search naive models for the dataset. The complete example grid searching
+the monthly mean temperature time series forecasting problem is listed below.
 
+```
 from math import sqrt
 from numpy import mean
 from numpy import median
@@ -1390,6 +1367,7 @@ Running the example prints the model configurations and the RMSE are printed as 
 models are evaluated. The top three model configurations and their error are reported at the
 end of the run.
 
+```
 > Model[[227, 12,'persist']] 5.365
 > Model[[228, 1,'persist']] 2.818
 > Model[[228, 1,'mean']] 8.258
@@ -1405,14 +1383,10 @@ done
 
 We can see that the best result was an RMSE of about 1.50 degrees with the following
 configuration:
-
-- Strategy: Average
-
-- n: 4
-
-- offset: 12
-
-- function: mean()
+ Strategy: Average
+ n: 4
+ offset: 12
+ function: mean()
 
 This finding is not too surprising. Given the seasonal structure of the data, we would expect
 a function of the last few observations at prior points in the yearly cycle to be effective.
@@ -1427,14 +1401,11 @@ Canada between
 
 - monthly-car-sales.csv^6
 
-Save the file with the filename `monthly-car-sales.csv` in your current
-working directory.
-
-We can load this dataset as a PandasSeriesusing the function readcsv()and
-summarize
-
+Save the file with the filename monthly-car-sales.csv in your current working directory.
+We can load this dataset as a Pandas Series using the function read csv() and summarize
 the shape of the dataset.
 
+```
 # load
 series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
 # summarize shape
@@ -1444,6 +1415,7 @@ print(series.shape)
 We can then create a line plot of the series and inspect it for systematic structures like
 trends and seasonality.
 
+```
 # plot
 pyplot.plot(series)
 pyplot.xticks([])
@@ -1452,6 +1424,7 @@ pyplot.show()
 ```
 The complete example is listed below.
 
+```
 # load and plot monthly car sales dataset
 from pandas import read_csv
 from matplotlib import pyplot
@@ -1467,10 +1440,10 @@ pyplot.show()
 ```
 
 Running the example first summarizes the shape of the loaded dataset. The dataset has 9
-
 years, or 108 observations. We will use the last year or 12 observations
 as the test set.
 
+```
 (108, 1)
 
 ```
@@ -1478,27 +1451,25 @@ as the test set.
 A line plot of the series is also created. We can see that there is an obvious trend and
 seasonal components.
 
-(^6)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/monthly-car-sales.csv
-
 
 ![](./images/217-11.png)
 
 The period of the seasonal component could be six months or 12 months.
 We will try both
-
 as the seasonal period in the call to thesimpleconfigs() function when
 preparing the model
-
 configurations.
+
+```
 cfg_list = simple_configs(seasonal=[0,6,12])
 
 ```
+
 We can now grid search naive models for the dataset. The complete
 example grid searching
-
 the monthly car sales time series forecasting problem is listed below.
 
+```
 from math import sqrt
 from numpy import mean
 from numpy import median
@@ -1627,6 +1598,7 @@ Running the example prints the model configurations and the RMSE are printed as 
 models are evaluated. The top three model configurations and their error are reported at the
 end of the run.
 
+```
 > Model[[79, 1,'median']] 5124.113
 > Model[[91, 12,'persist']] 9580.149
 > Model[[79, 12,'persist']] 8641.529
@@ -1671,7 +1643,6 @@ to the average and naive methods.
 - Another Dataset. Apply the developed framework to an additional univariate time
 series problem (e.g. from the Time Series Dataset Library).
 
-If you explore any of these extensions, I’d love to know.
 
 ### Further Reading
 
@@ -1719,7 +1690,7 @@ https://pythonhosted.org/joblib/
 https://en.wikipedia.org/wiki/Forecasting
 
 
-###0Summary
+#### Summary
 
 In this tutorial, you discovered how to develop a framework from scratch for grid searching
 simple naive and averaging strategies for time series forecasting with univariate data. Specifically,
@@ -1735,7 +1706,7 @@ data for births.
 - How to grid search simple model hyperparameters for monthly time series data for shampoo
 sales, car sales, and temperature.
 
-11.10.1 Next
+#### Next
 
-In the next lesson, you will discover how to develop exponential smoothing models for univariate
+In the next lab, you will discover how to develop exponential smoothing models for univariate
 time series forecasting problems.

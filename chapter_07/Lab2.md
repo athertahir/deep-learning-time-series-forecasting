@@ -5,17 +5,14 @@
 
 Multilayer Perceptrons, or MLPs for short, can be applied to time series
 forecasting. A challenge
-
 with using MLPs for time series forecasting is in the preparation of the
 data. Specifically, lag
-
 observations must be flattened into feature vectors. In this tutorial, you will discover how to
 develop a suite of MLP models for a range of standard time series forecasting problems. The
 objective of this tutorial is to provide standalone examples of each model on each type of time
 series problem as a template that you can copy and adapt for your specific time series forecasting
 problem. In this tutorial, you will discover how to develop a suite of Multilayer Perceptron
 models for a range of standard time series forecasting problems. After completing this tutorial,
-
 you will know:
 
 - How to develop MLP models for univariate time series forecasting.
@@ -30,10 +27,8 @@ Let’s get started.
 
 In this tutorial, we will explore how to develop a suite of MLP models
 for time series forecasting.
-
 The models are demonstrated on small contrived time series problems
 intended to give the flavor
-
 of the type of time series problem being addressed. The chosen configuration of the models is
 arbitrary and not optimized for each problem; that was not the goal. This tutorial is divided
 into four parts; they are:
@@ -43,17 +38,12 @@ into four parts; they are:
 3.  Multi-step MLP Models
 4.  Multivariate Multi-step MLP Models
 
-53
-
-
 **Note:** Traditionally, a lot of research has been invested into using MLPs for time series
 forecasting with modest results. Perhaps the most promising area in the application of deep
 learning methods to time series forecasting are in the use of CNNs, LSTMs and hybrid models.
 
 As such, we will not see more examples of straight MLP models for time
-series forecasting
-
-beyond this tutorial.
+series forecasting beyond this tutorial.
 
 ### Univariate MLP Models
 
@@ -72,6 +62,7 @@ function that maps a sequence of past observations as input to an output observa
 the sequence of observations must be transformed into multiple examples from which the model
 can learn. Consider a given univariate sequence:
 
+```
 [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
 ```
@@ -79,6 +70,7 @@ We can divide the sequence into multiple input/output patterns called samples, w
 time steps are used as input and one time step is used as output for the one-step prediction
 that is being learned.
 
+```
 X, y
 10, 20, 30, 40
 20, 30, 40, 50
@@ -154,7 +146,6 @@ three input time steps and one output time step.
 
 Now that we know how to prepare a univariate series for modeling, let’s
 look at developing
-
 an MLP model that can learn the mapping of inputs to outputs.
 
 
@@ -162,7 +153,6 @@ an MLP model that can learn the mapping of inputs to outputs.
 
 A simple MLP model has a single hidden layer of nodes, and an output
 layer used to make a
-
 prediction. We can define an MLP for univariate time series forecasting as follows.
 
 
@@ -185,7 +175,7 @@ feature instead of separate time steps.
 
 We almost always have multiple samples, therefore, the model will expect the input
 component of training data to have the dimensions or shape: [samples, features]. Our
-splitsequence() function in the previous section outputs theXwith the shape[samples,
+splitsequence() function in the previous section outputs theX with the shape[samples,
 features]ready to use for modeling. The model is fit using the efficient Adam version of
 stochastic gradient descent and optimized using the mean squared error, or‘mse’, loss function.
 Once the model is defined, we can fit it on the training dataset.
@@ -199,7 +189,7 @@ model.fit(X, y, epochs=2000, verbose=0)
 ```
 After the model is fit, we can use it to make a prediction. We can predict the next value
 in the sequence by providing the input:[70, 80, 90]. And expecting the model to predict
-something like:[100]. The model expects the input shape to be two-dimensional with[samples,
+something like:[100]. The model expects the input shape to be two-dimensional with [samples,
 features], therefore, we must reshape the single input sample before making the prediction,
 e.g with the shape[1, 3]for 1 sample and 3 time steps used as input features.
 
@@ -254,7 +244,6 @@ print(yhat)
 
 Running the example prepares the data, fits the model, and makes a
 prediction. We can see
-
 that the model predicts the next value in the sequence.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
@@ -265,14 +254,6 @@ results may vary. Consider running the example a few times.
 [[100.0109]]
 
 ```
-
-For an example of an MLP applied to a real-world univariate time series
-forecasting problem
-
-see Chapter 14. For an example of grid searching MLP hyperparameters on
-a univariate time
-
-series forecasting problem, see Chapter 15.
 
 ### Multivariate MLP Models
 
@@ -290,7 +271,6 @@ Let’s take a look at each in turn.
 
 A problem may have two or more parallel input time series and an output
 time series that is
-
 dependent on the input time series. The input time series are parallel because each series has
 an observation at the same time step. We can demonstrate this with a simple example of two
 parallel input time series where the output series is the simple addition of the input series.
@@ -383,30 +363,15 @@ Output:
 65
 
 ```
-That is, the first three time steps of each parallel series are provided
-as input to the model
 
-and the model associates this with the value in the output series at the
-third time step, in this
-
-case 65. We can see that, in transforming the time series into
-input/output samples to train
-
-the model, that we will have to discard some values from the output time
-series where we do
-
-not have values in the input time series at prior time steps. In turn,
-the choice of the size of
-
-the number of input time steps will have an important effect on how much
-of the training data
-
-is used. We can define a function namedsplitsequences() that will take a
-dataset as we
-
-have defined it with rows for time steps and columns for parallel series
-and return input/output
-
+That is, the first three time steps of each parallel series are provided as input to the model
+and the model associates this with the value in the output series at the third time step, in this
+case 65. We can see that, in transforming the time series into input/output samples to train
+the model, that we will have to discard some values from the output time series where we do
+not have values in the input time series at prior time steps. In turn, the choice of the size of
+the number of input time steps will have an important effect on how much of the training data
+is used. We can define a function named split sequences() that will take a dataset as we
+have defined it with rows for time steps and columns for parallel series and return input/output
 samples.
 
 
@@ -470,13 +435,10 @@ print(X[i], y[i])
 
 ```
 
-Running the example first prints the shape of the `X` and `y` components. We can see that the
-Xcomponent has a three-dimensional structure. The first dimension is the number of samples,
+Running the example first prints the shape of the X and y components. We can see that the
+X component has a three-dimensional structure. The first dimension is the number of samples,
 in this case 7. The second dimension is the number of time steps per sample, in this case 3, the
-
-value specified to the function. Finally, the last dimension specifies
-the number of parallel time
-
+value specified to the function. Finally, the last dimension specifies the number of parallel time
 series or the number of variables, in this case 2 for the two parallel series. We can then see that
 the input and output for each sample is printed, showing the three time steps for each of the
 two input series and the associated output for each sample.
@@ -484,59 +446,35 @@ two input series and the associated output for each sample.
 
 ```
 (7, 3, 2) (7,)
-
 [[10 15]
-
 [20 25]
-
 [30 35]] 65
-
 [[20 25]
-
 [30 35]
-
 [40 45]] 85
-
 [[30 35]
-
 [40 45]
-
 [50 55]] 105
-
 [[40 45]
-
 [50 55]
-
 [60 65]] 125
-
 [[50 55]
-
 [60 65]
-
 [70 75]] 145
-
 [[60 65]
-
 [70 75]
-
 [80 85]] 165
-
 [[70 75]
-
 [80 85]
-
 [90 95]] 185
 
 ```
 
-MLP Model
+#### MLP Model
 
 Before we can fit an MLP on this data, we must flatten the shape of the input samples. MLPs
 require that the shape of the input portion of each sample is a vector. With a multivariate input,
-
-we will have multiple vectors, one for each time step. We can flatten
-the temporal structure of
-
+we will have multiple vectors, one for each time step. We can flatten the temporal structure of
 each input sample, so that:
 
 ```
@@ -576,9 +514,7 @@ model.compile(optimizer='adam', loss='mse')
 ```
 
 When making a prediction, the model expects three time steps for two input time series.
-
-We can predict the next value in the output series proving the input
-values of:
+We can predict the next value in the output series proving the input values of:
 
 ```
 80, 85
@@ -587,7 +523,7 @@ values of:
 
 ```
 
-The shape of the 1 sample with 3 time steps and 2 variables would be[1, 3, 2]. We must
+The shape of the 1 sample with 3 time steps and 2 variables would be [1, 3, 2]. We must
 again reshape this to be 1 sample with a vector of 6 elements or[1, 6]. We would expect the
 next value in the sequence to be 100 + 105 or 205.
 
@@ -666,17 +602,15 @@ running the example a few times.
 
 ```
 
-Multi-headed MLP Model
+### Multi-headed MLP Model
 
-There is another more elaborate way to model the problem. Each input
-series can be handled by
+There is another more elaborate way to model the problem. Each input series can be handled by
 a separate MLP and the output of each of these submodels can be combined before a prediction
 is made for the output sequence. We can refer to this as a multi-headed input MLP model. It
 may offer more flexibility or better performance depending on the specifics of the problem that
 are being modeled. This type of model can be defined in Keras using the Keras functional API.
 First, we can define the first input model as an MLP with an input layer that expects vectors
-
-withnstepsfeatures.
+with n steps features.
 
 ```
 # first input model
@@ -695,7 +629,6 @@ dense2 = Dense(100, activation='relu')(visible2)
 ```
 
 Now that both input submodels have been defined, we can merge the output from each
-
 model into one long vector, which can be interpreted before making a
 prediction for the output
 sequence.
@@ -720,10 +653,8 @@ inputs and outputs of each layer.
 ![](./images/81-2.png)
 
 This model requires input to be provided as a list of two elements, where each element in
-
 the list contains data for one of the submodels. In order to achieve
 this, we can split the 3D
-
 input data into two separate arrays of input data: that is from one
 array with the shape[7, 3, 2]to two 2D arrays with the shape[7, 3].
 
@@ -840,14 +771,10 @@ previous section:
 
 
 ```
-We may want to predict the value for each of the three time series for
-the next time step. This
 
-might be referred to as multivariate forecasting. Again, the data must
-be split into input/output
-
-samples in order to train a model. The first sample of this dataset
-would be:
+We may want to predict the value for each of the three time series for the next time step. This
+might be referred to as multivariate forecasting. Again, the data must be split into input/output
+samples in order to train a model. The first sample of this dataset would be:
 
 ```
 Input:
@@ -1023,6 +950,7 @@ yhat = model.predict(x_input, verbose=0)
 We can tie all of this together and demonstrate an MLP for multivariate output time series
 forecasting below.
 
+```
 from numpy import array
 from numpy import hstack
 from keras.models import Sequential
@@ -1069,15 +997,15 @@ prediction.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [[100.95039 107.541306 206.81033 ]]
 
 ```
 
-Multi-output MLP Model
+### Multi-output MLP Model
 
 As with multiple input series, there is another, more elaborate way to
 model the problem. Each
-
 output series can be handled by a separate output MLP model. We can refer to this as a
 multi-output MLP model. It may offer more flexibility or better performance depending on the
 specifics of the problem that is being modeled. This type of model can be defined in Keras
@@ -1090,10 +1018,11 @@ visible = Input(shape=(n_input,))
 dense = Dense(100, activation='relu')(visible)
 
 ```
-We can then define one output layer for each of the three series that we wish to forecast,
 
+We can then define one output layer for each of the three series that we wish to forecast,
 where each output submodel will forecast a single time step.
 
+```
 # define output 1
 output1 = Dense(1)(dense)
 # define output 2
@@ -1117,9 +1046,9 @@ output layers of the model and the input and output shapes of each layer.
 
 When training the model, it will require three separate output arrays per sample. We can
 achieve this by converting the output training data that has the shape[7, 3]to three arrays
-
 with the shape[7, 1].
 
+```
 # separate output
 y1 = y[:, 0].reshape((y.shape[0], 1))
 y2 = y[:, 1].reshape((y.shape[0], 1))
@@ -1212,6 +1141,7 @@ prediction.
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+```
 [array([[100.86121]], dtype=float32),
 array([[105.14738]], dtype=float32),
 array([[205.97507]], dtype=float32)]
@@ -1229,33 +1159,32 @@ specifics of the model, let’s first look at the preparation of data for multi-
 
 #### Data Preparation
 
-As with one-step forecasting, a time series used for multi-step time
-series forecasting must be
-
-split into samples with input and output components. Both the input and
-output components
-
-
-will be comprised of multiple time steps and may or may not have the
-same number of steps.
-
+As with one-step forecasting, a time series used for multi-step time series forecasting must be
+split into samples with input and output components. Both the input and output components
+will be comprised of multiple time steps and may or may not have the same number of steps.
 For example, given the univariate time series:
+
+```
 [10, 20, 30, 40, 50, 60, 70, 80, 90]
 
 ```
 We could use the last three time steps as input and forecast the next two time steps. The
 first sample would look as follows:
+
+
+```
 Input:
 [10, 20, 30]
 
-```
 Output:
 [40, 50]
 
 ```
+
 The splitsequence() function below implements this behavior and will split a given
 univariate time series into samples with a specified number of input and output time steps.
 
+```
 # split a univariate sequence into samples
 def split_sequence(sequence, n_steps_in, n_steps_out):
 X, y = list(), list()
@@ -1277,6 +1206,7 @@ return array(X), array(y)
 We can demonstrate this function on the small contrived dataset. The complete example is
 listed below.
 
+```
 # multi-step data preparation
 from numpy import array
 
@@ -1313,6 +1243,7 @@ print(X[i], y[i])
 Running the example splits the univariate series into input and output time steps and prints
 the input and output components of each.
 
+```
 [10 20 30] [40 50]
 [20 30 40] [50 60]
 [30 40 50] [60 70]
@@ -1328,11 +1259,11 @@ model that can learn this mapping.
 
 The MLP can output a vector directly that can be interpreted as a
 multi-step forecast. This
-
 approach was seen in the previous section were one time step of each output time series was
 forecasted as a vector. With the number of input and output steps specified in thenstepsin
 andnstepsoutvariables, we can define a multi-step time-series forecasting model.
 
+```
 # define model
 model = Sequential()
 model.add(Dense(100, activation='relu', input_dim=n_steps_in))
@@ -1344,21 +1275,25 @@ model.compile(optimizer='adam', loss='mse')
 The model can make a prediction for a single sample. We can predict the next two steps
 beyond the end of the dataset by providing the input:
 
+```
 [70, 80, 90]
 
 ```
 
 We would expect the predicted output to be:
 
+```
 [100, 110]
 
 ```
+
 As expected by the model, the shape of the single sample of input data when making the
-
-prediction must be[1, 3]for the 1 sample and 3 time steps (features) of
+prediction must be [1, 3] for the 1 sample and 3 time steps (features) of
 the input and the
-
 single feature.
+
+
+```
 x_input = array([70, 80, 90])
 x_input = x_input.reshape((1, n_steps_in))
 yhat = model.predict(x_input, verbose=0)
@@ -1367,8 +1302,9 @@ yhat = model.predict(x_input, verbose=0)
 
 Tying all of this together, the MLP for multi-step forecasting with a
 univariate time series is
-
 listed below.
+
+```
 from numpy import array
 from keras.models import Sequential
 from keras.layers import Dense
@@ -1399,12 +1335,15 @@ yhat = model.predict(x_input, verbose=0)
 print(yhat)
 
 ```
+
 Running the example forecasts and prints the next two time steps in the
 sequence.
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
+
+```
 [[102.572365 113.88405 ]]
 
 ```
@@ -1416,29 +1355,20 @@ forecasting. It is possible to mix and match the different types of MLP models p
 far for the different problems. This too applies to time series forecasting problems that involve
 multivariate and multi-step forecasting, but it may be a little more challenging, particularly in
 preparing the data and defining the shape of inputs and outputs for the model. In this section,
-
-we will look at short examples of data preparation and modeling for
-multivariate multi-step
-
-time series forecasting as a template to ease this challenge,
-specifically:
-
-1.  Multiple Input Multi-step Output.
-2.  Multiple Parallel Input and Multi-step Output.
-
-<!-- -->
+we will look at short examples of data preparation and modeling for multivariate multi-step
+time series forecasting as a template to ease this challenge, specifically:
+1. Multiple Input Multi-step Output.
+2. Multiple Parallel Input and Multi-step Output.
 
 Perhaps the biggest stumbling block is in the preparation of data, so this is where we will
 focus our attention.
 
 #### Multiple Input Multi-step Output
-
-There are those multivariate time series forecasting problems where the
-output series is separate
-
+There are those multivariate time series forecasting problems where the output series is separate
 but dependent upon the input time series, and multiple time steps are required for the output
 series. For example, consider our multivariate time series from a prior section:
 
+```
 [[ 10 15 25]
 [ 20 25 45]
 [ 30 35 65]
@@ -1448,7 +1378,6 @@ series. For example, consider our multivariate time series from a prior section:
 [ 70 75 145]
 [ 80 85 165]
 [ 90 95 185]]
-
 ```
 
 We may use three prior time steps of each of the two input time series to predict two time
@@ -1533,14 +1462,12 @@ print(X[i], y[i])
 
 Running the example first prints the shape of the prepared training data. We can see that
 the shape of the input portion of the samples is three-dimensional, comprised of six samples,
-
-with three time steps and two variables for the two input time series.
-The output portion of the
-
+with three time steps and two variables for the two input time series. The output portion of the
 samples is two-dimensional for the six samples and the two time steps for each sample to be
 predicted. The prepared samples are then printed to confirm that the data was prepared as we
 specified.
 
+```
 (6, 3, 2) (6, 2)
 
 [[10 15]
@@ -1567,6 +1494,7 @@ specified.
 We can now develop an MLP model for multi-step predictions using a vector output. The
 complete example is listed below.
 
+```
 # multivariate multi-step mlp example
 from numpy import array
 from numpy import hstack
@@ -1611,9 +1539,7 @@ print(yhat)
 ```
 
 Running the example fits the model and predicts the next two time steps of the output
-
-sequence beyond the dataset. We would expect the next two steps to
-be[185, 205].
+sequence beyond the dataset. We would expect the next two steps to be [185, 205].
 
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider running the example a few times.
@@ -1625,7 +1551,6 @@ results may vary. Consider running the example a few times.
 
 A problem with parallel time series may require the prediction of
 multiple time steps of each
-
 time series. For example, consider our multivariate time series from a prior section:
 
 ```
@@ -1643,13 +1568,13 @@ time series. For example, consider our multivariate time series from a prior sec
 We may use the last three time steps from each of the three time series as input to the model
 and predict the next time steps of each of the three time series as output. The first sample in
 the training dataset would be the following.
+
+```
 Input:
 
 10, 15, 25
 20, 25, 45
 30, 35, 65
-
-```
 
 Output:
 40, 45, 85
@@ -1659,6 +1584,7 @@ Output:
 
 The splitsequences() function below implements this behavior.
 
+```
 # split a multivariate sequence into samples
 def split_sequences(sequences, n_steps_in, n_steps_out):
 X, y = list(), list()
@@ -1680,9 +1606,10 @@ return array(X), array(y)
 ```
 
 We can demonstrate this function on the small contrived dataset. The
-complete example is
+complete example is listed below.
 
-listed below.
+
+```
 from numpy import array
 from numpy import hstack
 def split_sequences(sequences, n_steps_in, n_steps_out):
@@ -1714,72 +1641,40 @@ print(X[i], y[i])
 ```
 
 Running the example first prints the shape of the prepared training dataset. We can see
-
-that both the input (X) and output (Y) elements of the dataset are three
-dimensional for the
-
-number of samples, time steps, and variables or parallel time series
-respectively. The input and
-
-output elements of each series are then printed side by side so that we
-can confirm that the
-
+that both the input (X) and output (Y ) elements of the dataset are three dimensional for the
+number of samples, time steps, and variables or parallel time series respectively. The input and
+output elements of each series are then printed side by side so that we can confirm that the
 data was prepared as we expected.
 
+```
 (5, 3, 3) (5, 2, 3)
-
 [[10 15 25]
-
-
 [20 25 45]
-
 [30 35 65]] [[ 40 45 85]
-
 [ 50 55 105]]
-
 [[20 25 45]
-
 [30 35 65]
-
 [40 45 85]] [[ 50 55 105]
-
 [ 60 65 125]]
-
 [[ 30 35 65]
-
 [ 40 45 85]
-
 [ 50 55 105]] [[ 60 65 125]
-
 [ 70 75 145]]
-
 [[ 40 45 85]
-
 [ 50 55 105]
-
 [ 60 65 125]] [[ 70 75 145]
-
 [ 80 85 165]]
-
 [[ 50 55 105]
-
 [ 60 65 125]
-
 [ 70 75 145]] [[ 80 85 165]
-
 [ 90 95 185]]
-
 ```
 
-We can now develop an MLP model to make multivariate multi-step
-forecasts. In addition
-
-to flattening the shape of the input data, as we have in prior examples,
-we must also flatten the
-
-three-dimensional structure of the output data. This is because the MLP
-model is only capable
+We can now develop an MLP model to make multivariate multi-step forecasts. In addition
+to flattening the shape of the input data, as we have in prior examples, we must also flatten the
+three-dimensional structure of the output data. This is because the MLP model is only capable
 of taking vector inputs and outputs.
+
 
 ```
 n_input = X.shape[1] * X.shape[2]
@@ -1837,7 +1732,6 @@ print(yhat)
 
 Running the example fits the model and predicts the values for each of
 the three time steps
-
 for the next two time steps beyond the end of the dataset. We would
 expect the values for these
 series and time steps to be as follows:
@@ -1853,6 +1747,8 @@ values.
 
 **Note:** Given the stochastic nature of the algorithm, your specific
 results may vary. Consider running the example a few times.
+
+```
 
 [[ 91.28376 96.567 188.37575 100.54482 107.9219 208.108 ]]
 
@@ -1873,23 +1769,11 @@ dataset.
 - Develop Framework. Use the examples in this chapter as the basis for a framework for
 automatically developing an MLP model for a given time series forecasting problem.
 
-If you explore any of these extensions, I’d love to know.
 
 ### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
-
-Books
-
-- Neural Smithing: Supervised Learning in Feedforward Artificial Neural Networks, 1999.
-https://amzn.to/2vORBWO.
-
-- Deep Learning, 2016.
-https://amzn.to/2MQyLVZ
-
-- Deep Learning with Python, 2017.
-https://amzn.to/2vMRiMe
 
 APIs
 
@@ -1925,7 +1809,5 @@ you learned:
 
 #### Next
 
-In the next lesson, you will discover how to develop Convolutional
-Neural Network models for
-
-time series forecasting.
+In the next lab, you will discover how to develop Convolutional
+Neural Network models for time series forecasting.

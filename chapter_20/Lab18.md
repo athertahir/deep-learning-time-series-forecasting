@@ -1607,7 +1607,6 @@ can be used to improve the performance of any of the LSTM models.
 tion loss and mean squared error to help tune the structure and hyperparameters of a
 LSTM model.
 
-If you explore any of these extensions, I’d love to know.
 
 
 #### Further Reading

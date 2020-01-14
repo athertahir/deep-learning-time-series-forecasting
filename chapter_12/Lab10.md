@@ -166,16 +166,9 @@ return models
 
 ```
 
-We now have a framework for grid searching triple exponential smoothing model hyperpa-
-
-rameters via one-step walk-forward validation. It is generic and will
-work for any in-memory
-
-univariate time series provided as a list or NumPy array. We can make
-sure all the pieces work
-
-together by testing it on a contrived 10-step dataset. The complete
-example is listed below.
+We now have a framework for grid searching triple exponential smoothing model hyperparameters via one-step walk-forward validation. It is generic and will work for any in-memory
+univariate time series provided as a list or NumPy array. We can make sure all the pieces work
+together by testing it on a contrived 10-step dataset. The complete example is listed below.
 
 ```
 
@@ -301,6 +294,7 @@ for cfg, error in scores[:3]:
 print(cfg, error)
 
 ```
+
 Running the example first prints the contrived time series dataset. Next, the model
 configurations and their errors are reported as they are evaluated. Finally, the configurations
 and the error for the top three configurations are reported.
@@ -550,10 +544,6 @@ from math import sqrt
 from multiprocessing import cpu_count
 from joblib import Parallel
 from joblib import delayed
-
-(^2)
-https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv
-
 
 from warnings import catch_warnings
 from warnings import filterwarnings
@@ -1162,23 +1152,11 @@ in the test set.
 - Tune Amount of History. Update the framework to tune the amount of historical data
 used to fit the model (e.g. in the case of the 10 years of max temperature data).
 
-If you explore any of these extensions, I’d love to know.
 
 ### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
-
-#### Books
-
-- Chapter 7 Exponential smoothing,Forecasting: principles and practice, 2013.
-https://amzn.to/2xlJsfV
-
-- Section 6.4. Introduction to Time Series Analysis,Engineering Statistics Handbook, 2012.
-https://www.itl.nist.gov/div898/handbook/
-
-- Practical Time Series Forecasting with R, 2016.
-https://amzn.to/2LGKzKm
 
 #### APIs
 
@@ -1210,5 +1188,5 @@ sales, car sales and temperature.
 
 #### Next
 
-In the next lesson, you will discover how to develop autoregressive models for univariate time
+In the next lab, you will discover how to develop autoregressive models for univariate time
 series forecasting problems.

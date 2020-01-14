@@ -636,7 +636,7 @@ history = difference(history, n_diff)
 
 Once prepared, we can use the history data to create a single sample as
 input to the model for
-making a one-step prediction. The shape of one sample must be[1, ninput] where ninput
+making a one-step prediction. The shape of one sample must be [1, ninput] where ninput
 is the chosen number of lag observations to use.
 
 ```
@@ -1567,7 +1567,6 @@ dataset.
 - Multivariate. Update the grid search framework to support small multivariate time
 series datasets, e.g. datasets with multiple input variables.
 
-If you explore any of these extensions, I’d love to know.
 
 #### Further Reading
 

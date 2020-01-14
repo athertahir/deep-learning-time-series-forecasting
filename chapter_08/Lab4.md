@@ -3,70 +3,41 @@
 
 ### How to Develop CNNs for Time Series Forecasting
 
-Convolutional Neural Network models, or CNNs for short, can be applied
-to time series
-
-forecasting. There are many types of CNN models that can be used for
-each specific type of
-
-time series forecasting problem. In this tutorial, you will discover how
-to develop a suite of
-
-CNN models for a range of standard time series forecasting problems. The
-objective of this
-
-tutorial is to provide standalone examples of each model on each type of
-time series problem as
-
-a template that you can copy and adapt for your specific time series
-forecasting problem. After
-
+Convolutional Neural Network models, or CNNs for short, can be applied to time series
+forecasting. There are many types of CNN models that can be used for each specific type of
+time series forecasting problem. In this tutorial, you will discover how to develop a suite of
+CNN models for a range of standard time series forecasting problems. The objective of this
+tutorial is to provide standalone examples of each model on each type of time series problem as
+a template that you can copy and adapt for your specific time series forecasting problem. After
 completing this tutorial, you will know:
 
 - How to develop CNN models for univariate time series forecasting.
-
 - How to develop CNN models for multivariate time series forecasting.
-
 - How to develop CNN models for multi-step time series forecasting.
 
 Let’s get started.
 
-### Tutorial Overview
-
-In this tutorial, we will explore how to develop CNN models for time
-series forecasting. The
-
-models are demonstrated on small contrived time series problems intended
-to give the flavor
-
-of the type of time series problem being addressed. The chosen
-configuration of the models is
-
-arbitrary and not optimized for each problem; that was not the goal.
-This tutorial is divided
-
+#### Tutorial Overview
+In this tutorial, we will explore how to develop CNN models for time series forecasting. The
+models are demonstrated on small contrived time series problems intended to give the flavor
+of the type of time series problem being addressed. The chosen configuration of the models is
+arbitrary and not optimized for each problem; that was not the goal. This tutorial is divided
 into four parts; they are:
 
-1.  Univariate CNN Models
-2.  Multivariate CNN Models
-3.  Multi-step CNN Models
-4.  Multivariate Multi-step CNN Models
+1. Univariate CNN Models
+2. Multivariate CNN Models
+3. Multi-step CNN Models
+4. Multivariate Multi-step CNN Models
 
-87
-
-
-### Univariate CNN Models
-
-Although traditionally developed for two-dimensional image data, CNNs
-can be used to model
-
+#### Univariate CNN Models
+Although traditionally developed for two-dimensional image data, CNNs can be used to model
 univariate time series forecasting problems. Univariate time series are datasets comprised of a
 single series of observations with a temporal ordering and a model is required to learn from the
 series of past observations to predict the next value in the sequence. This section is divided into
 two parts; they are:
 
-1.  Data Preparation
-2.  CNN Model
+1. Data Preparation
+2. CNN Model
 
 #### Data Preparation
 
@@ -199,11 +170,12 @@ with a univariate series, so the number of features is one, for one
 variable. The number of
 time steps as input is the number we chose when preparing our dataset as an argument to the
 splitsequence() function.
+
 The input shape for each sample is specified in the input shape argument on the definition
 of the first hidden layer. We almost always have multiple samples, therefore, the model will
 expect the input component of training data to have the dimensions or shape: [samples,
 timesteps, features]. Oursplitsequence() function in the previous section outputs the
-Xwith the shape[samples, timesteps], so we can easily reshape it to have an additional
+X with the shape[samples, timesteps], so we can easily reshape it to have an additional
 dimension for the one feature.
 
 ```
@@ -212,6 +184,7 @@ n_features = 1
 X = X.reshape((X.shape[0], X.shape[1], n_features))
 
 ```
+
 The CNN does not actually view the data as having time steps, instead, it is treated as a
 sequence over which convolutional read operations can be performed, like a one-dimensional
 image. In this example, we define a convolutional layer with 64 filter maps and a kernel size
@@ -219,7 +192,6 @@ of 2. This is followed by a max pooling layer and a dense layer to interpret the
 
 An output layer is specified that predicts a single numerical value. The
 model is fit using the
-
 efficient Adam version of stochastic gradient descent and optimized using the mean squared
 error, or‘mse’, loss function. Once the model is defined, we can fit it on the training dataset.
 
@@ -558,7 +530,6 @@ model.compile(optimizer='adam', loss='mse')
 ```
 
 When making a prediction, the model expects three time steps for two input time series.
-
 We can predict the next value in the output series providing the input
 values of:
 
@@ -571,8 +542,7 @@ values of:
 ```
 
 The shape of the one sample with three time steps and two variables must
-be[1, 3, 2].
-
+be [1, 3, 2].
 We would expect the next value in the sequence to be 100 + 105 or 205.
 
 ```
@@ -725,7 +695,7 @@ list contains data for one of the submodels. In order to achieve this,
 we can split the 3D input
 data into two separate arrays of input data; that is from one array with
 the shape[7, 3, 2]
-to two 3D arrays with[7, 3, 1].
+to two 3D arrays with [7, 3, 1].
 
 ```
 
@@ -1437,7 +1407,7 @@ model.compile(optimizer='adam', loss='mse')
 The model can make a prediction for a single sample. We can predict the next two steps
 beyond the end of the dataset by providing the input:[70, 80, 90]. We would expect the
 predicted output to be:[100, 110]. As expected by the model, the shape of the single sample
-of input data when making the prediction must be[1, 3, 1]for the 1 sample, 3 time steps of
+of input data when making the prediction must be [1, 3, 1]for the 1 sample, 3 time steps of
 the input, and the single feature.
 
 ```
@@ -1766,7 +1736,7 @@ print(yhat)
 ```
 
 Running the example fits the model and predicts the next two time steps of the output
-sequence beyond the dataset. We would expect the next two steps to be[185, 205].
+sequence beyond the dataset. We would expect the next two steps to be [185, 205].
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
@@ -2038,21 +2008,11 @@ dataset.
 - Develop Framework. Use the examples in this chapter as the basis for a framework for
 automatically developing an CNN model for a given time series forecasting problem.
 
-If you explore any of these extensions, I’d love to know.
-
 
 ### Further Reading
 
 This section provides more resources on the topic if you are looking to
 go deeper.
-
-#### Books
-
-- Deep Learning, 2016.
-https://amzn.to/2MQyLVZ
-
-- Deep Learning with Python, 2017.
-https://amzn.to/2vMRiMe
 
 #### Papers
 
@@ -2104,7 +2064,7 @@ time series forecasting problems. Specifically, you learned:
 
 #### Next
 
-In the next lesson, you will discover how to develop Recurrent Neural
+In the next lab, you will discover how to develop Recurrent Neural
 Network models for time
 
 series forecasting.
