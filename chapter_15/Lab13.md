@@ -256,7 +256,7 @@ return None
 Each time step of the test dataset is enumerated. A prediction is made
 using the fit model.
 
-Again, we will define a generic function namedmodelpredict() that takes
+Again, we will define a generic function namedmodel_predict() that takes
 the fit model, the
 history, and the model configuration and makes a single one-step
 prediction.
@@ -377,7 +377,7 @@ return scores
 
 Now that we have defined the elements of the test harness, we can tie them all together and
 define a simple persistence model. We do not need to fit a model so the modelfit() function
-will be implemented to simply returnNone.
+will be implemented to simply return None.
 
 
 ```
@@ -397,7 +397,7 @@ cfg_list = [1, 6, 12, 24, 36]
 
 ```
 
-Themodelpredict() function can be implemented to use this configuration
+The model_predict() function can be implemented to use this configuration
 to persist the value at the negative relative offset.
 
 ```
@@ -608,21 +608,17 @@ return model
 
 The five chosen hyperparameters are by no means the only or best
 hyperparameters of the
-
 model to tune. You may modify the function to tune other parameters,
 such as the addition
-
 and size of more hidden layers and much more. Once the model is fit, we
 can use it to make
-
 forecasts. If the data was differenced, the difference must be inverted
 for the prediction of the
-
 model. This involves adding the value at the relative offset from the
 history back to the value
-
 predicted by the model.
 
+```
 correction = 0.0
 if n_diff > 0:
 correction = history[-n_diff]
@@ -631,23 +627,21 @@ correction = history[-n_diff]
 return correction + yhat[0]
 
 ```
+
 It also means that the history must be differenced so that the input
-data used to make the
+data used to make the prediction has the expected form.
 
-prediction has the expected form.
-
+```
 history = difference(history, n_diff)
 
 ```
 
 Once prepared, we can use the history data to create a single sample as
 input to the model for
-
-making a one-step prediction. The shape of one sample must be[1,
-ninput]whereninput
-
+making a one-step prediction. The shape of one sample must be[1, ninput] where ninput
 is the chosen number of lag observations to use.
 
+```
 x_input = array(history[-n_input:]).reshape((1, n_input))
 
 ```
@@ -655,29 +649,27 @@ x_input = array(history[-n_input:]).reshape((1, n_input))
 Finally, a prediction can be made.
 
 
+```
 # make forecast
 yhat = model.predict(x_input, verbose=0)
 
 ```
 
-The complete implementation of the modelpredict() function is listed below.
-
-``` Next, we
+The complete implementation of the model_predict() function is listed below.
+Next, we
 must define the range of values to try for each hyperparameter. We can define amodelconfigs()
 function that creates a list of the different combinations of parameters to try. We will define
 a small subset of configurations to try as an example, including a differencing of 12 months,
-
 which we expect will be required. You are encouraged to experiment with
 standalone models,
-
 review learning curve diagnostic plots, and use information about the domain to set ranges of
-
 values of the hyperparameters to grid search.
 
 You are also encouraged to repeat the grid search to narrow in on ranges of values that
 appear to show better performance. An implementation of the modelconfigs() function is
 listed below.
 
+```
 # create a list of configs to try
 def model_configs():
 # define scope of configs
@@ -852,9 +844,7 @@ and evaluated using walk-forward validation to calculate an RMSE score before an
 those 10 scores is reported and used to score the configuration. The scores are then sorted
 and the top 3 configurations with the lowest RMSE are reported at the end. A skillful model
 configuration was found as compared to a naive model that reported an RMSE of 50.70. We
-can see that the best RMSE of 18.98 was achieved with a configuration of[12, 100, 100, 1,
-
-12], which we know can be interpreted as:
+can see that the best RMSE of 18.98 was achieved with a configuration of[12, 100, 100, 1, 12], which we know can be interpreted as:
 
 - **ninput:** 12
 
@@ -868,13 +858,10 @@ can see that the best RMSE of 18.98 was achieved with a configuration of[12, 100
 
 A truncated example output of the grid search is listed below.
 
-```
-
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
 running the example a few times.
 
 ```
-
 
 Total configs: 8
 > 20.707
@@ -899,13 +886,10 @@ done
 
 We can now adapt the framework to grid search CNN models. For more
 details on modeling a
-
 univariate time series with a CNN, see Chapter 8. Much the same set of hyperparameters can
 be searched as with the MLP model, except the number of nodes in the hidden layer can be
 replaced by the number of filter maps and kernel size in the convolutional layers. The chosen
 set of hyperparameters to grid search in the CNN model are as follows:
-
-```
 
 - **ninput:** The number of prior inputs to use as input for the model (e.g.
 12 months).
@@ -926,6 +910,7 @@ convolutional layers before a pooling layer, the repetition of the convolutional
 pattern, the use of dropout, and more. We will define a very simple CNN model with one
 convolutional layer and one max pooling layer.
 
+```
 # define model
 model = Sequential()
 model.add(Conv1D(filters=n_filters, kernel_size=n_kernel, activation='relu',
@@ -933,21 +918,19 @@ input_shape=(n_input, n_features)))
 model.add(MaxPooling1D(pool_size=2))
 model.add(Flatten())
 
-
 model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam')
 
 ```
-The data must be prepared in much the same way as for the MLP. Unlike the MLP that
 
+The data must be prepared in much the same way as for the MLP. Unlike the MLP that
 expects the input data to have the shape[samples, features], the 1D CNN
 model expects the
-
 data to have the shape[samples, timesteps, features]where features maps
 onto channels
-
 and in this case 1 for the one variable we measure each month.
 
+```
 n_features = 1
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1],
 n_features))
@@ -993,7 +976,7 @@ x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 ```
 
-The complete implementation of the modelpredict() function is listed
+The complete implementation of the model_predict() function is listed
 below.
 
 
@@ -1019,7 +1002,7 @@ Finally, we can define a list of configurations for the model to evaluate. As be
 do this by defining lists of hyperparameter values to try that are
 combined into a list. We will
 try a small number of configurations to ensure the example executes in a
-reasonable amount of time. The completemodelconfigs() function is listed below.
+reasonable amount of time. The complete modelconfigs() function is listed below.
 
 ```
 
@@ -1324,7 +1307,7 @@ x_input = array(history[-n_input:]).reshape((1, n_input, 1))
 
 ```
 
-The completemodelpredict() function is listed below.
+The complete model_predict() function is listed below.
 
 ```
 
@@ -1622,12 +1605,4 @@ passengers univariate time series forecasting problem.
 
 - How to adapt the framework to grid search hyperparameters for convolutional and long
 short-term memory neural networks.
-
-#### Next
-
-This is the final lesson of this part, the next part will focus how to
-systematically work through
-
-a real-world multivariate multi-step time series problem to forecast
-household energy usage.
 

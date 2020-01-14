@@ -896,7 +896,6 @@ component.
 
 Themonthly car salesdataset summarizes the monthly car sales in Quebec,
 Canada between
-
 where it was introduced.
 
 You can download the dataset directly from here:

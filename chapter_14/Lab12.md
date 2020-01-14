@@ -213,7 +213,7 @@ return None
 Each time step of the test dataset is enumerated. A prediction is made
 using the fit model.
 
-Again, we will define a generic function namedmodelpredict() that takes
+Again, we will define a generic function namedmodel_predict() that takes
 the fit model, the
 
 history, and the model configuration and makes a single one-step
@@ -330,26 +330,29 @@ pyplot.show()
 Now that we have defined the elements of the test harness, we can tie them all together and
 define a simple persistence model. Specifically, we will calculate the median of a subset of
 prior observations relative to the time to be forecasted. We do not need to fit a model so the
-modelfit() function will be implemented to simply returnNone.
+modelfit() function will be implemented to simply return None.
 
+
+```
 def model_fit(train, config):
 return None
 
 ```
+
 We will use the config to define a list of index offsets in the prior observations relative to
-
 the time to be forecasted that will be used as the prediction. For
-example, 12 will use the
+example, 12 will use the observation 12 months ago (-12) relative to the time to be forecasted.
 
-observation 12 months ago (-12) relative to the time to be forecasted.
+```
 config = [12, 24, 36]
 
 ```
-Themodelpredict() function can be implemented to use this configuration
-to collect the
 
+The model_predict() function can be implemented to use this configuration
+to collect the
 observations, then return the median of those observations.
 
+```
 def model_predict(model, history, config):
 values = list()
 for offset in config:
@@ -357,10 +360,10 @@ values.append(history[-offset])
 return median(values)
 
 ```
-The complete example of using the framework with a simple persistence model is listed
+The complete example of using the framework with a simple persistence model is listed below.
 
-below.
 
+```
 from math import sqrt
 from numpy import median
 from numpy import mean
@@ -434,11 +437,10 @@ summarize_scores('persistence', scores)
 
 Running the example prints the RMSE of the model evaluated using
 walk-forward validation
-
-
 on the final 12 months of data. The model is evaluated 30 times, although, because the model
 has no stochastic element, the score is the same each time.
 
+```
 > 1841.156
 
 > 1841.156
@@ -472,6 +474,7 @@ theseriestosupervised() function in the previous section. The training dataset i
 a list of samples, where each sample has some number of observations from months prior to the
 time being forecasted, and the forecast is the next month in the sequence. For example:
 
+```
 X, y
 month1, month2, month3, month4
 month2, month3, month4, month5
@@ -483,6 +486,7 @@ month3, month4, month5, month6
 The model will attempt to generalize over these samples, such that when a new sample is
 provided beyond what is known by the model, it can predict something useful; for example:
 
+```
 X, y
 month4, month5, month6, ???
 
@@ -494,12 +498,11 @@ input layer with some number of prior observations. This can be specified using 
 argument when we define the first hidden layer. The model will have a single hidden layer with
 some number of nodes, then a single output layer. We will use the rectified linear activation
 function on the hidden layer as it performs well. We will use a linear activation function (the
-
-
 default) on the output layer because we are predicting a continuous value. The loss function for
 the network will be the mean squared error loss, or MSE, and we will use the efficient Adam
 flavor of stochastic gradient descent to train the network.
 
+```
 # define model
 model = Sequential()
 model.add(Dense(n_nodes, activation='relu', input_dim=n_input))
@@ -507,14 +510,11 @@ model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam')
 
 ```
+
 The model will be fit for some number of training epochs (exposures to the training data)
 and batch size can be specified to define how often the weights are updated within each epoch.
-
-Themodelfit() function for fitting an MLP model on the training dataset
+The model_fit() function for fitting an MLP model on the training dataset
 is listed below.
-
-```
-
 The function expects the config to be a list with the following
 configuration hyperparameters:
 
@@ -528,6 +528,7 @@ dataset.
 - **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
+```
 # fit a model
 def model_fit(train, config):
 # unpack config
@@ -554,21 +555,19 @@ function and passing in one sample worth of input values required to make the pr
 yhat = model.predict(x_input, verbose=0)
 
 ```
+
 In order to make a prediction beyond the limit of known data, this requires that the lastn
 known observations are taken as an array and used as input. Thepredict() function expects
 one or more samples of inputs when making a prediction, so providing a single sample requires
-the array to have the shape[1, ninput], whereninputis the number of time steps that the
-
-
+the array to have the shape[1, ninput], where ninput is the number of time steps that the
 model expects as input. Similarly, thepredict() function returns an array of predictions, one
 for each sample provided as input. In the case of one prediction, there will be an array with one
-
-value. Themodelpredict() function below implements this behavior, taking
+value. The model_predict() function below implements this behavior, taking
 the model, the
-
 prior observations, and model configuration as arguments, formulating an input sample and
 making a one-step prediction that is then returned.
 
+```
 # forecast with a pre-fit model
 def model_predict(model, history, config):
 # unpack config
@@ -595,15 +594,16 @@ details on how, see Chapter 15.
 - **nbatch:** 100
 
 This configuration can be defined as a list:
+
+```
 # define config
 config = [24, 500, 100, 100]
 
 ```
+
 Note that when the training data is framed as a supervised learning
 problem, there are only
-
 or more means that the
-
 model is being trained using batch gradient descent instead of mini-batch gradient descent. This
 is often used for small datasets and means that weight updates and gradient calculations are
 performed at the end of each epoch, instead of multiple times within each epoch. The complete
@@ -719,7 +719,6 @@ evaluations of the model.
 
 At the end of the run, the average and standard deviation RMSE are
 reported of about 1,526
-
 sales. We can see that, on average, the chosen configuration has better performance than both
 the naive model (1,841.155) and the SARIMA model (1,551.842). This is impressive given that
 the model operated on the raw data directly without scaling or the data being made stationary.
@@ -728,7 +727,6 @@ the model operated on the raw data directly without scaling or the data being ma
 running the example a few times.
 
 ```
-
 
 ...
 
@@ -747,32 +745,23 @@ mlp: 1526.688 RMSE (+/- 134.789)
 ```
 
 A box and whisker plot of the RMSE scores is created to summarize the spread of the
-
 performance for the model. This helps to understand the spread of the
 scores. We can see
-
 that although on average the performance of the model is impressive, the
 spread is large. The
-
 standard deviation is a little more than 134 sales, meaning a worse case
 model run that is 2
-
 or 3 standard deviations in error from the mean error may be worse than
 the naive model. A
-
 challenge in using the MLP model is in harnessing the higher skill and
 minimizing the variance
-
 of the model across multiple runs.
 
 This problem applies generally for neural networks. There are many strategies that you
-
 could use, but perhaps the simplest is simply to train multiple final
 models on all of the available
-
 data and use them in an ensemble when making predictions, e.g. the
 prediction is the average
-
 of 10-to-30 models.
 
 
@@ -788,12 +777,11 @@ more information on using CNNs for univariate time series forecasting, see Chapt
 define a CNN with two convolutional layers for extracting features from the input sequences.
 Each will have a configurable number of filters and kernel size and will use the rectified linear
 activation function. The number of filters determines the number of parallel fields on which the
-
 weighted inputs are read and projected. The kernel size defines the
 number of time steps read
-
 within each snapshot as the network reads along the input sequence.
 
+```
 # define convolutional layers
 model.add(Conv1D(filters=n_filters, kernel_size=n_kernel, activation='relu',
 input_shape=(n_input, 1)))
@@ -825,10 +813,8 @@ the required three-dimensional shape of the input data will be[nsamples, ninput,
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
 ```
-Themodelfit() function for fitting the CNN model on the training dataset
+The model_fit() function for fitting the CNN model on the training dataset
 is listed below.
-
-```
 
 The model takes the following five configuration parameters as a list:
 
@@ -845,6 +831,7 @@ dataset.
 - **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
+```
 # fit a model
 def model_fit(train, config):
 # unpack config
@@ -872,12 +859,10 @@ return model
 Making a prediction with the fit CNN model is very much like making a prediction with
 the fit MLP model in the previous section. The one difference is in the requirement that we
 specify the number of features observed at each time step, which in this case is 1. Therefore,
-
 when making a single one-step prediction, the shape of the input array
-must be: [1, ninput,
+must be: [1, ninput, 1]. The model_predict() function below implements this behavior.
 
-1]. Themodelpredict() function below implements this behavior.
-
+```
 # forecast with a pre-fit model
 def model_predict(model, history, config):
 # unpack config
@@ -1078,17 +1063,14 @@ the network from a prior step as an input in attempt to automatically learn acro
 
 The Long Short-Term Memory, or LSTM, network is a type of RNN whose
 implementation
-
 addresses the general difficulties in training RNNs on sequence data that results in a stable
 model. It achieves this by learning the weights for internal gates that control the recurrent
 connections within each node. Although developed for sequence data, LSTMs have not proven
 effective on time series forecasting problems where the output is a function of recent observations,
 e.g. an autoregressive type forecasting problem, such as the car sales dataset. Nevertheless, we
 can develop LSTM models for autoregressive problems and use them as a point of comparison
-
 with other neural network models. For more information on LSTMs for
 univariate time series
-
 forecasting, see Chapter 9. In this section, we will explore three variations on the LSTM model
 for univariate time series forecasting; they are:
 
@@ -1097,7 +1079,6 @@ for univariate time series forecasting; they are:
 - CNN-LSTM: A CNN network that learns input features and an LSTM that interprets
 them.
 
-
 - ConvLSTM: A combination of CNNs and LSTMs where the LSTM units read input
 data using the convolutional process of a CNN.
 
@@ -1105,16 +1086,15 @@ data using the convolutional process of a CNN.
 
 The LSTM neural network can be used for univariate time series
 forecasting. As an RNN, it
-
 will read each time step of an input sequence one step at a time. The
 LSTM has an internal
-
 memory allowing it to accumulate internal state as it reads across the steps of a given input
 sequence. At the end of the sequence, each node in a layer of hidden LSTM units will output a
 single value. This vector of values summarizes what the LSTM learned or extracted from the
 input sequence. This can be interpreted by a fully connected layer before a final prediction is
 made.
 
+```
 # define model
 model = Sequential()
 model.add(LSTM(n_nodes, activation='relu', input_shape=(n_input, 1)))
@@ -1128,6 +1108,7 @@ the car sales dataset only has one value at each time step, we can fix this at 1
 defining the input to the network in the input shape argument[ninput, 1], and in defining
 the shape of the input samples.
 
+```
 # reshape input samples
 train_x = train_x.reshape((train_x.shape[0], train_x.shape[1], 1))
 
@@ -1138,16 +1119,15 @@ performed to remove the trend and seasonal structure. In the case of the car sal
 can make the data stationery by performing a seasonal adjustment, that is subtracting the value
 from one year ago from each observation.
 
+```
 # seasonal differencing
 adjusted = value - value[-12]
 
 ```
 This can be performed systematically for the entire training dataset. It also means that the
 first year of observations must be discarded as we have no prior year of data to difference them
-
 with. Thedifference() function below will difference a provided dataset
 with a provided
-
 offset, called the difference order, e.g. 12 for one year of months prior.
 
 ```
@@ -1158,10 +1138,8 @@ return [data[i] - data[i - interval] for i in range(interval, len(data))]
 ```
 
 We can make the difference order a hyperparameter to the model and only perform the
-
-operation if a value other than zero is provided. Themodelfit() function
+operation if a value other than zero is provided. The model_fit() function
 for fitting an LSTM
-
 model is provided below. The model expects a list of five model
 hyperparameters; they are:
 
@@ -1176,6 +1154,9 @@ dataset.
 are updated.
 
 - **ndiff:** The difference order or 0 if not used.
+
+
+```
 def model_fit(train, config):
 n_input, n_nodes, n_epochs, n_batch, n_diff = config
 if n_diff > 0:
@@ -1194,26 +1175,22 @@ verbose=0)
 return model
 
 ```
+
 Making a prediction with the LSTM model is the same as making a
 prediction with a CNN
-
 model. A single input must have the three-dimensional structure of
 samples, time steps, and
-
 features, which in this case we only have 1 sample and 1 feature: [1,
 ninput, 1]. If the
-
 difference operation was performed, we must add back the value that was
 subtracted after the
-
 model has made a forecast. We must also difference the historical data
 prior to formulating the
-
-single input used to make a prediction. Themodelpredict() function below
+single input used to make a prediction. The model_predict() function below
 implements this
-
 behavior.
 
+```
 def model_predict(model, history, config):
 n_input, _, _, _, n_diff = config
 correction = 0.0
@@ -1230,7 +1207,6 @@ return correction + yhat[0]
 ```
 
 Model hyperparameters were chosen with a little trial and error and are listed below. The
-
 model may not be optimal for the problem and improvements could be made
 via grid searching.
 
@@ -1247,6 +1223,8 @@ For details on how, see Chapter 15.
 - **ndiff:** 12 (i.e. seasonal difference)
 
 This can be specified as a list:
+
+```
 config = [36, 50, 100, 100, 12]
 
 ```
@@ -1373,10 +1351,8 @@ Running the example, we can see the RMSE for each repeated evaluation of the mod
 the end of the run, we can see that the average RMSE is about 2,109, which is worse than the
 naive model. This suggests that the chosen model is not skillful, and it was the best that could
 be found given the same resources used to find model configurations in the previous sections.
-
 This provides further evidence (although weak evidence) that LSTMs, at
 least alone, are perhaps
-
 a bad fit for autoregressive-type sequence prediction problems.
 
 **Note:** Given the stochastic nature of the algorithm, your specific results may vary. Consider
@@ -1385,7 +1361,6 @@ running the example a few times.
 ```
 
 ...
-
 
 > 2266.130
 
@@ -1471,21 +1446,19 @@ layer to interpret the
 outcomes of the LSTM and finally an output layer for making one-step
 predictions.
 
+```
 model.add(LSTM(n_nodes, activation='relu'))
 model.add(Dense(n_nodes, activation='relu'))
 model.add(Dense(1))
 
 ```
-The completemodelfit() function is listed below.
+The complete modelfit() function is listed below.
 
-``` The model expects a list
-of seven
+The model expects a list of seven hyperparameters; they are:
 
-hyperparameters; they are:
+- **nseq:** The number of subsequences within a sample.
 
-- nseq: The number of subsequences within a sample.
-
-- nsteps: The number of time steps within each subsequence.
+- **nsteps:** The number of time steps within each subsequence.
 
 - **nfilters:** The number of parallel filters.
 
@@ -1500,7 +1473,7 @@ dataset.
 - **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
-
+```
 # fit a model
 def model_fit(train, config):
 # unpack config
@@ -1529,15 +1502,16 @@ return model
 ```
 
 Making a prediction with the fit model is much the same as the LSTM or CNN, although
-
 with the addition of splitting each sample into subsequences with a
 given number of time steps.
 
+```
 # prepare data
 x_input = array(history[-n_input:]).reshape((1, n_seq, n_steps, 1))
 
 ```
-The updatedmodelpredict() function is listed below.
+
+The updatedmodel_predict() function is listed below.
 
 ```
 
@@ -1558,10 +1532,9 @@ Model hyperparameters were chosen with a little trial and error and are listed b
 model may not be optimal for the problem and improvements could be made via grid searching.
 For details on how, see Chapter 15.
 
-- nseq: 3 (i.e. 3 years)
+- **nseq:** 3 (i.e. 3 years)
 
-
-- nsteps: 12 (i.e. 1 year of months)
+- **nsteps:** 12 (i.e. 1 year of months)
 
 - **nfilters:** 64
 
@@ -1574,12 +1547,13 @@ For details on how, see Chapter 15.
 - **nbatch:** 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
+
+```
 config = [3, 12, 64, 3, 100, 200, 100]
 
 ```
 
 The complete example of evaluating the CNN-LSTM model for forecasting the univariate
-
 monthly car sales is listed below.
 
 ```
@@ -1700,13 +1674,10 @@ summarize_scores('cnn-lstm', scores)
 
 Running the example prints the RMSE for each repeated evaluation of the
 model. The final
-
 averaged RMSE is reported at the end of about 1,626, which is lower than
 the naive model,
-
 but still higher than a SARIMA model. The standard deviation of this
 score is also very large,
-
 suggesting that the chosen configuration may not be as stable as the
 standalone CNN model.
 
@@ -1714,7 +1685,6 @@ standalone CNN model.
 results may vary. Consider running the example a few times.
 
 ```
-
 ...
 
 > 1289.794
@@ -1731,7 +1701,6 @@ cnn-lstm: 1626.735 RMSE (+/- 279.850)
 
 ```
 
-
 A box and whisker plot is also created summarizing the distribution of RMSE scores. The
 plot shows one single outlier of very poor performance just below 3,000 sales.
 
@@ -1740,10 +1709,8 @@ plot shows one single outlier of very poor performance just below 3,000 sales.
 #### ConvLSTM
 
 It is possible to perform a convolutional operation as part of the read of the input sequence
-
 within each LSTM unit. This means, rather than reading a sequence one
 step at a time, the
-
 LSTM would read a block or subsequence of observations at a time using a convolutional
 process, like a CNN. This is different to first reading an extracting features with an LSTM and
 interpreting the result with an LSTM; this is performing the CNN operation at each time step
@@ -1755,36 +1722,35 @@ input data is split into subsequences where each subsequence has a fixed number 
 although we must also specify the number of rows in each subsequence, which in this case is
 fixed at 1.
 
+```
 # reshape input samples
 train_x = train_x.reshape((train_x.shape[0], n_seq, 1, n_steps, 1))
 
-
 ```
+
 The shape is five-dimensional, with the dimensions: [samples,
 subsequences, rows,
-
 columns, features].
 
 Like the CNN, the ConvLSTM layer allows us to specify the number of
 filter maps and the
-
 size of the kernel used when reading the input sequences.
 
+```
 model.add(ConvLSTM2D(filters=n_filters, kernel_size=(1,n_kernel),
 activation='relu',
 input_shape=(n_seq, 1, n_steps, 1)))
 
 ```
-The output of the layer is a sequence of filter maps that must first be flattened before
 
+The output of the layer is a sequence of filter maps that must first be flattened before
 it can be interpreted and followed by an output layer. The model expects
 a list of seven
-
 hyperparameters, the same as the CNN-LSTM; they are:
 
-- nseq: The number of subsequences within a sample.
+- **nseq:** The number of subsequences within a sample.
 
-- nsteps: The number of time steps within each subsequence.
+- **nsteps:** The number of time steps within each subsequence.
 
 - **nfilters:** The number of parallel filters.
 
@@ -1799,7 +1765,7 @@ dataset.
 - **nbatch:** The number of samples within an epoch after which the weights
 are updated.
 
-Themodelfit() function that implements all of this is listed below.
+The model_fit() function that implements all of this is listed below.
 
 ```
 def model_fit(train, config):
@@ -1824,19 +1790,20 @@ return model
 
 ```
 
-
 A prediction is made with the fit model in the same way as the CNN-LSTM,
-although with
+although with the additional rows dimension that we fix to 1.
 
-the additional rows dimension that we fix to 1.
+
+```
 x_input = array(history[-n_input:]).reshape((1, n_seq, 1, n_steps,
 1))
 
 ```
 
-Themodelpredict() function for making a single one-step prediction is
+The model_predict() function for making a single one-step prediction is
 listed below.
 
+```
 def model_predict(model, history, config):
 n_seq, n_steps, _, _, _, _, _ = config
 n_input = n_seq * n_steps
@@ -1848,15 +1815,14 @@ return yhat[0]
 ```
 
 Model hyperparameters were chosen with a little trial and error and are listed below. The
-
 model may not be optimal for the problem and improvements could be made
 via grid searching.
 
 For details on how, see Chapter 15.
 
-- nseq: 3 (i.e. 3 years)
+- **nseq:** 3 (i.e. 3 years)
 
-- nsteps: 12 (i.e. 1 year of months)
+- **nsteps:** 12 (i.e. 1 year of months)
 
 - **nfilters:** 256
 
@@ -1869,12 +1835,13 @@ For details on how, see Chapter 15.
 - **nbatch:** 100 (i.e. batch gradient descent)
 
 We can define the configuration as a list; for example:
+
+```
 config = [3, 12, 256, 3, 200, 200, 100]
 
 ```
 
-We can tie all of this together. The complete code for one-step forecasting of the monthly car sales dataset is listed
-below.
+We can tie all of this together. The complete code for one-step forecasting of the monthly car sales dataset is listed below.
 
 ```
 from math import sqrt
@@ -2005,7 +1972,6 @@ configuration may not be as stable as the standalone CNN model.
 results may vary. Consider running the example a few times.
 
 ```
-
 ...
 
 > 1653.084
@@ -2047,7 +2013,6 @@ see if you can further improve model performance
 
 - Reduce Variance of Final Model. Explore one or more strategies to reduce the
 variance for one of the neural network models.
-
 
 - Update During Walk-Forward. Explore whether re-fitting or updating a neural
 network model as part of walk-forward validation can further improve model performance.
@@ -2103,5 +2068,4 @@ models for time series forecasting.
 
 In the next lesson, you will discover how to develop a framework to grid
 search deep learning
-
 models for univariate time series forecasting problems.
