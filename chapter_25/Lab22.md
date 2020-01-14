@@ -1,4 +1,5 @@
-<img align="right" width="110" height="110" src="../logo.png">
+<img align="right" src="../logo-small.png">
+
 
 # How to Develop LSTMs for Human Activity Recognition
 

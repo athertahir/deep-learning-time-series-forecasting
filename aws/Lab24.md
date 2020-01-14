@@ -1,4 +1,5 @@
-<img align="right" width="110" height="110" src="../logo.png">
+<img align="right" src="../logo-small.png">
+
 
 # How to Use Deep Learning in the Cloud
 
